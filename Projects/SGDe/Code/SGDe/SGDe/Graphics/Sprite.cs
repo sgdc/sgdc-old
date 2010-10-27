@@ -6,9 +6,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SGDE
+namespace SGDe.Graphics
 {
-    class Sprite
+    public class Sprite
     {
         public static SpriteBatch spriteBatch;
         private Vector2 position;
