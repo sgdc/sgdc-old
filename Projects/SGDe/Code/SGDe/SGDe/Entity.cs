@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using SGDe.Graphics;
 
 namespace SGDE
 {
@@ -20,7 +21,7 @@ namespace SGDE
     {
     }
 
-    class Entity
+    public class Entity
     {
         private Point position;
         private Vector2 velocity;
