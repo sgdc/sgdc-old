@@ -9,86 +9,100 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using SGDe.Graphics;
+//using SGDe.Graphics;
 
 namespace SGDE
 {
-    //class Sprite
-    //{
-    //}
-
-    class CollisionObject
+    public class Entity : SceneNode
     {
-    }
-
-    public class Entity
-    {
-        private Point position;
-        private Vector2 velocity;
-        private ushort direction;
-        private Sprite image = new Sprite();
-        private CollisionObject colObj = new CollisionObject();
+        protected Sprite image;
+        private CollisionUnit mCollisionUnit;
+        private PhysicsBaby mPhysBaby;
 
         public Entity()
+            : this(0, 0)
         {
-            position = new Point(0, 0);
-            velocity = new Vector2(0.0f, 0.0f);
-            direction = 0;
         }
 
         public Entity(int x, int y)
         {
-            position = new Point(x, y);
-            velocity = new Vector2(0.0f, 0.0f);
-            direction = 0;
+            SetRotation(0);
+            mPhysBaby = new PhysicsBaby(this);
+            image = new Sprite();
+            AddChild(image);
+            SetTranslation(new Vector2(x, y));
         }
 
-        public void Position(int x, int y)
+        public void EnablePhysics(PhysicsPharaoh pharaoh, bool bPhysics, bool bCollision)
         {
-            position.X = x;
-            position.Y = y;
+            if (bPhysics)
+            {
+                pharaoh.AddPhysicsBaby(mPhysBaby);
+            }
+            else
+            {
+                pharaoh.RemovePhysicsBaby(mPhysBaby);
+            }
+
+            if (bCollision)
+            {
+                pharaoh.AddCollisionUnit(mCollisionUnit);
+            }
+            else
+            {
+                // TODO: Remove collision unit
+            }
         }
 
-        public Point Position()
+        public virtual void Update(GameTime gameTime)
         {
-            return position;
+            
         }
 
         public void Velocity(float x, float y)
         {
-            velocity.X = x;
-            velocity.Y = y;
+            mPhysBaby.SetVelocity(new Vector2(x, y)); // inherent direction?
+        }
+
+        public void Velocity(Vector2 velocity)
+        {
+            mPhysBaby.SetVelocity(velocity);
         }
 
         public Vector2 Velocity()
         {
-            return velocity;
+            return mPhysBaby.GetVelocity();
         }
 
-        public void move()
+        public PhysicsBaby GetPhysicsBaby()
         {
-            position.X += (int)velocity.X;
-            position.Y += (int)velocity.Y;
+            return mPhysBaby;
         }
 
-        public void Direction(ushort angle)
+        public CollisionUnit GetCollisionUnit()
         {
-            direction = angle;
-        }
-
-        public ushort Direction()
-        {
-            return direction;
+            return mCollisionUnit;
         }
 
         public void LoadContent(ContentManager theContentManager, String theAssetName)
         {
+            int radius;
+
             image.LoadContent(theContentManager, theAssetName);
+
+            radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
+            mCollisionUnit = new CollisionUnit(this, image.GetCenter(), radius, null, false);
+            AddChild(mCollisionUnit);
         }
 
-        public void Draw()
+        public virtual void Draw()
         {
-            image.DrawOffset(position.X, position.Y);
+            image.Draw();
+        }
+
+        public void SetColor(Color backColor)
+        {
+            image.SetBackgroundColor(backColor);
         }
     }
 }
