@@ -4,5 +4,10 @@
         <name>SGDe</name>
     </assembly>
     <members>
+        <member name="T:SGDE.Sprite">
+            <summary>
+            A drawable sprite object that can be displayed on screen.
+            </summary>
+        </member>
     </members>
 </doc>

@@ -5,11 +5,27 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SGDE;
 
 namespace SGDE
 {
+    /// <summary>
+    /// A drawable sprite object that can be displayed on screen.
+    /// </summary>
     public class Sprite : SceneNode
     {
+        /* Questions:
+         * 1. Should position be to for the center of the image or not? ANS: Upper-left
+         * 2. How should non-standard image animations be handled? (If the first frame is 64x64, second 32x32, etc.) ANS: Don't allow
+         * 3. Should animations be manually adjusted (dev chooses when next animation frame should be displayed) or internal (done internally, just GameTime passed in)? ANS: Dev can adjust animation rate
+         * 4. Should effects be supported? (Shadows, glow, blur, etc.) ANS: Play around and see if easily possible
+         * 5. Should drawing be done internally (done internally, just GameTime passed in), should it be done manually (by dev, only location being internal), or overloaded so it is done internal
+         * but tinting, rotation, etc. can be passed in. ANS: Overloaded functions
+         * 
+         * Recomendation:
+         * Update and draw, there are base interfaces for it.
+         */
+
         public static SpriteBatch spriteBatch;
         private Texture2D texture;
         private Color mBackGroundColor;
