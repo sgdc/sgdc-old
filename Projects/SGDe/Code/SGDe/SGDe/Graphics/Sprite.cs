@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SGDE;
 
-namespace SGDE
+namespace SGDE.Graphics
 {
     /// <summary>
     /// A drawable sprite object that can be displayed on screen.
