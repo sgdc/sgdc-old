@@ -63,11 +63,23 @@ namespace TestDemo
                 blueBalls.Add(ball);
             }
 
-            ball = new Entity(0, 180);
+            ball = new Entity(0, 120);
             ball.GetPhysicsBaby().SetStatic(true);
             blueBalls.Add(ball);
 
-            ball = new Entity((int)worldSize.X - 70, 180);
+            ball = new Entity(0, 240);
+            ball.GetPhysicsBaby().SetStatic(true);
+            blueBalls.Add(ball);
+
+            ball = new Entity((int)worldSize.X - 70, 120);
+            ball.GetPhysicsBaby().SetStatic(true);
+            blueBalls.Add(ball);
+
+            ball = new Entity((int)worldSize.X - 70, 240);
+            ball.GetPhysicsBaby().SetStatic(true);
+            blueBalls.Add(ball);
+
+            ball = new Entity(240, 200);
             ball.GetPhysicsBaby().SetStatic(true);
             blueBalls.Add(ball);
 
@@ -82,12 +94,12 @@ namespace TestDemo
         {
             Sprite.spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            redBall.LoadContent(this.Content, "images");
+            redBall.LoadContent(this.Content, "darthvaderballsmall");
             redBall.EnablePhysics(mPhysicsPharaoh, true, true);
 
             foreach (Entity ball in blueBalls)
             {
-                ball.LoadContent(this.Content, "images");
+                ball.LoadContent(this.Content, "yodaballsmalltransparent");
                 ball.EnablePhysics(mPhysicsPharaoh, true, true);
             }
         }

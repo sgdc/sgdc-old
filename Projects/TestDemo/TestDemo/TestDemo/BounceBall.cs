@@ -44,7 +44,7 @@ namespace TestDemo
 
             if (GetCollisionUnit().HasCollisions())
             {
-                Velocity(Velocity().X * -1, Velocity().Y * -1);
+                //Velocity(Velocity().X * -1, Velocity().Y * -1);
 
                 foreach (CollisionUnit other in GetCollisionUnit().GetCollisions())
                 {

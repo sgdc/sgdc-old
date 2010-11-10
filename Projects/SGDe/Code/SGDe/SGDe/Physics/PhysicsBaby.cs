@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using SGDE.Physics.Collision;
+
 namespace SGDE.Physics
 {
     public class PhysicsBaby
@@ -13,6 +15,7 @@ namespace SGDE.Physics
         private bool bStatic;
         private Vector2 mVelocity;
         private Entity mOwner;
+        private List<CollisionUnit> mCollisionUnits;
 
         public PhysicsBaby(Entity owner)
         {
@@ -20,6 +23,7 @@ namespace SGDE.Physics
             mVelocity = new Vector2(0.0f, 0.0f);
 
             mOwner = owner;
+            mCollisionUnits = new List<CollisionUnit>();
         }
 
         public void SetStatic(bool beStatic)
@@ -47,9 +51,65 @@ namespace SGDE.Physics
             return mVelocity;
         }
 
+        public void AddCollisionUnit(CollisionUnit unit)
+        {
+            mCollisionUnits.Add(unit);
+        }
+
         public void Update(GameTime gameTime)
         {
             mOwner.Translate((int)mVelocity.X, (int)mVelocity.Y);
+
+            foreach (CollisionUnit unit in mCollisionUnits)
+            {
+                if (unit.HasCollisions())
+                {
+                    foreach (CollisionUnit other in unit.GetCollisions())
+                    {
+                        AddBounce(unit, other);
+                    }
+                }
+            }
+        }
+
+        // Add bounce to unit
+        private void AddBounce(CollisionUnit unit, CollisionUnit other)
+        {
+            Vector2 unitCircleCenter;
+            Vector2 otherCircleCenter;
+            int unitRadius;
+            int otherRadius;
+            Vector2 oldVelocity;
+            double alpha;
+
+            if (unit.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION && other.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION)
+            {
+                unitCircleCenter = unit.GetCircleCenter();
+                unitRadius = unit.GetCircleRadius();
+
+                otherCircleCenter = other.GetCircleCenter();
+                otherRadius = other.GetCircleRadius();
+
+                oldVelocity = mVelocity;
+
+                //mOwner.Translate((float)0.06 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.06 * (unitCircleCenter.Y - otherCircleCenter.Y));
+
+                //unitCircleCenter = unit.GetCircleCenter();
+                //unitRadius = unit.GetCircleRadius();
+
+                //otherCircleCenter = other.GetCircleCenter();
+                //otherRadius = other.GetCircleRadius();
+
+                //alpha = Math.Atan((unitCircleCenter.X - othercircleCenter.X) / (othercircleCenter.Y - unitCircleCenter.Y));
+                alpha = Math.Atan((otherCircleCenter.X - unitCircleCenter.X) / (unitCircleCenter.Y - otherCircleCenter.Y));
+
+                mVelocity.X = (float)(oldVelocity.X * Math.Cos(2 * alpha) + oldVelocity.Y * Math.Sin(2 * alpha));
+                mVelocity.Y = (float)(oldVelocity.X * Math.Sin(2 * alpha) - oldVelocity.Y * Math.Cos(2 * alpha));
+
+                //mOwner.Translate(0, (float)(1.04 * mVelocity.Y));
+                mOwner.Translate((float)0.06 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.06 * (unitCircleCenter.Y - otherCircleCenter.Y));
+                //mOwner.Translate(0, (float)2 * mVelocity.Y);
+            }
         }
     }
 }

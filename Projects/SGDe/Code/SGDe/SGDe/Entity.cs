@@ -93,8 +93,21 @@ namespace SGDE
 
             image.LoadContent(theContentManager, theAssetName);
 
+            //radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
+            //mCollisionUnit = new CollisionUnit(this, image.GetCenter(), radius, null, false);
+            //AddChild(mCollisionUnit);
+
+            SetUpCollision();
+        }
+
+        // call after image.LoadContent()
+        private void SetUpCollision()
+        {
+            int radius;
+
             radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
             mCollisionUnit = new CollisionUnit(this, image.GetCenter(), radius, null, false);
+            mPhysBaby.AddCollisionUnit(mCollisionUnit);
             AddChild(mCollisionUnit);
         }
 
