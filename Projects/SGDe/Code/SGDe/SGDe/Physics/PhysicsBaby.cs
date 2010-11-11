@@ -58,8 +58,6 @@ namespace SGDE.Physics
 
         public void Update(GameTime gameTime)
         {
-            mOwner.Translate((int)mVelocity.X, (int)mVelocity.Y);
-
             foreach (CollisionUnit unit in mCollisionUnits)
             {
                 if (unit.HasCollisions())
@@ -70,6 +68,8 @@ namespace SGDE.Physics
                     }
                 }
             }
+
+            mOwner.Translate((int)mVelocity.X, (int)mVelocity.Y);
         }
 
         // Add bounce to unit
@@ -92,23 +92,12 @@ namespace SGDE.Physics
 
                 oldVelocity = mVelocity;
 
-                //mOwner.Translate((float)0.06 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.06 * (unitCircleCenter.Y - otherCircleCenter.Y));
-
-                //unitCircleCenter = unit.GetCircleCenter();
-                //unitRadius = unit.GetCircleRadius();
-
-                //otherCircleCenter = other.GetCircleCenter();
-                //otherRadius = other.GetCircleRadius();
-
-                //alpha = Math.Atan((unitCircleCenter.X - othercircleCenter.X) / (othercircleCenter.Y - unitCircleCenter.Y));
                 alpha = Math.Atan((otherCircleCenter.X - unitCircleCenter.X) / (unitCircleCenter.Y - otherCircleCenter.Y));
 
                 mVelocity.X = (float)(oldVelocity.X * Math.Cos(2 * alpha) + oldVelocity.Y * Math.Sin(2 * alpha));
                 mVelocity.Y = (float)(oldVelocity.X * Math.Sin(2 * alpha) - oldVelocity.Y * Math.Cos(2 * alpha));
 
-                //mOwner.Translate(0, (float)(1.04 * mVelocity.Y));
-                mOwner.Translate((float)0.06 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.06 * (unitCircleCenter.Y - otherCircleCenter.Y));
-                //mOwner.Translate(0, (float)2 * mVelocity.Y);
+                mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
             }
         }
     }
