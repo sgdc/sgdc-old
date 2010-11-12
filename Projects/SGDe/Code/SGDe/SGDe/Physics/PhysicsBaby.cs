@@ -64,7 +64,7 @@ namespace SGDE.Physics
                 {
                     foreach (CollisionUnit other in unit.GetCollisions())
                     {
-                        AddBounce(unit, other);
+                        AddBounce2(unit, other);
                     }
                 }
             }
@@ -97,7 +97,83 @@ namespace SGDE.Physics
                 mVelocity.X = (float)(oldVelocity.X * Math.Cos(2 * alpha) + oldVelocity.Y * Math.Sin(2 * alpha));
                 mVelocity.Y = (float)(oldVelocity.X * Math.Sin(2 * alpha) - oldVelocity.Y * Math.Cos(2 * alpha));
 
+                // some fudge
                 mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
+            }
+        }
+
+        // Add bounce to unit - no trig, takes masses and velocities into account
+        private void AddBounce2(CollisionUnit unit, CollisionUnit other)
+        {
+            Vector2 unitCircleCenter;
+            Vector2 otherCircleCenter;
+            int unitRadius;
+            int otherRadius;
+            Vector2 oldVelocity;
+            //double alpha;
+
+            Vector2 norm;
+            Vector2 unitNorm;
+            Vector2 unitTan = new Vector2();
+            Vector2 oldVelocityOther = new Vector2(0, 0);
+            float velocityNorm;
+            float velocityTan;
+            float velocityNormOther;
+            float velocityTanOther;
+            float newVelocityScalar;
+            float newVelocityScalarOther;
+            Vector2 newVelocityNorm;
+            Vector2 newVelocityNormOther;
+            Vector2 newVelocityTan;
+            Vector2 newVelocityTanOther;
+            Vector2 newVelocity;
+            Vector2 newVelocityOther;
+            float mass = 1;
+            float massOther = 10000;
+            Vector2 velocityDiff;
+
+            if (unit.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION && other.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION)
+            {
+                unitCircleCenter = unit.GetCircleCenter();
+                unitRadius = unit.GetCircleRadius();
+
+                otherCircleCenter = other.GetCircleCenter();
+                otherRadius = other.GetCircleRadius();
+
+                oldVelocity = mVelocity;
+
+                ////////////////
+
+                norm = otherCircleCenter - unitCircleCenter;
+                unitNorm = norm / ((float)Math.Sqrt(norm.X * norm.X + norm.Y * norm.Y));
+                unitTan.X = unitNorm.Y * -1;
+                unitTan.Y = unitNorm.X;
+
+                velocityNorm = Vector2.Dot(unitNorm, oldVelocity);
+                velocityTan = Vector2.Dot(unitTan, oldVelocity);
+                velocityNormOther = Vector2.Dot(unitNorm, oldVelocityOther);
+                velocityTanOther = Vector2.Dot(unitTan, oldVelocityOther);
+
+                newVelocityScalar = (velocityNorm * (mass - massOther) + 2 * massOther * velocityNormOther) / (mass + massOther);
+                newVelocityScalarOther = (velocityNormOther * (massOther - mass) + 2 * mass * velocityNorm) / (mass + massOther);
+
+                newVelocityNorm = newVelocityScalar * unitNorm;
+                newVelocityNormOther = newVelocityScalarOther * unitNorm;
+
+                newVelocityTan = velocityTan * unitTan;
+                newVelocityTanOther = velocityTanOther * unitTan;
+
+                newVelocity = newVelocityNorm + newVelocityTan;
+                newVelocityOther = newVelocityNormOther + newVelocityTanOther;
+
+                velocityDiff = newVelocity - mVelocity;
+                mVelocity = newVelocity;
+
+                // some fudge
+                if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
+                {
+                    mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
+                }
             }
         }
     }

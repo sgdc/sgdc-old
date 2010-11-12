@@ -212,7 +212,7 @@ namespace SGDE.Physics.Collision
                     // remove
                     for (int i = oldTopLeftCell.X; i < newTopLeftCell.X; i++)
                     {
-                        for (int j = oldTopLeftCell.Y; j < oldBottomRightCell.Y; j++)
+                        for (int j = oldTopLeftCell.Y; j <= oldBottomRightCell.Y; j++)
                         {
                             mCollisionGrid.Cells[i, j].RemoveCollisionUnit(unit);
                         }
@@ -230,9 +230,9 @@ namespace SGDE.Physics.Collision
                 else if (x < 0)
                 {
                     // remove
-                    for (int i = newBottomRightCell.X; i < oldBottomRightCell.X; i++)
+                    for (int i = newBottomRightCell.X + 1; i <= oldBottomRightCell.X; i++)
                     {
-                        for (int j = oldTopLeftCell.Y; j < oldBottomRightCell.Y; j++)
+                        for (int j = oldTopLeftCell.Y; j <= oldBottomRightCell.Y; j++)
                         {
                             mCollisionGrid.Cells[i, j].RemoveCollisionUnit(unit);
                         }
@@ -253,7 +253,7 @@ namespace SGDE.Physics.Collision
                     // remove
                     for (int i = oldTopLeftCell.Y; i < newTopLeftCell.Y; i++)
                     {
-                        for (int j = oldTopLeftCell.X; j < oldBottomRightCell.X; j++)
+                        for (int j = oldTopLeftCell.X; j <= oldBottomRightCell.X; j++)
                         {
                             mCollisionGrid.Cells[j, i].RemoveCollisionUnit(unit);
                         }
@@ -282,9 +282,9 @@ namespace SGDE.Physics.Collision
                 else if (y < 0)
                 {
                     // remove
-                    for (int i = newBottomRightCell.Y; i < oldBottomRightCell.Y; i++)
+                    for (int i = newBottomRightCell.Y + 1; i <= oldBottomRightCell.Y; i++)
                     {
-                        for (int j = oldTopLeftCell.X; j < oldBottomRightCell.X; j++)
+                        for (int j = oldTopLeftCell.X; j <= oldBottomRightCell.X; j++)
                         {
                             mCollisionGrid.Cells[j, i].RemoveCollisionUnit(unit);
                         }
@@ -373,6 +373,38 @@ namespace SGDE.Physics.Collision
             }
 
             return bottomRightCell;
+        }
+
+        public void DrawCollisionGrid(SpriteBatch spriteBatch, Texture2D gridTexture)
+        {
+            Vector2 cellPosition = new Vector2();
+            int count;
+            Rectangle rect;
+
+            for (int i = 0; i < mCollisionGrid.NumXCells; i++)
+            {
+                for (int j = 0; j < mCollisionGrid.NumYCells; j++)
+                {
+                    count = mCollisionGrid.Cells[i, j].collisionMembers.Count();
+                    if (count > 0)
+                    {
+                        cellPosition.X = i * mCellSize.X;
+                        cellPosition.Y = j * mCellSize.Y;
+
+                        if (count > 1)
+                        {
+                            //spriteBatch.Draw(gridTexture, cellPosition, Color.Orange);
+                            rect = new Rectangle((int)cellPosition.X, (int)cellPosition.Y, (int)mCellSize.X, (int)mCellSize.Y);
+                            spriteBatch.Draw(gridTexture, rect, Color.Orange);
+                        }
+                        else
+                        {
+                            rect = new Rectangle((int)cellPosition.X, (int)cellPosition.Y, (int)mCellSize.X, (int)mCellSize.Y);
+                            spriteBatch.Draw(gridTexture, rect, Color.White);
+                        }
+                    }
+                }
+            }
         }
     }
 }

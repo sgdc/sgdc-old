@@ -151,6 +151,7 @@ namespace SGDE.Physics.Collision
         public void ClearCheckedUnits()
         {
             mCheckedUnits.Clear();
+            //mOwner.SetColor(Color.White);
         }
 
         public bool CollidesWith(CollisionUnit other)
@@ -162,6 +163,7 @@ namespace SGDE.Physics.Collision
             float dist;
 
             mCheckedUnits.Add(other);
+            //mOwner.SetColor(Color.Green);
 
             if (mCollisionType == CIRCLE_COLLISION && other.GetCollisionType() == CIRCLE_COLLISION)
             {

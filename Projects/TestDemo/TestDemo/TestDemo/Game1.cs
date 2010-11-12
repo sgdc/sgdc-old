@@ -26,6 +26,7 @@ namespace TestDemo
         PhysicsPharaoh mPhysicsPharaoh;
         Vector2 worldSize;
         Vector2 cellSize;
+        Texture2D mGridTexture;
 
         public Game1()
         {
@@ -44,12 +45,12 @@ namespace TestDemo
         {
             worldSize = new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
             //cellSize = new Vector2(worldSize.X / 10, worldSize.Y / 10);
-            cellSize = new Vector2(20, 20);
+            cellSize = new Vector2(85, 85);
             mPhysicsPharaoh = new PhysicsPharaoh(worldSize, cellSize);
 
             redBall = new BounceBall(150, 130);
             redBall.Velocity(2, 2);
-            redBall.SetColor(Color.Red);
+            //redBall.SetColor(Color.Red);
             
             Entity ball;
             for (int i = 0; i < worldSize.X / 80; i++)
@@ -83,6 +84,10 @@ namespace TestDemo
             ball.GetPhysicsBaby().SetStatic(true);
             blueBalls.Add(ball);
 
+            ball = new Entity(300, 200);
+            ball.Velocity(2, 2);
+            blueBalls.Add(ball);
+
             base.Initialize();
         }
 
@@ -102,6 +107,8 @@ namespace TestDemo
                 ball.LoadContent(this.Content, "yodaballsmalltransparent");
                 ball.EnablePhysics(mPhysicsPharaoh, true, true);
             }
+
+            mGridTexture = this.Content.Load<Texture2D>("CollisionGridCell");
         }
 
         /// <summary>
@@ -139,6 +146,7 @@ namespace TestDemo
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             Sprite.spriteBatch.Begin();
+            //mPhysicsPharaoh.DrawCollisionGrid(Sprite.spriteBatch, mGridTexture);
             redBall.Draw();
             foreach (Entity ball in blueBalls)
             {

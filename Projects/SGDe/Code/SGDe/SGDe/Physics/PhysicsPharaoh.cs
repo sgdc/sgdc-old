@@ -53,6 +53,11 @@ namespace SGDE.Physics
             unit.SetCollisionChief(mCollisionChief);
         }
 
+        public void DrawCollisionGrid(SpriteBatch spriteBatch, Texture2D gridTexture)
+        {
+            mCollisionChief.DrawCollisionGrid(spriteBatch, gridTexture);
+        }
+
         public void Update(GameTime gameTime)
         {
             foreach (PhysicsBaby physBaby in mDynamicBabies)
