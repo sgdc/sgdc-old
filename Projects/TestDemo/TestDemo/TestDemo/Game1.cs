@@ -27,6 +27,7 @@ namespace TestDemo
         Vector2 worldSize;
         Vector2 cellSize;
         Texture2D mGridTexture;
+        Texture2D mHitTexture;
 
         public Game1()
         {
@@ -109,6 +110,7 @@ namespace TestDemo
             }
 
             mGridTexture = this.Content.Load<Texture2D>("CollisionGridCell");
+            mHitTexture = this.Content.Load<Texture2D>("star");
         }
 
         /// <summary>
@@ -152,6 +154,7 @@ namespace TestDemo
             {
                 ball.Draw();
             }
+            redBall.DrawHitSpot(mHitTexture);
             Sprite.spriteBatch.End();
 
             base.Draw(gameTime);

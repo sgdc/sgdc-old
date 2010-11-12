@@ -8,12 +8,15 @@ using Microsoft.Xna.Framework.Graphics;
 
 using SGDE;
 using SGDE.Physics.Collision;
+using SGDE.Graphics;
 
 namespace TestDemo
 {
     public class BounceBall : Entity
     {
         private List<CollisionUnit> mPrevCheckedUnits;
+        private Vector2 mHitLocation;
+        private Sprite mHitSprite;
 
         public BounceBall()
             : this(0, 0)
@@ -24,6 +27,7 @@ namespace TestDemo
             : base(x, y)
         {
             mPrevCheckedUnits = new List<CollisionUnit>();
+            mHitLocation = new Vector2(0, 0);
         }
 
         public override void Update(GameTime gameTime)
@@ -49,8 +53,18 @@ namespace TestDemo
                 foreach (CollisionUnit other in GetCollisionUnit().GetCollisions())
                 {
                     other.GetOwner().SetColor(Color.Pink);
+                    mHitLocation = GetCollisionUnit().GetCollisionPoint(other);
                 }
             }
+        }
+
+        public void DrawHitSpot(Texture2D hitTexture)
+        {
+            Vector2 drawSpot = new Vector2();
+            drawSpot.X = mHitLocation.X - (hitTexture.Width / 2);
+            drawSpot.Y = mHitLocation.Y - (hitTexture.Height / 2);
+
+            Sprite.spriteBatch.Draw(hitTexture, drawSpot, Color.White);
         }
     }
 }

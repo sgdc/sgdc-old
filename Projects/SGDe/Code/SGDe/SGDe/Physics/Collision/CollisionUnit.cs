@@ -192,6 +192,34 @@ namespace SGDE.Physics.Collision
             }
         }
 
+        public Vector2 GetCollisionPoint(CollisionUnit other)
+        {
+            Vector2 otherCircleCenter;
+            int otherCircleRadius;
+            float dX;
+            float dY;
+            float ratio;
+            Vector2 collisionPoint = new Vector2(-1, -1);
+
+            if (mCollisionType == CIRCLE_COLLISION && other.GetCollisionType() == CIRCLE_COLLISION)
+            {
+                otherCircleCenter = other.GetCircleCenter();
+                otherCircleRadius = other.GetCircleRadius();
+
+                dX = otherCircleCenter.X - mCircleCenter.X;
+                dY = otherCircleCenter.Y - mCircleCenter.Y;
+
+                ratio = ((float)mCircleRadius) / (mCircleRadius + otherCircleRadius);
+
+                dX *= ratio;
+                dY *= ratio;
+
+                collisionPoint = new Vector2(mCircleCenter.X + dX, mCircleCenter.Y + dY);
+            }
+
+            return collisionPoint;
+        }
+
         public void AddCollision(CollisionUnit other)
         {
             if (!mCollisions.Contains(other))
