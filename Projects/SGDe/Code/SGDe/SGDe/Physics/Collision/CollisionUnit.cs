@@ -26,7 +26,10 @@ namespace SGDE.Physics.Collision
         private List<CollisionUnit> mCollisions;
         private List<CollisionUnit> mCheckedUnits;  // for testing
         private CollisionUnit mLastCheckedBy;
-        private int mCheckTimeStamp;
+        private int mCheckTimeStamp;                // logical time when last checked by another unit
+        private bool bCollisionsChanged;
+        private int mCollisionTimeStamp;            // when last reported change in collisions
+        private int mFullCheckTimeStamp;            // when last checked all surrounding units for collisions
 
         public CollisionUnit(Entity owner, Vector2 center, int radius, Texture2D collisionMask, bool bUsePixelCollision)
         {
@@ -62,6 +65,9 @@ namespace SGDE.Physics.Collision
             mCheckedUnits = new List<CollisionUnit>();
             mLastCheckedBy = null;
             mCheckTimeStamp = 0;
+            bCollisionsChanged = false;
+            mCollisionTimeStamp = 0;
+            mFullCheckTimeStamp = 0;
         }
 
         public void SetCollisionChief(CollisionChief chief)
@@ -136,6 +142,16 @@ namespace SGDE.Physics.Collision
             mCheckTimeStamp = timeStamp;
         }
 
+        public int GetFullCheckTimeStamp()
+        {
+            return mFullCheckTimeStamp;
+        }
+
+        public void SetFullCheckTimeStamp(int timeStamp)
+        {
+            mFullCheckTimeStamp = timeStamp;
+        }
+
         public List<CollisionUnit> GetCheckedUnits()
         {
             return mCheckedUnits;
@@ -151,7 +167,6 @@ namespace SGDE.Physics.Collision
         public void ClearCheckedUnits()
         {
             mCheckedUnits.Clear();
-            //mOwner.SetColor(Color.White);
         }
 
         public bool CollidesWith(CollisionUnit other)
@@ -163,7 +178,6 @@ namespace SGDE.Physics.Collision
             float dist;
 
             mCheckedUnits.Add(other);
-            //mOwner.SetColor(Color.Green);
 
             if (mCollisionType == CIRCLE_COLLISION && other.GetCollisionType() == CIRCLE_COLLISION)
             {
@@ -189,6 +203,11 @@ namespace SGDE.Physics.Collision
             {
                 AddCollision(other);
                 other.AddCollision(this);
+            }
+            else
+            {
+                RemoveCollision(other);
+                other.RemoveCollision(this);
             }
         }
 
@@ -226,6 +245,8 @@ namespace SGDE.Physics.Collision
             {
                 mCollisions.Add(other);
 
+                bCollisionsChanged = true;
+                
                 if (!bHasCollisions)
                 {
                     bHasCollisions = true;
@@ -235,7 +256,10 @@ namespace SGDE.Physics.Collision
 
         public void RemoveCollision(CollisionUnit other)
         {
-            mCollisions.Remove(other);
+            if (mCollisions.Remove(other))
+            {
+                bCollisionsChanged = true;
+            }
 
             bHasCollisions = mCollisions.Count > 0;
         }
@@ -319,6 +343,24 @@ namespace SGDE.Physics.Collision
         public bool NeedsCollisionUpdate()
         {
             return bNeedsUpdate;
+        }
+
+        public bool CollisionsChanged(int timeStamp)
+        {
+            if (bCollisionsChanged && mCollisionTimeStamp < timeStamp)
+            {
+                mCollisionTimeStamp = timeStamp;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void CollisionsChanged(bool bChanged)
+        {
+            bCollisionsChanged = bChanged;
         }
 
         public bool HasCollisions()

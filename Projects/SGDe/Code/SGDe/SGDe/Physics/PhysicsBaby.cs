@@ -58,52 +58,52 @@ namespace SGDE.Physics
 
         public void Update(GameTime gameTime)
         {
-            foreach (CollisionUnit unit in mCollisionUnits)
-            {
-                if (unit.HasCollisions())
-                {
-                    foreach (CollisionUnit other in unit.GetCollisions())
-                    {
-                        AddBounce2(unit, other);
-                    }
-                }
-            }
+            //foreach (CollisionUnit unit in mCollisionUnits)
+            //{
+            //    if (unit.HasCollisions())
+            //    {
+            //        foreach (CollisionUnit other in unit.GetCollisions())
+            //        {
+            //            AddBounce2(unit, other);
+            //        }
+            //    }
+            //}
 
             mOwner.Translate((int)mVelocity.X, (int)mVelocity.Y);
         }
 
         // Add bounce to unit
-        private void AddBounce(CollisionUnit unit, CollisionUnit other)
-        {
-            Vector2 unitCircleCenter;
-            Vector2 otherCircleCenter;
-            int unitRadius;
-            int otherRadius;
-            Vector2 oldVelocity;
-            double alpha;
+        //private void AddBounce(CollisionUnit unit, CollisionUnit other)
+        //{
+        //    Vector2 unitCircleCenter;
+        //    Vector2 otherCircleCenter;
+        //    int unitRadius;
+        //    int otherRadius;
+        //    Vector2 oldVelocity;
+        //    double alpha;
 
-            if (unit.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION && other.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION)
-            {
-                unitCircleCenter = unit.GetCircleCenter();
-                unitRadius = unit.GetCircleRadius();
+        //    if (unit.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION && other.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION)
+        //    {
+        //        unitCircleCenter = unit.GetCircleCenter();
+        //        unitRadius = unit.GetCircleRadius();
 
-                otherCircleCenter = other.GetCircleCenter();
-                otherRadius = other.GetCircleRadius();
+        //        otherCircleCenter = other.GetCircleCenter();
+        //        otherRadius = other.GetCircleRadius();
 
-                oldVelocity = mVelocity;
+        //        oldVelocity = mVelocity;
 
-                alpha = Math.Atan((otherCircleCenter.X - unitCircleCenter.X) / (unitCircleCenter.Y - otherCircleCenter.Y));
+        //        alpha = Math.Atan((otherCircleCenter.X - unitCircleCenter.X) / (unitCircleCenter.Y - otherCircleCenter.Y));
 
-                mVelocity.X = (float)(oldVelocity.X * Math.Cos(2 * alpha) + oldVelocity.Y * Math.Sin(2 * alpha));
-                mVelocity.Y = (float)(oldVelocity.X * Math.Sin(2 * alpha) - oldVelocity.Y * Math.Cos(2 * alpha));
+        //        mVelocity.X = (float)(oldVelocity.X * Math.Cos(2 * alpha) + oldVelocity.Y * Math.Sin(2 * alpha));
+        //        mVelocity.Y = (float)(oldVelocity.X * Math.Sin(2 * alpha) - oldVelocity.Y * Math.Cos(2 * alpha));
 
-                // some fudge
-                mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
-            }
-        }
+        //        // some fudge
+        //        mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
+        //    }
+        //}
 
         // Add bounce to unit - no trig, takes masses and velocities into account
-        private void AddBounce2(CollisionUnit unit, CollisionUnit other)
+        public void AddBounce2(CollisionUnit unit, CollisionUnit other)
         {
             Vector2 unitCircleCenter;
             Vector2 otherCircleCenter;

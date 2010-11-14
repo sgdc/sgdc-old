@@ -14,6 +14,7 @@ namespace SGDE.Physics.Collision
         private Vector2 mCellSize;
         private CollisionGrid mCollisionGrid;
         private List<CollisionUnit> mUnitsToUpdate;
+        private List<Entity> mEntitiesToNotify;
         private int mCurrTimeStamp;
 
         protected class CollisionCell
@@ -82,6 +83,7 @@ namespace SGDE.Physics.Collision
 
             mCollisionGrid = new CollisionGrid(numXCells, numYCells);
             mUnitsToUpdate = new List<CollisionUnit>();
+            mEntitiesToNotify = new List<Entity>();
             mCurrTimeStamp = 0;
         }
 
@@ -89,6 +91,7 @@ namespace SGDE.Physics.Collision
         {
             mCurrTimeStamp++;
             UpdateCollisions();
+            NotifyEntities();
         }
 
         private void UpdateCollisions()
@@ -109,6 +112,7 @@ namespace SGDE.Physics.Collision
 
                     unit.ClearCollisions();
                     unit.ClearCheckedUnits();
+                    unit.CollisionsChanged(false);
 
                     // for all touching cells
                     for (int i = topLeftCell.X; i <= bottomRightCell.X; i++)
@@ -117,11 +121,18 @@ namespace SGDE.Physics.Collision
                         {
                             foreach (CollisionUnit other in mCollisionGrid.Cells[i, j].collisionMembers)
                             {
-                                if (other != unit && !(other.GetLastCheckedBy() == unit && other.GetCheckTimeStamp() == mCurrTimeStamp))
+                                if (other != unit && !(other.GetLastCheckedBy() == unit && other.GetCheckTimeStamp() == mCurrTimeStamp) )// && other.GetFullCheckTimeStamp() < mCurrTimeStamp)
                                 {
+                                    other.CollisionsChanged(false);
+
                                     unit.UpdateCollisionsWith(other);
                                     other.SetLastCheckedBy(unit);
                                     other.SetCheckTimeStamp(mCurrTimeStamp);
+
+                                    if (other.CollisionsChanged(mCurrTimeStamp))
+                                    {
+                                        mEntitiesToNotify.Add(other.GetOwner());
+                                    }
                                 }
                             }
                         }
@@ -133,9 +144,26 @@ namespace SGDE.Physics.Collision
                 }
 
                 unit.NeedsCollisionUpdate(false);
+                unit.SetFullCheckTimeStamp(mCurrTimeStamp);
+
+                if (unit.CollisionsChanged(mCurrTimeStamp))
+                {
+                    mEntitiesToNotify.Add(unit.GetOwner());
+                }
             }
 
             mUnitsToUpdate.Clear();
+        }
+
+        // notify entities of collision change
+        private void NotifyEntities()
+        {
+            foreach (Entity ent in mEntitiesToNotify)
+            {
+                ent.CollisionChange();
+            }
+
+            mEntitiesToNotify.Clear();
         }
 
         public void UpdateUnit(CollisionUnit unit)

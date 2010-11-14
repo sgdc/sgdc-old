@@ -86,7 +86,7 @@ namespace TestDemo
             blueBalls.Add(ball);
 
             ball = new Entity(300, 200);
-            ball.Velocity(2, 2);
+            ball.Velocity(2, 3);
             blueBalls.Add(ball);
 
             base.Initialize();

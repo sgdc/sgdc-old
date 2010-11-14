@@ -120,5 +120,13 @@ namespace SGDE
         {
             image.SetBackgroundColor(backColor);
         }
+
+        public void CollisionChange()
+        {
+            foreach (CollisionUnit other in mCollisionUnit.GetCollisions())
+            {
+                mPhysBaby.AddBounce2(mCollisionUnit, other);
+            }
+        }
     }
 }
