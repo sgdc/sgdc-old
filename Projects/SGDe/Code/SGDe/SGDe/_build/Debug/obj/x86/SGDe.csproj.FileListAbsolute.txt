@@ -1,7 +1,0 @@
-C:\Documents\Programming\SGDC\SVN\Projects\SGDe\Code\SGDe\SGDe\_build\Debug\bin\x86\SGDe.dll
-C:\Documents\Programming\SGDC\SVN\Projects\SGDe\Code\SGDe\SGDe\_build\Debug\bin\x86\SGDe.pdb
-C:\Documents\Programming\SGDC\SVN\Projects\SGDe\Code\SGDe\SGDe\_build\Debug\bin\x86\SGDe.XML
-C:\Documents\Programming\SGDC\SVN\Projects\SGDe\Code\SGDe\SGDe\_build\Debug\obj\x86\ResolveAssemblyReference.cache
-C:\Documents\Programming\SGDC\SVN\Projects\SGDe\Code\SGDe\SGDe\_build\Debug\obj\x86\Microsoft.Xna.Framework.RuntimeProfile.txt
-C:\Documents\Programming\SGDC\SVN\Projects\SGDe\Code\SGDe\SGDe\_build\Debug\obj\x86\SGDe.dll
-C:\Documents\Programming\SGDC\SVN\Projects\SGDe\Code\SGDe\SGDe\_build\Debug\obj\x86\SGDe.pdb
