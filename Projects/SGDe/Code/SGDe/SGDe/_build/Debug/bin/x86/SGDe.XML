@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SGDe</name>
+    </assembly>
+    <members>
+        <member name="T:SGDE.Graphics.Sprite">
+            <summary>
+            A drawable sprite object that can be displayed on screen.
+            </summary>
+        </member>
+    </members>
+</doc>
