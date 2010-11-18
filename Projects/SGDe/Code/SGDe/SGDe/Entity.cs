@@ -19,8 +19,9 @@ namespace SGDE
     public class Entity : SceneNode
     {
         protected Sprite image;
-        private CollisionUnit mCollisionUnit;
-        private PhysicsBaby mPhysBaby;
+        protected CollisionUnit mCollisionUnit;
+        protected PhysicsBaby mPhysBaby;
+        private PhysicsPharaoh mPhysicsPharaoh;
 
         public Entity()
             : this(0, 0)
@@ -38,6 +39,8 @@ namespace SGDE
 
         public void EnablePhysics(PhysicsPharaoh pharaoh, bool bPhysics, bool bCollision)
         {
+            mPhysicsPharaoh = pharaoh;
+
             if (bPhysics)
             {
                 pharaoh.AddPhysicsBaby(mPhysBaby);
@@ -47,7 +50,7 @@ namespace SGDE
                 pharaoh.RemovePhysicsBaby(mPhysBaby);
             }
 
-            if (bCollision)
+            if (bCollision && mCollisionUnit != null)
             {
                 pharaoh.AddCollisionUnit(mCollisionUnit);
             }
@@ -87,9 +90,21 @@ namespace SGDE
             return mCollisionUnit;
         }
 
-        public void LoadContent(ContentManager theContentManager, String theAssetName)
+        public void SetCollisionUnit(CollisionUnit unit)
         {
-            int radius;
+            mCollisionUnit = unit;
+            mPhysBaby.AddCollisionUnit(unit);
+            AddChild(unit);
+
+            if (mPhysicsPharaoh != null)
+            {
+                mPhysicsPharaoh.AddCollisionUnit(unit);
+            }
+        }
+
+        public virtual void LoadContent(ContentManager theContentManager, String theAssetName)
+        {
+            //int radius;
 
             image.LoadContent(theContentManager, theAssetName);
 
@@ -101,7 +116,7 @@ namespace SGDE
         }
 
         // call after image.LoadContent()
-        private void SetUpCollision()
+        protected virtual void SetUpCollision()
         {
             int radius;
 
@@ -109,6 +124,9 @@ namespace SGDE
             mCollisionUnit = new CollisionUnit(this, image.GetCenter(), radius, null, false);
             mPhysBaby.AddCollisionUnit(mCollisionUnit);
             AddChild(mCollisionUnit);
+
+            //SetCollisionUnit(new CollisionUnit(this, image.GetCenter(), radius, null, false));
+            //pharaoh.AddCollisionUnit(mCollisionUnit);
         }
 
         public virtual void Draw()
@@ -121,12 +139,16 @@ namespace SGDE
             image.SetBackgroundColor(backColor);
         }
 
-        public void CollisionChange()
+        public virtual void CollisionChange()
         {
-            foreach (CollisionUnit other in mCollisionUnit.GetCollisions())
+            if (mCollisionUnit.HasCollisions())
             {
-                mPhysBaby.AddBounce2(mCollisionUnit, other);
+                Velocity(Velocity() * -1);
             }
+            //foreach (CollisionUnit other in mCollisionUnit.GetCollisions())
+            //{
+            //    mPhysBaby.AddBounce2(mCollisionUnit, other);
+            //}
         }
     }
 }

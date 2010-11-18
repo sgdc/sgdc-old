@@ -103,16 +103,24 @@ namespace SGDE.Physics.Collision
 
             foreach (CollisionUnit unit in mUnitsToUpdate)
             {
-                if (unit.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION)
-                {
-                    circleCenter = unit.GetCircleCenter();
-                    circleRadius = unit.GetCircleRadius();
-                    topLeftCell = CalculateCircleTopLeftCell(circleCenter, circleRadius);
-                    bottomRightCell = CalculateCircleBottomRightCell(circleCenter, circleRadius);
+                unit.ClearCollisions();
+                unit.ClearCheckedUnits();
+                unit.CollisionsChanged(false);
 
-                    unit.ClearCollisions();
-                    unit.ClearCheckedUnits();
-                    unit.CollisionsChanged(false);
+                if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE || unit.GetCollisionType() == CollisionUnit.COLLISION_BOX)
+                {
+                    if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE)
+                    {
+                        circleCenter = unit.GetCircleCenter();
+                        circleRadius = unit.GetCircleRadius();
+                        topLeftCell = CalculateCircleTopLeftCell(circleCenter, circleRadius);
+                        bottomRightCell = CalculateCircleBottomRightCell(circleCenter, circleRadius);
+                    }
+                    else
+                    {
+                        topLeftCell = CalculateCellPosition(unit.GetUpperLeft());
+                        bottomRightCell = CalculateCellPosition(unit.GetLowerRight());
+                    }
 
                     // for all touching cells
                     for (int i = topLeftCell.X; i <= bottomRightCell.X; i++)
@@ -138,7 +146,7 @@ namespace SGDE.Physics.Collision
                         }
                     }
                 }
-                else if (unit.GetCollisionType() == CollisionUnit.LINE_COLLISION)
+                else if (unit.GetCollisionType() == CollisionUnit.COLLISION_LINE)
                 {
                     // TODO
                 }
@@ -181,7 +189,7 @@ namespace SGDE.Physics.Collision
             Point bottomRightCell;
 
 
-            if (unit.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION)
+            if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE)
             {
                 circleCenter = unit.GetCircleCenter();
                 circleRadius = unit.GetCircleRadius();
@@ -199,7 +207,7 @@ namespace SGDE.Physics.Collision
                 }
 
             }
-            else if (unit.GetCollisionType() == CollisionUnit.LINE_COLLISION)
+            else if (unit.GetCollisionType() == CollisionUnit.COLLISION_LINE)
             {
                 lineStart = unit.GetLineStart();
                 lineEnd = unit.GetLineEnd();
@@ -207,6 +215,24 @@ namespace SGDE.Physics.Collision
                 // TODO: put in appropriate cells
 
             }
+            else if (unit.GetCollisionType() == CollisionUnit.COLLISION_BOX)
+            {
+                topLeftCell = CalculateCellPosition(unit.GetUpperLeft());
+                bottomRightCell = CalculateCellPosition(unit.GetLowerRight());
+
+                for (int i = topLeftCell.X; i <= bottomRightCell.X; i++)
+                {
+                    for (int j = topLeftCell.Y; j <= bottomRightCell.Y; j++)
+                    {
+                        mCollisionGrid.Cells[i, j].AddCollisionUnit(unit);
+                    }
+                }
+            }
+        }
+
+        public void RemoveCollisionUnit(CollisionUnit unit)
+        {
+            // TODO
         }
 
         public void TranslateCollisionUnit(CollisionUnit unit, float x, float y)
@@ -221,18 +247,29 @@ namespace SGDE.Physics.Collision
             Point newTopLeftCell;
             Point newBottomRightCell;
 
-            if (unit.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION)
+            if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE || unit.GetCollisionType() == CollisionUnit.COLLISION_BOX)
             {
-                circleRadius = unit.GetCircleRadius();
-                oldCircleCenter = unit.GetCircleCenter();
-                newCircleCenter = new Vector2(oldCircleCenter.X + x, oldCircleCenter.Y + y);
+                if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE)
+                {
+                    circleRadius = unit.GetCircleRadius();
+                    oldCircleCenter = unit.GetCircleCenter();
+                    newCircleCenter = new Vector2(oldCircleCenter.X + x, oldCircleCenter.Y + y);
 
-                // calculate containing cells
-                oldTopLeftCell = CalculateCircleTopLeftCell(oldCircleCenter, circleRadius);
-                oldBottomRightCell = CalculateCircleBottomRightCell(oldCircleCenter, circleRadius);
+                    // calculate containing cells
+                    oldTopLeftCell = CalculateCircleTopLeftCell(oldCircleCenter, circleRadius);
+                    oldBottomRightCell = CalculateCircleBottomRightCell(oldCircleCenter, circleRadius);
 
-                newTopLeftCell = CalculateCircleTopLeftCell(newCircleCenter, circleRadius);
-                newBottomRightCell = CalculateCircleBottomRightCell(newCircleCenter, circleRadius);
+                    newTopLeftCell = CalculateCircleTopLeftCell(newCircleCenter, circleRadius);
+                    newBottomRightCell = CalculateCircleBottomRightCell(newCircleCenter, circleRadius);
+                }
+                else
+                {
+                    oldTopLeftCell = CalculateCellPosition(unit.GetUpperLeft());
+                    oldBottomRightCell = CalculateCellPosition(unit.GetLowerRight());
+
+                    newTopLeftCell = CalculateCellPosition(new Vector2(unit.GetUpperLeft().X + x, unit.GetUpperLeft().Y + y));
+                    newBottomRightCell = CalculateCellPosition(new Vector2(unit.GetLowerRight().X + x, unit.GetLowerRight().Y + y));
+                }
 
                 // remove from cells no longer within and add to new cells that unit is within
                 if (x > 0)
@@ -340,7 +377,7 @@ namespace SGDE.Physics.Collision
                 }
 
             }
-            else if (unit.GetCollisionType() == CollisionUnit.LINE_COLLISION)
+            else if (unit.GetCollisionType() == CollisionUnit.COLLISION_LINE)
             {
                 oldLineStart = unit.GetLineStart();
                 oldLineEnd = unit.GetLineEnd();
@@ -401,6 +438,36 @@ namespace SGDE.Physics.Collision
             }
 
             return bottomRightCell;
+        }
+
+        private Point CalculateCellPosition(Vector2 position)
+        {
+            Point cellPosition = new Point();
+
+            cellPosition.X = (int)(position.X / mCellSize.X);
+            cellPosition.Y = (int)(position.Y / mCellSize.Y);
+
+            if (cellPosition.X < 0)
+            {
+                cellPosition.X = 0;
+            }
+
+            if (cellPosition.Y < 0)
+            {
+                cellPosition.Y = 0;
+            }
+
+            if (cellPosition.X >= mCollisionGrid.NumXCells)
+            {
+                cellPosition.X = mCollisionGrid.NumXCells - 1;
+            }
+
+            if (cellPosition.Y >= mCollisionGrid.NumYCells)
+            {
+                cellPosition.Y = mCollisionGrid.NumYCells - 1;
+            }
+
+            return cellPosition;
         }
 
         public void DrawCollisionGrid(SpriteBatch spriteBatch, Texture2D gridTexture)

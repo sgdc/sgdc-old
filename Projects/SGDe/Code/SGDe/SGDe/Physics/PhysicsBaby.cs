@@ -132,7 +132,7 @@ namespace SGDE.Physics
             float massOther = 10000;
             Vector2 velocityDiff;
 
-            if (unit.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION && other.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION)
+            if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE && other.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE)
             {
                 unitCircleCenter = unit.GetCircleCenter();
                 unitRadius = unit.GetCircleRadius();
@@ -174,6 +174,14 @@ namespace SGDE.Physics
                 {
                     mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
                 }
+            }
+            else if (other.GetCollisionType() == CollisionUnit.COLLISION_BOX)
+            {
+                mVelocity *= -1;
+            }
+            else
+            {
+                mVelocity *= -1;
             }
         }
     }

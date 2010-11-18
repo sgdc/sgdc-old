@@ -10,8 +10,11 @@ namespace SGDE.Physics.Collision
 {
     public class CollisionUnit : SceneNode
     {
-        public const int CIRCLE_COLLISION = 0;
-        public const int LINE_COLLISION = 1;
+        public const int COLLISION_NONE = 0;
+        public const int COLLISION_CIRCLE = 1;
+        public const int COLLISION_LINE = 2;
+        public const int COLLISION_BOX = 3;
+
         private CollisionChief mCollisionChief;
         private Texture2D mCollisionMask;
         private int mCollisionType;
@@ -21,8 +24,8 @@ namespace SGDE.Physics.Collision
         private bool bHasCollisions;
         private Vector2 mCircleCenter;
         private int mCircleRadius;
-        private Vector2 mLineStart;
-        private Vector2 mLineEnd;
+        private Vector2 mPoint1;                 // line or box (upper left) collision
+        private Vector2 mPoint2;                   // line or box (lower right) collision
         private List<CollisionUnit> mCollisions;
         private List<CollisionUnit> mCheckedUnits;  // for testing
         private CollisionUnit mLastCheckedBy;
@@ -36,15 +39,22 @@ namespace SGDE.Physics.Collision
             InitializeCommonStuff(owner, collisionMask, bUsePixelCollision);
             mCircleCenter = center;
             mCircleRadius = radius;
-            mCollisionType = CIRCLE_COLLISION;
+            mCollisionType = COLLISION_CIRCLE;
         }
 
-        public CollisionUnit(Entity owner, Vector2 lineStart, Vector2 lineEnd, Texture2D collisionMask, bool bUsePixelCollision)
+        public CollisionUnit(Entity owner, Vector2 point1, Vector2 point2, int collisionType, Texture2D collisionMask, bool bUsePixelCollision)
         {
             InitializeCommonStuff(owner, collisionMask, bUsePixelCollision);
-            mLineStart = lineStart;
-            mLineEnd = lineEnd;
-            mCollisionType = LINE_COLLISION;
+            mPoint1 = point1;
+            mPoint2 = point2;
+            if (collisionType == COLLISION_LINE)
+            {
+                mCollisionType = COLLISION_LINE;
+            }
+            else
+            {
+                mCollisionType = COLLISION_BOX;
+            }
         }
 
         // location: top left of collisionMask image
@@ -52,8 +62,16 @@ namespace SGDE.Physics.Collision
         {
             InitializeCommonStuff(owner, collisionMask, bUsePixelCollision);
             CalculateCircle(location);
-            mCollisionType = CIRCLE_COLLISION;
+            mCollisionType = COLLISION_CIRCLE;
         }
+
+        //public CollisionUnit(Entity owner, Vector2 upperLeft, Vector2 lowerRight, Texture2D collisionMask, bool bUsePixelCollision)
+        //{
+        //    InitializeCommonStuff(owner, collisionMask, bUsePixelCollision);
+        //    mPoint1 = upperLeft;
+        //    mPoint2 = lowerRight;
+        //    mCollisionType = BOX_COLLISION;
+        //}
 
         private void InitializeCommonStuff(Entity owner, Texture2D collisionMask, bool bUsePixelCollision)
         {
@@ -104,12 +122,38 @@ namespace SGDE.Physics.Collision
 
         public Vector2 GetLineStart()
         {
-            return mLineStart;
+            return mPoint1;
         }
 
         public Vector2 GetLineEnd()
         {
-            return mLineEnd;
+            return mPoint2;
+        }
+
+        // for box or circle
+        public Vector2 GetUpperLeft()
+        {
+            if (mCollisionType == COLLISION_CIRCLE)
+            {
+                return new Vector2(mCircleCenter.X - mCircleRadius, mCircleCenter.Y - mCircleRadius);
+            }
+            else
+            {
+                return mPoint1;
+            }
+        }
+
+        // for box or circle
+        public Vector2 GetLowerRight()
+        {
+            if (mCollisionType == COLLISION_CIRCLE)
+            {
+                return new Vector2(mCircleCenter.X + mCircleRadius, mCircleCenter.Y + mCircleRadius);
+            }
+            else
+            {
+                return mPoint2;
+            }
         }
 
         public int GetCollisionType()
@@ -176,10 +220,12 @@ namespace SGDE.Physics.Collision
             float dX;
             float dY;
             float dist;
+            Vector2 otherUpperLeft;
+            Vector2 otherLowerRight;
 
             mCheckedUnits.Add(other);
 
-            if (mCollisionType == CIRCLE_COLLISION && other.GetCollisionType() == CIRCLE_COLLISION)
+            if (mCollisionType == COLLISION_CIRCLE && other.GetCollisionType() == COLLISION_CIRCLE)
             {
                 otherCircleCenter = other.GetCircleCenter();
                 otherCircleRadius = other.GetCircleRadius();
@@ -190,6 +236,21 @@ namespace SGDE.Physics.Collision
 
                 // (radius + radius)^2 instead of more expensive squareRoot(dist)
                 return (dist <= (mCircleRadius + otherCircleRadius) * (mCircleRadius + otherCircleRadius));
+            }
+            else if (mCollisionType == COLLISION_CIRCLE && other.GetCollisionType() == COLLISION_BOX)
+            {
+                return CircleBoxCollision(mCircleCenter, mCircleRadius, other.GetUpperLeft(), other.GetLowerRight());
+            }
+            else if (mCollisionType == COLLISION_BOX && other.GetCollisionType() == COLLISION_CIRCLE)
+            {
+                return CircleBoxCollision(other.GetCircleCenter(), other.GetCircleRadius(), mPoint1, mPoint2);
+            }
+            else if (mCollisionType == COLLISION_BOX && other.GetCollisionType() == COLLISION_BOX)
+            {
+                otherUpperLeft = other.GetUpperLeft();
+                otherLowerRight = other.GetLowerRight();
+
+                return (mPoint1.X <= otherLowerRight.X && mPoint1.Y <= otherLowerRight.Y && otherUpperLeft.X <= mPoint2.X && otherUpperLeft.Y <= mPoint2.Y);
             }
 
             // TODO: other collision types - line, pixel
@@ -211,16 +272,85 @@ namespace SGDE.Physics.Collision
             }
         }
 
+        private bool CircleBoxCollision(Vector2 circleCenter, int circleRadius, Vector2 boxUpperLeft, Vector2 boxLowerRight)
+        {
+            float dX;
+            float dY;
+            float dist;
+
+            if (circleCenter.X > boxLowerRight.X)
+            {
+                if (circleCenter.Y > boxLowerRight.Y)
+                {
+                    dX = circleCenter.X - boxLowerRight.X;
+                    dY = circleCenter.Y - boxLowerRight.Y;
+                    dist = (dX * dX) + (dY * dY);
+
+                    return dist <= circleRadius * circleRadius;
+                }
+                else if (circleCenter.Y < boxUpperLeft.Y)
+                {
+                    dX = circleCenter.X - boxLowerRight.X;
+                    dY = circleCenter.Y - boxUpperLeft.Y;
+                    dist = (dX * dX) + (dY * dY);
+
+                    return dist <= circleRadius * circleRadius;
+                }
+                else
+                {
+                    return circleCenter.X <= boxLowerRight.X + circleRadius;
+                }
+            }
+            else if (circleCenter.X < boxUpperLeft.X)
+            {
+                if (circleCenter.Y > boxLowerRight.Y)
+                {
+                    dX = circleCenter.X - boxUpperLeft.X;
+                    dY = circleCenter.Y - boxLowerRight.Y;
+                    dist = (dX * dX) + (dY * dY);
+
+                    return dist <= circleRadius * circleRadius;
+                }
+                else if (circleCenter.Y < boxUpperLeft.Y)
+                {
+                    dX = circleCenter.X - boxUpperLeft.X;
+                    dY = circleCenter.Y - boxUpperLeft.Y;
+                    dist = (dX * dX) + (dY * dY);
+
+                    return dist <= circleRadius * circleRadius;
+                }
+                else
+                {
+                    return circleCenter.X >= boxUpperLeft.X - circleRadius;
+                }
+            }
+            else if (circleCenter.Y > boxLowerRight.Y)
+            {
+                return circleCenter.Y <= boxLowerRight.Y + circleRadius;
+            }
+            else if (circleCenter.Y < boxUpperLeft.Y)
+            {
+                return circleCenter.Y >= boxUpperLeft.Y - circleRadius;
+            }
+            else
+            {
+                // in box
+                return true;
+            }
+        }
+
         public Vector2 GetCollisionPoint(CollisionUnit other)
         {
             Vector2 otherCircleCenter;
             int otherCircleRadius;
+            Vector2 boxUpperLeft;
+            Vector2 boxLowerRight;
             float dX;
             float dY;
             float ratio;
             Vector2 collisionPoint = new Vector2(-1, -1);
 
-            if (mCollisionType == CIRCLE_COLLISION && other.GetCollisionType() == CIRCLE_COLLISION)
+            if (mCollisionType == COLLISION_CIRCLE && other.GetCollisionType() == COLLISION_CIRCLE)
             {
                 otherCircleCenter = other.GetCircleCenter();
                 otherCircleRadius = other.GetCircleRadius();
@@ -234,6 +364,68 @@ namespace SGDE.Physics.Collision
                 dY *= ratio;
 
                 collisionPoint = new Vector2(mCircleCenter.X + dX, mCircleCenter.Y + dY);
+            }
+            else if ((mCollisionType == COLLISION_CIRCLE && other.GetCollisionType() == COLLISION_BOX)
+                    || (mCollisionType == COLLISION_BOX && other.GetCollisionType() == COLLISION_CIRCLE))
+            {
+                if (mCollisionType == COLLISION_CIRCLE)
+                {
+                    otherCircleCenter = mCircleCenter;
+                    otherCircleRadius = mCircleRadius;
+                    boxUpperLeft = other.GetUpperLeft();
+                    boxLowerRight = other.GetLowerRight();
+                }
+                else
+                {
+                    otherCircleCenter = other.GetCircleCenter();
+                    otherCircleRadius = other.GetCircleRadius();
+                    boxUpperLeft = mPoint1;
+                    boxLowerRight = mPoint2;
+                }
+
+                if (otherCircleCenter.X > boxLowerRight.X)
+                {
+                    if (otherCircleCenter.Y > boxLowerRight.Y)
+                    {
+                        collisionPoint = boxLowerRight;
+                    }
+                    else if (otherCircleCenter.Y < boxUpperLeft.Y)
+                    {
+                        collisionPoint = new Vector2(boxLowerRight.X, boxUpperLeft.Y);
+                    }
+                    else
+                    {
+                        collisionPoint = new Vector2(otherCircleCenter.X - otherCircleRadius, otherCircleCenter.Y);
+                    }
+                }
+                else if (otherCircleCenter.X < boxUpperLeft.X)
+                {
+                    if (otherCircleCenter.Y > boxLowerRight.Y)
+                    {
+                        collisionPoint = new Vector2(boxUpperLeft.X, boxLowerRight.Y);
+                    }
+                    else if (otherCircleCenter.Y < boxUpperLeft.Y)
+                    {
+                        collisionPoint = boxUpperLeft;
+                    }
+                    else
+                    {
+                        collisionPoint = new Vector2(otherCircleCenter.X + otherCircleRadius, otherCircleCenter.Y);
+                    }
+                }
+                else if (otherCircleCenter.Y > boxLowerRight.Y)
+                {
+                    collisionPoint = new Vector2(otherCircleCenter.X, otherCircleCenter.Y - otherCircleRadius);
+                }
+                else if (otherCircleCenter.Y < boxUpperLeft.Y)
+                {
+                    collisionPoint = new Vector2(otherCircleCenter.X, otherCircleCenter.Y + otherCircleRadius);
+                }
+                else
+                {
+                    // inside
+                    collisionPoint = otherCircleCenter;
+                }
             }
 
             return collisionPoint;
@@ -272,17 +464,17 @@ namespace SGDE.Physics.Collision
                 mCollisionChief.TranslateCollisionUnit(this, x, y);
             }
 
-            if (mCollisionType == CIRCLE_COLLISION)
+            if (mCollisionType == COLLISION_CIRCLE)
             {
                 mCircleCenter.X += x;
                 mCircleCenter.Y += y;
             }
-            else if (mCollisionType == LINE_COLLISION)
+            else if (mCollisionType == COLLISION_LINE || mCollisionType == COLLISION_BOX)
             {
-                mLineStart.X += x;
-                mLineStart.Y += y;
-                mLineEnd.X += x;
-                mLineEnd.Y += y;
+                mPoint1.X += x;
+                mPoint1.Y += y;
+                mPoint2.X += x;
+                mPoint2.Y += y;
             }
 
             if (!bNeedsUpdate)
