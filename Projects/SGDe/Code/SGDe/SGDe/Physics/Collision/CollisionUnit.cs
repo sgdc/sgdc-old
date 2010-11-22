@@ -33,6 +33,7 @@ namespace SGDE.Physics.Collision
         private bool bCollisionsChanged;
         private int mCollisionTimeStamp;            // when last reported change in collisions
         private int mFullCheckTimeStamp;            // when last checked all surrounding units for collisions
+        private bool mBlockOthers;
 
         public CollisionUnit(Entity owner, Vector2 center, int radius, Texture2D collisionMask, bool bUsePixelCollision)
         {
@@ -86,6 +87,7 @@ namespace SGDE.Physics.Collision
             bCollisionsChanged = false;
             mCollisionTimeStamp = 0;
             mFullCheckTimeStamp = 0;
+            mBlockOthers = true;
         }
 
         public void SetCollisionChief(CollisionChief chief)
@@ -194,6 +196,16 @@ namespace SGDE.Physics.Collision
         public void SetFullCheckTimeStamp(int timeStamp)
         {
             mFullCheckTimeStamp = timeStamp;
+        }
+
+        public void BlockOthers(bool blockOthers)
+        {
+            mBlockOthers = blockOthers;
+        }
+
+        public bool BlockOthers()
+        {
+            return mBlockOthers;
         }
 
         public List<CollisionUnit> GetCheckedUnits()

@@ -71,7 +71,10 @@ namespace TestDemo
         {
             foreach (CollisionUnit other in mCollisionUnit.GetCollisions())
             {
-                mPhysBaby.AddBounce2(mCollisionUnit, other);
+                if (other.BlockOthers())
+                {
+                    mPhysBaby.AddBounce2(mCollisionUnit, other);
+                }
             }
         }
     }

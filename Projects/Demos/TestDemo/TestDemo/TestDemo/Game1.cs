@@ -30,6 +30,8 @@ namespace TestDemo
         Vector2 cellSize;
         Texture2D mGridTexture;
         Texture2D mHitTexture;
+        PortalBox pBox1;
+        PortalBox pBox2;
 
         public Game1()
         {
@@ -50,19 +52,47 @@ namespace TestDemo
             //cellSize = new Vector2(worldSize.X / 10, worldSize.Y / 10);
             cellSize = new Vector2(25, 25);
             mPhysicsPharaoh = new PhysicsPharaoh(worldSize, cellSize);
+            mPhysicsPharaoh.SetGravity(new Vector2(0, 9));
 
             redBall = new BounceBall(150, 130);
-            redBall.Velocity(2, 2);
+            redBall.Velocity(1, 1);
+            //redBall.GetPhysicsBaby().AddForce(new Vector2(0, 9));
             //redBall.SetColor(Color.Red);
-            
+
+            pBox1 = new PortalBox(80, 0, pBox2, false);
+            pBox2 = new PortalBox(600, (int)worldSize.Y - 50, pBox1, true);
+
+            pBox1.EnablePhysics(mPhysicsPharaoh, true, true);
+            pBox2.EnablePhysics(mPhysicsPharaoh, true, true);
+
+            pBox1.GetPhysicsBaby().AddForce(mPhysicsPharaoh.GetGravity() * -1);
+            pBox2.GetPhysicsBaby().AddForce(mPhysicsPharaoh.GetGravity() * -1);
+
             Entity ball;
-            for (int i = 0; i < worldSize.X / 80; i++)
+
+            ball = new Entity(0, 0);
+            ball.GetPhysicsBaby().SetStatic(true);
+            blueBalls.Add(ball);
+
+            ball = new Entity((int)worldSize.X - 75, (int)worldSize.Y - 150);
+            ball.GetPhysicsBaby().SetStatic(true);
+            blueBalls.Add(ball);
+
+            ball = new BounceBall(600, 100);
+            ball.Velocity(2, 1);
+            blueBalls.Add(ball);
+
+            ball = new BounceBall(650, 300);
+            ball.Velocity(-2, 1);
+            blueBalls.Add(ball);
+
+            for (int i = 4; i < worldSize.X / 80; i++)
             {
                 ball = new Entity(i * 80, 0);
                 ball.GetPhysicsBaby().SetStatic(true);
                 blueBalls.Add(ball);
 
-                ball = new Entity(i * 80, (int)worldSize.Y - 120);
+                ball = new Entity((i - 3) * 80, (int)worldSize.Y - (350 - i * 30));
                 ball.GetPhysicsBaby().SetStatic(true);
                 blueBalls.Add(ball);
             }
@@ -86,16 +116,17 @@ namespace TestDemo
             //ball = new Entity(240, 200);
             //ball.GetPhysicsBaby().SetStatic(true);
             //blueBalls.Add(ball);
-            box = new BounceBox(240, 200);
+            box = new BounceBox(100, 400);
             box.GetPhysicsBaby().SetStatic(true);
             //blueBalls.Add(ball);
 
             //ball = new Entity(380, 200);
             //ball.Velocity(2, 3);
             //blueBalls.Add(ball);
-            movingBox = new BounceBox(450, 200);
-            movingBox.Velocity(0, 3);
+            movingBox = new BounceBox(450, 100);
+            movingBox.Velocity(-2, 0);
             movingBox.EnablePhysics(mPhysicsPharaoh, true, true);
+            movingBox.GetPhysicsBaby().AddForce(mPhysicsPharaoh.GetGravity() * -1);
 
             base.Initialize();
         }
@@ -116,6 +147,9 @@ namespace TestDemo
 
             movingBox.LoadContent(this.Content, "images");
             //movingBox.EnablePhysics(mPhysicsPharaoh, true, true);
+
+            pBox1.LoadContent(this.Content, "portal");
+            pBox2.LoadContent(this.Content, "DomoKunSmall");
 
             foreach (Entity ball in blueBalls)
             {
@@ -166,6 +200,8 @@ namespace TestDemo
             redBall.Draw();
             box.Draw();
             movingBox.Draw();
+            pBox1.Draw();
+            pBox2.Draw();
             foreach (Entity ball in blueBalls)
             {
                 ball.Draw();

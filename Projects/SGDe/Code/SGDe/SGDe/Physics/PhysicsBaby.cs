@@ -14,6 +14,7 @@ namespace SGDE.Physics
     {
         private bool bStatic;
         private Vector2 mVelocity;
+        private Vector2 mForces;
         private Entity mOwner;
         private List<CollisionUnit> mCollisionUnits;
 
@@ -21,6 +22,7 @@ namespace SGDE.Physics
         {
             bStatic = false;
             mVelocity = new Vector2(0.0f, 0.0f);
+            mForces = new Vector2(0.0f, 0.0f);
 
             mOwner = owner;
             mCollisionUnits = new List<CollisionUnit>();
@@ -51,6 +53,21 @@ namespace SGDE.Physics
             return mVelocity;
         }
 
+        public void SetForces(Vector2 forces)
+        {
+            mForces = forces;
+        }
+
+        public void AddForce(Vector2 force)
+        {
+            mForces += force;
+        }
+
+        public Vector2 GetForces()
+        {
+            return mForces;
+        }
+
         public void AddCollisionUnit(CollisionUnit unit)
         {
             mCollisionUnits.Add(unit);
@@ -69,7 +86,13 @@ namespace SGDE.Physics
             //    }
             //}
 
+            //gameTime.
+
+            //mVelocity += mForces * (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             mOwner.Translate((int)mVelocity.X, (int)mVelocity.Y);
+
+            mVelocity += mForces * (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
         // Add bounce to unit
@@ -166,6 +189,8 @@ namespace SGDE.Physics
                 newVelocity = newVelocityNorm + newVelocityTan;
                 newVelocityOther = newVelocityNormOther + newVelocityTanOther;
 
+                newVelocity *= 0.99f;
+
                 velocityDiff = newVelocity - mVelocity;
                 mVelocity = newVelocity;
 
@@ -175,13 +200,30 @@ namespace SGDE.Physics
                     mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
                 }
             }
-            else if (other.GetCollisionType() == CollisionUnit.COLLISION_BOX)
-            {
-                mVelocity *= -1;
-            }
+            //else if (other.GetCollisionType() == CollisionUnit.COLLISION_BOX)
+            //{
+            //    newVelocity = mVelocity * -0.8f;
+            //    velocityDiff = newVelocity - mVelocity;
+            //    mVelocity = newVelocity;
+
+            //    if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
+            //    {
+            //        mOwner.Translate(mVelocity.X / 20, mVelocity.Y / 20);
+            //    }
+            //}
             else
             {
-                mVelocity *= -1;
+                newVelocity = mVelocity * -0.8f;
+                velocityDiff = newVelocity - mVelocity;
+                mVelocity = newVelocity;
+                unitCircleCenter = unit.GetCircleCenter();
+                otherCircleCenter = unit.GetCollisionPoint(other);
+
+                if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
+                {
+                    //mOwner.Translate(mVelocity.X / 20, mVelocity.Y / 20);
+                    mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
+                }
             }
         }
     }
