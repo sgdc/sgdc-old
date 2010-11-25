@@ -23,7 +23,6 @@ namespace TestDemo
       Vector2 worldSize;
       Vector2 cellSize;
       GraphicsDeviceManager graphics;
-      PhysicsPharaoh mPhysicsPharaoh;
 
       BounceBall redBall;
       TestPlayerEntity player;
@@ -49,8 +48,8 @@ namespace TestDemo
       {
          worldSize = new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
          cellSize = new Vector2(25, 25);
-         mPhysicsPharaoh = new PhysicsPharaoh(worldSize, cellSize);
-         mPhysicsPharaoh.SetGravity(new Vector2(0, 9));
+         SGDE.Physics.PhysicsPharaoh.GetInstance().Initialize(worldSize, cellSize);
+         SGDE.Physics.PhysicsPharaoh.GetInstance().SetGravity(new Vector2(0, 9));
 
          redBall = new BounceBall(150, 130);
          redBall.SetVelocity(1, 1);
@@ -107,14 +106,14 @@ namespace TestDemo
          Sprite.spriteBatch = new SpriteBatch(GraphicsDevice);
 
          redBall.LoadContent(this.Content, "darthvaderballsmall");
-         redBall.EnablePhysics(mPhysicsPharaoh, true, true);
+         redBall.EnablePhysics(true, true);
 
          player.LoadContent(this.Content, "star");
 
          foreach (Entity ball in blueBalls)
          {
             ball.LoadContent(this.Content, "yodaballsmalltransparent");
-            ball.EnablePhysics(mPhysicsPharaoh, true, true);
+            ball.EnablePhysics(true, true);
          }
 
          mGridTexture = this.Content.Load<Texture2D>("CollisionGridCell");
@@ -141,7 +140,7 @@ namespace TestDemo
          if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
             this.Exit();
 
-         mPhysicsPharaoh.Update(gameTime);
+         SGDE.Physics.PhysicsPharaoh.GetInstance().Update(gameTime);
          redBall.Update(gameTime);
 
          foreach (Entity e in SceneManager.GetInstance( ).GetKeyboardListeners( )) e.HandleInput(Keyboard.GetState(), this.Content);

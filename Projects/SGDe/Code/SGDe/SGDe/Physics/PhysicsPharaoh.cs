@@ -8,17 +8,15 @@ namespace SGDE.Physics
 {
    public class PhysicsPharaoh
    {
+      private static PhysicsPharaoh mInstance = new PhysicsPharaoh( );
+
       private SGDE.Physics.Collision.CollisionChief mCollisionChief;
       private List<PhysicsBaby> mStaticBabies;
       private List<PhysicsBaby> mDynamicBabies;
       private Vector2 mGravity;
 
-      public PhysicsPharaoh(Vector2 worldSize, Vector2 collisionCellSize)
+      private PhysicsPharaoh()
       {
-         mCollisionChief = new SGDE.Physics.Collision.CollisionChief(worldSize, collisionCellSize);
-         mStaticBabies = new List<PhysicsBaby>();
-         mDynamicBabies = new List<PhysicsBaby>();
-         mGravity = new Vector2(0, 0);
       }
 
       public void AddPhysicsBaby(PhysicsBaby physBaby)
@@ -88,6 +86,19 @@ namespace SGDE.Physics
          }
 
          mCollisionChief.Update();
+      }
+
+      public void Initialize(Vector2 worldSize, Vector2 collisionCellSize)
+      {
+         mCollisionChief = new SGDE.Physics.Collision.CollisionChief(worldSize, collisionCellSize);
+         mStaticBabies = new List<PhysicsBaby>();
+         mDynamicBabies = new List<PhysicsBaby>();
+         mGravity = new Vector2(0, 0);
+      }
+
+      public static PhysicsPharaoh GetInstance()
+      {
+         return mInstance;
       }
    }
 }

@@ -18,7 +18,6 @@ namespace SGDE
       protected SGDE.Physics.Collision.CollisionUnit mCollisionUnit;
 
       protected SGDE.Physics.PhysicsBaby mPhysBaby;
-      private SGDE.Physics.PhysicsPharaoh mPhysicsPharaoh;
 
       protected KeyboardComponent keyboardListener;
 
@@ -45,22 +44,20 @@ namespace SGDE
       {
       }
 
-      public void EnablePhysics(SGDE.Physics.PhysicsPharaoh pharaoh, bool bPhysics, bool bCollision)
+      public void EnablePhysics(bool bPhysics, bool bCollision)
       {
-         mPhysicsPharaoh = pharaoh;
-
          if (bPhysics)
          {
-            pharaoh.AddPhysicsBaby(mPhysBaby);
+            SGDE.Physics.PhysicsPharaoh.GetInstance().AddPhysicsBaby(mPhysBaby);
          }
          else
          {
-            pharaoh.RemovePhysicsBaby(mPhysBaby);
+            SGDE.Physics.PhysicsPharaoh.GetInstance().RemovePhysicsBaby(mPhysBaby);
          }
 
          if (bCollision && mCollisionUnit != null)
          {
-            pharaoh.AddCollisionUnit(mCollisionUnit);
+            SGDE.Physics.PhysicsPharaoh.GetInstance().AddCollisionUnit(mCollisionUnit);
          }
          else
          {
@@ -107,10 +104,7 @@ namespace SGDE
          mPhysBaby.AddCollisionUnit(unit);
          AddChild(unit);
 
-         if (mPhysicsPharaoh != null)
-         {
-            mPhysicsPharaoh.AddCollisionUnit(unit);
-         }
+         SGDE.Physics.PhysicsPharaoh.GetInstance().AddCollisionUnit(unit);
       }
 
       public virtual void LoadContent(ContentManager theContentManager, String theAssetName)

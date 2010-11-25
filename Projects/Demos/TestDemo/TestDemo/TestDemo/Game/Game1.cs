@@ -26,7 +26,6 @@ namespace TestDemo
       List<Entity> blueBalls;
       BounceBox box;
       BounceBox movingBox;
-      PhysicsPharaoh mPhysicsPharaoh;
       Vector2 worldSize;
       Vector2 cellSize;
       Texture2D mGridTexture;
@@ -51,8 +50,8 @@ namespace TestDemo
       {
          worldSize = new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
          cellSize = new Vector2(25, 25);
-         mPhysicsPharaoh = new PhysicsPharaoh(worldSize, cellSize);
-         mPhysicsPharaoh.SetGravity(new Vector2(0, 9));
+         SGDE.Physics.PhysicsPharaoh.GetInstance().Initialize(worldSize, cellSize);
+         SGDE.Physics.PhysicsPharaoh.GetInstance().SetGravity(new Vector2(0, 9));
 
          redBall = new BounceBall(150, 130);
          redBall.SetVelocity(1, 1);
@@ -60,11 +59,11 @@ namespace TestDemo
          pBox1 = new PortalBox(80, 0, pBox2, false);
          pBox2 = new PortalBox(600, (int)worldSize.Y - 50, pBox1, true);
 
-         pBox1.EnablePhysics(mPhysicsPharaoh, true, true);
-         pBox2.EnablePhysics(mPhysicsPharaoh, true, true);
+         pBox1.EnablePhysics(true, true);
+         pBox2.EnablePhysics(true, true);
 
-         pBox1.GetPhysicsBaby().AddForce(mPhysicsPharaoh.GetGravity() * -1);
-         pBox2.GetPhysicsBaby().AddForce(mPhysicsPharaoh.GetGravity() * -1);
+         pBox1.GetPhysicsBaby().AddForce(SGDE.Physics.PhysicsPharaoh.GetInstance().GetGravity() * -1);
+         pBox2.GetPhysicsBaby().AddForce(SGDE.Physics.PhysicsPharaoh.GetInstance().GetGravity() * -1);
 
          Entity ball;
 
@@ -108,8 +107,8 @@ namespace TestDemo
 
          movingBox = new BounceBox(450, 100);
          movingBox.SetVelocity(-2, 0);
-         movingBox.EnablePhysics(mPhysicsPharaoh, true, true);
-         movingBox.GetPhysicsBaby().AddForce(mPhysicsPharaoh.GetGravity() * -1);
+         movingBox.EnablePhysics(true, true);
+         movingBox.GetPhysicsBaby().AddForce(SGDE.Physics.PhysicsPharaoh.GetInstance().GetGravity() * -1);
 
          player = new TestPlayerEntity(450, 100);
          player.SetColor(Color.Green);
@@ -126,10 +125,10 @@ namespace TestDemo
          Sprite.spriteBatch = new SpriteBatch(GraphicsDevice);
 
          redBall.LoadContent(this.Content, "darthvaderballsmall");
-         redBall.EnablePhysics(mPhysicsPharaoh, true, true);
+         redBall.EnablePhysics(true, true);
 
          box.LoadContent(this.Content, "DomoKunSmall");
-         box.EnablePhysics(mPhysicsPharaoh, true, true);
+         box.EnablePhysics(true, true);
 
          movingBox.LoadContent(this.Content, "images");
 
@@ -141,7 +140,7 @@ namespace TestDemo
          foreach (Entity ball in blueBalls)
          {
             ball.LoadContent(this.Content, "yodaballsmalltransparent");
-            ball.EnablePhysics(mPhysicsPharaoh, true, true);
+            ball.EnablePhysics(true, true);
          }
 
          mGridTexture = this.Content.Load<Texture2D>("CollisionGridCell");
@@ -168,7 +167,7 @@ namespace TestDemo
          if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
             this.Exit();
 
-         mPhysicsPharaoh.Update(gameTime);
+         SGDE.Physics.PhysicsPharaoh.GetInstance().Update(gameTime);
          redBall.Update(gameTime);
 
          foreach (Entity e in SceneManager.GetInstance( ).GetKeyboardListeners( )) e.HandleInput(Keyboard.GetState(), this.Content);
