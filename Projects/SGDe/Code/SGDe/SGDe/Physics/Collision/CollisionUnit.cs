@@ -9,14 +9,16 @@ namespace SGDE.Physics.Collision
 {
    public class CollisionUnit : SceneNode
    {
-      public const int COLLISION_NONE = 0;
-      public const int COLLISION_CIRCLE = 1;
-      public const int COLLISION_LINE = 2;
-      public const int COLLISION_BOX = 3;
+      public enum CollisionType : byte
+      {
+         COLLISION_NONE,
+         COLLISION_CIRCLE,
+         COLLISION_LINE,
+         COLLISION_BOX
+      };
 
-      private CollisionChief mCollisionChief;
       private Texture2D mCollisionMask;
-      private int mCollisionType;
+      private CollisionType mCollisionType;
       private Entity mOwner;
       private bool bPixelCollision;
       private bool bNeedsUpdate;
@@ -32,28 +34,28 @@ namespace SGDE.Physics.Collision
       private bool bCollisionsChanged;
       private int mCollisionTimeStamp;         // when last reported change in collisions
       private int mFullCheckTimeStamp;         // when last checked all surrounding units for collisions
-      private bool mBlockOthers;
+      private bool mSolid;
 
       public CollisionUnit(Entity owner, Vector2 center, int radius, Texture2D collisionMask, bool bUsePixelCollision)
       {
          InitializeCommonStuff(owner, collisionMask, bUsePixelCollision);
          mCircleCenter = center;
          mCircleRadius = radius;
-         mCollisionType = COLLISION_CIRCLE;
+         mCollisionType = CollisionType.COLLISION_CIRCLE;
       }
 
-      public CollisionUnit(Entity owner, Vector2 point1, Vector2 point2, int collisionType, Texture2D collisionMask, bool bUsePixelCollision)
+      public CollisionUnit(Entity owner, Vector2 point1, Vector2 point2, CollisionType collisionType, Texture2D collisionMask, bool bUsePixelCollision)
       {
          InitializeCommonStuff(owner, collisionMask, bUsePixelCollision);
          mPoint1 = point1;
          mPoint2 = point2;
-         if (collisionType == COLLISION_LINE)
+         if (collisionType == CollisionType.COLLISION_LINE)
          {
-            mCollisionType = COLLISION_LINE;
+            mCollisionType = CollisionType.COLLISION_LINE;
          }
          else
          {
-            mCollisionType = COLLISION_BOX;
+            mCollisionType = CollisionType.COLLISION_BOX;
          }
       }
 
@@ -62,7 +64,7 @@ namespace SGDE.Physics.Collision
       {
          InitializeCommonStuff(owner, collisionMask, bUsePixelCollision);
          CalculateCircle(location);
-         mCollisionType = COLLISION_CIRCLE;
+         mCollisionType = CollisionType.COLLISION_CIRCLE;
       }
 
       //public CollisionUnit(Entity owner, Vector2 upperLeft, Vector2 lowerRight, Texture2D collisionMask, bool bUsePixelCollision)
@@ -86,13 +88,7 @@ namespace SGDE.Physics.Collision
          bCollisionsChanged = false;
          mCollisionTimeStamp = 0;
          mFullCheckTimeStamp = 0;
-         mBlockOthers = true;
-      }
-
-      public void SetCollisionChief(CollisionChief chief)
-      {
-         mCollisionChief = chief;
-         mCollisionChief.UpdateUnit(this);
+         mSolid = true;
       }
 
       private void CalculateCircle(Vector2 location)
@@ -134,7 +130,7 @@ namespace SGDE.Physics.Collision
       // for box or circle
       public Vector2 GetUpperLeft()
       {
-         if (mCollisionType == COLLISION_CIRCLE)
+         if (mCollisionType == CollisionType.COLLISION_CIRCLE)
          {
             return new Vector2(mCircleCenter.X - mCircleRadius, mCircleCenter.Y - mCircleRadius);
          }
@@ -147,7 +143,7 @@ namespace SGDE.Physics.Collision
       // for box or circle
       public Vector2 GetLowerRight()
       {
-         if (mCollisionType == COLLISION_CIRCLE)
+         if (mCollisionType == CollisionType.COLLISION_CIRCLE)
          {
             return new Vector2(mCircleCenter.X + mCircleRadius, mCircleCenter.Y + mCircleRadius);
          }
@@ -157,7 +153,7 @@ namespace SGDE.Physics.Collision
          }
       }
 
-      public int GetCollisionType()
+      public CollisionType GetCollisionType()
       {
          return mCollisionType;
       }
@@ -197,14 +193,14 @@ namespace SGDE.Physics.Collision
          mFullCheckTimeStamp = timeStamp;
       }
 
-      public void BlockOthers(bool blockOthers)
+      public void SetSolid(bool blockOthers)
       {
-         mBlockOthers = blockOthers;
+         mSolid = blockOthers;
       }
 
-      public bool BlockOthers()
+      public bool IsSolid()
       {
-         return mBlockOthers;
+         return mSolid;
       }
 
       public List<CollisionUnit> GetCheckedUnits()
@@ -236,7 +232,7 @@ namespace SGDE.Physics.Collision
 
          mCheckedUnits.Add(other);
 
-         if (mCollisionType == COLLISION_CIRCLE && other.GetCollisionType() == COLLISION_CIRCLE)
+         if (mCollisionType == CollisionType.COLLISION_CIRCLE && other.GetCollisionType() == CollisionType.COLLISION_CIRCLE)
          {
             otherCircleCenter = other.GetCircleCenter();
             otherCircleRadius = other.GetCircleRadius();
@@ -248,15 +244,15 @@ namespace SGDE.Physics.Collision
             // (radius + radius)^2 instead of more expensive squareRoot(dist)
             return (dist <= (mCircleRadius + otherCircleRadius) * (mCircleRadius + otherCircleRadius));
          }
-         else if (mCollisionType == COLLISION_CIRCLE && other.GetCollisionType() == COLLISION_BOX)
+         else if (mCollisionType == CollisionType.COLLISION_CIRCLE && other.GetCollisionType() == CollisionType.COLLISION_BOX)
          {
             return CircleBoxCollision(mCircleCenter, mCircleRadius, other.GetUpperLeft(), other.GetLowerRight());
          }
-         else if (mCollisionType == COLLISION_BOX && other.GetCollisionType() == COLLISION_CIRCLE)
+         else if (mCollisionType == CollisionType.COLLISION_BOX && other.GetCollisionType() == CollisionType.COLLISION_CIRCLE)
          {
             return CircleBoxCollision(other.GetCircleCenter(), other.GetCircleRadius(), mPoint1, mPoint2);
          }
-         else if (mCollisionType == COLLISION_BOX && other.GetCollisionType() == COLLISION_BOX)
+         else if (mCollisionType == CollisionType.COLLISION_BOX && other.GetCollisionType() == CollisionType.COLLISION_BOX)
          {
             otherUpperLeft = other.GetUpperLeft();
             otherLowerRight = other.GetLowerRight();
@@ -361,7 +357,7 @@ namespace SGDE.Physics.Collision
          float ratio;
          Vector2 collisionPoint = new Vector2(-1, -1);
 
-         if (mCollisionType == COLLISION_CIRCLE && other.GetCollisionType() == COLLISION_CIRCLE)
+         if (mCollisionType == CollisionType.COLLISION_CIRCLE && other.GetCollisionType() == CollisionType.COLLISION_CIRCLE)
          {
             otherCircleCenter = other.GetCircleCenter();
             otherCircleRadius = other.GetCircleRadius();
@@ -376,10 +372,10 @@ namespace SGDE.Physics.Collision
 
             collisionPoint = new Vector2(mCircleCenter.X + dX, mCircleCenter.Y + dY);
          }
-         else if ((mCollisionType == COLLISION_CIRCLE && other.GetCollisionType() == COLLISION_BOX)
-               || (mCollisionType == COLLISION_BOX && other.GetCollisionType() == COLLISION_CIRCLE))
+         else if ((mCollisionType == CollisionType.COLLISION_CIRCLE && other.GetCollisionType() == CollisionType.COLLISION_BOX)
+               || (mCollisionType == CollisionType.COLLISION_BOX && other.GetCollisionType() == CollisionType.COLLISION_CIRCLE))
          {
-            if (mCollisionType == COLLISION_CIRCLE)
+            if (mCollisionType == CollisionType.COLLISION_CIRCLE)
             {
                otherCircleCenter = mCircleCenter;
                otherCircleRadius = mCircleRadius;
@@ -470,16 +466,13 @@ namespace SGDE.Physics.Collision
       public override void Translate(Vector2 trans)
       {
          base.Translate(trans);
-         if (mCollisionChief != null)
-         {
-            mCollisionChief.TranslateCollisionUnit(this, trans.X, trans.Y);
-         }
+         CollisionChief.GetInstance( ).TranslateCollisionUnit(this, trans.X, trans.Y);
 
-         if (mCollisionType == COLLISION_CIRCLE)
+         if (mCollisionType == CollisionType.COLLISION_CIRCLE)
          {
             mCircleCenter += trans;
          }
-         else if (mCollisionType == COLLISION_LINE || mCollisionType == COLLISION_BOX)
+         else if (mCollisionType == CollisionType.COLLISION_LINE || mCollisionType == CollisionType.COLLISION_BOX)
          {
             mPoint1 += trans;
             mPoint2 += trans;
@@ -488,50 +481,35 @@ namespace SGDE.Physics.Collision
          if (!bNeedsUpdate)
          {
             bNeedsUpdate = true;
-            if (mCollisionChief != null)
-            {
-               mCollisionChief.UpdateUnit(this);
-            }
+            CollisionChief.GetInstance().UpdateUnit(this);
          }
       }
 
       public override void Rotate(ushort rotation)
       {
          base.Rotate(rotation);
-         if (mCollisionChief != null)
-         {
-            mCollisionChief.RotateCollisionUnit(this, rotation);
-         }
+         CollisionChief.GetInstance().RotateCollisionUnit(this, rotation);
 
          // TODO
 
          if (!bNeedsUpdate)
          {
             bNeedsUpdate = true;
-            if (mCollisionChief != null)
-            {
-               mCollisionChief.UpdateUnit(this);
-            }
+            CollisionChief.GetInstance().UpdateUnit(this);
          }
       }
 
       public override void Scale(Vector2 scale)
       {
          base.Scale(scale);
-         if (mCollisionChief != null)
-         {
-            mCollisionChief.ScaleCollisionUnit(this, scale);
-         }
+         CollisionChief.GetInstance().ScaleCollisionUnit(this, scale);
 
          // TODO
 
          if (!bNeedsUpdate)
          {
             bNeedsUpdate = true;
-            if (mCollisionChief != null)
-            {
-               mCollisionChief.UpdateUnit(this);
-            }
+            CollisionChief.GetInstance().UpdateUnit(this);
          }
       }
 

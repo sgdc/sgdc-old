@@ -36,8 +36,8 @@
         <member name="F:SGDE.Entity.image">
             <summary>Sprite which is drawn to represent the entity</summary>
         </member>
-        <member name="F:SGDE.Entity.mCollisionUnit">
-            <summary>Contains the collision logic for the entity</summary>
+        <member name="F:SGDE.Entity.keyboardListener">
+            <summary>Object which allows for keyboard events. Only instantiate if object responds to keyboard input.</summary>
         </member>
         <member name="M:SGDE.Entity.#ctor(System.Single,System.Single)">
             <summary>

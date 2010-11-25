@@ -12,6 +12,8 @@ namespace SGDE.Physics.Collision
    /// </summary>
    public partial class CollisionChief
    {
+      private static CollisionChief mInstance = new CollisionChief( );
+
       private Vector2 mWorldSize;
       private Vector2 mCellSize;
       private CollisionGrid mCollisionGrid;
@@ -19,30 +21,8 @@ namespace SGDE.Physics.Collision
       private List<Entity> mEntitiesToNotify;
       private int mCurrTimeStamp;
 
-      public CollisionChief(Vector2 worldSize, Vector2 cellSize)
+      private CollisionChief()
       {
-         int numXCells;
-         int numYCells;
-
-         mWorldSize = worldSize;
-         mCellSize = cellSize;
-
-         numXCells = (int)(mWorldSize.X / mCellSize.X);
-         if (mWorldSize.X % mCellSize.X > 0)
-         {
-            numXCells++;
-         }
-
-         numYCells = (int)(mWorldSize.Y / mCellSize.Y);
-         if (mWorldSize.Y % mCellSize.Y > 0)
-         {
-            numYCells++;
-         }
-
-         mCollisionGrid = new CollisionGrid(numXCells, numYCells);
-         mUnitsToUpdate = new List<CollisionUnit>();
-         mEntitiesToNotify = new List<Entity>();
-         mCurrTimeStamp = 0;
       }
 
       public void Update()
@@ -65,9 +45,9 @@ namespace SGDE.Physics.Collision
             unit.ClearCheckedUnits();
             unit.CollisionsChanged(false);
 
-            if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE || unit.GetCollisionType() == CollisionUnit.COLLISION_BOX)
+            if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE || unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_BOX)
             {
-               if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE)
+               if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE)
                {
                   circleCenter = unit.GetCircleCenter();
                   circleRadius = unit.GetCircleRadius();
@@ -104,7 +84,7 @@ namespace SGDE.Physics.Collision
                   }
                }
             }
-            else if (unit.GetCollisionType() == CollisionUnit.COLLISION_LINE)
+            else if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_LINE)
             {
                // TODO
             }
@@ -147,7 +127,7 @@ namespace SGDE.Physics.Collision
          Point bottomRightCell;
 
 
-         if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE)
+         if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE)
          {
             circleCenter = unit.GetCircleCenter();
             circleRadius = unit.GetCircleRadius();
@@ -165,7 +145,7 @@ namespace SGDE.Physics.Collision
             }
 
          }
-         else if (unit.GetCollisionType() == CollisionUnit.COLLISION_LINE)
+         else if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_LINE)
          {
             lineStart = unit.GetLineStart();
             lineEnd = unit.GetLineEnd();
@@ -173,7 +153,7 @@ namespace SGDE.Physics.Collision
             // TODO: put in appropriate cells
 
          }
-         else if (unit.GetCollisionType() == CollisionUnit.COLLISION_BOX)
+         else if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_BOX)
          {
             topLeftCell = CalculateCellPosition(unit.GetUpperLeft());
             bottomRightCell = CalculateCellPosition(unit.GetLowerRight());
@@ -205,9 +185,9 @@ namespace SGDE.Physics.Collision
          Point newTopLeftCell;
          Point newBottomRightCell;
 
-         if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE || unit.GetCollisionType() == CollisionUnit.COLLISION_BOX)
+         if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE || unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_BOX)
          {
-            if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE)
+            if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE)
             {
                circleRadius = unit.GetCircleRadius();
                oldCircleCenter = unit.GetCircleCenter();
@@ -335,7 +315,7 @@ namespace SGDE.Physics.Collision
             }
 
          }
-         else if (unit.GetCollisionType() == CollisionUnit.COLLISION_LINE)
+         else if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_LINE)
          {
             oldLineStart = unit.GetLineStart();
             oldLineEnd = unit.GetLineEnd();
@@ -458,6 +438,37 @@ namespace SGDE.Physics.Collision
                }
             }
          }
+      }
+
+      public void Initialize(Vector2 worldSize, Vector2 cellSize)
+      {
+         int numXCells;
+         int numYCells;
+
+         mWorldSize = worldSize;
+         mCellSize = cellSize;
+
+         numXCells = (int)(mWorldSize.X / mCellSize.X);
+         if (mWorldSize.X % mCellSize.X > 0)
+         {
+            numXCells++;
+         }
+
+         numYCells = (int)(mWorldSize.Y / mCellSize.Y);
+         if (mWorldSize.Y % mCellSize.Y > 0)
+         {
+            numYCells++;
+         }
+
+         mCollisionGrid = new CollisionGrid(numXCells, numYCells);
+         mUnitsToUpdate = new List<CollisionUnit>();
+         mEntitiesToNotify = new List<Entity>();
+         mCurrTimeStamp = 0;
+      }
+
+      public static CollisionChief GetInstance()
+      {
+         return mInstance;
       }
    }
 }

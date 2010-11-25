@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
+using SGDE.Physics.Collision;
+
 namespace SGDE.Physics
 {
    public class PhysicsBaby
@@ -104,7 +106,7 @@ namespace SGDE.Physics
          float massOther = 10000;
          Vector2 velocityDiff;
 
-         if (unit.GetCollisionType() == SGDE.Physics.Collision.CollisionUnit.COLLISION_CIRCLE && other.GetCollisionType() == SGDE.Physics.Collision.CollisionUnit.COLLISION_CIRCLE)
+         if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE && other.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE)
          {
             unitCircleCenter = unit.GetCircleCenter();
             unitRadius = unit.GetCircleRadius();

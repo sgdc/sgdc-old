@@ -14,11 +14,11 @@ namespace SGDE
       /// <summary>Sprite which is drawn to represent the entity</summary>
       protected SGDE.Graphics.Sprite image;
 
-      /// <summary>Contains the collision logic for the entity</summary>
       protected SGDE.Physics.Collision.CollisionUnit mCollisionUnit;
 
       protected SGDE.Physics.PhysicsBaby mPhysBaby;
 
+      /// <summary>Object which allows for keyboard events. Only instantiate if object responds to keyboard input.</summary>
       protected KeyboardComponent keyboardListener;
 
       /// <summary>
@@ -117,9 +117,8 @@ namespace SGDE
       // call after image.LoadContent()
       protected virtual void SetUpCollision()
       {
-         int radius;
+         int radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
 
-         radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
          mCollisionUnit = new SGDE.Physics.Collision.CollisionUnit(this, image.GetCenter(), radius, null, false);
          mPhysBaby.AddCollisionUnit(mCollisionUnit);
          AddChild(mCollisionUnit);
@@ -138,10 +137,6 @@ namespace SGDE
 
       public virtual void CollisionChange()
       {
-         if (mCollisionUnit.HasCollisions())
-         {
-            SetVelocity( GetVelocity() * -1 );
-         }
       }
 
       public void HandleInput(KeyboardState keyboardState, ContentManager content)

@@ -10,7 +10,6 @@ namespace SGDE.Physics
    {
       private static PhysicsPharaoh mInstance = new PhysicsPharaoh( );
 
-      private SGDE.Physics.Collision.CollisionChief mCollisionChief;
       private List<PhysicsBaby> mStaticBabies;
       private List<PhysicsBaby> mDynamicBabies;
       private Vector2 mGravity;
@@ -47,13 +46,13 @@ namespace SGDE.Physics
 
       public void AddCollisionUnit(SGDE.Physics.Collision.CollisionUnit unit)
       {
-         mCollisionChief.AddCollisionUnit(unit);
-         unit.SetCollisionChief(mCollisionChief);
+         SGDE.Physics.Collision.CollisionChief.GetInstance().AddCollisionUnit(unit);
+         SGDE.Physics.Collision.CollisionChief.GetInstance().UpdateUnit(unit);
       }
 
       public void DrawCollisionGrid(SpriteBatch spriteBatch, Texture2D gridTexture)
       {
-         mCollisionChief.DrawCollisionGrid(spriteBatch, gridTexture);
+         SGDE.Physics.Collision.CollisionChief.GetInstance().DrawCollisionGrid(spriteBatch, gridTexture);
       }
 
       public void SetGravity(Vector2 gravity)
@@ -85,12 +84,12 @@ namespace SGDE.Physics
             physBaby.Update(gameTime);
          }
 
-         mCollisionChief.Update();
+         SGDE.Physics.Collision.CollisionChief.GetInstance().Update();
       }
 
       public void Initialize(Vector2 worldSize, Vector2 collisionCellSize)
       {
-         mCollisionChief = new SGDE.Physics.Collision.CollisionChief(worldSize, collisionCellSize);
+         SGDE.Physics.Collision.CollisionChief.GetInstance( ).Initialize(worldSize, collisionCellSize);
          mStaticBabies = new List<PhysicsBaby>();
          mDynamicBabies = new List<PhysicsBaby>();
          mGravity = new Vector2(0, 0);
