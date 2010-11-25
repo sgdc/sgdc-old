@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
@@ -468,25 +467,22 @@ namespace SGDE.Physics.Collision
          bHasCollisions = mCollisions.Count > 0;
       }
 
-      public override void Translate(float x, float y)
+      public override void Translate(Vector2 trans)
       {
-         base.Translate(x, y);
+         base.Translate(trans);
          if (mCollisionChief != null)
          {
-            mCollisionChief.TranslateCollisionUnit(this, x, y);
+            mCollisionChief.TranslateCollisionUnit(this, trans.X, trans.Y);
          }
 
          if (mCollisionType == COLLISION_CIRCLE)
          {
-            mCircleCenter.X += x;
-            mCircleCenter.Y += y;
+            mCircleCenter += trans;
          }
          else if (mCollisionType == COLLISION_LINE || mCollisionType == COLLISION_BOX)
          {
-            mPoint1.X += x;
-            mPoint1.Y += y;
-            mPoint2.X += x;
-            mPoint2.Y += y;
+            mPoint1 += trans;
+            mPoint2 += trans;
          }
 
          if (!bNeedsUpdate)

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SGDE.Physics.Collision
 {
-   public class CollisionChief
+   /// <summary>
+   /// Not sure yet...
+   /// </summary>
+   public partial class CollisionChief
    {
       private Vector2 mWorldSize;
       private Vector2 mCellSize;
@@ -16,50 +18,6 @@ namespace SGDE.Physics.Collision
       private List<CollisionUnit> mUnitsToUpdate;
       private List<Entity> mEntitiesToNotify;
       private int mCurrTimeStamp;
-
-      protected class CollisionCell
-      {
-         public List<CollisionUnit> collisionMembers;
-
-         public CollisionCell()
-         {
-            collisionMembers = new List<CollisionUnit>();
-         }
-
-         public void AddCollisionUnit(CollisionUnit unit)
-         {
-            collisionMembers.Add(unit);
-         }
-
-         public void RemoveCollisionUnit(CollisionUnit unit)
-         {
-            collisionMembers.Remove(unit);
-         }
-      }
-
-      protected class CollisionGrid
-      {
-         public int NumXCells;
-         public int NumYCells;
-         public int NumTotalCells;
-         public CollisionCell[,] Cells;
-
-         public CollisionGrid(int numXCells, int numYCells)
-         {
-            NumXCells = numXCells;
-            NumYCells = numYCells;
-            NumTotalCells = NumXCells * NumYCells;
-
-            Cells = new CollisionCell[NumXCells, NumYCells];
-            for (int i = 0; i < numXCells; i++)
-            {
-               for (int j = 0; j < numYCells; j++)
-               {
-                  Cells[i, j] = new CollisionCell();
-               }
-            }
-         }
-      }
 
       public CollisionChief(Vector2 worldSize, Vector2 cellSize)
       {
@@ -480,7 +438,7 @@ namespace SGDE.Physics.Collision
          {
             for (int j = 0; j < mCollisionGrid.NumYCells; j++)
             {
-               count = mCollisionGrid.Cells[i, j].collisionMembers.Count();
+               count = mCollisionGrid.Cells[i, j].collisionMembers.Count;
                if (count > 0)
                {
                   cellPosition.X = i * mCellSize.X;

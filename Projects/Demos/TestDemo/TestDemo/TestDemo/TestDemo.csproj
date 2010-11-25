@@ -117,6 +117,7 @@
     <Compile Include="Entities\BounceBall.cs" />
     <Compile Include="Entities\BounceBox.cs" />
     <Compile Include="Entities\StaticBall.cs" />
+    <Compile Include="Entities\TestPlayerEntity.cs" />
     <Compile Include="Game\Game1.cs" />
     <Compile Include="Entities\PortalBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,26 +1,26 @@
 ﻿using System;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-
-using SGDE.Graphics;
-using SGDE.Physics.Collision;
-using SGDE.Physics;
+using Microsoft.Xna.Framework.Input;
 
 namespace SGDE
 {
    /// <summary>
    /// Base Class representative of any onscreen drawable that appears in a scene
    /// </summary>
-   public abstract class Entity : SceneNode
+   public abstract partial class Entity : SceneNode
    {
       /// <summary>Sprite which is drawn to represent the entity</summary>
-      protected Sprite image;
+      protected SGDE.Graphics.Sprite image;
 
       /// <summary>Contains the collision logic for the entity</summary>
-      protected CollisionUnit mCollisionUnit;
+      protected SGDE.Physics.Collision.CollisionUnit mCollisionUnit;
 
-      protected PhysicsBaby mPhysBaby;
-      private PhysicsPharaoh mPhysicsPharaoh;
+      protected SGDE.Physics.PhysicsBaby mPhysBaby;
+      private SGDE.Physics.PhysicsPharaoh mPhysicsPharaoh;
+
+      protected KeyboardComponent keyboardListener;
 
       /// <summary>
       /// Constructs a new entity in the scene
@@ -30,8 +30,8 @@ namespace SGDE
       public Entity( float x = 0, float y = 0 )
       {
          SetRotation( 0 );
-         mPhysBaby = new PhysicsBaby( this );
-         image = new Sprite( );
+         mPhysBaby = new SGDE.Physics.PhysicsBaby(this);
+         image = new SGDE.Graphics.Sprite();
          AddChild( image );
          SetTranslation( new Vector2( x, y ) );
       }
@@ -45,7 +45,7 @@ namespace SGDE
       {
       }
 
-      public void EnablePhysics(PhysicsPharaoh pharaoh, bool bPhysics, bool bCollision)
+      public void EnablePhysics(SGDE.Physics.PhysicsPharaoh pharaoh, bool bPhysics, bool bCollision)
       {
          mPhysicsPharaoh = pharaoh;
 
@@ -91,17 +91,17 @@ namespace SGDE
          return mPhysBaby.GetVelocity();
       }
 
-      public PhysicsBaby GetPhysicsBaby()
+      public SGDE.Physics.PhysicsBaby GetPhysicsBaby()
       {
          return mPhysBaby;
       }
 
-      public CollisionUnit GetCollisionUnit()
+      public SGDE.Physics.Collision.CollisionUnit GetCollisionUnit()
       {
          return mCollisionUnit;
       }
 
-      public void SetCollisionUnit(CollisionUnit unit)
+      public void SetCollisionUnit(SGDE.Physics.Collision.CollisionUnit unit)
       {
          mCollisionUnit = unit;
          mPhysBaby.AddCollisionUnit(unit);
@@ -115,13 +115,7 @@ namespace SGDE
 
       public virtual void LoadContent(ContentManager theContentManager, String theAssetName)
       {
-         //int radius;
-
          image.LoadContent(theContentManager, theAssetName);
-
-         //radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
-         //mCollisionUnit = new CollisionUnit(this, image.GetCenter(), radius, null, false);
-         //AddChild(mCollisionUnit);
 
          SetUpCollision();
       }
@@ -132,14 +126,12 @@ namespace SGDE
          int radius;
 
          radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
-         mCollisionUnit = new CollisionUnit(this, image.GetCenter(), radius, null, false);
+         mCollisionUnit = new SGDE.Physics.Collision.CollisionUnit(this, image.GetCenter(), radius, null, false);
          mPhysBaby.AddCollisionUnit(mCollisionUnit);
          AddChild(mCollisionUnit);
-
-         //SetCollisionUnit(new CollisionUnit(this, image.GetCenter(), radius, null, false));
-         //pharaoh.AddCollisionUnit(mCollisionUnit);
       }
 
+      /// <summary>Draws the entity to the screen</summary>
       public virtual void Draw()
       {
          image.Draw();
@@ -156,6 +148,11 @@ namespace SGDE
          {
             SetVelocity( GetVelocity() * -1 );
          }
+      }
+
+      public void HandleInput(KeyboardState keyboardState, ContentManager content)
+      {
+         keyboardListener.HandleEvents(keyboardState, content);
       }
    }
 }

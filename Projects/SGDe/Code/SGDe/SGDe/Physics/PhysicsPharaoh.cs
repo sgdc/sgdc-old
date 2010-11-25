@@ -1,25 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
-
-using SGDE.Physics.Collision;
 
 namespace SGDE.Physics
 {
    public class PhysicsPharaoh
    {
-      private CollisionChief mCollisionChief;
+      private SGDE.Physics.Collision.CollisionChief mCollisionChief;
       private List<PhysicsBaby> mStaticBabies;
       private List<PhysicsBaby> mDynamicBabies;
       private Vector2 mGravity;
 
       public PhysicsPharaoh(Vector2 worldSize, Vector2 collisionCellSize)
       {
-         mCollisionChief = new CollisionChief(worldSize, collisionCellSize);
+         mCollisionChief = new SGDE.Physics.Collision.CollisionChief(worldSize, collisionCellSize);
          mStaticBabies = new List<PhysicsBaby>();
          mDynamicBabies = new List<PhysicsBaby>();
          mGravity = new Vector2(0, 0);
@@ -51,7 +47,7 @@ namespace SGDE.Physics
          }
       }
 
-      public void AddCollisionUnit(CollisionUnit unit)
+      public void AddCollisionUnit(SGDE.Physics.Collision.CollisionUnit unit)
       {
          mCollisionChief.AddCollisionUnit(unit);
          unit.SetCollisionChief(mCollisionChief);

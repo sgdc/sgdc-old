@@ -14,6 +14,20 @@
             Base class for any and all classes which can be added to the scene graph
             </summary>
         </member>
+        <member name="M:SGDE.SceneNode.#ctor">
+            <summary>
+            Constructor for a scene node
+            </summary>
+        </member>
+        <member name="M:SGDE.SceneNode.SetTranslation(Microsoft.Xna.Framework.Vector2)">
+            <summary>Sets the translation of the scene node</summary>
+            <param name="translation">Translation vector</param>
+        </member>
+        <member name="T:SGDE.Physics.Collision.CollisionChief">
+            <summary>
+            Not sure yet...
+            </summary>
+        </member>
         <member name="T:SGDE.Entity">
             <summary>
             Base Class representative of any onscreen drawable that appears in a scene
@@ -43,6 +57,9 @@
             Called once during each step taken by the engine
             </summary>
             <param name="gameTime">The current game time</param>
+        </member>
+        <member name="M:SGDE.Entity.Draw">
+            <summary>Draws the entity to the screen</summary>
         </member>
     </members>
 </doc>

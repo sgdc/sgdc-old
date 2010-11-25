@@ -6,8 +6,8 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>Library</OutputType>
-	<OutputPath>_build\Debug\bin\x86\</OutputPath>
-	<IntermediateOutputPath>_build\Debug\obj\x86\</IntermediateOutputPath>
+    <OutputPath>_build\Debug\bin\x86\</OutputPath>
+    <IntermediateOutputPath>_build\Debug\obj\x86\</IntermediateOutputPath>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SGDE</RootNamespace>
     <AssemblyName>SGDe</AssemblyName>
@@ -24,7 +24,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>_build\Debug\bin\x86\</OutputPath>
-	<IntermediateOutputPath>_build\Debug\obj\x86\</IntermediateOutputPath>
+    <IntermediateOutputPath>_build\Debug\obj\x86\</IntermediateOutputPath>
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -38,7 +38,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>_build\Release\bin\x86\</OutputPath>
-	<IntermediateOutputPath>_build\Release\obj\x86\</IntermediateOutputPath>
+    <IntermediateOutputPath>_build\Release\obj\x86\</IntermediateOutputPath>
     <DefineConstants>TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -97,7 +97,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Input\KeyboardComponent.cs" />
+    <Compile Include="Physics\Collision\CollisionCell.cs" />
     <Compile Include="Physics\Collision\CollisionChief.cs" />
+    <Compile Include="Physics\Collision\CollisionGrid.cs" />
     <Compile Include="Physics\Collision\CollisionUnit.cs" />
     <Compile Include="Physics\PhysicsBaby.cs" />
     <Compile Include="Physics\PhysicsPharaoh.cs" />
