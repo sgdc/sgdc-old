@@ -10,221 +10,221 @@ using SGDE.Physics.Collision;
 
 namespace SGDE.Physics
 {
-    public class PhysicsBaby
-    {
-        private bool bStatic;
-        private Vector2 mVelocity;
-        private Vector2 mForces;
-        private Entity mOwner;
-        private List<CollisionUnit> mCollisionUnits;
+   public class PhysicsBaby
+   {
+      private bool bStatic;
+      private Vector2 mVelocity;
+      private Vector2 mForces;
+      private Entity mOwner;
+      private List<CollisionUnit> mCollisionUnits;
 
-        public PhysicsBaby(Entity owner)
-        {
-            bStatic = false;
-            mVelocity = new Vector2(0.0f, 0.0f);
-            mForces = new Vector2(0.0f, 0.0f);
+      public PhysicsBaby(Entity owner)
+      {
+         bStatic = false;
+         mVelocity = new Vector2(0.0f, 0.0f);
+         mForces = new Vector2(0.0f, 0.0f);
 
-            mOwner = owner;
-            mCollisionUnits = new List<CollisionUnit>();
-        }
+         mOwner = owner;
+         mCollisionUnits = new List<CollisionUnit>();
+      }
 
-        public void SetStatic(bool beStatic)
-        {
-            bStatic = beStatic;
-        }
+      public void SetStatic(bool beStatic)
+      {
+         bStatic = beStatic;
+      }
 
-        public bool IsStatic()
-        {
-            return bStatic;
-        }
+      public bool IsStatic()
+      {
+         return bStatic;
+      }
 
-        public void SetVelocity(Vector2 velocity)
-        {
-            mVelocity = velocity;
-        }
+      public void SetVelocity(Vector2 velocity)
+      {
+         mVelocity = velocity;
+      }
 
-        public void AddVelocity(Vector2 velocity)
-        {
-            mVelocity += velocity;
-        }
+      public void AddVelocity(Vector2 velocity)
+      {
+         mVelocity += velocity;
+      }
 
-        public Vector2 GetVelocity()
-        {
-            return mVelocity;
-        }
+      public Vector2 GetVelocity()
+      {
+         return mVelocity;
+      }
 
-        public void SetForces(Vector2 forces)
-        {
-            mForces = forces;
-        }
+      public void SetForces(Vector2 forces)
+      {
+         mForces = forces;
+      }
 
-        public void AddForce(Vector2 force)
-        {
-            mForces += force;
-        }
+      public void AddForce(Vector2 force)
+      {
+         mForces += force;
+      }
 
-        public Vector2 GetForces()
-        {
-            return mForces;
-        }
+      public Vector2 GetForces()
+      {
+         return mForces;
+      }
 
-        public void AddCollisionUnit(CollisionUnit unit)
-        {
-            mCollisionUnits.Add(unit);
-        }
+      public void AddCollisionUnit(CollisionUnit unit)
+      {
+         mCollisionUnits.Add(unit);
+      }
 
-        public void Update(GameTime gameTime)
-        {
-            //foreach (CollisionUnit unit in mCollisionUnits)
-            //{
-            //    if (unit.HasCollisions())
-            //    {
-            //        foreach (CollisionUnit other in unit.GetCollisions())
-            //        {
-            //            AddBounce2(unit, other);
-            //        }
-            //    }
-            //}
+      public void Update(GameTime gameTime)
+      {
+         //foreach (CollisionUnit unit in mCollisionUnits)
+         //{
+         //   if (unit.HasCollisions())
+         //   {
+         //      foreach (CollisionUnit other in unit.GetCollisions())
+         //      {
+         //         AddBounce2(unit, other);
+         //      }
+         //   }
+         //}
 
-            //gameTime.
+         //gameTime.
 
-            //mVelocity += mForces * (float)gameTime.ElapsedGameTime.TotalSeconds;
+         //mVelocity += mForces * (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            mOwner.Translate((int)mVelocity.X, (int)mVelocity.Y);
+         mOwner.Translate((int)mVelocity.X, (int)mVelocity.Y);
 
-            mVelocity += mForces * (float)gameTime.ElapsedGameTime.TotalSeconds;
-        }
+         mVelocity += mForces * (float)gameTime.ElapsedGameTime.TotalSeconds;
+      }
 
-        // Add bounce to unit
-        //private void AddBounce(CollisionUnit unit, CollisionUnit other)
-        //{
-        //    Vector2 unitCircleCenter;
-        //    Vector2 otherCircleCenter;
-        //    int unitRadius;
-        //    int otherRadius;
-        //    Vector2 oldVelocity;
-        //    double alpha;
+      // Add bounce to unit
+      //private void AddBounce(CollisionUnit unit, CollisionUnit other)
+      //{
+      //   Vector2 unitCircleCenter;
+      //   Vector2 otherCircleCenter;
+      //   int unitRadius;
+      //   int otherRadius;
+      //   Vector2 oldVelocity;
+      //   double alpha;
 
-        //    if (unit.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION && other.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION)
-        //    {
-        //        unitCircleCenter = unit.GetCircleCenter();
-        //        unitRadius = unit.GetCircleRadius();
+      //   if (unit.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION && other.GetCollisionType() == CollisionUnit.CIRCLE_COLLISION)
+      //   {
+      //      unitCircleCenter = unit.GetCircleCenter();
+      //      unitRadius = unit.GetCircleRadius();
 
-        //        otherCircleCenter = other.GetCircleCenter();
-        //        otherRadius = other.GetCircleRadius();
+      //      otherCircleCenter = other.GetCircleCenter();
+      //      otherRadius = other.GetCircleRadius();
 
-        //        oldVelocity = mVelocity;
+      //      oldVelocity = mVelocity;
 
-        //        alpha = Math.Atan((otherCircleCenter.X - unitCircleCenter.X) / (unitCircleCenter.Y - otherCircleCenter.Y));
+      //      alpha = Math.Atan((otherCircleCenter.X - unitCircleCenter.X) / (unitCircleCenter.Y - otherCircleCenter.Y));
 
-        //        mVelocity.X = (float)(oldVelocity.X * Math.Cos(2 * alpha) + oldVelocity.Y * Math.Sin(2 * alpha));
-        //        mVelocity.Y = (float)(oldVelocity.X * Math.Sin(2 * alpha) - oldVelocity.Y * Math.Cos(2 * alpha));
+      //      mVelocity.X = (float)(oldVelocity.X * Math.Cos(2 * alpha) + oldVelocity.Y * Math.Sin(2 * alpha));
+      //      mVelocity.Y = (float)(oldVelocity.X * Math.Sin(2 * alpha) - oldVelocity.Y * Math.Cos(2 * alpha));
 
-        //        // some fudge
-        //        mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
-        //    }
-        //}
+      //      // some fudge
+      //      mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
+      //   }
+      //}
 
-        // Add bounce to unit - no trig, takes masses and velocities into account
-        public void AddBounce2(CollisionUnit unit, CollisionUnit other)
-        {
-            Vector2 unitCircleCenter;
-            Vector2 otherCircleCenter;
-            int unitRadius;
-            int otherRadius;
-            Vector2 oldVelocity;
-            //double alpha;
+      // Add bounce to unit - no trig, takes masses and velocities into account
+      public void AddBounce2(CollisionUnit unit, CollisionUnit other)
+      {
+         Vector2 unitCircleCenter;
+         Vector2 otherCircleCenter;
+         int unitRadius;
+         int otherRadius;
+         Vector2 oldVelocity;
+         //double alpha;
 
-            Vector2 norm;
-            Vector2 unitNorm;
-            Vector2 unitTan = new Vector2();
-            Vector2 oldVelocityOther = new Vector2(0, 0);
-            float velocityNorm;
-            float velocityTan;
-            float velocityNormOther;
-            float velocityTanOther;
-            float newVelocityScalar;
-            float newVelocityScalarOther;
-            Vector2 newVelocityNorm;
-            Vector2 newVelocityNormOther;
-            Vector2 newVelocityTan;
-            Vector2 newVelocityTanOther;
-            Vector2 newVelocity;
-            Vector2 newVelocityOther;
-            float mass = 1;
-            float massOther = 10000;
-            Vector2 velocityDiff;
+         Vector2 norm;
+         Vector2 unitNorm;
+         Vector2 unitTan = new Vector2();
+         Vector2 oldVelocityOther = new Vector2(0, 0);
+         float velocityNorm;
+         float velocityTan;
+         float velocityNormOther;
+         float velocityTanOther;
+         float newVelocityScalar;
+         float newVelocityScalarOther;
+         Vector2 newVelocityNorm;
+         Vector2 newVelocityNormOther;
+         Vector2 newVelocityTan;
+         Vector2 newVelocityTanOther;
+         Vector2 newVelocity;
+         Vector2 newVelocityOther;
+         float mass = 1;
+         float massOther = 10000;
+         Vector2 velocityDiff;
 
-            if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE && other.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE)
+         if (unit.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE && other.GetCollisionType() == CollisionUnit.COLLISION_CIRCLE)
+         {
+            unitCircleCenter = unit.GetCircleCenter();
+            unitRadius = unit.GetCircleRadius();
+
+            otherCircleCenter = other.GetCircleCenter();
+            otherRadius = other.GetCircleRadius();
+
+            oldVelocity = mVelocity;
+
+            ////////////////
+
+            norm = otherCircleCenter - unitCircleCenter;
+            unitNorm = norm / ((float)Math.Sqrt(norm.X * norm.X + norm.Y * norm.Y));
+            unitTan.X = unitNorm.Y * -1;
+            unitTan.Y = unitNorm.X;
+
+            velocityNorm = Vector2.Dot(unitNorm, oldVelocity);
+            velocityTan = Vector2.Dot(unitTan, oldVelocity);
+            velocityNormOther = Vector2.Dot(unitNorm, oldVelocityOther);
+            velocityTanOther = Vector2.Dot(unitTan, oldVelocityOther);
+
+            newVelocityScalar = (velocityNorm * (mass - massOther) + 2 * massOther * velocityNormOther) / (mass + massOther);
+            newVelocityScalarOther = (velocityNormOther * (massOther - mass) + 2 * mass * velocityNorm) / (mass + massOther);
+
+            newVelocityNorm = newVelocityScalar * unitNorm;
+            newVelocityNormOther = newVelocityScalarOther * unitNorm;
+
+            newVelocityTan = velocityTan * unitTan;
+            newVelocityTanOther = velocityTanOther * unitTan;
+
+            newVelocity = newVelocityNorm + newVelocityTan;
+            newVelocityOther = newVelocityNormOther + newVelocityTanOther;
+
+            newVelocity *= 0.99f;
+
+            velocityDiff = newVelocity - mVelocity;
+            mVelocity = newVelocity;
+
+            // some fudge
+            if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
             {
-                unitCircleCenter = unit.GetCircleCenter();
-                unitRadius = unit.GetCircleRadius();
-
-                otherCircleCenter = other.GetCircleCenter();
-                otherRadius = other.GetCircleRadius();
-
-                oldVelocity = mVelocity;
-
-                ////////////////
-
-                norm = otherCircleCenter - unitCircleCenter;
-                unitNorm = norm / ((float)Math.Sqrt(norm.X * norm.X + norm.Y * norm.Y));
-                unitTan.X = unitNorm.Y * -1;
-                unitTan.Y = unitNorm.X;
-
-                velocityNorm = Vector2.Dot(unitNorm, oldVelocity);
-                velocityTan = Vector2.Dot(unitTan, oldVelocity);
-                velocityNormOther = Vector2.Dot(unitNorm, oldVelocityOther);
-                velocityTanOther = Vector2.Dot(unitTan, oldVelocityOther);
-
-                newVelocityScalar = (velocityNorm * (mass - massOther) + 2 * massOther * velocityNormOther) / (mass + massOther);
-                newVelocityScalarOther = (velocityNormOther * (massOther - mass) + 2 * mass * velocityNorm) / (mass + massOther);
-
-                newVelocityNorm = newVelocityScalar * unitNorm;
-                newVelocityNormOther = newVelocityScalarOther * unitNorm;
-
-                newVelocityTan = velocityTan * unitTan;
-                newVelocityTanOther = velocityTanOther * unitTan;
-
-                newVelocity = newVelocityNorm + newVelocityTan;
-                newVelocityOther = newVelocityNormOther + newVelocityTanOther;
-
-                newVelocity *= 0.99f;
-
-                velocityDiff = newVelocity - mVelocity;
-                mVelocity = newVelocity;
-
-                // some fudge
-                if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
-                {
-                    mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
-                }
+               mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
             }
-            //else if (other.GetCollisionType() == CollisionUnit.COLLISION_BOX)
-            //{
-            //    newVelocity = mVelocity * -0.8f;
-            //    velocityDiff = newVelocity - mVelocity;
-            //    mVelocity = newVelocity;
+         }
+         //else if (other.GetCollisionType() == CollisionUnit.COLLISION_BOX)
+         //{
+         //   newVelocity = mVelocity * -0.8f;
+         //   velocityDiff = newVelocity - mVelocity;
+         //   mVelocity = newVelocity;
 
-            //    if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
-            //    {
-            //        mOwner.Translate(mVelocity.X / 20, mVelocity.Y / 20);
-            //    }
-            //}
-            else
+         //   if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
+         //   {
+         //      mOwner.Translate(mVelocity.X / 20, mVelocity.Y / 20);
+         //   }
+         //}
+         else
+         {
+            newVelocity = mVelocity * -0.8f;
+            velocityDiff = newVelocity - mVelocity;
+            mVelocity = newVelocity;
+            unitCircleCenter = unit.GetCircleCenter();
+            otherCircleCenter = unit.GetCollisionPoint(other);
+
+            if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
             {
-                newVelocity = mVelocity * -0.8f;
-                velocityDiff = newVelocity - mVelocity;
-                mVelocity = newVelocity;
-                unitCircleCenter = unit.GetCircleCenter();
-                otherCircleCenter = unit.GetCollisionPoint(other);
-
-                if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
-                {
-                    //mOwner.Translate(mVelocity.X / 20, mVelocity.Y / 20);
-                    mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
-                }
+               //mOwner.Translate(mVelocity.X / 20, mVelocity.Y / 20);
+               mOwner.Translate((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y));
             }
-        }
-    }
+         }
+      }
+   }
 }

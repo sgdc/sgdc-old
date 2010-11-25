@@ -5,7 +5,7 @@
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestDemo</RootNamespace>
     <AssemblyName>TestDemo</AssemblyName>
@@ -16,8 +16,8 @@
     <XnaProfile>HiDef</XnaProfile>
     <XnaCrossPlatformGroupID>3c07a49e-9e80-4b8b-ba22-82fbff45cb19</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
-    <Thumbnail>GameThumbnail.png</Thumbnail>
+    <ApplicationIcon>Resources\Game.ico</ApplicationIcon>
+    <Thumbnail>Resources\GameThumbnail.png</Thumbnail>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -58,6 +58,9 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <PlatformTarget>x86</PlatformTarget>
     <XnaCompressContent>true</XnaCompressContent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
@@ -111,16 +114,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BounceBall.cs" />
-    <Compile Include="BounceBox.cs" />
-    <Compile Include="Game1.cs" />
-    <Compile Include="PortalBox.cs" />
+    <Compile Include="Entities\BounceBall.cs" />
+    <Compile Include="Entities\BounceBox.cs" />
+    <Compile Include="Entities\StaticBall.cs" />
+    <Compile Include="Game\Game1.cs" />
+    <Compile Include="Entities\PortalBox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Game\Program.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Game.ico" />
-    <Content Include="GameThumbnail.png" />
+    <Content Include="Resources\Game.ico" />
+    <Content Include="Resources\GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestDemoContent\TestDemoContent.contentproj">

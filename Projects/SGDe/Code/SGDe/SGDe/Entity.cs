@@ -1,14 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
 
 using SGDE.Graphics;
 using SGDE.Physics.Collision;
@@ -16,139 +8,154 @@ using SGDE.Physics;
 
 namespace SGDE
 {
-    public class Entity : SceneNode
-    {
-        protected Sprite image;
-        protected CollisionUnit mCollisionUnit;
-        protected PhysicsBaby mPhysBaby;
-        private PhysicsPharaoh mPhysicsPharaoh;
+   /// <summary>
+   /// Base Class representative of any onscreen drawable that appears in a scene
+   /// </summary>
+   public abstract class Entity : SceneNode
+   {
+      /// <summary>Sprite which is drawn to represent the entity</summary>
+      protected Sprite image;
 
-        public Entity()
-            : this(0, 0)
-        {
-        }
+      /// <summary>Contains the collision logic for the entity</summary>
+      protected CollisionUnit mCollisionUnit;
 
-        public Entity(int x, int y)
-        {
-            SetRotation(0);
-            mPhysBaby = new PhysicsBaby(this);
-            image = new Sprite();
-            AddChild(image);
-            SetTranslation(new Vector2(x, y));
-        }
+      protected PhysicsBaby mPhysBaby;
+      private PhysicsPharaoh mPhysicsPharaoh;
 
-        public void EnablePhysics(PhysicsPharaoh pharaoh, bool bPhysics, bool bCollision)
-        {
-            mPhysicsPharaoh = pharaoh;
+      /// <summary>
+      /// Constructs a new entity in the scene
+      /// </summary>
+      /// <param name="x">X coordinate</param>
+      /// <param name="y">Y coordinate</param>
+      public Entity( float x = 0, float y = 0 )
+      {
+         SetRotation( 0 );
+         mPhysBaby = new PhysicsBaby( this );
+         image = new Sprite( );
+         AddChild( image );
+         SetTranslation( new Vector2( x, y ) );
+      }
 
-            if (bPhysics)
-            {
-                pharaoh.AddPhysicsBaby(mPhysBaby);
-            }
-            else
-            {
-                pharaoh.RemovePhysicsBaby(mPhysBaby);
-            }
+      /// <summary>
+      /// Constructs a new entity in the scene
+      /// </summary>
+      /// <param name="position">Coordinates</param>
+      public Entity(Vector2 position)
+         : this( position.X, position.Y )
+      {
+      }
 
-            if (bCollision && mCollisionUnit != null)
-            {
-                pharaoh.AddCollisionUnit(mCollisionUnit);
-            }
-            else
-            {
-                // TODO: Remove collision unit
-            }
-        }
+      public void EnablePhysics(PhysicsPharaoh pharaoh, bool bPhysics, bool bCollision)
+      {
+         mPhysicsPharaoh = pharaoh;
 
-        public virtual void Update(GameTime gameTime)
-        {
-            
-        }
+         if (bPhysics)
+         {
+            pharaoh.AddPhysicsBaby(mPhysBaby);
+         }
+         else
+         {
+            pharaoh.RemovePhysicsBaby(mPhysBaby);
+         }
 
-        public void Velocity(float x, float y)
-        {
-            mPhysBaby.SetVelocity(new Vector2(x, y)); // inherent direction?
-        }
+         if (bCollision && mCollisionUnit != null)
+         {
+            pharaoh.AddCollisionUnit(mCollisionUnit);
+         }
+         else
+         {
+            // TODO: Remove collision unit
+         }
+      }
 
-        public void Velocity(Vector2 velocity)
-        {
-            mPhysBaby.SetVelocity(velocity);
-        }
+      /// <summary>
+      /// Called once during each step taken by the engine
+      /// </summary>
+      /// <param name="gameTime">The current game time</param>
+      public virtual void Update(GameTime gameTime)
+      {
+      }
 
-        public Vector2 Velocity()
-        {
-            return mPhysBaby.GetVelocity();
-        }
+      public void SetVelocity(float x, float y)
+      {
+         mPhysBaby.SetVelocity(new Vector2(x, y)); // inherent direction?
+      }
 
-        public PhysicsBaby GetPhysicsBaby()
-        {
-            return mPhysBaby;
-        }
+      public void SetVelocity(Vector2 velocity)
+      {
+         mPhysBaby.SetVelocity(velocity);
+      }
 
-        public CollisionUnit GetCollisionUnit()
-        {
-            return mCollisionUnit;
-        }
+      public Vector2 GetVelocity()
+      {
+         return mPhysBaby.GetVelocity();
+      }
 
-        public void SetCollisionUnit(CollisionUnit unit)
-        {
-            mCollisionUnit = unit;
-            mPhysBaby.AddCollisionUnit(unit);
-            AddChild(unit);
+      public PhysicsBaby GetPhysicsBaby()
+      {
+         return mPhysBaby;
+      }
 
-            if (mPhysicsPharaoh != null)
-            {
-                mPhysicsPharaoh.AddCollisionUnit(unit);
-            }
-        }
+      public CollisionUnit GetCollisionUnit()
+      {
+         return mCollisionUnit;
+      }
 
-        public virtual void LoadContent(ContentManager theContentManager, String theAssetName)
-        {
-            //int radius;
+      public void SetCollisionUnit(CollisionUnit unit)
+      {
+         mCollisionUnit = unit;
+         mPhysBaby.AddCollisionUnit(unit);
+         AddChild(unit);
 
-            image.LoadContent(theContentManager, theAssetName);
+         if (mPhysicsPharaoh != null)
+         {
+            mPhysicsPharaoh.AddCollisionUnit(unit);
+         }
+      }
 
-            //radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
-            //mCollisionUnit = new CollisionUnit(this, image.GetCenter(), radius, null, false);
-            //AddChild(mCollisionUnit);
+      public virtual void LoadContent(ContentManager theContentManager, String theAssetName)
+      {
+         //int radius;
 
-            SetUpCollision();
-        }
+         image.LoadContent(theContentManager, theAssetName);
 
-        // call after image.LoadContent()
-        protected virtual void SetUpCollision()
-        {
-            int radius;
+         //radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
+         //mCollisionUnit = new CollisionUnit(this, image.GetCenter(), radius, null, false);
+         //AddChild(mCollisionUnit);
 
-            radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
-            mCollisionUnit = new CollisionUnit(this, image.GetCenter(), radius, null, false);
-            mPhysBaby.AddCollisionUnit(mCollisionUnit);
-            AddChild(mCollisionUnit);
+         SetUpCollision();
+      }
 
-            //SetCollisionUnit(new CollisionUnit(this, image.GetCenter(), radius, null, false));
-            //pharaoh.AddCollisionUnit(mCollisionUnit);
-        }
+      // call after image.LoadContent()
+      protected virtual void SetUpCollision()
+      {
+         int radius;
 
-        public virtual void Draw()
-        {
-            image.Draw();
-        }
+         radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
+         mCollisionUnit = new CollisionUnit(this, image.GetCenter(), radius, null, false);
+         mPhysBaby.AddCollisionUnit(mCollisionUnit);
+         AddChild(mCollisionUnit);
 
-        public void SetColor(Color backColor)
-        {
-            image.SetBackgroundColor(backColor);
-        }
+         //SetCollisionUnit(new CollisionUnit(this, image.GetCenter(), radius, null, false));
+         //pharaoh.AddCollisionUnit(mCollisionUnit);
+      }
 
-        public virtual void CollisionChange()
-        {
-            if (mCollisionUnit.HasCollisions())
-            {
-                Velocity(Velocity() * -1);
-            }
-            //foreach (CollisionUnit other in mCollisionUnit.GetCollisions())
-            //{
-            //    mPhysBaby.AddBounce2(mCollisionUnit, other);
-            //}
-        }
-    }
+      public virtual void Draw()
+      {
+         image.Draw();
+      }
+
+      public void SetColor(Color backColor)
+      {
+         image.SetBackgroundColor(backColor);
+      }
+
+      public virtual void CollisionChange()
+      {
+         if (mCollisionUnit.HasCollisions())
+         {
+            SetVelocity( GetVelocity() * -1 );
+         }
+      }
+   }
 }
