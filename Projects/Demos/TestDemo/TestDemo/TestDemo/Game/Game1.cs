@@ -34,14 +34,11 @@ namespace TestDemo
       PortalBox pBox1;
       PortalBox pBox2;
 
-      List<SGDE.Entity> keyListeners;
-
       public Game1()
       {
          graphics = new GraphicsDeviceManager(this);
          Content.RootDirectory = "Content";
          blueBalls = new List<Entity>();
-         keyListeners = new List<Entity>();
       }
 
       /// <summary>
@@ -116,7 +113,6 @@ namespace TestDemo
 
          player = new TestPlayerEntity(450, 100);
          player.SetColor(Color.Green);
-         keyListeners.Add(player);
 
          base.Initialize();
       }
@@ -175,7 +171,7 @@ namespace TestDemo
          mPhysicsPharaoh.Update(gameTime);
          redBall.Update(gameTime);
 
-         foreach (Entity e in keyListeners) e.HandleInput(Keyboard.GetState(), this.Content);
+         foreach (Entity e in SceneManager.GetInstance( ).GetKeyboardListeners( )) e.HandleInput(Keyboard.GetState(), this.Content);
 
          base.Update(gameTime);
       }
