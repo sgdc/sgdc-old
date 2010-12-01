@@ -27,11 +27,11 @@ namespace TestDemo
 
       protected override void SetUpCollision()
       {
-         SetCollisionUnit(new CollisionUnit(this, image.GetTranslation(), image.GetTranslation() + new Vector2(image.GetWidth(), image.GetHeight()), CollisionUnit.COLLISION_BOX, null, false));
+         SetCollisionUnit(new CollisionUnit(this, image.GetTranslation(), image.GetTranslation() + new Vector2(image.GetWidth(), image.GetHeight()), CollisionUnit.CollisionType.COLLISION_BOX, null, false));
 
          if (bSender)
          {
-            GetCollisionUnit().BlockOthers(false);
+            GetCollisionUnit().SetSolid(false);
          }
 
          mDumpPoint += new Vector2(image.GetWidth() / 2, image.GetHeight() + 10);

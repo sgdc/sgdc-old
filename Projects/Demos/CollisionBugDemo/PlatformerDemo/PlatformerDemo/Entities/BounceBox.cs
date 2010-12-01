@@ -39,7 +39,7 @@ namespace TestDemo
          //mPhysBaby.AddCollisionUnit(mBoxCollisionUnit);
          //AddChild(mBoxCollisionUnit);
 
-         SetCollisionUnit(new CollisionUnit(this, image.GetTranslation(), image.GetTranslation() + new Vector2(image.GetWidth(), image.GetHeight()), CollisionUnit.COLLISION_BOX, null, false));
+         SetCollisionUnit(new CollisionUnit(this, image.GetTranslation(), image.GetTranslation() + new Vector2(image.GetWidth(), image.GetHeight()), CollisionUnit.CollisionType.COLLISION_BOX, null, false));
          //SetCollisionUnit(mBoxCollisionUnit);
       }
    }
