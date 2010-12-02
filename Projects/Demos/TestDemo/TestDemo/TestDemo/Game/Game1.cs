@@ -55,6 +55,7 @@ namespace TestDemo
 
          redBall = new BounceBall(150, 130);
          redBall.SetVelocity(1, 1);
+         //redBall.GetPhysicsBaby().AddForce(SGDE.Physics.PhysicsPharaoh.GetInstance().GetGravity() * -1);
 
          pBox1 = new PortalBox(80, 0, pBox2, false);
          pBox2 = new PortalBox(600, (int)worldSize.Y - 50, pBox1, true);
@@ -75,10 +76,12 @@ namespace TestDemo
 
          ball = new BounceBall(600, 100);
          ball.SetVelocity(2, 1);
+         //ball.GetPhysicsBaby().AddForce(SGDE.Physics.PhysicsPharaoh.GetInstance().GetGravity() * -1);
          blueBalls.Add(ball);
 
          ball = new BounceBall(650, 300);
          ball.SetVelocity(-2, 1);
+         //ball.GetPhysicsBaby().AddForce(SGDE.Physics.PhysicsPharaoh.GetInstance().GetGravity() * -1);
          blueBalls.Add(ball);
 
          for (int i = 4; i < worldSize.X / 80; i++)
@@ -184,7 +187,7 @@ namespace TestDemo
          GraphicsDevice.Clear(Color.CornflowerBlue);
 
          Sprite.spriteBatch.Begin();
-         //mPhysicsPharaoh.DrawCollisionGrid(Sprite.spriteBatch, mGridTexture);
+         SGDE.Physics.PhysicsPharaoh.GetInstance().DrawCollisionGrid(Sprite.spriteBatch, mGridTexture);
          redBall.Draw();
          box.Draw();
          movingBox.Draw();

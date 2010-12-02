@@ -146,10 +146,10 @@ namespace SGDE.Physics
             mVelocity = newVelocity;
 
             // some fudge
-            if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
-            {
+            //if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
+            //{
                mOwner.Translate(new Vector2((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y)));
-            }
+            //}
          }
          else
          {
@@ -159,10 +159,10 @@ namespace SGDE.Physics
             unitCircleCenter = unit.GetCircleCenter();
             otherCircleCenter = unit.GetCollisionPoint(other);
 
-            if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
-            {
+            //if (velocityDiff.X > 1 || velocityDiff.X < -1 || velocityDiff.Y > 1 || velocityDiff.Y < -1)
+            //{
                mOwner.Translate(new Vector2((float)0.04 * (unitCircleCenter.X - otherCircleCenter.X), (float)0.04 * (unitCircleCenter.Y - otherCircleCenter.Y)));
-            }
+            //}
          }
       }
    }

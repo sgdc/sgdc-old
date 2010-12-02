@@ -66,7 +66,7 @@ namespace TestDemo
       {
          foreach (CollisionUnit other in mCollisionUnit.GetCollisions())
          {
-            if (other.BlockOthers())
+            if (other.IsSolid())
             {
                mPhysBaby.AddBounce(mCollisionUnit, other);
             }

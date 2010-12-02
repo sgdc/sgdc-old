@@ -213,7 +213,7 @@ namespace SGDE.Physics.Collision
             if (x > 0)
             {
                // remove
-               for (int i = oldTopLeftCell.X; i < newTopLeftCell.X; i++)
+               for (int i = oldTopLeftCell.X; i < newTopLeftCell.X && i <= oldBottomRightCell.X; i++)
                {
                   for (int j = oldTopLeftCell.Y; j <= oldBottomRightCell.Y; j++)
                   {
@@ -222,7 +222,13 @@ namespace SGDE.Physics.Collision
                }
 
                // add
-               for (int i = oldBottomRightCell.X + 1; i <= newBottomRightCell.X; i++)
+               int minStart = oldBottomRightCell.X + 1;
+               if (minStart < newTopLeftCell.X)
+               {
+                   minStart = newTopLeftCell.X;
+               }
+
+               for (int i = minStart; i <= newBottomRightCell.X; i++)
                {
                   for (int j = newTopLeftCell.Y; j <= newBottomRightCell.Y; j++)
                   {
@@ -233,7 +239,13 @@ namespace SGDE.Physics.Collision
             else if (x < 0)
             {
                // remove
-               for (int i = newBottomRightCell.X + 1; i <= oldBottomRightCell.X; i++)
+               int minStart = newBottomRightCell.X + 1;
+               if (minStart < oldTopLeftCell.X)
+               {
+                   minStart = oldTopLeftCell.X;
+               }
+
+               for (int i = minStart; i <= oldBottomRightCell.X; i++)
                {
                   for (int j = oldTopLeftCell.Y; j <= oldBottomRightCell.Y; j++)
                   {
@@ -242,7 +254,7 @@ namespace SGDE.Physics.Collision
                }
 
                // add
-               for (int i = newTopLeftCell.X; i < oldTopLeftCell.X; i++)
+               for (int i = newTopLeftCell.X; i < oldTopLeftCell.X && i <= newBottomRightCell.X; i++)
                {
                   for (int j = newTopLeftCell.Y; j <= newBottomRightCell.Y; j++)
                   {
@@ -254,7 +266,7 @@ namespace SGDE.Physics.Collision
             if (y > 0)
             {
                // remove
-               for (int i = oldTopLeftCell.Y; i < newTopLeftCell.Y; i++)
+               for (int i = oldTopLeftCell.Y; i < newTopLeftCell.Y && i <= oldBottomRightCell.Y; i++)
                {
                   for (int j = oldTopLeftCell.X; j <= oldBottomRightCell.X; j++)
                   {
@@ -263,7 +275,13 @@ namespace SGDE.Physics.Collision
                }
 
                // add
-               for (int i = oldBottomRightCell.Y + 1; i <= newBottomRightCell.Y; i++)
+               int minStart = oldBottomRightCell.Y + 1;
+               if (minStart < newTopLeftCell.Y)
+               {
+                   minStart = newTopLeftCell.Y;
+               }
+
+               for (int i = minStart; i <= newBottomRightCell.Y; i++)
                {
                   // avoid double adds
                   if (x > 0)
@@ -285,7 +303,13 @@ namespace SGDE.Physics.Collision
             else if (y < 0)
             {
                // remove
-               for (int i = newBottomRightCell.Y + 1; i <= oldBottomRightCell.Y; i++)
+               int minStart = newBottomRightCell.Y + 1;
+               if (minStart < oldTopLeftCell.Y)
+               {
+                   minStart = oldTopLeftCell.Y;
+               }
+
+               for (int i = minStart; i <= oldBottomRightCell.Y; i++)
                {
                   for (int j = oldTopLeftCell.X; j <= oldBottomRightCell.X; j++)
                   {
@@ -294,7 +318,7 @@ namespace SGDE.Physics.Collision
                }
 
                // add
-               for (int i = newTopLeftCell.Y; i < oldTopLeftCell.Y; i++)
+               for (int i = newTopLeftCell.Y; i < oldTopLeftCell.Y && i <= newBottomRightCell.Y; i++)
                {
                   // avoid double adds
                   if (x > 0)

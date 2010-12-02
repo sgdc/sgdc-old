@@ -4,6 +4,11 @@
         <name>SGDe</name>
     </assembly>
     <members>
+        <member name="T:SGDE.Physics.Collision.CollisionChief">
+            <summary>
+            Not sure yet...
+            </summary>
+        </member>
         <member name="T:SGDE.Graphics.Sprite">
             <summary>
             A drawable sprite object that can be displayed on screen.
@@ -22,11 +27,6 @@
         <member name="M:SGDE.SceneNode.SetTranslation(Microsoft.Xna.Framework.Vector2)">
             <summary>Sets the translation of the scene node</summary>
             <param name="translation">Translation vector</param>
-        </member>
-        <member name="T:SGDE.Physics.Collision.CollisionChief">
-            <summary>
-            Not sure yet...
-            </summary>
         </member>
         <member name="T:SGDE.Entity">
             <summary>

@@ -57,7 +57,7 @@ namespace SGDE
 
          if (bCollision && mCollisionUnit != null)
          {
-            SGDE.Physics.PhysicsPharaoh.GetInstance().AddCollisionUnit(mCollisionUnit);
+            //SGDE.Physics.PhysicsPharaoh.GetInstance().AddCollisionUnit(mCollisionUnit);
          }
          else
          {
@@ -118,10 +118,7 @@ namespace SGDE
       protected virtual void SetUpCollision()
       {
          int radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
-
-         mCollisionUnit = new SGDE.Physics.Collision.CollisionUnit(this, image.GetCenter(), radius, null, false);
-         mPhysBaby.AddCollisionUnit(mCollisionUnit);
-         AddChild(mCollisionUnit);
+         SetCollisionUnit(new SGDE.Physics.Collision.CollisionUnit(this, image.GetCenter(), radius, null, false));
       }
 
       /// <summary>Draws the entity to the screen</summary>
