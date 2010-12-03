@@ -8,10 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SGDe")]
 [assembly: AssemblyProduct("SGDe")]
 [assembly: AssemblyDescription("Stevens Game Development Club Engine")]
-[assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("Copyright © Stevens Game Development Club 2010")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -32,3 +29,5 @@ using System.Runtime.InteropServices;
 //     Revision
 //
 [assembly: AssemblyVersion("1.0.0.0")]
+
+[assembly: InternalsVisibleTo("SGDeContent")]

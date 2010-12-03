@@ -1,103 +1,119 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 
+using SGDE.Physics.Collision;
+using SGDE.Content;
+
 namespace SGDE.Physics
 {
-   public class PhysicsPharaoh
-   {
-      private static PhysicsPharaoh mInstance = new PhysicsPharaoh( );
+    public class PhysicsPharaoh
+    {
+        private static PhysicsPharaoh mInstance = new PhysicsPharaoh();
 
-      private List<PhysicsBaby> mStaticBabies;
-      private List<PhysicsBaby> mDynamicBabies;
-      private Vector2 mGravity;
+        private List<PhysicsBaby> mStaticBabies;
+        private List<PhysicsBaby> mDynamicBabies;
+        private Vector2 mGravity;
 
-      private PhysicsPharaoh()
-      {
-      }
+        private PhysicsPharaoh() { }
 
-      public void AddPhysicsBaby(PhysicsBaby physBaby)
-      {
-         physBaby.AddForce(mGravity);
+        public void AddPhysicsBaby(PhysicsBaby physBaby)
+        {
+            if (ContentUtil.LoadingBuilders)
+            {
+                return;
+            }
+            physBaby.AddForce(mGravity);
 
-         if (physBaby.IsStatic())
-         {
-            mStaticBabies.Add(physBaby);
-         }
-         else
-         {
-            mDynamicBabies.Add(physBaby);
-         }
-      }
+            if (physBaby.IsStatic())
+            {
+                mStaticBabies.Add(physBaby);
+            }
+            else
+            {
+                mDynamicBabies.Add(physBaby);
+            }
+        }
 
-      public void RemovePhysicsBaby(PhysicsBaby physBaby)
-      {
-         if (physBaby.IsStatic())
-         {
-            mStaticBabies.Remove(physBaby);
-         }
-         else
-         {
-            mDynamicBabies.Remove(physBaby);
-         }
-      }
+        public void RemovePhysicsBaby(PhysicsBaby physBaby)
+        {
+            if (ContentUtil.LoadingBuilders)
+            {
+                return;
+            }
+            if (physBaby.IsStatic())
+            {
+                mStaticBabies.Remove(physBaby);
+            }
+            else
+            {
+                mDynamicBabies.Remove(physBaby);
+            }
+        }
 
-      public void AddCollisionUnit(SGDE.Physics.Collision.CollisionUnit unit)
-      {
-         SGDE.Physics.Collision.CollisionChief.GetInstance().AddCollisionUnit(unit);
-         SGDE.Physics.Collision.CollisionChief.GetInstance().UpdateUnit(unit);
-      }
+        public void AddCollisionUnit(CollisionUnit unit)
+        {
+            if (ContentUtil.LoadingBuilders)
+            {
+                return;
+            }
+            CollisionChief chief = CollisionChief.GetInstance();
+            chief.AddCollisionUnit(unit);
+            chief.UpdateUnit(unit);
+        }
 
-      public void DrawCollisionGrid(SpriteBatch spriteBatch, Texture2D gridTexture)
-      {
-         SGDE.Physics.Collision.CollisionChief.GetInstance().DrawCollisionGrid(spriteBatch, gridTexture);
-      }
+        public void DrawCollisionGrid(Texture2D gridTexture)
+        {
+            CollisionChief.GetInstance().DrawCollisionGrid(SGDE.Graphics.SpriteManager.spriteBat, gridTexture);
+        }
 
-      public void SetGravity(Vector2 gravity)
-      {
-         foreach (PhysicsBaby physBaby in mDynamicBabies)
-         {
-            physBaby.AddForce(mGravity * -1);
-            physBaby.AddForce(gravity);
-         }
+        public void SetGravity(Vector2 gravity)
+        {
+            foreach (PhysicsBaby physBaby in mDynamicBabies)
+            {
+                physBaby.AddForce(mGravity * -1);
+                physBaby.AddForce(gravity);
+            }
 
-         foreach (PhysicsBaby physBaby in mStaticBabies)
-         {
-            physBaby.AddForce(mGravity * -1);
-            physBaby.AddForce(gravity);
-         }
+            foreach (PhysicsBaby physBaby in mStaticBabies)
+            {
+                physBaby.AddForce(mGravity * -1);
+                physBaby.AddForce(gravity);
+            }
 
-         mGravity = gravity;
-      }
+            mGravity = gravity;
+        }
 
-      public Vector2 GetGravity()
-      {
-         return mGravity;
-      }
+        public Vector2 GetGravity()
+        {
+            return mGravity;
+        }
 
-      public void Update(GameTime gameTime)
-      {
-         foreach (PhysicsBaby physBaby in mDynamicBabies)
-         {
-            physBaby.Update(gameTime);
-         }
+        public void Update(GameTime gameTime)
+        {
+            foreach (PhysicsBaby physBaby in mDynamicBabies)
+            {
+                physBaby.Update(gameTime);
+            }
 
-         SGDE.Physics.Collision.CollisionChief.GetInstance().Update();
-      }
+            CollisionChief.GetInstance().Update();
+        }
 
-      public void Initialize(Vector2 worldSize, Vector2 collisionCellSize)
-      {
-         SGDE.Physics.Collision.CollisionChief.GetInstance( ).Initialize(worldSize, collisionCellSize);
-         mStaticBabies = new List<PhysicsBaby>();
-         mDynamicBabies = new List<PhysicsBaby>();
-         mGravity = new Vector2(0, 0);
-      }
+        public void Initialize(Vector2 worldSize, Vector2 collisionCellSize)
+        {
+            SGDE.Physics.Collision.CollisionChief.GetInstance().Initialize(worldSize, collisionCellSize);
+            mStaticBabies = new List<PhysicsBaby>();
+            mDynamicBabies = new List<PhysicsBaby>();
+            mGravity = new Vector2(0, 0);
+        }
 
-      public static PhysicsPharaoh GetInstance()
-      {
-         return mInstance;
-      }
-   }
+        public static PhysicsPharaoh GetInstance()
+        {
+            return mInstance;
+        }
+    }
 }
