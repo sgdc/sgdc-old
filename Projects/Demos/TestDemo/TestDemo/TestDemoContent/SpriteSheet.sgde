@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SGDE Version="1.0">
+  <SpriteMaps>
+    <SpriteMap Name="Vader" ID="0">
+      <Source>darthvaderballsmall.png</Source>
+    </SpriteMap>
+    <SpriteMap Name="Yoda" ID="1">
+      <Source>yodaballsmalltransparent.png</Source>
+    </SpriteMap>
+    <SpriteMap Name="Sprite" ID="2">
+      <Source>images.jpg</Source>
+    </SpriteMap>
+    <SpriteMap Name="Star" ID="3">
+      <Source>star.png</Source>
+    </SpriteMap>
+    <SpriteMap Name="Collsion Grid Cell 1" ID="4">
+      <Source>CollisionGridCell.jpg</Source>
+    </SpriteMap>
+    <SpriteMap Name="Collsion Grid Cell 2" ID="5">
+      <Source>CollisionGridCell2.jpg</Source>
+    </SpriteMap>
+    <SpriteMap Name="Portal" ID="6">
+      <Source>portal.jpg</Source>
+    </SpriteMap>
+    <SpriteMap Name="Domo Kun" ID="7">
+      <Source>DomoKunSmall.png</Source>
+    </SpriteMap>
+  </SpriteMaps>
+</SGDE>

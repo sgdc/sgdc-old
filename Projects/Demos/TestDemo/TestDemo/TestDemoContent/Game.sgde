@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SGDE Version="1.0">
+  <Game>
+    <Maps>
+      <Map ID="0">
+        <Layout>DemoMap.sgde</Layout>
+      </Map>
+    </Maps>
+  </Game>
+  <Settings SpriteSheet="SpriteSheet.sgde">
+    <MapList>
+      <Map Name="Demo Map" InitialMap="true" ID="0"></Map>
+    </MapList>
+    <DefGameSettings>
+      <Screen Width="800" Height="480"></Screen>
+    </DefGameSettings>
+  </Settings>
+</SGDE>
