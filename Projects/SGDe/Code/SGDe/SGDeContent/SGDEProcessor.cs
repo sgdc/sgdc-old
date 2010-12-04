@@ -12,7 +12,7 @@ using System.Xml;
 
 namespace SGDeContent
 {
-    [ContentProcessor(DisplayName = "SGDE Element Processor")]
+    [LocalizedContentProcessor("SGDEProcessor")]
     public class SGDEProcessor : ContentProcessor<Content, ProcessedContent>
     {
         public override ProcessedContent Process(Content input, ContentProcessorContext context)
@@ -29,7 +29,7 @@ namespace SGDeContent
                     return SpriteMapProcessor.Process(input, context);
             }
             // TODO: process the input object, and return the modified data.
-            throw new NotImplementedException(string.Format("Type: \"{0}\" is not implemented.", input.document.DocumentElement.ChildNodes[0].Name));
+            throw new NotImplementedException(string.Format(Messages.SGDETypeNotImplemented, input.document.DocumentElement.ChildNodes[0].Name));
         }
 
         //What XmlNode.InnerText should really be doing.

@@ -68,7 +68,7 @@ namespace SGDeContent.Processors
                                     int c = int.Parse(at.Value);
                                     if (c < 1)
                                     {
-                                        context.Logger.LogWarning(null, null, "Frame cannot count as less then one frame. Specified value is {0}. Skipping", c);
+                                        context.Logger.LogWarning(null, null, Messages.Animation_FPSTooLow, c);
                                     }
                                     else
                                     {
@@ -98,7 +98,7 @@ namespace SGDeContent.Processors
                                     {
                                         if (set.Frames.Count == 0)
                                         {
-                                            context.Logger.LogWarning(null, null, "Continue frame animation shouldn't occur on first frame. Ignoring and counting as one frame.");
+                                            context.Logger.LogWarning(null, null, Messages.Animation_ContinueAnimationOnFirstFrame);
                                         }
                                         else
                                         {
@@ -140,7 +140,7 @@ namespace SGDeContent.Processors
                                     {
                                         if (!Enum.TryParse<Microsoft.Xna.Framework.Graphics.SpriteEffects>(values[i].Trim(), out temp))
                                         {
-                                            context.Logger.LogWarning(null, null, "Can't parse SpriteEffect \"{0}\". Skipping.", values[i].Trim());
+                                            context.Logger.LogWarning(null, null, Messages.Animation_InvalidSpriteEffect, values[i].Trim());
                                         }
                                         else
                                         {
@@ -162,14 +162,19 @@ namespace SGDeContent.Processors
                                 {
                                     try
                                     {
+                                        /* Bug causes this not to be set properly. Try 0xFF008000 for example. Supposed to be A:255, R:0, G:128, B:0. Instead green is 255.
                                         Microsoft.Xna.Framework.Graphics.PackedVector.Byte4 packedVector = new Microsoft.Xna.Framework.Graphics.PackedVector.Byte4(); //Preperation
                                         packedVector.PackedValue = Convert.ToUInt32(at.Value, 16); //Keep it clean
                                         aframe.Color = new Color(packedVector.ToVector4()); //Build it
+                                         */
+                                        Color col = new Color(); //Build
+                                        col.PackedValue = Convert.ToUInt32(at.Value, 16); //Keep it clean
+                                        aframe.Color = col;
                                         aframe.Used |= SGDE.Content.Readers.AnimationReader.ColorUsed;
                                     }
                                     catch
                                     {
-                                        context.Logger.LogWarning(null, null, "Can't parse color \"{0}\". Must be in AARRGGBB format and be in 16bit notation (0055AAFF).", at.Value);
+                                        context.Logger.LogWarning(null, null, Messages.Animation_InvalidColor, at.Value);
                                     }
                                 }
                                 at = frame.Attributes["Frame"];
@@ -178,7 +183,7 @@ namespace SGDeContent.Processors
                                     string[] values = at.Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                                     if (values.Length != 4)
                                     {
-                                        context.Logger.LogWarning(null, null, "Region must have 4, comma seperated, components. X, Y, Width, Height. Ignoring.");
+                                        context.Logger.LogWarning(null, null, Messages.Animation_InvalidRegion);
                                     }
                                     else
                                     {
@@ -193,7 +198,7 @@ namespace SGDeContent.Processors
                                             catch
                                             {
                                                 error = true;
-                                                context.Logger.LogWarning(null, null, "Cannot parse value.");
+                                                context.Logger.LogWarning(null, null, Messages.CannotParseValue);
                                             }
                                         }
                                         if (!error)
@@ -209,7 +214,7 @@ namespace SGDeContent.Processors
                                     string[] values = at.Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                                     if (values.Length != 2)
                                     {
-                                        context.Logger.LogWarning(null, null, "Origin must have 2, comma seperated, components. X, Y. Ignoring.");
+                                        context.Logger.LogWarning(null, null, Messages.Animation_InvalidOrigin);
                                     }
                                     else
                                     {
@@ -224,7 +229,7 @@ namespace SGDeContent.Processors
                                             catch
                                             {
                                                 error = true;
-                                                context.Logger.LogWarning(null, null, "Cannot parse value.");
+                                                context.Logger.LogWarning(null, null, Messages.CannotParseValue);
                                             }
                                         }
                                         if (!error)
@@ -247,7 +252,7 @@ namespace SGDeContent.Processors
                                     string[] values = at.Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                                     if (values.Length != 2)
                                     {
-                                        context.Logger.LogWarning(null, null, "Scale must have 2, comma seperated, components. X, Y. Ignoring.");
+                                        context.Logger.LogWarning(null, null, Messages.Animation_InvalidScale);
                                     }
                                     else
                                     {
@@ -262,7 +267,7 @@ namespace SGDeContent.Processors
                                             catch
                                             {
                                                 error = true;
-                                                context.Logger.LogWarning(null, null, "Cannot parse value.");
+                                                context.Logger.LogWarning(null, null, Messages.CannotParseValue);
                                             }
                                         }
                                         if (!error)
@@ -297,7 +302,7 @@ namespace SGDeContent.Processors
                                         }
                                         else
                                         {
-                                            context.Logger.LogWarning(null, null, "Unknown rotation format \"{0}\", defaulting to degrees.", at.Value);
+                                            context.Logger.LogWarning(null, null, Messages.Animation_UnknownRotationFormat, at.Value);
                                         }
                                     }
                                     if (radian)
@@ -345,7 +350,7 @@ namespace SGDeContent.Processors
                                             }
                                             else
                                             {
-                                                context.Logger.LogWarning(null, null, "Cannot parse radian measurement.");
+                                                context.Logger.LogWarning(null, null, Messages.Animation_InvalidRadian);
                                             }
                                         }
                                     }
@@ -358,7 +363,7 @@ namespace SGDeContent.Processors
                                             if (degree != 0)
                                             {
                                                 aframe.Used |= SGDE.Content.Readers.AnimationReader.RotationUsed;
-                                                aframe.Rotation = (float)((degree * Math.PI) / 180.0);
+                                                aframe.Rotation = (float)((degree * Math.PI) / 180.0); //Could use MathHelper but want higher precision first
                                             }
                                             else if (aframe.Rotation != 0)
                                             {
@@ -367,7 +372,7 @@ namespace SGDeContent.Processors
                                         }
                                         catch
                                         {
-                                            context.Logger.LogWarning(null, null, "Cannot parse degree measurement.");
+                                            context.Logger.LogWarning(null, null, Messages.Animation_InvalidDegree);
                                         }
                                     }
                                 }
@@ -389,7 +394,7 @@ namespace SGDeContent.Processors
             }
             else
             {
-                throw new InvalidContentException(string.Format("Unknown Animation type \"{0}\".", innerText));
+                throw new InvalidContentException(string.Format(Messages.Animation_UnknownType, innerText));
             }
             return animation;
         }

@@ -195,12 +195,12 @@ namespace SGDeContent.Processors
                     at = entityComponent.Attributes["SID"];
                     if (at == null)
                     {
-                        throw new InvalidContentException("Sprite must contain a Sprite ID");
+                        throw new InvalidContentException(Messages.Entity_Sprite_RequiresID);
                     }
                     entity.SpriteID = int.Parse(at.Value);
                     if (entity.SpriteID < 0)
                     {
-                        throw new InvalidContentException("Sprite ID must be a valid positive number.");
+                        throw new InvalidContentException(Messages.Entity_Sprite_PositiveID);
                     }
                     at = entityComponent.Attributes["DID"];
                     if (at != null)
@@ -219,44 +219,47 @@ namespace SGDeContent.Processors
                             string[] components = value.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
                             if (components.Length < 1 || components.Length > 2)
                             {
-                                context.Logger.LogWarning(null, null, "Not valid Sprite region. Ignoring.");
+                                context.Logger.LogWarning(null, null, Messages.Entity_Sprite_InvalidRegion);
                             }
-                            int[] values = new int[components.Length];
-                            bool error = false;
-                            try
+                            else
                             {
-                                for (int i = 0; i < components.Length; i++)
+                                int[] values = new int[components.Length];
+                                bool error = false;
+                                try
                                 {
-                                    values[i] = int.Parse(components[i].Trim());
+                                    for (int i = 0; i < components.Length; i++)
+                                    {
+                                        values[i] = int.Parse(components[i].Trim());
+                                    }
                                 }
-                            }
-                            catch
-                            {
-                                error = true;
-                                context.Logger.LogWarning(null, null, "Could not parse Sprite region. Values must be integers and seperated by a dash.");
-                            }
-                            if (!error)
-                            {
-                                entity.HasRegion = true;
-                                switch (values.Length)
+                                catch
                                 {
-                                    case 1:
-                                        entity.RegionBegin = entity.RegionEnd = -1;
-                                        if (value.IndexOf('-') > value.IndexOf(components[0]))
-                                        {
-                                            //Region defines starting portion of region
+                                    error = true;
+                                    context.Logger.LogWarning(null, null, Messages.Entity_Sprite_CannotParseRegion);
+                                }
+                                if (!error)
+                                {
+                                    entity.HasRegion = true;
+                                    switch (values.Length)
+                                    {
+                                        case 1:
+                                            entity.RegionBegin = entity.RegionEnd = -1;
+                                            if (value.IndexOf('-') > value.IndexOf(components[0]))
+                                            {
+                                                //Region defines starting portion of region
+                                                entity.RegionBegin = values[0];
+                                            }
+                                            else
+                                            {
+                                                //Region defines ending portion of region
+                                                entity.RegionEnd = values[0];
+                                            }
+                                            break;
+                                        case 2:
                                             entity.RegionBegin = values[0];
-                                        }
-                                        else
-                                        {
-                                            //Region defines ending portion of region
-                                            entity.RegionEnd = values[0];
-                                        }
-                                        break;
-                                    case 2:
-                                        entity.RegionBegin = values[0];
-                                        entity.RegionEnd = values[1];
-                                        break;
+                                            entity.RegionEnd = values[1];
+                                            break;
+                                    }
                                 }
                             }
                         }
@@ -281,7 +284,7 @@ namespace SGDeContent.Processors
                         }
                         catch
                         {
-                            context.Logger.LogWarning(null, null, "Can't parse color \"{0}\". Must be in AARRGGBB format and be in 16bit notation (0055AAFF).", at.Value);
+                            context.Logger.LogWarning(null, null, Messages.Animation_InvalidColor, at.Value);
                         }
 
                         #endregion
@@ -298,7 +301,7 @@ namespace SGDeContent.Processors
                         {
                             if (!Enum.TryParse<SGDE.Graphics.Sprite.SpriteAttributes>(values[i].Trim(), out temp))
                             {
-                                context.Logger.LogWarning(null, null, "Can't parse override attribute \"{0}\". Skipping.", values[i].Trim());
+                                context.Logger.LogWarning(null, null, Messages.Entity_Sprite_InvalidSpriteOverride, values[i].Trim());
                             }
                             else
                             {
@@ -310,13 +313,13 @@ namespace SGDeContent.Processors
                         if (((entity.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.RotationAbs) == SGDE.Graphics.Sprite.SpriteAttributes.RotationAbs) &&
                             ((entity.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.RotationRel) == SGDE.Graphics.Sprite.SpriteAttributes.RotationRel))
                         {
-                            context.Logger.LogWarning(null, null, "Can't have both relitive and absoulte rotation. Defaulting to absoulte.");
+                            context.Logger.LogWarning(null, null, Messages.Entity_Sprite_RelAbsRotation);
                             entity.OverrideAttributes &= ~SGDE.Graphics.Sprite.SpriteAttributes.RotationRel;
                         }
                         if (((entity.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.ScaleAbs) == SGDE.Graphics.Sprite.SpriteAttributes.ScaleAbs) &&
                             ((entity.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.ScaleRel) == SGDE.Graphics.Sprite.SpriteAttributes.ScaleRel))
                         {
-                            context.Logger.LogWarning(null, null, "Can't have both relitive and absoulte scale. Defaulting to absoulte.");
+                            context.Logger.LogWarning(null, null, Messages.Entity_Sprite_RelAbsScale);
                             entity.OverrideAttributes &= ~SGDE.Graphics.Sprite.SpriteAttributes.ScaleRel;
                         }
 
@@ -334,7 +337,7 @@ namespace SGDeContent.Processors
 
                         if (count >= 1)
                         {
-                            context.Logger.LogWarning(null, null, "Only one animation node allowed on Sprite node. Will only process one.");
+                            context.Logger.LogWarning(null, null, Messages.Entity_Sprite_TooManyAnimations);
                             break;
                         }
                         if (spriteComponent.Name.Equals("Animation"))
@@ -363,7 +366,7 @@ namespace SGDeContent.Processors
                                         }
                                         else
                                         {
-                                            context.Logger.LogWarning(null, null, "Only one animation can be default for a built-in animation. Ignoring default attibute.");
+                                            context.Logger.LogWarning(null, null, Messages.Entity_Sprite_DefaultTooMany);
                                         }
                                     }
                                     entity.Animations.Add(set);
@@ -603,9 +606,9 @@ namespace SGDeContent.Processors
                     #region Custom Entity
 
                     Type type = Type.GetType(entityComponent.Attributes["Base"].Value);
-                    if (!type.Equals(typeof(SGDE.Entity)))
+                    if (!type.IsSubclassOf(typeof(SGDE.Entity)))
                     {
-                        context.Logger.LogWarning(null, null, "Custom Entity is not based off SGDE.Entity. Full support doesn't exist for extended types.");
+                        context.Logger.LogWarning(null, null, Messages.Entity_Custom_NotBasedOffEntity);
                     }
                     entity.SpecialType = SGDEProcessor.GetInnerText(entityComponent).Trim();
                     type = Type.GetType(entity.SpecialType);

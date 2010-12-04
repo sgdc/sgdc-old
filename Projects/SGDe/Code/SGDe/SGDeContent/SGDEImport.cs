@@ -10,7 +10,7 @@ using System.Xml;
 
 namespace SGDeContent
 {
-    [ContentImporter(".sgde", DisplayName = "SGDE Importor", DefaultProcessor = "SGDEProcessor")]
+    [LocalizedContentImporter(".sgde", "SGDEImporter", DefaultProcessor = "SGDEProcessor")]
     public class SGDEImport : ContentImporter<Content>
     {
         private const double MIN_VERSION = 1.0;
@@ -24,16 +24,16 @@ namespace SGDeContent
             XmlElement root = doc.DocumentElement;
             if (!root.Name.Equals("SGDE"))
             {
-                throw new InvalidContentException("Not a valid SGDE data element.");
+                throw new InvalidContentException(Messages.InvalidSGDEElement);
             }
             double version = double.Parse(root.Attributes[0].Value);
             if (version < MIN_VERSION || version > MAX_VERSION)
             {
-                throw new InvalidContentException(string.Format("Invalid SGDE version, must be between {0} and {1}.", MIN_VERSION, MAX_VERSION));
+                throw new InvalidContentException(string.Format(Messages.InvalidSGDEVersion, MIN_VERSION, MAX_VERSION));
             }
             if (!root.HasChildNodes)
             {
-                throw new InvalidContentException("No child nodes.");
+                throw new InvalidContentException(Messages.NoChildNodes);
             }
             XmlElement mainElement = (XmlElement)root.ChildNodes[0];
             switch (mainElement.Name)

@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Animation_ContinueAnimationOnFirstFrame" xml:space="preserve">
+    <value>Continue frame animation shouldn't occur on first frame. Ignoring and counting as one frame.</value>
+  </data>
+  <data name="Animation_FPSTooLow" xml:space="preserve">
+    <value>Frame cannot count as less then one frame. Specified value is {0}. Skipping.</value>
+  </data>
+  <data name="Animation_InvalidColor" xml:space="preserve">
+    <value>Can't parse color "{0}". Must be in AARRGGBB format and be in 16bit notation (0055AAFF).</value>
+  </data>
+  <data name="Animation_InvalidDegree" xml:space="preserve">
+    <value>Cannot parse degree measurement.</value>
+  </data>
+  <data name="Animation_InvalidOrigin" xml:space="preserve">
+    <value>Origin must have 2, comma seperated, components. X, Y. Ignoring.</value>
+  </data>
+  <data name="Animation_InvalidRadian" xml:space="preserve">
+    <value>Cannot parse radian measurement.</value>
+  </data>
+  <data name="Animation_InvalidRegion" xml:space="preserve">
+    <value>Region must have 4, comma seperated, components. X, Y, Width, Height. Ignoring.</value>
+  </data>
+  <data name="Animation_InvalidScale" xml:space="preserve">
+    <value>Scale must have 2, comma seperated, components. X, Y. Ignoring.</value>
+  </data>
+  <data name="Animation_InvalidSpriteEffect" xml:space="preserve">
+    <value>Can't parse SpriteEffect "{0}". Skipping.</value>
+  </data>
+  <data name="Animation_UnknownRotationFormat" xml:space="preserve">
+    <value>Unknown rotation format "{0}", defaulting to degrees.</value>
+  </data>
+  <data name="Animation_UnknownType" xml:space="preserve">
+    <value>Unknown Animation type "{0}".</value>
+  </data>
+  <data name="CannotParseValue" xml:space="preserve">
+    <value>Cannot parse value.</value>
+  </data>
+  <data name="DevIDAlreadyExists" xml:space="preserve">
+    <value>Developer ID "{0}" already exists.</value>
+  </data>
+  <data name="EntityIDDoesNotExist" xml:space="preserve">
+    <value>Entity ID doesn't exist.</value>
+  </data>
+  <data name="Entity_Custom_NotBasedOffEntity" xml:space="preserve">
+    <value>Custom Entity is not based off SGDE.Entity. Full support doesn't exist for extended types.</value>
+  </data>
+  <data name="Entity_Sprite_CannotParseRegion" xml:space="preserve">
+    <value>Could not parse Sprite region. Values must be integers and seperated by a dash.</value>
+  </data>
+  <data name="Entity_Sprite_DefaultTooMany" xml:space="preserve">
+    <value>Only one animation can be default for a built-in animation. Ignoring default attibute.</value>
+  </data>
+  <data name="Entity_Sprite_InvalidRegion" xml:space="preserve">
+    <value>Not valid Sprite region. Ignoring.</value>
+  </data>
+  <data name="Entity_Sprite_InvalidSpriteOverride" xml:space="preserve">
+    <value>Can't parse override attribute "{0}". Skipping.</value>
+  </data>
+  <data name="Entity_Sprite_PositiveID" xml:space="preserve">
+    <value>Sprite ID must be a valid positive number.</value>
+  </data>
+  <data name="Entity_Sprite_RelAbsRotation" xml:space="preserve">
+    <value>Can't have both relitive and absoulte rotation. Defaulting to absoulte.</value>
+  </data>
+  <data name="Entity_Sprite_RelAbsScale" xml:space="preserve">
+    <value>Can't have both relitive and absoulte scale. Defaulting to absoulte.</value>
+  </data>
+  <data name="Entity_Sprite_RequiresID" xml:space="preserve">
+    <value>Sprite must contain a Sprite ID.</value>
+  </data>
+  <data name="Entity_Sprite_TooManyAnimations" xml:space="preserve">
+    <value>Only one animation node allowed on Sprite node. Will only process one.</value>
+  </data>
+  <data name="Game_MapIDExists" xml:space="preserve">
+    <value>Map ID {0} already exists.</value>
+  </data>
+  <data name="Game_MapIDNotExist" xml:space="preserve">
+    <value>No map exists at ID {0}.</value>
+  </data>
+  <data name="Game_MapRefNotSGDE" xml:space="preserve">
+    <value>Map reference is not a SGDE map.</value>
+  </data>
+  <data name="Game_TooManyInitialMaps" xml:space="preserve">
+    <value>Only one map can be the initially loaded map.</value>
+  </data>
+  <data name="Game_UnknownTarget" xml:space="preserve">
+    <value>Unknown target platform {0}.</value>
+  </data>
+  <data name="InvalidSGDEElement" xml:space="preserve">
+    <value>Not a valid SGDE data element.</value>
+  </data>
+  <data name="InvalidSGDEVersion" xml:space="preserve">
+    <value>Invalid SGDE version, must be between {0} and {1}.</value>
+  </data>
+  <data name="Map_EntityIDExists" xml:space="preserve">
+    <value>Entity ID {0} already exists.</value>
+  </data>
+  <data name="Map_EntityRefNotSGDE" xml:space="preserve">
+    <value>Entity reference is not a SGDE entity.</value>
+  </data>
+  <data name="Map_MissingMapElement" xml:space="preserve">
+    <value>Map element must exist.</value>
+  </data>
+  <data name="Map_MissingResourceElement" xml:space="preserve">
+    <value>Resource element must exist.</value>
+  </data>
+  <data name="NoChildNodes" xml:space="preserve">
+    <value>No child nodes.</value>
+  </data>
+  <data name="SGDEImporter" xml:space="preserve">
+    <value>SGDE Importor</value>
+  </data>
+  <data name="SGDEProcessor" xml:space="preserve">
+    <value>SGDE Element Processor</value>
+  </data>
+  <data name="SGDETypeNotImplemented" xml:space="preserve">
+    <value>Type: "{0}" is not implemented.</value>
+  </data>
+  <data name="SpriteMap_AnimationMustBeInternal" xml:space="preserve">
+    <value>Animation must be a built in type.</value>
+  </data>
+  <data name="SpriteMap_NeedsSource" xml:space="preserve">
+    <value>SpriteMap must contain a Source.</value>
+  </data>
+  <data name="SpriteMap_RequiresID" xml:space="preserve">
+    <value>SpriteMap must contain an ID.</value>
+  </data>
+</root>

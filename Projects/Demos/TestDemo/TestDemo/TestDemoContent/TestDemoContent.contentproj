@@ -41,9 +41,6 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
-    <Reference Include="SGDeContent">
-      <HintPath>..\..\..\..\SGDe\Code\SGDe\SGDeContent\bin\x86\Debug\SGDeContent.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Game.sgde">
@@ -51,6 +48,12 @@
       <Importer>SGDEImport</Importer>
       <Processor>SGDEProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SGDe\Code\SGDe\SGDeContent\SGDeContent.csproj">
+      <Project>{0D8ECF05-815F-4333-A54D-B99BD47BF2F1}</Project>
+      <Name>SGDeContent</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 

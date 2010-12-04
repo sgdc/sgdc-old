@@ -80,7 +80,7 @@ namespace SGDeContent.DataTypes
                             }
                             else
                             {
-                                throw new InvalidContentException("Entity ID doesn't exist.");
+                                throw new InvalidContentException(Messages.EntityIDDoesNotExist);
                             }
                         }
                         break;

@@ -39,7 +39,7 @@ namespace SGDeContent.Processors
                             at = smap.Attributes["ID"];
                             if (at == null)
                             {
-                                throw new InvalidContentException("SpriteMap must contain an ID.");
+                                throw new InvalidContentException(Messages.SpriteMap_RequiresID);
                             }
                             map.TextureIDs.Add(int.Parse(at.Value));
                             bool hasSource = false;
@@ -56,7 +56,7 @@ namespace SGDeContent.Processors
                                     Animation animation = AnimationProcessor.Process(mapComponent, context);
                                     if (!animation.BuiltIn)
                                     {
-                                        throw new InvalidContentException("Animation must be a built in type.");
+                                        throw new InvalidContentException(Messages.SpriteMap_AnimationMustBeInternal);
                                     }
                                     int sid = map.TextureIDs[map.TextureIDs.Count - 1];
                                     for (int i = 0; i < animation.Sets.Count; i++)
@@ -72,7 +72,7 @@ namespace SGDeContent.Processors
                             }
                             if (!hasSource)
                             {
-                                throw new InvalidContentException("SpriteMap must contain a Source.");
+                                throw new InvalidContentException(Messages.SpriteMap_NeedsSource);
                             }
 
                             //First check to see if out of order

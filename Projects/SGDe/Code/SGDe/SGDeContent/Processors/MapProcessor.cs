@@ -28,7 +28,7 @@ namespace SGDeContent.Processors
             //Process the resources
             if (element == null)
             {
-                throw new InvalidContentException("Resource element must exist.");
+                throw new InvalidContentException(Messages.Map_MissingResourceElement);
             }
             foreach (XmlElement resourceComponent in element)
             {
@@ -42,7 +42,7 @@ namespace SGDeContent.Processors
                         int id = int.Parse(entity.Attributes["ID"].Value);
                         if (map.EntityID.Contains(id))
                         {
-                            throw new InvalidContentException(string.Format("Entity ID {0} already exists", id));
+                            throw new InvalidContentException(string.Format(Messages.Map_EntityIDExists, id));
                         }
                         map.EntityID.Add(id);
                         string entityRef = SGDEProcessor.GetInnerText(entity.ChildNodes[0]);
@@ -56,9 +56,9 @@ namespace SGDeContent.Processors
                             //Entity reference
                             if (!entityRef.EndsWith(".sgde", StringComparison.OrdinalIgnoreCase))
                             {
-                                throw new InvalidContentException("Entity reference is not a SGDE entity.");
+                                throw new InvalidContentException(Messages.Map_EntityRefNotSGDE);
                             }
-                            ExternalReference<ProcessedContent> ext = context.BuildAsset<Content, ProcessedContent>(new ExternalReference<Content>(entityRef), "SGDEProcessor", null, "SGDEImport", Path.GetFileNameWithoutExtension(entityRef));
+                            ExternalReference<ProcessedContent> ext = context.BuildAsset<Content, ProcessedContent>(new ExternalReference<Content>(entityRef), typeof(SGDEProcessor).Name, null, typeof(SGDEImport).Name, Path.GetFileNameWithoutExtension(entityRef));
                             ExternalReference<Entity> eExt;
                             if (ext.Identity == null)
                             {
@@ -85,7 +85,7 @@ namespace SGDeContent.Processors
 
             if (element == null)
             {
-                throw new InvalidContentException("Map element must exist.");
+                throw new InvalidContentException(Messages.Map_MissingMapElement);
             }
             foreach (XmlElement mapComponent in element)
             {

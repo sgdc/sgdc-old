@@ -35,7 +35,7 @@ namespace SGDeContent.Processors
                                 int id = int.Parse(map.Attributes["ID"].Value);
                                 if (game.MapIDs.Contains(id))
                                 {
-                                    throw new InvalidContentException(string.Format("Map ID {0} already exists", id));
+                                    throw new InvalidContentException(string.Format(Messages.Game_MapIDExists, id));
                                 }
                                 game.MapIDs.Add(id);
                                 string innerText = SGDEProcessor.GetInnerText(map.ChildNodes[0]);
@@ -50,9 +50,9 @@ namespace SGDeContent.Processors
                                     string mapRef = innerText;
                                     if (!mapRef.EndsWith(".sgde", StringComparison.OrdinalIgnoreCase))
                                     {
-                                        throw new InvalidContentException("Map reference is not a SGDE map.");
+                                        throw new InvalidContentException(Messages.Game_MapRefNotSGDE);
                                     }
-                                    ExternalReference<ProcessedContent> ext = context.BuildAsset<Content, ProcessedContent>(new ExternalReference<Content>(mapRef), "SGDEProcessor", null, "SGDEImport", Path.GetFileNameWithoutExtension(mapRef));
+                                    ExternalReference<ProcessedContent> ext = context.BuildAsset<Content, ProcessedContent>(new ExternalReference<Content>(mapRef), typeof(SGDEProcessor).Name, null, typeof(SGDEImport).Name, Path.GetFileNameWithoutExtension(mapRef));
                                     ExternalReference<Map> naoExt;
                                     if (ext.Identity == null)
                                     {
@@ -83,12 +83,12 @@ namespace SGDeContent.Processors
                     if (at != null)
                     {
                         //Specific SpriteSheet (though result is always "SpriteSheet")
-                        context.BuildAsset<Content, ProcessedContent>(new ExternalReference<Content>(at.Value), "SGDEProcessor", null, "SGDEImport", "SpriteSheet");
+                        context.BuildAsset<Content, ProcessedContent>(new ExternalReference<Content>(at.Value), typeof(SGDEProcessor).Name, null, typeof(SGDEImport).Name, "SpriteSheet");
                     }
                     else
                     {
                         //Default SpriteSheet
-                        context.BuildAsset<Content, ProcessedContent>(new ExternalReference<Content>("SpriteSheet.sgde"), "SGDEProcessor", null, "SGDEImport", "SpriteSheet");
+                        context.BuildAsset<Content, ProcessedContent>(new ExternalReference<Content>("SpriteSheet.sgde"), typeof(SGDEProcessor).Name, null, typeof(SGDEImport).Name, "SpriteSheet");
                     }
 
                     #endregion
@@ -106,7 +106,7 @@ namespace SGDeContent.Processors
                                     int id = int.Parse(map.Attributes["ID"].Value);
                                     if (!game.MapIDs.Contains(id))
                                     {
-                                        throw new InvalidContentException(string.Format("No map exists at ID {0}.", id));
+                                        throw new InvalidContentException(string.Format(Messages.Game_MapIDNotExist, id));
                                     }
                                     at = map.Attributes["InitialMap"];
                                     if (at != null)
@@ -115,7 +115,7 @@ namespace SGDeContent.Processors
                                         {
                                             if (hasFirstRun)
                                             {
-                                                throw new InvalidContentException("Only one map can be the initially loaded map.");
+                                                throw new InvalidContentException(Messages.Game_TooManyInitialMaps);
                                             }
                                             hasFirstRun = true;
                                             game.FirstRun = id;
@@ -175,7 +175,7 @@ namespace SGDeContent.Processors
                                     }
                                     else
                                     {
-                                        context.Logger.LogWarning(null, null, "Unknown target platform {0}", context.TargetPlatform);
+                                        context.Logger.LogWarning(null, null, Messages.Game_UnknownTarget, context.TargetPlatform);
                                     }
                                 }
                                 //TODO: Stuff like fullscreen, resoultion, ...

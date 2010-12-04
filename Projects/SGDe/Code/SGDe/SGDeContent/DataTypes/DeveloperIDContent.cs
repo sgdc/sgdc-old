@@ -37,7 +37,7 @@ namespace SGDeContent.DataTypes
             {
                 if (Did.ContainsValue(at.Value))
                 {
-                    throw new InvalidContentException(string.Format("Developer ID \"{0}\" already exists.", at.Value));
+                    throw new InvalidContentException(string.Format(Messages.DevIDAlreadyExists, at.Value));
                 }
                 else
                 {
