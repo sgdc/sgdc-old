@@ -64,7 +64,7 @@ namespace SGDE.Content.DataTypes
         {
             if (level < 0 || level >= maps.Count)
             {
-                throw new IndexOutOfRangeException("Level does not exist.");
+                throw new IndexOutOfRangeException(Messages.GameContent_LevelNotExist);
             }
             //Do this to prevent a game from trying to access map details while a level is changing.
             lock (this)

@@ -83,6 +83,7 @@ namespace SGDeContent.Processors
                         }
                         //...second actually processes them.
                         set.Frames = new List<AnimationFrame>(fcount);
+                        Rectangle? region = null;
                         foreach (XmlElement frame in element)
                         {
                             if (frame.Name.Equals("Frame"))
@@ -199,6 +200,14 @@ namespace SGDeContent.Processors
                                             {
                                                 error = true;
                                                 context.Logger.LogWarning(null, null, Messages.CannotParseValue);
+                                            }
+                                        }
+                                        if (region.HasValue)
+                                        {
+                                            if (ivals[2] != region.Value.Width || ivals[3] != region.Value.Height)
+                                            {
+                                                error = true;
+                                                context.Logger.LogWarning(null, null, Messages.Animation_RegionMustRemainSame);
                                             }
                                         }
                                         if (!error)

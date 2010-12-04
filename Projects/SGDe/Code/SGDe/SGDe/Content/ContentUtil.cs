@@ -28,7 +28,7 @@ namespace SGDE.Content
             {
                 if (did.Count != 0)
                 {
-                    throw new InvalidOperationException("Concurrency error");
+                    throw new InvalidOperationException(Messages.ContentUtil_DIDExists);
                 }
             }
         }

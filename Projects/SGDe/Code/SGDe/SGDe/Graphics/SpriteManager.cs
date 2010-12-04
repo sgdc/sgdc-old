@@ -47,7 +47,7 @@ namespace SGDE.Graphics
             }
             if (textures.Count != verifyId)
             {
-                throw new ArgumentException("Texture ID does not match saved ID");
+                throw new ArgumentException(Messages.SpriteManager_SpriteIDMismatch);
             }
             textures.Add(texture);
             return verifyId;
@@ -89,7 +89,7 @@ namespace SGDE.Graphics
                 anim = new SpriteAnimation[1];
                 if (animations.Count != spriteId)
                 {
-                    throw new ArgumentException("Animation Set ID does not match saved ID");
+                    throw new ArgumentException(Messages.SpriteManager_AnimationSetIDMismatch);
                 }
                 animations.Add(anim);
             }
@@ -98,7 +98,7 @@ namespace SGDE.Graphics
             {
                 if (anim.Length - 1 != animationId)
                 {
-                    throw new ArgumentException("Animation ID does not match saved ID");
+                    throw new ArgumentException(Messages.SpriteManager_AnimationIDMismatch);
                 }
                 anim[animationId] = animation;
             }

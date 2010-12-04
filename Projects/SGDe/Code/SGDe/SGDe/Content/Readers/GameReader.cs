@@ -22,7 +22,7 @@ namespace SGDE.Content.Readers
             GameContent content = new GameContent(); //existingInstance == null ? new GameContent() : existingInstance;
             if (ContentUtil.CurrentGameContent != null)
             {
-                throw new InvalidOperationException("Only one game content can exist.");
+                throw new InvalidOperationException(Messages.GameReader_OnlyOneGameContent);
             }
             ContentUtil.CurrentGameContent = content;
             //Read game settings (screen resoultion, etc.)

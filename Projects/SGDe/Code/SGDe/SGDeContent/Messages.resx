@@ -144,6 +144,9 @@
   <data name="Animation_InvalidSpriteEffect" xml:space="preserve">
     <value>Can't parse SpriteEffect "{0}". Skipping.</value>
   </data>
+  <data name="Animation_RegionMustRemainSame" xml:space="preserve">
+    <value>The animation region must remain the same width and height throught the entire animation.</value>
+  </data>
   <data name="Animation_UnknownRotationFormat" xml:space="preserve">
     <value>Unknown rotation format "{0}", defaulting to degrees.</value>
   </data>

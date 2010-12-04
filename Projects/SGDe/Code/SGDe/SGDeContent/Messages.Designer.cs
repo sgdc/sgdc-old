@@ -142,6 +142,15 @@ namespace SGDeContent {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The animation region must remain the same width and height throught the entire animation..
+        /// </summary>
+        internal static string Animation_RegionMustRemainSame {
+            get {
+                return ResourceManager.GetString("Animation_RegionMustRemainSame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unknown rotation format &quot;{0}&quot;, defaulting to degrees..
         /// </summary>
         internal static string Animation_UnknownRotationFormat {

@@ -22,7 +22,7 @@ namespace SGDE.Content.Code
             }
             if (!TryProcess())
             {
-                throw new InvalidOperationException("Cannot evaluate code. Arguments could be required.");
+                throw new InvalidOperationException(Messages.Code_CannotEvaluate);
             }
             return Convert.ToDouble(ConstantValue);
         }

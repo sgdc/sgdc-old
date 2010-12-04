@@ -20,7 +20,7 @@ namespace SGDE.Content.Readers
         {
             if (existingInstance == null)
             {
-                throw new ContentLoadException("SceneNode cannot be loaded independent of another type.");
+                throw new ContentLoadException(Messages.NodeReader_SceneNodeAbstract);
             }
             if (input.ReadBoolean())
             {
