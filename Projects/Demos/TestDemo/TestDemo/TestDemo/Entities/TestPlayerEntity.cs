@@ -16,6 +16,8 @@ namespace TestDemo
             keyboardListener.RegisterEvent(Microsoft.Xna.Framework.Input.Keys.Right, Keyboard_RIGHT);
             keyboardListener.RegisterEvent(Microsoft.Xna.Framework.Input.Keys.Up, Keyboard_UP);
             keyboardListener.RegisterEvent(Microsoft.Xna.Framework.Input.Keys.Down, Keyboard_DOWN);
+            keyboardListener.RegisterEvent(Microsoft.Xna.Framework.Input.Keys.Escape, Keyboard_Escape);
+            keyboardListener.RegisterEvent(Microsoft.Xna.Framework.Input.Keys.C, ((Game1)Game1.CurrentGame).ToggleCollision);
         }
 
         private void Keyboard_LEFT(ContentManager content)
@@ -36,6 +38,11 @@ namespace TestDemo
         private void Keyboard_DOWN(ContentManager content)
         {
             this.Translate(0, 5);
+        }
+
+        private void Keyboard_Escape(ContentManager content)
+        {
+            Game1.CurrentGame.Exit();
         }
     }
 }

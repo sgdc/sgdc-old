@@ -214,11 +214,7 @@ namespace SGDE
             base.CopyTo(ref node);
             //Entity
             ent.SpriteImage = new Sprite();
-            ent.image.baseTexture = this.image.baseTexture;
-            ent.image.animation = this.image.animation;
-            ent.image.overrideAtt = this.image.overrideAtt;
-            ent.image.FPS = this.image.FPS;
-            ent.image.Tint = this.image.Tint;
+            CopySpriteTo(ref ent);
             SceneNode nNode = ent.SpriteImage;
             node.CopyTo(ref nNode);
             /*
@@ -244,6 +240,18 @@ namespace SGDE
             }
             ent.EnablePhysics(this.penabled, this.pcollision);
              */
+        }
+
+        internal void CopySpriteTo(ref Entity ent)
+        {
+            ent.image.baseTexture = this.image.baseTexture;
+            ent.image.animation = this.image.animation;
+            ent.image.overrideAtt = this.image.overrideAtt;
+            ent.image.frame = this.image.frame;
+            ent.image.animStart = this.image.animStart;
+            ent.image.animEnd = this.image.animEnd;
+            ent.image.FPS = this.image.FPS;
+            ent.image.Tint = this.image.Tint;
         }
     }
 }

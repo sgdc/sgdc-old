@@ -58,6 +58,7 @@ namespace SGDE.Content.DataTypes
                     ent.SetTranslation(mod.GetTranslation());
                 }
                 SGDE.Content.Readers.EntityReader.ProcessPhysics(ref ent, physics);
+                //mod.CopySpriteTo(ref ent); //Copies modified sprite information over
             }
             return ent;
         }

@@ -75,10 +75,21 @@ namespace SGDE.Content.Readers
             ReadAnimation(ref sprite, input);
             if (input.ReadBoolean())
             {
-                //Not implemented: Animation region.
-                input.ReadInt32(); //Begin
-                input.ReadInt32(); //End
-                //If either number is -1 then it uses the default animation value. So if begin is -1 then it equals 0, if end is -1 then it is the current animation length
+                sprite.animStart = input.ReadInt32(); //Begin
+                sprite.animEnd = input.ReadInt32(); //End
+                //If either value is -1 then reset to default animation value
+                if (sprite.animStart < 0)
+                {
+                    sprite.animStart = 0;
+                }
+                else
+                {
+                    sprite.frame = sprite.animStart;
+                }
+                if (sprite.animEnd < 0)
+                {
+                    sprite.animEnd = sprite.animation.frameCount;
+                }
             }
             //-Read physics
             ProcessPhysics(ref entity, input);
@@ -122,6 +133,8 @@ namespace SGDE.Content.Readers
             }
             sprite.animation = SpriteManager.GetInstance(input.ContentManager).GetFrames(defAnimation);
             sprite.FPS = sprite.animation.DefaultFPS;
+            sprite.animStart = sprite.frame = 0;
+            sprite.animEnd = sprite.animation.frameCount;
         }
 
         #endregion

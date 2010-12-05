@@ -78,7 +78,7 @@
         <Layout>Defined<Node><Vector2 ID="Translation" X="480" Y="400" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </EntityPos>
       <EntityPos ID="8">
-        <Layout>Defined<Node><Vector2 ID="Translation" X="550" Y="100" /></Node><Sprite SID="3" Color="FF008000" /></Layout>
+        <Layout>Defined<Node><Vector2 ID="Translation" X="550" Y="100" /></Node><Sprite Color="FF008000" /></Layout>
       </EntityPos>
     </Layout>
     <Physics Enabled="true">

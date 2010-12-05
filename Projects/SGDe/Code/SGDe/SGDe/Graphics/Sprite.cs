@@ -20,7 +20,7 @@ namespace SGDE.Graphics
         internal SpriteManager.SpriteAnimation animation;
         private float fps, curPos;
         internal SpriteAttributes overrideAtt;
-        private int frame; //FUTURE: Subregion so that an animation can be loaded but a subregion of animation can be defined
+        internal int frame, animStart, animEnd;
         private bool backwords;
 
         /// <summary>
@@ -175,7 +175,7 @@ namespace SGDE.Graphics
         {
             if (this.fps > 0)
             {
-                SpriteManager.FrameAdjustment(ref this.frame, this.animation.frameCount, this.fps, ref this.curPos, gameTime, this.backwords);
+                SpriteManager.FrameAdjustment(ref this.frame, this.animStart, this.animEnd, this.fps, ref this.curPos, gameTime, this.backwords);
             }
         }
 

@@ -36,6 +36,7 @@ namespace TestDemo
         PortalBox pBox1;
         PortalBox pBox2;
          */
+        bool showCollision;
 
         public Game1()
         {
@@ -149,6 +150,8 @@ namespace TestDemo
 
             base.LoadGame();
 
+            showCollision = false;
+
             redBall = base.GetContent<BounceBall>("Vader");
             redBall.HandleCollisions = true;
 
@@ -178,6 +181,11 @@ namespace TestDemo
             base.GetContent<PortalBox>("PortalIn").SetOther(base.GetContent<PortalBox>("PortalOut"));
         }
 
+        public void ToggleCollision(ContentManager content)
+        {
+            showCollision = !showCollision;
+        }
+
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
         /// all content.
@@ -194,10 +202,6 @@ namespace TestDemo
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                this.Exit();
-
             base.UpdateGame(gameTime);
             //mPhysicsPharaoh.Update(gameTime);
             //redBall.Update(gameTime);
@@ -214,7 +218,10 @@ namespace TestDemo
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             this.SpriteBatch.Begin();
-            PhysicsPharaoh.GetInstance().DrawCollisionGrid(mGridTexture);
+            if (showCollision)
+            {
+                PhysicsPharaoh.GetInstance().DrawCollisionGrid(mGridTexture);
+            }
             base.DrawGame(gameTime);
             /*
             redBall.Draw(gameTime);

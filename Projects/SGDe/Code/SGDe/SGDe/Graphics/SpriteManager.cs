@@ -134,7 +134,7 @@ namespace SGDE.Graphics
             return animations[spriteId][animationId];
         }
 
-        public static void FrameAdjustment(ref int curFrame, int maxFrame, float fps, ref float current, GameTime gameTime, bool backwords)
+        public static void FrameAdjustment(ref int curFrame, int originFrame, int maxFrame, float fps, ref float current, GameTime gameTime, bool backwords)
         {
             float frame = 1000f / fps;
             float totalFrame = (gameTime.ElapsedGameTime.Milliseconds + current) / frame;

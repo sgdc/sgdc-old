@@ -195,12 +195,27 @@ namespace SGDeContent.Processors
                     at = entityComponent.Attributes["SID"];
                     if (at == null)
                     {
-                        throw new InvalidContentException(Messages.Entity_Sprite_RequiresID);
+                        entity.SpriteID = -1;
+                        if (MapProcessor.CurrentEntityID >= 0 && MapProcessor.map != null)
+                        {
+                            //Inheret the Sprite ID
+                            if (MapProcessor.map.Entities[MapProcessor.CurrentEntityID] is Entity)
+                            {
+                                entity.SpriteID = ((Entity)MapProcessor.map.Entities[MapProcessor.CurrentEntityID]).SpriteID;
+                            }
+                        }
+                        if (entity.SpriteID == -1)
+                        {
+                            throw new InvalidContentException(Messages.Entity_Sprite_RequiresID);
+                        }
                     }
-                    entity.SpriteID = int.Parse(at.Value);
-                    if (entity.SpriteID < 0)
+                    else
                     {
-                        throw new InvalidContentException(Messages.Entity_Sprite_PositiveID);
+                        entity.SpriteID = int.Parse(at.Value);
+                        if (entity.SpriteID < 0)
+                        {
+                            throw new InvalidContentException(Messages.Entity_Sprite_PositiveID);
+                        }
                     }
                     at = entityComponent.Attributes["DID"];
                     if (at != null)

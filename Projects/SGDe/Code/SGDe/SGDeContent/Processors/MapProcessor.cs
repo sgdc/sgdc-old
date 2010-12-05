@@ -12,6 +12,15 @@ namespace SGDeContent.Processors
 {
     public class MapProcessor
     {
+        /// <summary>
+        /// This represents the currently processing entity ID. This is used when processing Entitys for the Map.
+        /// </summary>
+        public static int CurrentEntityID = -1;
+        /// <summary>
+        /// This is the currently processing map.
+        /// </summary>
+        public static Map map = null;
+
         public static Map Process(Content input, ContentProcessorContext context)
         {
             return Process(input.document.DocumentElement, context);
@@ -20,6 +29,7 @@ namespace SGDeContent.Processors
         public static Map Process(XmlElement input, ContentProcessorContext context)
         {
             Map map = new Map();
+            MapProcessor.map = map;
 
             #region Resource Processing
 
@@ -101,7 +111,7 @@ namespace SGDeContent.Processors
                             #region EntityPos
 
                             entityPos = new object[2];
-                            entityPos[0] = int.Parse(layoutComponent.Attributes["ID"].Value);
+                            entityPos[0] = CurrentEntityID = int.Parse(layoutComponent.Attributes["ID"].Value);
                             map.DevID(layoutComponent.Attributes["DID"], entityPos);
                             foreach (XmlElement entityComponent in layoutComponent)
                             {
@@ -273,6 +283,10 @@ namespace SGDeContent.Processors
             }
 
             #endregion
+
+            //Reset the process values
+            CurrentEntityID = -1;
+            MapProcessor.map = null;
 
             map.Validate(context);
             return map;

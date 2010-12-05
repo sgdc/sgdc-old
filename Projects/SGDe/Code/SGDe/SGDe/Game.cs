@@ -29,11 +29,18 @@ namespace SGDE
         /// </summary>
         public SpriteBatch SpriteBatch { get { return SpriteManager.spriteBat; } }
 
+        private static Game cGame;
+        /// <summary>
+        /// Gets the current running game.
+        /// </summary>
+        public static Game CurrentGame { get { return cGame; } }
+
         /// <summary>
         /// Create a new Game.
         /// </summary>
         protected Game()
         {
+            cGame = this;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }

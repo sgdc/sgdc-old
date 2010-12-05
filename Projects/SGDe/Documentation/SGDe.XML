@@ -232,6 +232,62 @@
             Used Internally
             </summary>
         </member>
+        <member name="T:SGDE.Messages">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.Code_CannotEvaluate">
+            <summary>
+              Looks up a localized string similar to Cannot evaluate code. Arguments could be required..
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.ContentUtil_DIDExists">
+            <summary>
+              Looks up a localized string similar to Concurrency error.
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.GameContent_LevelNotExist">
+            <summary>
+              Looks up a localized string similar to Level does not exist..
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.GameReader_OnlyOneGameContent">
+            <summary>
+              Looks up a localized string similar to Only one game content can exist..
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.NodeReader_SceneNodeAbstract">
+            <summary>
+              Looks up a localized string similar to SceneNode cannot be loaded independent of another type..
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.SpriteManager_AnimationIDMismatch">
+            <summary>
+              Looks up a localized string similar to Animation ID does not match saved ID.
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.SpriteManager_AnimationSetIDMismatch">
+            <summary>
+              Looks up a localized string similar to Animation Set ID does not match saved ID.
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.SpriteManager_SpriteIDMismatch">
+            <summary>
+              Looks up a localized string similar to Texture ID does not match saved ID.
+            </summary>
+        </member>
         <member name="T:SGDE.Game">
             <summary>
             Base game that wraps much of the game's functions so they can be adjusted from the Game editor.
@@ -285,6 +341,11 @@
         <member name="P:SGDE.Game.SpriteBatch">
             <summary>
             Get the current SpriteBatch.
+            </summary>
+        </member>
+        <member name="P:SGDE.Game.CurrentGame">
+            <summary>
+            Gets the current running game.
             </summary>
         </member>
         <member name="T:SGDE.Content.Readers.NodeReader">
@@ -412,62 +473,6 @@
         <member name="M:SGDE.Content.Readers.SpriteManagerReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Graphics.SpriteManager)">
             <summary>
             Read a SpriteManager.
-            </summary>
-        </member>
-        <member name="T:SGDE.Messages">
-            <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:SGDE.Messages.ResourceManager">
-            <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:SGDE.Messages.Culture">
-            <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
-            </summary>
-        </member>
-        <member name="P:SGDE.Messages.Code_CannotEvaluate">
-            <summary>
-              Looks up a localized string similar to Cannot evaluate code. Arguments could be required..
-            </summary>
-        </member>
-        <member name="P:SGDE.Messages.ContentUtil_DIDExists">
-            <summary>
-              Looks up a localized string similar to Concurrency error.
-            </summary>
-        </member>
-        <member name="P:SGDE.Messages.GameContent_LevelNotExist">
-            <summary>
-              Looks up a localized string similar to Level does not exist..
-            </summary>
-        </member>
-        <member name="P:SGDE.Messages.GameReader_OnlyOneGameContent">
-            <summary>
-              Looks up a localized string similar to Only one game content can exist..
-            </summary>
-        </member>
-        <member name="P:SGDE.Messages.NodeReader_SceneNodeAbstract">
-            <summary>
-              Looks up a localized string similar to SceneNode cannot be loaded independent of another type..
-            </summary>
-        </member>
-        <member name="P:SGDE.Messages.SpriteManager_AnimationIDMismatch">
-            <summary>
-              Looks up a localized string similar to Animation ID does not match saved ID.
-            </summary>
-        </member>
-        <member name="P:SGDE.Messages.SpriteManager_AnimationSetIDMismatch">
-            <summary>
-              Looks up a localized string similar to Animation Set ID does not match saved ID.
-            </summary>
-        </member>
-        <member name="P:SGDE.Messages.SpriteManager_SpriteIDMismatch">
-            <summary>
-              Looks up a localized string similar to Texture ID does not match saved ID.
             </summary>
         </member>
     </members>
