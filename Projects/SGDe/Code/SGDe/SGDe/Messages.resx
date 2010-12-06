@@ -129,6 +129,9 @@
   <data name="GameReader_OnlyOneGameContent" xml:space="preserve">
     <value>Only one game content can exist.</value>
   </data>
+  <data name="Game_TooManyGames" xml:space="preserve">
+    <value>Only one SGDe game can be run at a time.</value>
+  </data>
   <data name="NodeReader_SceneNodeAbstract" xml:space="preserve">
     <value>SceneNode cannot be loaded independent of another type.</value>
   </data>

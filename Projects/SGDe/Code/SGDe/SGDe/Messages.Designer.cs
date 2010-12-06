@@ -79,6 +79,15 @@ namespace SGDE {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Only one SGDe game can be run at a time..
+        /// </summary>
+        internal static string Game_TooManyGames {
+            get {
+                return ResourceManager.GetString("Game_TooManyGames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Level does not exist..
         /// </summary>
         internal static string GameContent_LevelNotExist {

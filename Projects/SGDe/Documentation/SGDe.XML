@@ -258,6 +258,11 @@
               Looks up a localized string similar to Concurrency error.
             </summary>
         </member>
+        <member name="P:SGDE.Messages.Game_TooManyGames">
+            <summary>
+              Looks up a localized string similar to Only one SGDe game can be run at a time..
+            </summary>
+        </member>
         <member name="P:SGDE.Messages.GameContent_LevelNotExist">
             <summary>
               Looks up a localized string similar to Level does not exist..
@@ -338,14 +343,20 @@
             </summary>
             <param name="gameTime">The GameTime since the last draw.</param>
         </member>
+        <member name="P:SGDE.Game.CurrentGame">
+            <summary>
+            Gets the current running game.
+            </summary>
+        </member>
         <member name="P:SGDE.Game.SpriteBatch">
             <summary>
             Get the current SpriteBatch.
             </summary>
         </member>
-        <member name="P:SGDE.Game.CurrentGame">
+        <member name="P:SGDE.Game.GameContentName">
             <summary>
-            Gets the current running game.
+            Get or set the name of the game content that will be loaded. If this value is set after the <see cref="M:SGDE.Game.Initialize"/> function has executed it will be ignored. If the value is null, empty, or made 
+            of white-spaces it will be ignored as well. If this value references a game content that doesn't exist it will throw an exception.
             </summary>
         </member>
         <member name="T:SGDE.Content.Readers.NodeReader">
