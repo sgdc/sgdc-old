@@ -21,7 +21,8 @@ namespace SGDE.Content.DataTypes
         internal List<string> mapName;
 
         internal int width, height;
-        internal bool fullScreen, vsync, multisample, fixedTime;
+        internal bool fullScreen, vsync, multisample;
+        internal bool? fixedTime;
         internal TimeSpan frameTime;
 #if WINDOWS_PHONE
         internal Microsoft.Xna.Framework.DisplayOrientation orientation;
@@ -110,10 +111,13 @@ namespace SGDE.Content.DataTypes
             game.graphics.PreferredBackBufferHeight = this.height;
             game.graphics.IsFullScreen = this.fullScreen;
             game.graphics.SynchronizeWithVerticalRetrace = this.vsync;
-            game.IsFixedTimeStep = this.fixedTime;
-            if (this.fixedTime)
+            if (this.fixedTime.HasValue)
             {
-                game.TargetElapsedTime = this.frameTime;
+                game.IsFixedTimeStep = this.fixedTime.Value;
+                if (this.fixedTime.Value)
+                {
+                    game.TargetElapsedTime = this.frameTime;
+                }
             }
 #if WINDOWS_PHONE
             game.graphics.SupportedOrientations = this.orientation;

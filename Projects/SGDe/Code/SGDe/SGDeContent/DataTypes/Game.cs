@@ -18,7 +18,8 @@ namespace SGDeContent.DataTypes
 
         //Game settings
         public int Width, Height;
-        public bool Fullscreen, VSync, WindowResize, Multisample, MouseVisible, FixedTime;
+        public bool Fullscreen, VSync, WindowResize, Multisample, MouseVisible;
+        public bool? FixedTime;
         public Microsoft.Xna.Framework.DisplayOrientation Orientation;
         public string Title;
         public TimeSpan FrameTime;

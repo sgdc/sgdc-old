@@ -201,7 +201,7 @@ namespace SGDeContent.Processors
                                     at = gameSettingComponent.Attributes["FrameTime"];
                                     if (at != null)
                                     {
-                                        if (!TimeSpan.TryParse(at.Value, out game.FrameTime) && game.FixedTime)
+                                        if (!TimeSpan.TryParse(at.Value, out game.FrameTime) && (game.FixedTime.HasValue && game.FixedTime.Value))
                                         {
                                             context.Logger.LogWarning(null, null, Messages.Game_BadFrameTime);
                                             game.FixedTime = false;

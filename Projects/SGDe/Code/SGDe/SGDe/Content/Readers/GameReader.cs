@@ -46,8 +46,8 @@ namespace SGDE.Content.Readers
             content.fullScreen = input.ReadBoolean();
             content.vsync = input.ReadBoolean();
             content.multisample = input.ReadBoolean();
-            content.fixedTime = input.ReadBoolean();
-            if (content.fixedTime)
+            content.fixedTime = input.ReadObject<bool?>();
+            if (content.fixedTime.HasValue && content.fixedTime.Value)
             {
                 content.frameTime = input.ReadObject<TimeSpan>();
             }

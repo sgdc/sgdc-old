@@ -38,8 +38,8 @@ namespace SGDeContent.Writers
             output.Write(value.Fullscreen);
             output.Write(value.VSync);
             output.Write(value.Multisample);
-            output.Write(value.FixedTime);
-            if (value.FixedTime)
+            output.WriteObject(value.FixedTime);
+            if (value.FixedTime.HasValue && value.FixedTime.Value)
             {
                 output.WriteObject(value.FrameTime);
             }
