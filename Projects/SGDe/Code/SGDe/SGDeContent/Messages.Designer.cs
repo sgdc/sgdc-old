@@ -133,15 +133,6 @@ namespace SGDeContent {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t parse SpriteEffect &quot;{0}&quot;. Skipping..
-        /// </summary>
-        internal static string Animation_InvalidSpriteEffect {
-            get {
-                return ResourceManager.GetString("Animation_InvalidSpriteEffect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The animation region must remain the same width and height throught the entire animation..
         /// </summary>
         internal static string Animation_RegionMustRemainSame {
@@ -223,15 +214,6 @@ namespace SGDeContent {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Can&apos;t parse override attribute &quot;{0}&quot;. Skipping..
-        /// </summary>
-        internal static string Entity_Sprite_InvalidSpriteOverride {
-            get {
-                return ResourceManager.GetString("Entity_Sprite_InvalidSpriteOverride", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Sprite ID must be a valid positive number..
         /// </summary>
         internal static string Entity_Sprite_PositiveID {
@@ -286,6 +268,15 @@ namespace SGDeContent {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not parse frame time. Disabling fixed-time..
+        /// </summary>
+        internal static string Game_BadFrameTime {
+            get {
+                return ResourceManager.GetString("Game_BadFrameTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map ID {0} already exists..
         /// </summary>
         internal static string Game_MapIDExists {
@@ -327,6 +318,15 @@ namespace SGDeContent {
         internal static string Game_UnknownTarget {
             get {
                 return ResourceManager.GetString("Game_UnknownTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Window is set to be resizeable. This could cause issues if the game is not prepared for a resize event..
+        /// </summary>
+        internal static string Game_WindowResizeable {
+            get {
+                return ResourceManager.GetString("Game_WindowResizeable", resourceCulture);
             }
         }
         
@@ -444,6 +444,15 @@ namespace SGDeContent {
         internal static string SpriteMap_RequiresID {
             get {
                 return ResourceManager.GetString("SpriteMap_RequiresID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t parse {0} &quot;{1}&quot;. Skipping..
+        /// </summary>
+        internal static string Utils_InvalidEnum {
+            get {
+                return ResourceManager.GetString("Utils_InvalidEnum", resourceCulture);
             }
         }
     }

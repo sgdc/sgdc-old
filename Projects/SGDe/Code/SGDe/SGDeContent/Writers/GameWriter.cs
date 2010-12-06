@@ -36,6 +36,30 @@ namespace SGDeContent.Writers
                 output.Write(false);
             }
             output.Write(value.Fullscreen);
+            output.Write(value.VSync);
+            output.Write(value.Multisample);
+            output.Write(value.FixedTime);
+            if (value.FixedTime)
+            {
+                output.WriteObject(value.FrameTime);
+            }
+            switch (output.TargetPlatform)
+            {
+                case TargetPlatform.WindowsPhone:
+                    output.WriteObject(value.Orientation);
+                    break;
+                case TargetPlatform.Windows:
+                    output.Write(value.WindowResize);
+                    output.Write(value.MouseVisible);
+                    break;
+            }
+            switch (output.TargetPlatform)
+            {
+                case TargetPlatform.WindowsPhone:
+                case TargetPlatform.Windows:
+                    output.Write(value.Title);
+                    break;
+            }
             //Write out the resources
             //-Write out the maps
             output.Write(value.Maps.Count);

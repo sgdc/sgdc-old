@@ -76,6 +76,7 @@
     <Compile Include="Processors\GameProcessor.cs" />
     <Compile Include="Processors\MapProcessor.cs" />
     <Compile Include="Processors\SpriteMapProcessor.cs" />
+    <Compile Include="Processors\Utils.cs" />
     <Compile Include="Writers\AnimationWriter.cs" />
     <Compile Include="Writers\CodeWriter.cs" />
     <Compile Include="Writers\EntityWriter.cs" />

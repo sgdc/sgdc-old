@@ -44,6 +44,22 @@ namespace SGDE.Content.Readers
                 content.height = manager.PreferredBackBufferHeight;
             }
             content.fullScreen = input.ReadBoolean();
+            content.vsync = input.ReadBoolean();
+            content.multisample = input.ReadBoolean();
+            content.fixedTime = input.ReadBoolean();
+            if (content.fixedTime)
+            {
+                content.frameTime = input.ReadObject<TimeSpan>();
+            }
+#if WINDOWS_PHONE
+            content.orientation = input.ReadObject<Microsoft.Xna.Framework.DisplayOrientation>();
+#elif WINDOWS
+            content.resizeable = input.ReadBoolean();
+            content.mouseVisible = input.ReadBoolean();
+#endif
+#if WINDOWS_PHONE || WINDOWS
+            content.title = input.ReadString();
+#endif
             //Read SpriteSheet
             ContentUtil.PrepTempDID();
             SpriteManager.GetInstance(input.ContentManager); //Not fully necessery but useful

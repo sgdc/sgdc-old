@@ -18,7 +18,10 @@ namespace SGDeContent.DataTypes
 
         //Game settings
         public int Width, Height;
-        public bool Fullscreen;
+        public bool Fullscreen, VSync, WindowResize, Multisample, MouseVisible, FixedTime;
+        public Microsoft.Xna.Framework.DisplayOrientation Orientation;
+        public string Title;
+        public TimeSpan FrameTime;
 
         public Game()
         {
@@ -26,6 +29,10 @@ namespace SGDeContent.DataTypes
             this.MapIDs = new List<int>();
             this.MapOrderId = new List<int>();
             this.MapOrderName = new List<string>();
+
+            this.Multisample = true; //Hey, if it's avalible, great. If not, then it's ignored by XNA.
+            this.Title = string.Empty;
+            this.FrameTime = TimeSpan.Zero;
         }
 
         public void Sort()

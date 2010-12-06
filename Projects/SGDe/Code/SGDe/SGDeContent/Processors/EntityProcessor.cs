@@ -309,20 +309,7 @@ namespace SGDeContent.Processors
                     {
                         #region Override
 
-                        string[] values = at.Value.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-                        entity.OverrideAttributes = SGDE.Graphics.Sprite.SpriteAttributes.None;
-                        SGDE.Graphics.Sprite.SpriteAttributes temp;
-                        for (int i = 0; i < values.Length; i++)
-                        {
-                            if (!Enum.TryParse<SGDE.Graphics.Sprite.SpriteAttributes>(values[i].Trim(), out temp))
-                            {
-                                context.Logger.LogWarning(null, null, Messages.Entity_Sprite_InvalidSpriteOverride, values[i].Trim());
-                            }
-                            else
-                            {
-                                entity.OverrideAttributes |= temp;
-                            }
-                        }
+                        entity.OverrideAttributes = Utils.ParseEnum<SGDE.Graphics.Sprite.SpriteAttributes>(at.Value, SGDE.Graphics.Sprite.SpriteAttributes.None, context.Logger);
 
                         //Handle specific cases
                         if (((entity.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.RotationAbs) == SGDE.Graphics.Sprite.SpriteAttributes.RotationAbs) &&

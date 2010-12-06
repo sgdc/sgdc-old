@@ -141,9 +141,6 @@
   <data name="Animation_InvalidScale" xml:space="preserve">
     <value>Scale must have 2, comma seperated, components. X, Y. Ignoring.</value>
   </data>
-  <data name="Animation_InvalidSpriteEffect" xml:space="preserve">
-    <value>Can't parse SpriteEffect "{0}". Skipping.</value>
-  </data>
   <data name="Animation_RegionMustRemainSame" xml:space="preserve">
     <value>The animation region must remain the same width and height throught the entire animation.</value>
   </data>
@@ -174,9 +171,6 @@
   <data name="Entity_Sprite_InvalidRegion" xml:space="preserve">
     <value>Not valid Sprite region. Ignoring.</value>
   </data>
-  <data name="Entity_Sprite_InvalidSpriteOverride" xml:space="preserve">
-    <value>Can't parse override attribute "{0}". Skipping.</value>
-  </data>
   <data name="Entity_Sprite_PositiveID" xml:space="preserve">
     <value>Sprite ID must be a valid positive number.</value>
   </data>
@@ -192,6 +186,9 @@
   <data name="Entity_Sprite_TooManyAnimations" xml:space="preserve">
     <value>Only one animation node allowed on Sprite node. Will only process one.</value>
   </data>
+  <data name="Game_BadFrameTime" xml:space="preserve">
+    <value>Could not parse frame time. Disabling fixed-time.</value>
+  </data>
   <data name="Game_MapIDExists" xml:space="preserve">
     <value>Map ID {0} already exists.</value>
   </data>
@@ -206,6 +203,9 @@
   </data>
   <data name="Game_UnknownTarget" xml:space="preserve">
     <value>Unknown target platform {0}.</value>
+  </data>
+  <data name="Game_WindowResizeable" xml:space="preserve">
+    <value>Window is set to be resizeable. This could cause issues if the game is not prepared for a resize event.</value>
   </data>
   <data name="InvalidSGDEElement" xml:space="preserve">
     <value>Not a valid SGDE data element.</value>
@@ -245,5 +245,8 @@
   </data>
   <data name="SpriteMap_RequiresID" xml:space="preserve">
     <value>SpriteMap must contain an ID.</value>
+  </data>
+  <data name="Utils_InvalidEnum" xml:space="preserve">
+    <value>Can't parse {0} "{1}". Skipping.</value>
   </data>
 </root>

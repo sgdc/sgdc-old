@@ -134,20 +134,7 @@ namespace SGDeContent.Processors
                                 at = frame.Attributes["Effect"];
                                 if (at != null)
                                 {
-                                    string[] values = at.Value.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-                                    aframe.Effect = Microsoft.Xna.Framework.Graphics.SpriteEffects.None;
-                                    Microsoft.Xna.Framework.Graphics.SpriteEffects temp;
-                                    for (int i = 0; i < values.Length; i++)
-                                    {
-                                        if (!Enum.TryParse<Microsoft.Xna.Framework.Graphics.SpriteEffects>(values[i].Trim(), out temp))
-                                        {
-                                            context.Logger.LogWarning(null, null, Messages.Animation_InvalidSpriteEffect, values[i].Trim());
-                                        }
-                                        else
-                                        {
-                                            aframe.Effect |= temp;
-                                        }
-                                    }
+                                    aframe.Effect = Utils.ParseEnum<Microsoft.Xna.Framework.Graphics.SpriteEffects>(at.Value, Microsoft.Xna.Framework.Graphics.SpriteEffects.None, context.Logger);
 
                                     if (aframe.Effect != Microsoft.Xna.Framework.Graphics.SpriteEffects.None)
                                     {

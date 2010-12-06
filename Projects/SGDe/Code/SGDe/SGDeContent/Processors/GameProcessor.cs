@@ -145,37 +145,104 @@ namespace SGDeContent.Processors
                             {
                                 if (gameSettingComponent.Name.Equals("Screen"))
                                 {
-                                    if (context.TargetPlatform == TargetPlatform.Windows)
+                                    //Any platform
+                                    at = gameSettingComponent.Attributes["Fullscreen"];
+                                    if (at != null)
                                     {
-                                        at = gameSettingComponent.Attributes["Width"];
-                                        if (at != null)
+                                        //Ignored on Xbox
+                                        game.Fullscreen = bool.Parse(at.Value);
+                                    }
+                                    at = gameSettingComponent.Attributes["VSync"];
+                                    if (at != null)
+                                    {
+                                        game.VSync = bool.Parse(at.Value);
+                                    }
+                                    at = gameSettingComponent.Attributes["Multisample"];
+                                    if (at != null)
+                                    {
+                                        game.Multisample = bool.Parse(at.Value);
+                                    }
+                                    //Platform specific
+                                    switch (context.TargetPlatform)
+                                    {
+                                        case TargetPlatform.WindowsPhone:
+                                            //TODO: Not sure what resoultion this should be built for or if this should be like Windows.
+                                        case TargetPlatform.Windows:
+                                            at = gameSettingComponent.Attributes["Width"];
+                                            if (at != null)
+                                            {
+                                                game.Width = int.Parse(at.Value);
+                                            }
+                                            at = gameSettingComponent.Attributes["Height"];
+                                            if (at != null)
+                                            {
+                                                game.Height = int.Parse(at.Value);
+                                            }
+                                            break;
+                                        case TargetPlatform.Xbox360:
+                                            game.Width = 1280;
+                                            game.Height = 720;
+                                            game.Fullscreen = true;
+                                            //game.VSync = false; //Default value
+                                            //game.Multisample = true; //It's built into the chip, so why should you disable it?
+                                            break;
+                                        default:
+                                            context.Logger.LogWarning(null, null, Messages.Game_UnknownTarget, context.TargetPlatform);
+                                            break;
+                                    }
+                                }
+                                else if (gameSettingComponent.Name.Equals("Game"))
+                                {
+                                    at = gameSettingComponent.Attributes["FixedTime"];
+                                    if (at != null)
+                                    {
+                                        game.FixedTime = bool.Parse(at.Value);
+                                    }
+                                    at = gameSettingComponent.Attributes["FrameTime"];
+                                    if (at != null)
+                                    {
+                                        if (!TimeSpan.TryParse(at.Value, out game.FrameTime) && game.FixedTime)
                                         {
-                                            game.Width = int.Parse(at.Value);
-                                        }
-                                        at = gameSettingComponent.Attributes["Height"];
-                                        if (at != null)
-                                        {
-                                            game.Height = int.Parse(at.Value);
-                                        }
-                                        at = gameSettingComponent.Attributes["Fullscreen"];
-                                        if (at != null)
-                                        {
-                                            game.Fullscreen = bool.Parse(at.Value);
+                                            context.Logger.LogWarning(null, null, Messages.Game_BadFrameTime);
+                                            game.FixedTime = false;
                                         }
                                     }
-                                    else if (context.TargetPlatform == TargetPlatform.Xbox360)
+                                    switch (context.TargetPlatform)
                                     {
-                                        game.Width = 1280;
-                                        game.Height = 720;
-                                        game.Fullscreen = true;
+                                        case TargetPlatform.Windows:
+                                            at = gameSettingComponent.Attributes["MouseVisible"];
+                                            if (at != null)
+                                            {
+                                                game.MouseVisible = bool.Parse(at.Value);
+                                            }
+                                            break;
+                                        case TargetPlatform.WindowsPhone:
+                                            at = gameSettingComponent.Attributes["Orientation"];
+                                            if (at != null)
+                                            {
+                                                game.Orientation = Utils.ParseEnum<Microsoft.Xna.Framework.DisplayOrientation>(at.Value, Microsoft.Xna.Framework.DisplayOrientation.Default, context.Logger);
+                                            }
+                                            break;
                                     }
-                                    else if (context.TargetPlatform == TargetPlatform.WindowsPhone)
+                                    switch(context.TargetPlatform)
                                     {
-                                        //TODO: Not sure what resoultion this should be built for or if this should be like Windows.
-                                    }
-                                    else
-                                    {
-                                        context.Logger.LogWarning(null, null, Messages.Game_UnknownTarget, context.TargetPlatform);
+                                        case TargetPlatform.Windows:
+                                        case TargetPlatform.WindowsPhone:
+                                            at = gameSettingComponent.Attributes["WindowResizeable"];
+                                            if (at != null)
+                                            {
+                                                game.WindowResize = bool.Parse(at.Value);
+                                                if (game.WindowResize)
+                                                {
+                                                    context.Logger.LogWarning(null, null, Messages.Game_WindowResizeable);
+                                                }
+                                            }
+                                            at = gameSettingComponent.Attributes["Title"];
+                                            if (at != null)
+                                            {
+                                                game.Title = at.Value;
+                                            }
+                                            break;
                                     }
                                 }
                                 //TODO: Stuff like fullscreen, resoultion, ...

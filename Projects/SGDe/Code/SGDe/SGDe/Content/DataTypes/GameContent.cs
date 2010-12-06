@@ -21,7 +21,16 @@ namespace SGDE.Content.DataTypes
         internal List<string> mapName;
 
         internal int width, height;
-        internal bool fullScreen;
+        internal bool fullScreen, vsync, multisample, fixedTime;
+        internal TimeSpan frameTime;
+#if WINDOWS_PHONE
+        internal Microsoft.Xna.Framework.DisplayOrientation orientation;
+#elif WINDOWS
+        internal bool resizeable, mouseVisible;
+#endif
+#if WINDOWS_PHONE || WINDOWS
+        internal string title;
+#endif
 
         /// <summary>
         /// Get the number of levels.
@@ -97,9 +106,24 @@ namespace SGDE.Content.DataTypes
         /// <param name="game">The Game that will be set.</param>
         public void Setup(ref Game game)
         {
-            game.graphics.PreferredBackBufferWidth = width;
-            game.graphics.PreferredBackBufferHeight = height;
-            game.graphics.IsFullScreen = fullScreen;
+            game.graphics.PreferredBackBufferWidth = this.width;
+            game.graphics.PreferredBackBufferHeight = this.height;
+            game.graphics.IsFullScreen = this.fullScreen;
+            game.graphics.SynchronizeWithVerticalRetrace = this.vsync;
+            game.IsFixedTimeStep = this.fixedTime;
+            if (this.fixedTime)
+            {
+                game.TargetElapsedTime = this.frameTime;
+            }
+#if WINDOWS_PHONE
+            game.graphics.SupportedOrientations = this.orientation;
+#elif WINDOWS
+            game.Window.AllowUserResizing = this.resizeable;
+            game.IsMouseVisible = this.mouseVisible;
+#endif
+#if WINDOWS_PHONE || WINDOWS
+            game.Window.Title = this.title;
+#endif
             game.graphics.ApplyChanges();
         }
 

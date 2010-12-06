@@ -18,6 +18,25 @@ namespace SGDE.Content
         /// </summary>
         public static bool LoadingBuilders = false;
 
+        public enum System
+        {
+            Unknown,
+            Windows,
+            Xbox,
+            WindowsPhone,
+            Zune
+        }
+
+#if WINDOWS
+        public const System CurrentSystem = System.Windows;
+#elif XBOX
+        public const System CurrentSystem = System.Xbox;
+#elif WINDOWS_PHONE
+        public const System CurrentSystem = System.WindowsPhone;
+#elif ZUNE
+        public const System CurrentSystem = System.Zune;
+#endif
+
         public static void PrepTempDID()
         {
             if (did == null)
