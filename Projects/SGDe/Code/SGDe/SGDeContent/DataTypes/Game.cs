@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Content.Pipeline;
 
 namespace SGDeContent.DataTypes
 {
@@ -15,6 +16,7 @@ namespace SGDeContent.DataTypes
         public int FirstRun;
         public List<int> MapOrderId;
         public List<string> MapOrderName;
+        public ExternalReference<SpriteMap> SpriteSheet;
 
         //Game settings
         public int Width, Height;

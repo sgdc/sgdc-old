@@ -11,10 +11,22 @@ namespace SGDE.Content.DataTypes
     /// </summary>
     public class GameContent
     {
+        private int levelIndex, cLevel;
         /// <summary>
         /// Get the current level of the Game.
         /// </summary>
-        public int CurrentLevel { get; internal set; }
+        public int CurrentLevel
+        {
+            get
+            {
+                return levelIndex;
+            }
+            internal set
+            {
+                levelIndex = value;
+                cLevel = mapOrder[levelIndex];
+            }
+        }
 
         internal List<MapContent> maps;
         internal List<int> mapOrder;
@@ -51,7 +63,7 @@ namespace SGDE.Content.DataTypes
         {
             get
             {
-                return this.maps[CurrentLevel].entities;
+                return this.maps[cLevel].entities;
             }
         }
 
@@ -62,7 +74,7 @@ namespace SGDE.Content.DataTypes
         {
             get
             {
-                return this.mapName[CurrentLevel];
+                return this.mapName[cLevel];
             }
         }
 
@@ -72,7 +84,7 @@ namespace SGDE.Content.DataTypes
         /// <param name="level">The zero-based index of the level to go to.</param>
         public void GotoLevel(int level)
         {
-            if (level < 0 || level >= maps.Count)
+            if (level < 0 || level >= mapOrder.Count)
             {
                 throw new IndexOutOfRangeException(Messages.GameContent_LevelNotExist);
             }
@@ -89,14 +101,13 @@ namespace SGDE.Content.DataTypes
         /// <returns><code>true</code> if level was progressed. <code>false</code> if couldn't load level, usually because the level order is done.</returns>
         public bool NextLevel()
         {
-            int index = mapOrder.IndexOf(CurrentLevel);
-            if (index + 1 == mapOrder.Count)
+            if (CurrentLevel + 1 == mapOrder.Count)
             {
                 return false;
             }
             lock (this)
             {
-                CurrentLevel = mapOrder[index + 1];
+                CurrentLevel++;
             }
             return true;
         }
@@ -139,7 +150,7 @@ namespace SGDE.Content.DataTypes
         /// <returns>The game content, if it exists, or the default value of the requested type.</returns>
         public T GetMapContent<T>(string did)
         {
-            return this.maps[CurrentLevel].GetElement<T>(did);
+            return this.maps[cLevel].GetElement<T>(did);
         }
 
         /// <summary>

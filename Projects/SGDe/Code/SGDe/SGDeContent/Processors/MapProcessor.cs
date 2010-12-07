@@ -68,17 +68,7 @@ namespace SGDeContent.Processors
                             {
                                 throw new InvalidContentException(Messages.Map_EntityRefNotSGDE);
                             }
-                            ExternalReference<ProcessedContent> ext = context.BuildAsset<Content, ProcessedContent>(new ExternalReference<Content>(entityRef), typeof(SGDEProcessor).Name, null, typeof(SGDEImport).Name, Path.GetFileNameWithoutExtension(entityRef));
-                            ExternalReference<Entity> eExt;
-                            if (ext.Identity == null)
-                            {
-                                eExt = new ExternalReference<Entity>(ext.Filename);
-                            }
-                            else
-                            {
-                                eExt = new ExternalReference<Entity>(ext.Filename, ext.Identity);
-                            }
-                            map.Entities.Add(eExt);
+                            map.Entities.Add(Utils.CompileExternal<Entity>(entityRef, context));
                         }
                         map.DevID(entity.Attributes["DID"], map.Entities[map.Entities.Count - 1]);
                     }

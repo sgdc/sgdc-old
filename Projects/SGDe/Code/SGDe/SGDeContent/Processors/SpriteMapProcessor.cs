@@ -48,8 +48,7 @@ namespace SGDeContent.Processors
                                 if (mapComponent.Name.Equals("Source"))
                                 {
                                     hasSource = true;
-                                    string innerText = SGDEProcessor.GetInnerText(mapComponent);
-                                    map.Textures.Add(context.BuildAsset<TextureContent, TextureContent>(new ExternalReference<TextureContent>(innerText), "TextureProcessor", null, "TextureImporter", Path.GetFileNameWithoutExtension(innerText)));
+                                    map.Textures.Add(Utils.CompileExternal<TextureContent, TextureContent, TextureContent, Microsoft.Xna.Framework.Content.Pipeline.TextureImporter, Microsoft.Xna.Framework.Content.Pipeline.Processors.TextureProcessor>(SGDEProcessor.GetInnerText(mapComponent), context));
                                 }
                                 else if (mapComponent.Name.Equals("Animation"))
                                 {

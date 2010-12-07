@@ -62,7 +62,7 @@ namespace SGDE.Content.Readers
 #endif
             //Read SpriteSheet
             ContentUtil.PrepTempDID();
-            SpriteManager.GetInstance(input.ContentManager); //Not fully necessery but useful
+            SpriteManager.Load(input);
             Dictionary<string, object> did = new Dictionary<string, object>();
             ContentUtil.FinishTempDID(ref did);
             //Read Game content
@@ -91,7 +91,6 @@ namespace SGDE.Content.Readers
                 content.maps.Add(mapContent);
             }
             //Read game settings (map order, etc.)
-            content.CurrentLevel = input.ReadInt32();
             count = input.ReadInt32();
             content.mapOrder = new List<int>(count);
             content.mapName = new List<string>(count);
@@ -107,6 +106,7 @@ namespace SGDE.Content.Readers
                     content.mapName.Add(null);
                 }
             }
+            content.CurrentLevel = input.ReadInt32();
             return content;
         }
     }

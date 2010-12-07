@@ -61,6 +61,8 @@ namespace SGDeContent.Writers
                     break;
             }
             //Write out the resources
+            //-Write out SpriteSheet
+            output.WriteExternalReference(value.SpriteSheet);
             //-Write out the maps
             output.Write(value.Maps.Count);
             foreach (object map in value.Maps)
@@ -77,7 +79,6 @@ namespace SGDeContent.Writers
                 }
             }
             //Write out the game settings (the compoenent that actually describes the game)
-            output.Write(value.FirstRun);
             output.Write(value.MapOrderId.Count);
             for (int i = 0; i < value.MapOrderId.Count; i++)
             {
@@ -93,6 +94,7 @@ namespace SGDeContent.Writers
                     output.Write(name);
                 }
             }
+            output.Write(value.FirstRun);
         }
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)

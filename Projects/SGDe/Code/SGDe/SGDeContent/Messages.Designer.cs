@@ -448,6 +448,15 @@ namespace SGDeContent {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Microsoft changed the BuildCoordinator. You&apos;ll need to edit the code to adapt..
+        /// </summary>
+        internal static string Utils_ChangedBuild {
+            get {
+                return ResourceManager.GetString("Utils_ChangedBuild", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t parse {0} &quot;{1}&quot;. Skipping..
         /// </summary>
         internal static string Utils_InvalidEnum {

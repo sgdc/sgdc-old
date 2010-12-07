@@ -52,17 +52,7 @@ namespace SGDeContent.Processors
                                     {
                                         throw new InvalidContentException(Messages.Game_MapRefNotSGDE);
                                     }
-                                    ExternalReference<ProcessedContent> ext = context.BuildAsset<Content, ProcessedContent>(new ExternalReference<Content>(mapRef), typeof(SGDEProcessor).Name, null, typeof(SGDEImport).Name, Path.GetFileNameWithoutExtension(mapRef));
-                                    ExternalReference<Map> naoExt;
-                                    if (ext.Identity == null)
-                                    {
-                                        naoExt = new ExternalReference<Map>(ext.Filename);
-                                    }
-                                    else
-                                    {
-                                        naoExt = new ExternalReference<Map>(ext.Filename, ext.Identity);
-                                    }
-                                    game.Maps.Add(naoExt);
+                                    game.Maps.Add(Utils.CompileExternal<Map>(mapRef, context));
                                 }
                             }
 
@@ -82,13 +72,13 @@ namespace SGDeContent.Processors
                     XmlAttribute at = component.Attributes["SpriteSheet"];
                     if (at != null)
                     {
-                        //Specific SpriteSheet (though result is always "SpriteSheet")
-                        context.BuildAsset<Content, ProcessedContent>(new ExternalReference<Content>(at.Value), typeof(SGDEProcessor).Name, null, typeof(SGDEImport).Name, "SpriteSheet");
+                        //Specific SpriteSheet
+                        game.SpriteSheet = Utils.CompileExternal<SpriteMap>(at.Value, context);
                     }
                     else
                     {
                         //Default SpriteSheet
-                        context.BuildAsset<Content, ProcessedContent>(new ExternalReference<Content>("SpriteSheet.sgde"), typeof(SGDEProcessor).Name, null, typeof(SGDEImport).Name, "SpriteSheet");
+                        game.SpriteSheet = Utils.CompileExternal<SpriteMap>("SpriteSheet.sgde", context);
                     }
 
                     #endregion
@@ -99,6 +89,7 @@ namespace SGDeContent.Processors
                         {
                             #region Map List
 
+                            int index = 0;
                             foreach (XmlElement map in settingComponent)
                             {
                                 if (map.Name.Equals("Map"))
@@ -118,7 +109,7 @@ namespace SGDeContent.Processors
                                                 throw new InvalidContentException(Messages.Game_TooManyInitialMaps);
                                             }
                                             hasFirstRun = true;
-                                            game.FirstRun = id;
+                                            game.FirstRun = index;
                                         }
                                     }
                                     //Don't do any checks because maps can repeat
@@ -132,6 +123,7 @@ namespace SGDeContent.Processors
                                     {
                                         game.MapOrderName.Add(null);
                                     }
+                                    index++;
                                 }
                             }
 
@@ -145,6 +137,8 @@ namespace SGDeContent.Processors
                             {
                                 if (gameSettingComponent.Name.Equals("Screen"))
                                 {
+                                    #region Screen
+
                                     //Any platform
                                     at = gameSettingComponent.Attributes["Fullscreen"];
                                     if (at != null)
@@ -190,9 +184,14 @@ namespace SGDeContent.Processors
                                             context.Logger.LogWarning(null, null, Messages.Game_UnknownTarget, context.TargetPlatform);
                                             break;
                                     }
+
+                                    #endregion
                                 }
                                 else if (gameSettingComponent.Name.Equals("Game"))
                                 {
+                                    #region Game
+
+                                    //Any platform
                                     at = gameSettingComponent.Attributes["FixedTime"];
                                     if (at != null)
                                     {
@@ -207,6 +206,8 @@ namespace SGDeContent.Processors
                                             game.FixedTime = false;
                                         }
                                     }
+
+                                    //Platform specific
                                     switch (context.TargetPlatform)
                                     {
                                         case TargetPlatform.Windows:
@@ -244,8 +245,9 @@ namespace SGDeContent.Processors
                                             }
                                             break;
                                     }
+
+                                    #endregion
                                 }
-                                //TODO: Stuff like fullscreen, resoultion, ...
                             }
 
                             #endregion

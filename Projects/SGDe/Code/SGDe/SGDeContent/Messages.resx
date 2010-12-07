@@ -246,6 +246,9 @@
   <data name="SpriteMap_RequiresID" xml:space="preserve">
     <value>SpriteMap must contain an ID.</value>
   </data>
+  <data name="Utils_ChangedBuild" xml:space="preserve">
+    <value>Microsoft changed the BuildCoordinator. You'll need to edit the code to adapt.</value>
+  </data>
   <data name="Utils_InvalidEnum" xml:space="preserve">
     <value>Can't parse {0} "{1}". Skipping.</value>
   </data>

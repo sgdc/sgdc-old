@@ -60,7 +60,7 @@ namespace SGDE.Content.Readers
             //-Read sprite information
             Sprite sprite = new Sprite();
             entity.SpriteImage = sprite;
-            SpriteManager manager = SpriteManager.GetInstance(input.ContentManager);
+            SpriteManager manager = SpriteManager.GetInstance();
             sprite.baseTexture = manager.GetTexture(input.ReadInt32());
             ContentUtil.TempDeveloperID(input, sprite);
             Color? tint = input.ReadObject<Color?>();
@@ -111,7 +111,7 @@ namespace SGDE.Content.Readers
             List<SpriteManager.SpriteAnimation> animations = input.ReadObject<List<SpriteManager.SpriteAnimation>>();
             if (!builtInAnimation)
             {
-                SpriteManager manager = SpriteManager.GetInstance(input.ContentManager);
+                SpriteManager manager = SpriteManager.GetInstance();
                 if (defAnimation == -1)
                 {
                     defAnimation = 0;
@@ -131,7 +131,7 @@ namespace SGDE.Content.Readers
                     }
                 }
             }
-            sprite.animation = SpriteManager.GetInstance(input.ContentManager).GetFrames(defAnimation);
+            sprite.animation = SpriteManager.GetInstance().GetFrames(defAnimation);
             sprite.FPS = sprite.animation.DefaultFPS;
             sprite.animStart = sprite.frame = 0;
             sprite.animEnd = sprite.animation.frameCount;
