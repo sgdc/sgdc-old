@@ -629,11 +629,29 @@ namespace SGDeContent.Processors
 
                         if (customEntityComponent.Name.Equals("Contructor"))
                         {
-                            entity.Args = new List<object>();
-                            entity.ArgTypes = new Queue<string>();
+                            //Get index values
+                            List<int> indexes = new List<int>();
                             for (int i = 0; i < customEntityComponent.ChildNodes.Count; i++)
                             {
                                 int index = int.Parse(customEntityComponent.ChildNodes[i].Attributes["Index"].Value);
+                                if (index < 0)
+                                {
+                                    throw new InvalidContentException("Index must be a positive integer.");
+                                }
+                                if (indexes.Contains(index))
+                                {
+                                    throw new InvalidContentException(string.Format("Index already exists at {0}.", index));
+                                }
+                                indexes.Add(index);
+                            }
+                            int[] temp = indexes.ToArray();
+                            Array.Sort(temp);
+                            //Determine number of arguments
+                            int tcount = Math.Max(temp[temp.Length - 1] + 1, customEntityComponent.ChildNodes.Count);
+                            entity.Args = new List<object>(tcount);
+                            entity.ArgTypes = new Queue<string>(tcount);
+                            for (int i = 0; i < customEntityComponent.ChildNodes.Count; i++)
+                            {
                                 string typeS = customEntityComponent.ChildNodes[i].Attributes["Type"].Value;
                                 type = Type.GetType(typeS);
                                 string value = customEntityComponent.ChildNodes[i].Attributes["Value"].Value.Trim();
@@ -656,26 +674,100 @@ namespace SGDeContent.Processors
                                             SGDeContent.DataTypes.Code.Code code = SGDeContent.Processors.CodeProcessor.Process(customEntityComponent.ChildNodes[i].Attributes["Value"], context);
                                             if (code == null)
                                             {
-                                                entity.Args.Add(Activator.CreateInstance(type));
+                                                try
+                                                {
+                                                    entity.Args.Add(Activator.CreateInstance(type));
+                                                }
+                                                catch
+                                                {
+                                                    entity.Args.Add(null);
+                                                }
                                             }
                                             else
                                             {
                                                 entity.Args.Add(code);
-                                                entity.ArgTypes.Enqueue(type.AssemblyQualifiedName);
                                             }
+                                            entity.ArgTypes.Enqueue(type.AssemblyQualifiedName);
                                         }
                                     }
                                     else
                                     {
-                                        /*
+                                        /* CodeProcessor takes care of this
                                         if (value.Equals("null", StringComparison.OrdinalIgnoreCase))
                                         {
                                             entity.Args.Add(null);
                                         }
                                          */
                                         entity.Args.Add(SGDeContent.Processors.CodeProcessor.Process(customEntityComponent.ChildNodes[i].Attributes["Value"], context));
+                                        entity.ArgTypes.Enqueue(typeof(void).AssemblyQualifiedName);
                                     }
                                 }
+                            }
+                            //Now go through and make sure the arguments are in order, if not then rearrange them
+                            if (!temp.SequenceEqual(indexes.ToArray()) || tcount != indexes.Count)
+                            {
+                                #region Rearrange arguments
+
+                                //Not in same order, rearrange
+                                //-First copy the elements (in the correct order)
+                                List<object> objs = new List<object>();
+                                List<string> types = new List<string>();
+                                List<string> ttypes = new List<string>();
+                                //--Get the types in a list
+                                for (int i = 0; i < entity.Args.Count; i++)
+                                {
+                                    object obj = entity.Args[i];
+                                    if (obj == null || obj is SGDeContent.DataTypes.Code.Code)
+                                    {
+                                        ttypes.Add(entity.ArgTypes.Dequeue());
+                                    }
+                                    else
+                                    {
+                                        ttypes.Add(null);
+                                    }
+                                }
+                                //--Get the elements and rearrange the types
+                                for (int i = 0; i < tcount; i++)
+                                {
+                                    int index = indexes.IndexOf(i);
+                                    if (index < 0)
+                                    {
+                                        //We'll get back to this
+                                        continue;
+                                    }
+                                    object obj = entity.Args[index];
+                                    objs.Add(obj);
+                                    if (obj == null || obj is SGDeContent.DataTypes.Code.Code)
+                                    {
+                                        types.Add(ttypes[index]);
+                                    }
+                                }
+                                if (entity.ArgTypes.Count > 0)
+                                {
+                                    throw new InvalidOperationException("There are still argument types that exist. Something is not right.");
+                                }
+                                entity.Args.Clear();
+                                //-Now that the elements have been copied in the correct order, add missing types
+                                for (int i = 0, v = 0, t = 0; i < tcount; i++)
+                                {
+                                    int index = indexes.IndexOf(i);
+                                    if (index < 0)
+                                    {
+                                        entity.Args.Add(null);
+                                        entity.ArgTypes.Enqueue(typeof(void).AssemblyQualifiedName);
+                                    }
+                                    else
+                                    {
+                                        object obj = objs[v++];
+                                        entity.Args.Add(obj);
+                                        if (obj == null || obj is SGDeContent.DataTypes.Code.Code)
+                                        {
+                                            entity.ArgTypes.Enqueue(types[t++]);
+                                        }
+                                    }
+                                }
+
+                                #endregion
                             }
                         }
 

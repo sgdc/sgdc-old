@@ -24,7 +24,7 @@ namespace TestDemo
         {
         }
 
-        public BounceBall(int x, int y)
+        public BounceBall(int x = 0, int y = 0)
             : base(x, y)
         {
             mPrevCheckedUnits = new List<CollisionUnit>();

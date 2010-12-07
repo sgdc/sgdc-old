@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SGDE.Graphics;
 using SGDE.Content.DataTypes;
+using System.Reflection;
 
 namespace SGDE.Content.Readers
 {
@@ -26,17 +27,20 @@ namespace SGDE.Content.Readers
                 Type t = Type.GetType(input.ReadString());
                 int acount = input.ReadInt32();
                 object[] args = null;
+                Type[] types = null;
                 if (acount >= 0)
                 {
+                    List<Type> typeInfo = new List<Type>();
                     args = new object[acount];
                     for (int i = 0; i < args.Length; i++)
                     {
                         object obj = input.ReadObject<object>();
                         if (obj is SGDE.Content.Code.Code)
                         {
+                            //Code might not always return the correct type, which is the reason for the specific reference
                             SGDE.Content.Code.Code code = (SGDE.Content.Code.Code)obj;
-                            string s = input.ReadString();
-                            Type type = Type.GetType(s);
+                            Type type = Type.GetType(input.ReadString());
+                            typeInfo.Add(type);
                             try
                             {
                                 obj = Convert.ChangeType(code.Evaluate(), type);
@@ -46,14 +50,34 @@ namespace SGDE.Content.Readers
                                 obj = Activator.CreateInstance(type);
                             }
                         }
+                        else if (obj == null)
+                        {
+                            //A null object could have a specific type, save it for when trying to find a constructor
+                            if (input.ReadBoolean())
+                            {
+                                typeInfo.Add(Type.GetType(input.ReadString()));
+                            }
+                            else
+                            {
+                                //Unused/assigned type
+                                typeInfo.Add(typeof(void));
+                            }
+                        }
+                        else
+                        {
+                            //Just get the normal type
+                            typeInfo.Add(obj.GetType());
+                        }
                         args[i] = obj;
                     }
+                    types = typeInfo.ToArray();
                 }
-                entity = (Entity)Activator.CreateInstance(t, args);
+                entity = CreateEntityInstance(t, ref args, types);
                 entity.args = args;
             }
             else
             {
+                //No special type, make generic entity
                 entity = new GenericEntity();
             }
             //Read Entity values
@@ -242,6 +266,78 @@ namespace SGDE.Content.Readers
                 //Unit processes
                 //TODO
             }
+        }
+
+        #endregion
+
+        #region Complex Generate
+
+        internal static Entity CreateEntityInstance(Type t, object[] args)
+        {
+            return CreateEntityInstance(t, ref args, null);
+        }
+
+        internal static Entity CreateEntityInstance(Type t, ref object[] args, Type[] types)
+        {
+            Entity ent = null;
+            try
+            {
+                ent = (Entity)Activator.CreateInstance(t, args);
+            }
+            catch (MissingMethodException)
+            {
+                ConstructorInfo constructor = FindClosestMatch(t.GetConstructors(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance), ref args, types);
+                if (constructor == null)
+                {
+                    throw;
+                }
+                ent = (Entity)constructor.Invoke(args);
+            }
+            return ent;
+        }
+
+        internal static ConstructorInfo FindClosestMatch(ConstructorInfo[] constructors, ref object[] args, Type[] types)
+        {
+            ConstructorInfo conInfo = null;
+            if (args == null)
+            {
+                if (types == null)
+                {
+                    //Find default constructor
+                    foreach (ConstructorInfo con in constructors)
+                    {
+                        ParameterInfo[] paramaters = con.GetParameters();
+                        if (paramaters.Length == 0)
+                        {
+                            conInfo = con;
+                            break;
+                        }
+                        bool good = true;
+                        foreach (ParameterInfo param in paramaters)
+                        {
+                            if ((param.Attributes & ParameterAttributes.HasDefault) != ParameterAttributes.HasDefault)
+                            {
+                                good = false;
+                                break;
+                            }
+                        }
+                        if (good)
+                        {
+                            //a
+                        }
+                    }
+                }
+                else
+                {
+                    //Find constructor that matches types
+                    //TODO
+                }
+            }
+            else
+            {
+                //TODO
+            }
+            return conInfo;
         }
 
         #endregion

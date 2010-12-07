@@ -38,7 +38,7 @@ namespace SGDE.Content.DataTypes
         internal Entity Create(Entity mod, Dictionary<string, object> physics)
         {
             //Create a new Entity
-            Entity ent = (Entity)Activator.CreateInstance(BaseEntity.GetType(), BaseEntity.args);
+            Entity ent = SGDE.Content.Readers.EntityReader.CreateEntityInstance(BaseEntity.GetType(), BaseEntity.args);
             //Copy over attributes
             BaseEntity.CopyTo(ref ent);
             SGDE.Content.Readers.EntityReader.ProcessPhysics(ref ent, this.physics);

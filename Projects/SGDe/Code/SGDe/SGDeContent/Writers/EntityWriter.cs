@@ -32,6 +32,19 @@ namespace SGDeContent.Writers
                         {
                             output.Write(value.ArgTypes.Dequeue());
                         }
+                        if (obj == null && value.ArgTypes.Count > 0)
+                        {
+                            if (Type.GetType(value.ArgTypes.Peek()).Equals(typeof(void)))
+                            {
+                                output.Write(false);
+                                value.ArgTypes.Dequeue();
+                            }
+                            else
+                            {
+                                output.Write(true);
+                                output.Write(value.ArgTypes.Dequeue());
+                            }
+                        }
                     }
                 }
                 else
