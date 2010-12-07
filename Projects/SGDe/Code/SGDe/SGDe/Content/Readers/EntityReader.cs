@@ -323,7 +323,13 @@ namespace SGDE.Content.Readers
                         }
                         if (good)
                         {
-                            //a
+                            args = new object[paramaters.Length];
+                            for (int i = 0; i < args.Length; i++)
+                            {
+                                args[i] = paramaters[i].DefaultValue;
+                            }
+                            conInfo = con;
+                            break;
                         }
                     }
                 }

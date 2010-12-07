@@ -6,6 +6,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SGDeContent", "SGDeContent\SGDeContent.csproj", "{0D8ECF05-815F-4333-A54D-B99BD47BF2F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDemo", "..\..\..\Demos\TestDemo\TestDemo\TestDemo\TestDemo.csproj", "{072E1107-0321-4C93-817F-86BB3D25BE44}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0D8ECF05-815F-4333-A54D-B99BD47BF2F1} = {0D8ECF05-815F-4333-A54D-B99BD47BF2F1}
+		{C835C6B8-EF31-45E7-8FDA-BB6A01366A61} = {C835C6B8-EF31-45E7-8FDA-BB6A01366A61}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDemoContent", "..\..\..\Demos\TestDemo\TestDemo\TestDemoContent\TestDemoContent.contentproj", "{91A11785-7BA5-48DB-9785-7A77BA5C51A1}"
 EndProject

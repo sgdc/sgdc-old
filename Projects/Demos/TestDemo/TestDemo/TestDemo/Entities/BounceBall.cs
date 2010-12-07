@@ -19,11 +19,6 @@ namespace TestDemo
 
         public bool HandleCollisions { get; set; }
 
-        public BounceBall()
-            : this(0, 0)
-        {
-        }
-
         public BounceBall(int x = 0, int y = 0)
             : base(x, y)
         {
