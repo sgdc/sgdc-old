@@ -62,7 +62,11 @@ namespace SGDE.Content.Readers
 #endif
             //Read SpriteSheet
             ContentUtil.PrepTempDID();
-            SpriteManager.Load(input);
+            if (SpriteManager.spManager != null)
+            {
+                throw new InvalidOperationException();
+            }
+            SpriteManager.spManager = input.ReadExternalReference<SpriteManager>();
             Dictionary<string, object> did = new Dictionary<string, object>();
             ContentUtil.FinishTempDID(ref did);
             //Read Game content

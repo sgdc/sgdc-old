@@ -178,11 +178,38 @@ namespace SGDeContent {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are still argument types that exist. Something is not right..
+        /// </summary>
+        internal static string Entity_ArgsNotEmpty {
+            get {
+                return ResourceManager.GetString("Entity_ArgsNotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom Entity is not based off SGDE.Entity. Full support doesn&apos;t exist for extended types..
         /// </summary>
         internal static string Entity_Custom_NotBasedOffEntity {
             get {
                 return ResourceManager.GetString("Entity_Custom_NotBasedOffEntity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Index already exists at {0}..
+        /// </summary>
+        internal static string Entity_IndexNeeded {
+            get {
+                return ResourceManager.GetString("Entity_IndexNeeded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Index must be a positive integer..
+        /// </summary>
+        internal static string Entity_NeedPosInt {
+            get {
+                return ResourceManager.GetString("Entity_NeedPosInt", resourceCulture);
             }
         }
         

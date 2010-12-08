@@ -159,8 +159,17 @@
   <data name="EntityIDDoesNotExist" xml:space="preserve">
     <value>Entity ID doesn't exist.</value>
   </data>
+  <data name="Entity_ArgsNotEmpty" xml:space="preserve">
+    <value>There are still argument types that exist. Something is not right.</value>
+  </data>
   <data name="Entity_Custom_NotBasedOffEntity" xml:space="preserve">
     <value>Custom Entity is not based off SGDE.Entity. Full support doesn't exist for extended types.</value>
+  </data>
+  <data name="Entity_IndexNeeded" xml:space="preserve">
+    <value>Index already exists at {0}.</value>
+  </data>
+  <data name="Entity_NeedPosInt" xml:space="preserve">
+    <value>Index must be a positive integer.</value>
   </data>
   <data name="Entity_Sprite_CannotParseRegion" xml:space="preserve">
     <value>Could not parse Sprite region. Values must be integers and seperated by a dash.</value>

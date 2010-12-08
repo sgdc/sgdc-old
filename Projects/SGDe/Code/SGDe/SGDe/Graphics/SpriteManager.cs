@@ -11,16 +11,7 @@ namespace SGDE.Graphics
     internal class SpriteManager
     {
         internal static SpriteBatch spriteBat;
-        private static SpriteManager spManager;
-
-        internal static void Load(ContentReader reader)
-        {
-            if (spManager != null)
-            {
-                throw new InvalidOperationException();
-            }
-            spManager = reader.ReadExternalReference<SpriteManager>();
-        }
+        internal static SpriteManager spManager;
 
         public static SpriteManager GetInstance()
         {

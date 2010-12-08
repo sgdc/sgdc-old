@@ -636,11 +636,11 @@ namespace SGDeContent.Processors
                                 int index = int.Parse(customEntityComponent.ChildNodes[i].Attributes["Index"].Value);
                                 if (index < 0)
                                 {
-                                    throw new InvalidContentException("Index must be a positive integer.");
+                                    throw new InvalidContentException(Messages.Entity_NeedPosInt);
                                 }
                                 if (indexes.Contains(index))
                                 {
-                                    throw new InvalidContentException(string.Format("Index already exists at {0}.", index));
+                                    throw new InvalidContentException(string.Format(Messages.Entity_IndexNeeded, index));
                                 }
                                 indexes.Add(index);
                             }
@@ -744,7 +744,7 @@ namespace SGDeContent.Processors
                                 }
                                 if (entity.ArgTypes.Count > 0)
                                 {
-                                    throw new InvalidOperationException("There are still argument types that exist. Something is not right.");
+                                    throw new InvalidOperationException(Messages.Entity_ArgsNotEmpty);
                                 }
                                 entity.Args.Clear();
                                 //-Now that the elements have been copied in the correct order, add missing types
