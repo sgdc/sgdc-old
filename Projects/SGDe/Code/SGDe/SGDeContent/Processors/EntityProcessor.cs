@@ -608,9 +608,17 @@ namespace SGDeContent.Processors
                     #region Custom Entity
 
                     Type type = Type.GetType(entityComponent.Attributes["Base"].Value);
-                    if (!type.IsSubclassOf(typeof(SGDE.Entity)))
+                    if (type != null)
                     {
-                        context.Logger.LogWarning(null, null, Messages.Entity_Custom_NotBasedOffEntity);
+                        if (!type.IsSubclassOf(typeof(SGDE.Entity)))
+                        {
+                            context.Logger.LogWarning(null, null, Messages.Entity_Custom_NotBasedOffEntity);
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        context.Logger.LogWarning(null, null, Messages.Entity_Custom_CantFindType);
                     }
                     entity.SpecialType = SGDEProcessor.GetInnerText(entityComponent).Trim();
                     type = Type.GetType(entity.SpecialType);
@@ -625,10 +633,10 @@ namespace SGDeContent.Processors
                             continue;
                         }
 
-                        #region Contructor
-
                         if (customEntityComponent.Name.Equals("Contructor"))
                         {
+                            #region Contructor
+
                             //Get index values
                             List<int> indexes = new List<int>();
                             for (int i = 0; i < customEntityComponent.ChildNodes.Count; i++)
@@ -769,9 +777,9 @@ namespace SGDeContent.Processors
 
                                 #endregion
                             }
-                        }
 
-                        #endregion
+                            #endregion
+                        }
                     }
 
                     #endregion

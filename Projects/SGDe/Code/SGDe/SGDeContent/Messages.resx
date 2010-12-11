@@ -162,6 +162,9 @@
   <data name="Entity_ArgsNotEmpty" xml:space="preserve">
     <value>There are still argument types that exist. Something is not right.</value>
   </data>
+  <data name="Entity_Custom_CantFindType" xml:space="preserve">
+    <value>Can't find custom entity base type. If this type is not based off SGDE.Entity then an error will get thrown on runtime.</value>
+  </data>
   <data name="Entity_Custom_NotBasedOffEntity" xml:space="preserve">
     <value>Custom Entity is not based off SGDE.Entity. Full support doesn't exist for extended types.</value>
   </data>

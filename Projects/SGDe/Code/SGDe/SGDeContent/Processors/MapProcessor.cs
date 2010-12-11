@@ -160,6 +160,8 @@ namespace SGDeContent.Processors
                             {
                                 if (pharaohComponent.Name.Equals("Cell"))
                                 {
+                                    #region Cell
+
                                     XmlNode val = null;
                                     at = pharaohComponent.Attributes["Width"];
                                     if (at != null)
@@ -200,9 +202,13 @@ namespace SGDeContent.Processors
                                     {
                                         map.Physics_CellSize_Height = CodeProcessor.Process(val, context);
                                     }
+
+                                    #endregion
                                 }
                                 else if (pharaohComponent.Name.Equals("World"))
                                 {
+                                    #region World
+
                                     XmlNode val = null;
                                     at = pharaohComponent.Attributes["Width"];
                                     if (at != null)
@@ -243,9 +249,13 @@ namespace SGDeContent.Processors
                                     {
                                         map.Physics_World_Height = CodeProcessor.Process(val, context);
                                     }
+
+                                    #endregion
                                 }
                                 else if (pharaohComponent.Name.Equals("Gravity"))
                                 {
+                                    #region Gravity
+
                                     Vector2 grav = new Vector2();
                                     at = pharaohComponent.Attributes["X"];
                                     if (at != null)
@@ -261,6 +271,8 @@ namespace SGDeContent.Processors
                                     {
                                         map.Physics_Gravity = grav;
                                     }
+
+                                    #endregion
                                 }
                             }
 

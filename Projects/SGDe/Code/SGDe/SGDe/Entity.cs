@@ -175,9 +175,9 @@ namespace SGDE
             //}
         }
 
-        public void HandleInput(KeyboardState keyboardState, ContentManager content)
+        public void HandleInput(KeyboardState keyboardState, Game thisGame)
         {
-            keyboardListener.HandleEvents(keyboardState, content);
+            keyboardListener.HandleEvents(keyboardState, thisGame);
         }
 
         /// <summary>

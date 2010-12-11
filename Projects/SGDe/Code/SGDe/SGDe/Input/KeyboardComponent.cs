@@ -10,7 +10,7 @@ namespace SGDE
 {
     partial class Entity
     {
-        public delegate void KeyboardEvent(ContentManager content);
+        public delegate void KeyboardEvent(Game thisGame);
 
         protected class KeyboardComponent
         {
@@ -32,11 +32,14 @@ namespace SGDE
                 KeyboardEventMap[(byte)key] = callback;
             }
 
-            public void HandleEvents(KeyboardState keyboardState, ContentManager content)
+            public void HandleEvents(KeyboardState keyboardState, Game thisGame)
             {
                 foreach (Keys key in keyboardState.GetPressedKeys())
                 {
-                    if (KeyboardEventMap[(byte)key] != null) KeyboardEventMap[(byte)key](content);
+                    if (KeyboardEventMap[(byte)key] != null)
+                    {
+                        KeyboardEventMap[(byte)key](thisGame);
+                    }
                 }
             }
         }

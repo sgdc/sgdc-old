@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using SGDE;
 
 namespace TestDemo
 {
@@ -20,29 +21,29 @@ namespace TestDemo
             keyboardListener.RegisterEvent(Microsoft.Xna.Framework.Input.Keys.C, ((Game1)Game1.CurrentGame).ToggleCollision);
         }
 
-        private void Keyboard_LEFT(ContentManager content)
+        private void Keyboard_LEFT(Game thisGame)
         {
             this.Translate(-5, 0);
         }
 
-        private void Keyboard_RIGHT(ContentManager content)
+        private void Keyboard_RIGHT(Game thisGame)
         {
             this.Translate(5, 0);
         }
 
-        private void Keyboard_UP(ContentManager content)
+        private void Keyboard_UP(Game thisGame)
         {
             this.Translate(0, -5);
         }
 
-        private void Keyboard_DOWN(ContentManager content)
+        private void Keyboard_DOWN(Game thisGame)
         {
             this.Translate(0, 5);
         }
 
-        private void Keyboard_Escape(ContentManager content)
+        private void Keyboard_Escape(Game thisGame)
         {
-            Game1.CurrentGame.Exit();
+            thisGame.Exit();
         }
     }
 }

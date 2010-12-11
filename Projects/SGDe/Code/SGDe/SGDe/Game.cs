@@ -161,7 +161,7 @@ namespace SGDE
                 //Very inefficient manner of processing. Leave it for now.
                 foreach (Entity e in SceneManager.GetInstance().GetKeyboardListeners())
                 {
-                    e.HandleInput(cstate, this.Content);
+                    e.HandleInput(cstate, this);
                 }
             }
         }

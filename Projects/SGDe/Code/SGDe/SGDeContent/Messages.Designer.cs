@@ -187,6 +187,15 @@ namespace SGDeContent {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t find custom entity base type. If this type is not based off SGDE.Entity then an error will get thrown on runtime..
+        /// </summary>
+        internal static string Entity_Custom_CantFindType {
+            get {
+                return ResourceManager.GetString("Entity_Custom_CantFindType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom Entity is not based off SGDE.Entity. Full support doesn&apos;t exist for extended types..
         /// </summary>
         internal static string Entity_Custom_NotBasedOffEntity {

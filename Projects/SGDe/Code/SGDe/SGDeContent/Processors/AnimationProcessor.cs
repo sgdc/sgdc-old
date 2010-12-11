@@ -201,6 +201,10 @@ namespace SGDeContent.Processors
                                         {
                                             aframe.Region = new Rectangle(ivals[0], ivals[1], ivals[2], ivals[3]);
                                             aframe.Used |= SGDE.Content.Readers.AnimationReader.RegionUsed;
+                                            if (!region.HasValue)
+                                            {
+                                                region = new Rectangle(0, 0, aframe.Region.Width, aframe.Region.Height); //Only care about height and width
+                                            }
                                         }
                                     }
                                 }

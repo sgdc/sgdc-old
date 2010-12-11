@@ -181,7 +181,7 @@ namespace TestDemo
             base.GetContent<PortalBox>("PortalIn").SetOther(base.GetContent<PortalBox>("PortalOut"));
         }
 
-        public void ToggleCollision(ContentManager content)
+        public void ToggleCollision(SGDE.Game thisGame)
         {
             showCollision = !showCollision;
         }
