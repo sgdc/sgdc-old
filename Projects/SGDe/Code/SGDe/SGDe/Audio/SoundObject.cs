@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Audio;
 
-namespace AudioExample
+namespace SGDE.Audio
 {
-    class SoundObject
+    public class SoundObject
 	{
 		private string m_name;
 		private SoundEffect m_sound;
@@ -78,7 +78,7 @@ namespace AudioExample
             }
 		}
 		
-		public void play(SoundEffect sound, float volume, string name)
+		public void Play(SoundEffect sound, float volume, string name)
 		{
 			if (sound != null && volume >= 0 && volume <= 1)
 			{
@@ -92,7 +92,7 @@ namespace AudioExample
 				m_isPlaying = true;
 			}
 		}
-		public void pause()
+		public void Pause()
 		{
 			if (m_isPlaying)
 			{
@@ -102,7 +102,7 @@ namespace AudioExample
 				m_soundInstance.Pause();
 			}
 		}
-		public void unpause()
+		public void Unpause()
 		{
 			if (!m_isFinished)
 			{
@@ -112,7 +112,7 @@ namespace AudioExample
 				m_isPlaying = true;
 			}
 		}
-		public void stop()
+		public void Stop()
 		{
 			if (m_isPlaying)
 			{
@@ -122,7 +122,7 @@ namespace AudioExample
 				m_isFinished = true;
 			}
 		}
-		/*private void finish(e:Event)
+		/*private void Finish(e:Event)
 		{
 			//m_channel.removeEventListener(Event.SOUND_COMPLETE, finish);
 			m_isFinished = true;

@@ -99,7 +99,7 @@
       </Entity>
       <Entity ID="2">
         <Entity>
-          <Sprite DID="Star" SID="3" />
+          <Sprite DID="Star" SID="1" />
         </Entity>
       </Entity>
       <Entity ID="3">
@@ -116,12 +116,12 @@
       </Entity>
       <Entity ID="7">
         <Entity>
-          <Sprite DID="Grid" SID="4" />
+          <Sprite DID="Grid" SID="2" />
         </Entity>
       </Entity>
       <Entity ID="8">
         <Entity Name="User">
-          <Sprite SID="3" />
+          <Sprite SID="1" />
           <Physics Static="true"></Physics>
           <CustomEntity Base="SGDE.Entity, SGDe">TestDemo.TestPlayerEntity, TestDemo<Contructor><Arg Index="0" Type="System.Int32, mscorlib" Value="0" /><Arg Index="1" Type="System.Int32, mscorlib" Value="0" /></Contructor></CustomEntity>
         </Entity>

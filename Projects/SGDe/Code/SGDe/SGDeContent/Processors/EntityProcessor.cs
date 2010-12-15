@@ -610,7 +610,8 @@ namespace SGDeContent.Processors
                     Type type = Type.GetType(entityComponent.Attributes["Base"].Value);
                     if (type != null)
                     {
-                        if (!type.IsSubclassOf(typeof(SGDE.Entity)))
+                        Type entityType = typeof(SGDE.Entity);
+                        if (!type.Equals(entityType) && !type.IsSubclassOf(entityType))
                         {
                             context.Logger.LogWarning(null, null, Messages.Entity_Custom_NotBasedOffEntity);
                             continue;

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <SGDE Version="1.0">
   <Entity Name="Moving Box">
-    <Sprite SID="2" />
+    <Sprite SID="4" />
     <Physics Enabled="true" Collision="true">
       <Velocity X="-2" Y="0" />
     </Physics>

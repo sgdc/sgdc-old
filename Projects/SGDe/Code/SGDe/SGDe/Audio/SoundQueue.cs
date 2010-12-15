@@ -7,9 +7,9 @@ using System.Collections;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 
-namespace AudioExample
+namespace SGDE.Audio
 {
-    class SoundQueue
+    public class SoundQueue
 	{
 		private List<SoundObject> m_sounds;
 		private int m_index;
@@ -72,7 +72,7 @@ namespace AudioExample
 		}
 
         //Will set an event up to play the next song based on what the nextSongID is set to
-        /*public void nextMusic(event:Event)
+        /*public void NextMusic(event:Event)
         {
             //var tempSound:Sound = m_audioMC.getSound(m_nextSongID);
             if (tempSound != null)
@@ -89,7 +89,7 @@ namespace AudioExample
         }*/
 
         //Prepare next song to play
-        public void setNextMusic(Song id, double loopLoc)
+        public void SetNextMusic(Song id, double loopLoc)
         {
             m_nextSongID = id;
             m_nextSongLoopLocation = loopLoc;
@@ -102,18 +102,18 @@ namespace AudioExample
 		}*/
 		
         //Get sound from index (will be null if nothing is there)
-		public SoundObject getSoundObject(int index)
+		public SoundObject GetSoundObject(int index)
 		{
 			return (index >= 0 && index < m_sounds.Capacity && m_sounds[index] != null) ? m_sounds[index] : null;
 		}
 		
         //Start music
-		public void playMusic(Song sound, double loopLoc)
+		public void PlayMusic(Song sound, double loopLoc)
 		{
 			m_loopLocation = loopLoc;
 			if (m_musicIsPlaying)
 			{
-				stopMusic();
+				StopMusic();
 			}
 			if (sound != null)
 			{
@@ -126,7 +126,7 @@ namespace AudioExample
 		}
 
         //Loop music. You can have the loop function be this if you want to play the same song
-		/*public void loopMusic(Event event)
+		/*public void LoopMusic(Event event)
 		{
 			if (m_currentSongID != null)
 			{
@@ -138,12 +138,12 @@ namespace AudioExample
 			}
 		}*/
 
-		public void setMusicVolume(float num)
+		public void SetMusicVolume(float num)
 		{
 			MediaPlayer.Volume = num;
 		}
 		
-		public void stopMusic()
+		public void StopMusic()
 		{
 			if (m_musicIsPlaying)
 			{
@@ -155,24 +155,24 @@ namespace AudioExample
 		}
 		
         //Next two functions are seperated in case you want independent volumes (assuming you have some sort of static Save Data class to keep track of audio options)
-		public int playSoundEffect(SoundEffect sound)
+		public int PlaySoundEffect(SoundEffect sound)
 		{
 			if (sound != null)
 			{
 				if (m_sounds[m_index] != null)
 				{
-					m_sounds[m_index].stop();
+					m_sounds[m_index].Stop();
 				}
 				if (m_sounds[m_index] != null)
 				{
 					if (!m_sounds[m_index].IsFinished)
 					{
-						m_sounds[m_index].stop();
+						m_sounds[m_index].Stop();
 					}
 					m_sounds[m_index] = null;
 				}
 				SoundObject sc = new SoundObject();
-				sc.play(sound, 1.0f, null);
+				sc.Play(sound, 1.0f, null);
 				if (!sc.IsError)
 				{
 					m_sounds[m_index] = sc;
@@ -192,24 +192,24 @@ namespace AudioExample
 				return -1;
 			}
 		}
-		public int playVoiceEffect(SoundEffect sound)
+		public int PlayVoiceEffect(SoundEffect sound)
 		{
 			if (sound != null)
 			{
 				if (m_sounds[m_index] != null)
 				{
-					m_sounds[m_index].stop();
+					m_sounds[m_index].Stop();
 				}
 				if (m_sounds[m_index] != null)
 				{
 					if (!m_sounds[m_index].IsFinished)
 					{
-						m_sounds[m_index].stop();
+						m_sounds[m_index].Stop();
 					}
 					m_sounds[m_index] = null;
 				}
 				SoundObject sc = new SoundObject();
-				sc.play(sound, 1.0f, null);
+				sc.Play(sound, 1.0f, null);
 				if (!sc.IsError)
 				{
 					m_sounds[m_index] = sc;
@@ -230,41 +230,41 @@ namespace AudioExample
 			}
 		}
 
-		public void stopSound(int loc)
+		public void StopSound(int loc)
 		{
 			if (loc >= 0 && m_sounds[loc] != null)
 			{
-				m_sounds[loc].stop();
+				m_sounds[loc].Stop();
 			}
 		}
-		public void stopAllSounds()
+		public void StopAllSounds()
 		{
 			for (int i = 0; i < m_sounds.Capacity; i++)
 			{
 				if (m_sounds[i] != null)
 				{
-					m_sounds[i].stop();
+					m_sounds[i].Stop();
 					m_sounds[i] = null;
 				}
 			}
 		}
-		public void pauseAllSounds()
+		public void PauseAllSounds()
 		{
             for (int i = 0; i < m_sounds.Capacity; i++)
 			{
 				if (m_sounds[i] != null && !m_sounds[i].IsFinished)
 				{
-					m_sounds[i].pause();
+					m_sounds[i].Pause();
 				}
 			}
 		}
-		public void unpauseAllSounds()
+		public void UnpauseAllSounds()
 		{
             for (int i = 0; i < m_sounds.Capacity; i++)
 			{
 				if (m_sounds[i] != null && !m_sounds[i].IsFinished)
 				{
-					m_sounds[i].unpause();
+					m_sounds[i].Unpause();
 				}
 			}
 		}

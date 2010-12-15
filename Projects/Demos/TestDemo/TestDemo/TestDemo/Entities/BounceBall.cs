@@ -30,17 +30,17 @@ namespace TestDemo
         {
             if (mCollisionUnit != null && HandleCollisions)
             {
-                foreach (CollisionUnit other in mPrevCheckedUnits)
-                {
-                    other.GetOwner().SetColor(Color.White);
-                }
+                //foreach (CollisionUnit other in mPrevCheckedUnits)
+                //{
+                //    other.GetOwner().SetColor(Color.White);
+                //}
 
                 mPrevCheckedUnits = new List<CollisionUnit>(mCollisionUnit.GetCheckedUnits());
 
-                foreach (CollisionUnit other in mPrevCheckedUnits)
-                {
-                    other.GetOwner().SetColor(Color.Green);
-                }
+                //foreach (CollisionUnit other in mPrevCheckedUnits)
+                //{
+                //    other.GetOwner().SetColor(Color.Green);
+                //}
 
                 if (mCollisionUnit.HasCollisions())
                 {
@@ -48,7 +48,7 @@ namespace TestDemo
 
                     foreach (CollisionUnit other in mCollisionUnit.GetCollisions())
                     {
-                        other.GetOwner().SetColor(Color.Pink);
+                        //other.GetOwner().SetColor(Color.Pink);
                         mHitLocation = GetCollisionUnit().GetCollisionPoint(other);
                     }
                 }
@@ -70,6 +70,11 @@ namespace TestDemo
         {
             if (!mPhysBaby.IsStatic())
             {
+                if (HandleCollisions)
+                {
+                    Game1 game1 = (Game1)SGDE.Game.CurrentGame;
+                    game1.mySoundQueue.PlaySoundEffect(game1.ping);
+                }
                 foreach (CollisionUnit other in mCollisionUnit.GetCollisions())
                 {
                     if (other.IsSolid())

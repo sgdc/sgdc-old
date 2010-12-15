@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Media;
 using SGDE;
 using SGDE.Physics;
 using SGDE.Graphics;
+using SGDE.Audio;
 
 namespace TestDemo
 {
@@ -37,6 +38,9 @@ namespace TestDemo
         PortalBox pBox2;
          */
         bool showCollision;
+        internal SoundQueue mySoundQueue = new SoundQueue();
+        internal SoundEffect ping;
+        internal Song song;
 
         public Game1()
         {
@@ -150,6 +154,9 @@ namespace TestDemo
 
             base.LoadGame();
 
+            ping = Content.Load<SoundEffect>("ping");
+            song = Content.Load<Song>("05 - Kids");
+
             showCollision = false;
 
             redBall = base.GetContent<BounceBall>("Vader");
@@ -179,6 +186,8 @@ namespace TestDemo
             mHitTexture = base.GetContent<Texture2D>("Star");
             mGridTexture = base.GetContent<Texture2D>("Grid");
             base.GetContent<PortalBox>("PortalIn").SetOther(base.GetContent<PortalBox>("PortalOut"));
+
+            mySoundQueue.PlayMusic(song, 0);
         }
 
         public void ToggleCollision(SGDE.Game thisGame)
@@ -215,7 +224,7 @@ namespace TestDemo
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Coral);
 
             this.SpriteBatch.Begin();
             if (showCollision)

@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <SGDE Version="1.0">
   <Entity Name="Portal Out">
-    <Sprite SID="6" />
+    <Sprite SID="4" Color="FFFF00FF" />
     <Physics Enabled="true" Collision="true" PostSetup="true" />
-    <CustomEntity Base="SGDE.Entity, SGDe">TestDemo.PortalBox, TestDemo<Contructor><Arg Index="0" Type="System.Int32, mscorlib" Value="80" /><Arg Index="1" Type="System.Int32, mscorlib" Value="0" /><Arg Index="2" Type="TestDemo.PortalBox, TestDemo" Value="null" /><Arg Index="3" Type="System.Boolean, mscorlib" Value="false" /></Contructor></CustomEntity>
+    <CustomEntity Base="SGDE.Entity, SGDe">TestDemo.PortalBox, TestDemo<Contructor><Arg Index="0" Type="System.Int32, mscorlib" Value="180" /><Arg Index="1" Type="System.Int32, mscorlib" Value="0" /><Arg Index="2" Type="TestDemo.PortalBox, TestDemo" Value="null" /><Arg Index="3" Type="System.Boolean, mscorlib" Value="false" /></Contructor></CustomEntity>
   </Entity>
 </SGDE>
