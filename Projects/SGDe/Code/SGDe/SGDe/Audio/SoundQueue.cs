@@ -20,8 +20,18 @@ namespace AudioExample
 		private double m_loopLocation; //Millseconds into song to loop to
 		//private Function m_loopFunction; //Callback function for loops
 		private double m_nextSongLoopLocation;
-		
-		public SoundQueue()
+
+
+        /*
+         
+         * Implementation
+         * SoundQueue mySoundQueue = new SoundQueue();
+           mySoundQueue.playMusic(Content.Load<Song>("musicAsset"), 0);
+         * mySoundQueue.playSoundEffect(Content.Load<SoundEffect>("soundAsset"));
+         
+         */
+
+        public SoundQueue()
 		{
 			m_queueSize = 30;
 			m_sounds = new List<SoundObject>(m_queueSize);
