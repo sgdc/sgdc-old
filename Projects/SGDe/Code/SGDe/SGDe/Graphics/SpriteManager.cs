@@ -48,7 +48,26 @@ namespace SGDE.Graphics
             return verifyId;
         }
 
+#if WINDOWS
         public int AddAnimation(SpriteAnimation animation, ushort spriteId = 0, int verifyId = 0)
+#else
+        public int AddAnimation(SpriteAnimation animation)
+        {
+            return AddAnimation(animation, 0, 0);
+        }
+
+        public int AddAnimation(SpriteAnimation animation, ushort spriteId)
+        {
+            return AddAnimation(animation, spriteId, 0);
+        }
+
+        public int AddAnimation(SpriteAnimation animation, int verifyId)
+        {
+            return AddAnimation(animation, 0, verifyId);
+        }
+
+        public int AddAnimation(SpriteAnimation animation, ushort spriteId, int verifyId)
+#endif
         {
             if (!animation.IsValid)
             {

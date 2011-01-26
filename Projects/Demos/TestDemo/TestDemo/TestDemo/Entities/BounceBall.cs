@@ -19,7 +19,16 @@ namespace TestDemo
 
         public bool HandleCollisions { get; set; }
 
+#if WINDOWS
         public BounceBall(int x = 0, int y = 0)
+#else
+        public BounceBall()
+            : this(0, 0)
+        {
+        }
+
+        public BounceBall(int x, int y)
+#endif
             : base(x, y)
         {
             mPrevCheckedUnits = new List<CollisionUnit>();

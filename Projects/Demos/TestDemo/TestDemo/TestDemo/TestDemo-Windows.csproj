@@ -96,10 +96,6 @@
     <Reference Include="mscorlib">
       <Private>False</Private>
     </Reference>
-    <Reference Include="SGDe">
-      <HintPath>..\..\..\..\SGDe\Code\SGDe\SGDe\_build\Debug\bin\x86\SGDe.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -130,6 +126,10 @@
     <Content Include="Resources\GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\SGDe\Code\SGDe\SGDe\SGDe-Windows.csproj">
+      <Project>{C835C6B8-EF31-45E7-8FDA-BB6A01366A61}</Project>
+      <Name>SGDe-Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TestDemoContent\TestDemoContent.contentproj">
       <Name>TestDemoContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>

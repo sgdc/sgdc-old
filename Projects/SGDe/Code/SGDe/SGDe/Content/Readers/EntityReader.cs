@@ -43,7 +43,11 @@ namespace SGDE.Content.Readers
                             typeInfo.Add(type);
                             try
                             {
+#if WINDOWS
                                 obj = Convert.ChangeType(code.Evaluate(), type);
+#else
+                                obj = Convert.ChangeType(code.Evaluate(), type, null);
+#endif
                             }
                             catch
                             {
@@ -146,7 +150,11 @@ namespace SGDE.Content.Readers
                     for (int i = 0; i < animations.Count; i++)
                     {
                         SpriteManager.SpriteAnimation animation = animations[i];
+#if WINDOWS
                         int value = manager.AddAnimation(animation, spriteId: (ushort)animation.ID);
+#else
+                        int value = manager.AddAnimation(animation, (ushort)animation.ID);
+#endif
                         if (!gotAn && i == defAnimation)
                         {
                             gotAn = true;
@@ -280,16 +288,25 @@ namespace SGDE.Content.Readers
         internal static Entity CreateEntityInstance(Type t, ref object[] args, Type[] types)
         {
             Entity ent = null;
+            Exception e = null;
             try
             {
                 ent = (Entity)Activator.CreateInstance(t, args);
             }
-            catch (MissingMethodException)
+            catch (MissingMethodException mme)
+            {
+                e = mme;
+            }
+            catch (NullReferenceException nre)
+            {
+                e = nre;
+            }
+            if (e != null)
             {
                 ConstructorInfo constructor = FindClosestMatch(t.GetConstructors(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance), ref args, types);
                 if (constructor == null)
                 {
-                    throw;
+                    throw e;
                 }
                 ent = (Entity)constructor.Invoke(args);
             }
@@ -298,6 +315,7 @@ namespace SGDE.Content.Readers
 
         internal static ConstructorInfo FindClosestMatch(ConstructorInfo[] constructors, ref object[] args, Type[] types)
         {
+            //TODO: Later update so that types can be skipped
             ConstructorInfo conInfo = null;
             if (args == null)
             {
@@ -341,8 +359,91 @@ namespace SGDE.Content.Readers
             }
             else
             {
-                //Find constructor that matches args
-                //TODO
+                if (types == null)
+                {
+                    //Make a list of types
+                    types = new Type[args.Length];
+                }
+                if (args.Length == types.Length)
+                {
+                    //Check argument types because they will be used to find the constructor
+                    bool good = true;
+                    for (int i = 0; i < args.Length; i++)
+                    {
+                        if (types[i] == null)
+                        {
+                            //Get the argument type
+                            if (args[i] != null)
+                            {
+                                types[i] = args[i].GetType();
+                            }
+                            else
+                            {
+                                types[i] = typeof(void);
+                            }
+                        }
+                        else
+                        {
+                            //Check the argument type, if it is a mismatch then we might have an issue
+                            if (args[i] != null)
+                            {
+                                if (!types[i].Equals(args[i].GetType()))
+                                {
+                                    good = false;
+                                }
+                            }
+                            //Don't need to check null types
+                        }
+                    }
+                    if (good)
+                    {
+                        //We only want it when we know all the argument types and arguments, no mismatch
+                        foreach (ConstructorInfo con in constructors)
+                        {
+                            good = true;
+                            ParameterInfo[] paramaters = con.GetParameters();
+                            if (paramaters.Length == args.Length)
+                            {
+                                for (int i = 0; i < args.Length; i++)
+                                {
+                                    Type paramType = paramaters[i].ParameterType;
+                                    if (args[i] == null)
+                                    {
+                                        if (paramType.IsValueType)
+                                        {
+                                            //Null is a no-no for a value type.
+                                            good = false;
+                                            break;
+                                        }
+                                        else if(!types[i].Equals(typeof(void)))
+                                        {
+                                            //If the types weren't generalted and actually have a type then check it
+                                            if (!paramType.IsAssignableFrom(types[i]))
+                                            {
+                                                good = false;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (!paramType.IsInstanceOfType(args[i]))
+                                        {
+                                            good = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (good)
+                                {
+                                    //Found it
+                                    conInfo = con;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
             }
             return conInfo;
         }

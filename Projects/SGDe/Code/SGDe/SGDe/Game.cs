@@ -63,7 +63,11 @@ namespace SGDE
                 {
                     return;
                 }
+#if WINDOWS
                 if (string.IsNullOrWhiteSpace(value))
+#else
+                if (string.IsNullOrEmpty(value.Trim()))
+#endif
                 {
                     //Ignore
                     return;

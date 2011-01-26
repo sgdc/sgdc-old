@@ -40,7 +40,16 @@ namespace SGDE
         /// </summary>
         /// <param name="x">X coordinate</param>
         /// <param name="y">Y coordinate</param>
+#if WINDOWS
         public Entity(float x = 0, float y = 0)
+#else
+        public Entity()
+            : this(0, 0)
+        {
+        }
+
+        public Entity(float x, float y)
+#endif
         {
             SetRotation(0);
             mPhysBaby = new PhysicsBaby(this);

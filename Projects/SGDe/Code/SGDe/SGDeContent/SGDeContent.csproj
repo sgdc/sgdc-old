@@ -93,9 +93,9 @@
     <Content Include="Debugging.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SGDe\SGDe.csproj">
+    <ProjectReference Include="..\SGDe\SGDe-Windows.csproj">
       <Project>{C835C6B8-EF31-45E7-8FDA-BB6A01366A61}</Project>
-      <Name>SGDe</Name>
+      <Name>SGDe-Windows</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

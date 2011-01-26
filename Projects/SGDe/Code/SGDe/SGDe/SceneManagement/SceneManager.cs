@@ -5,7 +5,7 @@ namespace SGDE.SceneManagement
 {
     public sealed class SceneManager
     {
-        private static SceneManager mInstance = new SceneManager();
+        private static SceneManager mInstance;
 
         public List<Entity> mKeyboardListeners;
 
@@ -26,6 +26,10 @@ namespace SGDE.SceneManagement
 
         public static SceneManager GetInstance()
         {
+            if (mInstance == null)
+            {
+                mInstance = new SceneManager();
+            }
             return mInstance;
         }
     }
