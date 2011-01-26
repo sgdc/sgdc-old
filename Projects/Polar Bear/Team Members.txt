@@ -1,0 +1,5 @@
+"Polar Bear Game" Team Members
+- Ryan Phillips:	Game Design
+- Brent Cox:		Programming
+- Alberto Almonte:	Programming
+- Brian Cesar-...:	Art Creator

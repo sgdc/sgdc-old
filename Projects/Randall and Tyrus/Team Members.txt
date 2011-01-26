@@ -1,0 +1,5 @@
+"Tyrus and Randall" Team Members
+- Daniel Katz:	Programming
+- Rob Ertz:		Programming
+- Ken Goff:		Programming
+- Willy Abeel:	Art Creator
