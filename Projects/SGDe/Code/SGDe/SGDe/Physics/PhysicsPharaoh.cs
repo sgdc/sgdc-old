@@ -66,6 +66,16 @@ namespace SGDE.Physics
             chief.UpdateUnit(unit);
         }
 
+        public void RemoveCollisionUnit(CollisionUnit unit)
+        {
+            if (ContentUtil.LoadingBuilders || unit == null)
+            {
+                return;
+            }
+            CollisionChief chief = CollisionChief.GetInstance();
+            chief.RemoveCollisionUnit(unit);
+        }
+
         public void DrawCollisionGrid(Texture2D gridTexture)
         {
             CollisionChief.GetInstance().DrawCollisionGrid(SGDE.Graphics.SpriteManager.spriteBat, gridTexture);

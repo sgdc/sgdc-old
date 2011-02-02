@@ -169,7 +169,52 @@ namespace SGDE.Physics.Collision
 
         public void RemoveCollisionUnit(CollisionUnit unit)
         {
-            // TODO
+            Vector2 circleCenter;
+            int circleRadius;
+            Vector2 lineStart;
+            Vector2 lineEnd;
+            Point topLeftCell;
+            Point bottomRightCell;
+
+            if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE)
+            {
+                circleCenter = unit.GetCircleCenter();
+                circleRadius = unit.GetCircleRadius();
+
+                // remove from appropriate cells
+                topLeftCell = CalculateCircleTopLeftCell(circleCenter, circleRadius);
+                bottomRightCell = CalculateCircleBottomRightCell(circleCenter, circleRadius);
+
+                for (int i = topLeftCell.X; i <= bottomRightCell.X; i++)
+                {
+                    for (int j = topLeftCell.Y; j <= bottomRightCell.Y; j++)
+                    {
+                        mCollisionGrid.Cells[i, j].RemoveCollisionUnit(unit);
+                    }
+                }
+
+            }
+            else if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_LINE)
+            {
+                lineStart = unit.GetLineStart();
+                lineEnd = unit.GetLineEnd();
+
+                // TODO: remove from appropriate cells
+
+            }
+            else if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_BOX)
+            {
+                topLeftCell = CalculateCellPosition(unit.GetUpperLeft());
+                bottomRightCell = CalculateCellPosition(unit.GetLowerRight());
+
+                for (int i = topLeftCell.X; i <= bottomRightCell.X; i++)
+                {
+                    for (int j = topLeftCell.Y; j <= bottomRightCell.Y; j++)
+                    {
+                        mCollisionGrid.Cells[i, j].RemoveCollisionUnit(unit);
+                    }
+                }
+            }
         }
 
         public void TranslateCollisionUnit(CollisionUnit unit, float x, float y)
@@ -355,7 +400,166 @@ namespace SGDE.Physics.Collision
 
         public void ScaleCollisionUnit(CollisionUnit unit, Vector2 scale)
         {
-            // TODO
+            int oldCircleRadius;
+            int newCircleRadius;
+            Vector2 circleCenter;
+            Vector2 oldLineStart;
+            Vector2 oldLineEnd;
+            Point oldTopLeftCell;
+            Point oldBottomRightCell;
+            Point newTopLeftCell;
+            Point newBottomRightCell;
+
+            if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE || unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_BOX)
+            {
+                if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE)
+                {
+                    oldCircleRadius = unit.GetCircleRadius();
+                    newCircleRadius = (int)(unit.GetCircleRadius() * ((scale.X + scale.Y) / 2));
+                    circleCenter = unit.GetCircleCenter();
+
+                    // calculate containing cells
+                    oldTopLeftCell = CalculateCircleTopLeftCell(circleCenter, oldCircleRadius);
+                    oldBottomRightCell = CalculateCircleBottomRightCell(circleCenter, oldCircleRadius);
+
+                    newTopLeftCell = CalculateCircleTopLeftCell(circleCenter, newCircleRadius);
+                    newBottomRightCell = CalculateCircleBottomRightCell(circleCenter, newCircleRadius);
+                }
+                else
+                {
+                    Vector2 point1 = unit.GetUpperLeft();
+                    Vector2 point2 = unit.GetLowerRight();
+                    int oldWidth = unit.GetWidth();
+                    int oldHeight = unit.GetHeight();
+                    int xChange = (int)(((oldWidth * scale.X) - oldWidth) / 2);
+                    int yChange = (int)(((oldHeight * scale.Y) - oldHeight) / 2);
+
+                    point1.X -= xChange;
+                    point1.Y -= yChange;
+
+                    point2.X += xChange;
+                    point2.Y += yChange;
+
+                    oldTopLeftCell = CalculateCellPosition(unit.GetUpperLeft());
+                    oldBottomRightCell = CalculateCellPosition(unit.GetLowerRight());
+
+                    newTopLeftCell = CalculateCellPosition(point1);
+                    newBottomRightCell = CalculateCellPosition(point2);
+                }
+
+                if (scale.X < 1)
+                {
+                    for (int j = oldTopLeftCell.Y; j < oldBottomRightCell.Y; j++)
+                    {
+                        // remove left
+                        for (int i = oldTopLeftCell.X; i < newTopLeftCell.X; i++)
+                        {
+                            mCollisionGrid.Cells[i, j].RemoveCollisionUnit(unit);
+                        }
+
+                        // remove right
+                        for (int i = newBottomRightCell.X + 1; i <= oldBottomRightCell.X; i++)
+                        {
+                            mCollisionGrid.Cells[i, j].RemoveCollisionUnit(unit);
+                        }
+                    }
+
+                    if (scale.Y < 1)
+                    {
+                        for (int i = newTopLeftCell.X; i <= newBottomRightCell.X; i++)
+                        {
+                            // remove top
+                            for (int j = oldTopLeftCell.Y; j < newTopLeftCell.Y; j++)
+                            {
+                                mCollisionGrid.Cells[i, j].RemoveCollisionUnit(unit);
+                            }
+
+                            // remove bottom
+                            for (int j = newBottomRightCell.Y + 1; j <= oldBottomRightCell.Y; j++)
+                            {
+                                mCollisionGrid.Cells[i, j].RemoveCollisionUnit(unit);
+                            }
+                        }
+                    }
+                    else if (scale.Y > 1)
+                    {
+                        for (int i = newTopLeftCell.X; i <= newBottomRightCell.X; i++)
+                        {
+                            // add top
+                            for (int j = newTopLeftCell.Y; j < oldTopLeftCell.Y; j++)
+                            {
+                                mCollisionGrid.Cells[i, j].AddCollisionUnit(unit);
+                            }
+
+                            // add bottom
+                            for (int j = oldBottomRightCell.Y + 1; j <= newBottomRightCell.Y; j++)
+                            {
+                                mCollisionGrid.Cells[i, j].AddCollisionUnit(unit);
+                            }
+                        }
+                    }
+                }
+                else if (scale.X > 1)
+                {
+                    for (int j = newTopLeftCell.Y; j <= newBottomRightCell.Y; j++)
+                    {
+                        // add left
+                        for (int i = newTopLeftCell.X; i < oldTopLeftCell.X; i++)
+                        {
+                            mCollisionGrid.Cells[i, j].AddCollisionUnit(unit);
+                        }
+
+                        // add right
+                        for (int i = oldBottomRightCell.X + 1; i <= newBottomRightCell.X; i++)
+                        {
+                            mCollisionGrid.Cells[i, j].AddCollisionUnit(unit);
+                        }
+                    }
+
+                    if (scale.Y < 1)
+                    {
+                        for (int i = oldTopLeftCell.X; i <= oldBottomRightCell.X; i++)
+                        {
+                            // remove top
+                            for (int j = oldTopLeftCell.Y; j < newTopLeftCell.Y; j++)
+                            {
+                                mCollisionGrid.Cells[i, j].RemoveCollisionUnit(unit);
+                            }
+
+                            // remove bottom
+                            for (int j = newBottomRightCell.Y + 1; j <= oldBottomRightCell.Y; j++)
+                            {
+                                mCollisionGrid.Cells[i, j].RemoveCollisionUnit(unit);
+                            }
+                        }
+                    }
+                    else if (scale.Y > 1)
+                    {
+                        for (int i = oldTopLeftCell.X; i <= oldBottomRightCell.X; i++)
+                        {
+                            // add top
+                            for (int j = newTopLeftCell.Y; j < oldTopLeftCell.Y; j++)
+                            {
+                                mCollisionGrid.Cells[i, j].AddCollisionUnit(unit);
+                            }
+
+                            // add bottom
+                            for (int j = oldBottomRightCell.Y + 1; j <= newBottomRightCell.Y; j++)
+                            {
+                                mCollisionGrid.Cells[i, j].AddCollisionUnit(unit);
+                            }
+                        }
+                    }
+                }
+            }
+            else if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_LINE)
+            {
+                oldLineStart = unit.GetLineStart();
+                oldLineEnd = unit.GetLineEnd();
+
+                // TODO: put in appropriate cells
+
+            }
         }
 
         private Point CalculateCircleTopLeftCell(Vector2 circleCenter, int circleRadius)

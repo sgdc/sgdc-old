@@ -154,6 +154,40 @@ namespace SGDE.Physics.Collision
             }
         }
 
+        // for box or circle
+        public int GetWidth()
+        {
+            if (mCollisionType == CollisionType.COLLISION_CIRCLE)
+            {
+                return mCircleRadius * 2;
+            }
+            else if (mCollisionType == CollisionType.COLLISION_BOX)
+            {
+                return (int)(mPoint2.X - mPoint1.X);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        // for box or circle
+        public int GetHeight()
+        {
+            if (mCollisionType == CollisionType.COLLISION_CIRCLE)
+            {
+                return mCircleRadius * 2;
+            }
+            else if (mCollisionType == CollisionType.COLLISION_BOX)
+            {
+                return (int)(mPoint2.Y - mPoint1.Y);
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         public CollisionType GetCollisionType()
         {
             return mCollisionType;
@@ -496,7 +530,18 @@ namespace SGDE.Physics.Collision
             CollisionChief chief = CollisionChief.GetInstance();
             chief.RotateCollisionUnit(this, rotation);
 
-            // TODO
+            if (mCollisionType == CollisionType.COLLISION_CIRCLE || mCollisionType == CollisionType.COLLISION_NONE)
+            {
+                return;
+            }
+            else if (mCollisionType == CollisionType.COLLISION_BOX)
+            {
+                // TODO
+            }
+            else if (mCollisionType == CollisionType.COLLISION_LINE)
+            {
+                // TODO
+            }
 
             if (!bNeedsUpdate)
             {
@@ -509,9 +554,46 @@ namespace SGDE.Physics.Collision
         {
             base.Scale(scale);
             CollisionChief chief = CollisionChief.GetInstance();
+
+            // no inside out scaling
+            if (scale.X < 0)
+            {
+                scale.X *= -1;
+            }
+            if (scale.Y < 0)
+            {
+                scale.Y *= -1;
+            }
+
             chief.ScaleCollisionUnit(this, scale);
 
-            // TODO
+            if (mCollisionType == CollisionType.COLLISION_NONE)
+            {
+                return;
+            }
+            else if (mCollisionType == CollisionType.COLLISION_CIRCLE)
+            {
+                // no ovals
+                mCircleRadius = (int) (mCircleRadius * ((scale.X + scale.Y) / 2));
+            }
+            else if (mCollisionType == CollisionType.COLLISION_BOX)
+            {
+                int oldWidth = GetWidth();
+                int oldHeight = GetHeight();
+                
+                int xChange = (int)(((oldWidth * scale.X) - oldWidth) / 2);
+                int yChange = (int)(((oldHeight * scale.Y) - oldHeight) / 2);
+
+                mPoint1.X -= xChange;
+                mPoint1.Y -= yChange;
+
+                mPoint2.X += xChange;
+                mPoint2.Y += yChange;
+            }
+            else if (mCollisionType == CollisionType.COLLISION_LINE)
+            {
+                // TODO
+            }
 
             if (!bNeedsUpdate)
             {
