@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentTagManager.cs" />
     <Compile Include="DataTypes\Animation.cs" />
     <Compile Include="DataTypes\AnimationFrame.cs" />
     <Compile Include="DataTypes\AnimationSet.cs" />
@@ -99,6 +100,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ContentTags.resx" />
     <EmbeddedResource Include="Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>

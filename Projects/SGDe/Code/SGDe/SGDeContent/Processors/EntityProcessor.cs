@@ -13,13 +13,13 @@ namespace SGDeContent.Processors
     {
         public static Entity Process(Content input, ContentProcessorContext context)
         {
-            return Process(input.document.DocumentElement["Entity"], context);
+            return Process(ContentTagManager.GetXMLElem("IMPORT_ENTITIY_ELEMENT", input.Version, input.document.DocumentElement), input.Version, context);
         }
 
-        public static Entity Process(XmlElement input, ContentProcessorContext context)
+        public static Entity Process(XmlElement input, double version, ContentProcessorContext context)
         {
             Entity entity = new Entity();
-            XmlAttribute at = input.Attributes["Name"];
+            XmlAttribute at = ContentTagManager.GetXMLAtt("ENTITY_NAME", version, input);
             if (at != null)
             {
                 entity.Name = at.Value;
@@ -32,14 +32,14 @@ namespace SGDeContent.Processors
                     continue;
                 }
                 XmlElement entityComponent = xmlNode as XmlElement;
-                if (entityComponent.Name.Equals("Node"))
+                if (ContentTagManager.TagMatches("ENTITY_NODE", entityComponent.Name, version))
                 {
                     #region Node
 
                     Node node = new Node();
                     bool nonDefault = false;
 
-                    at = entityComponent.Attributes["DID"];
+                    at = ContentTagManager.GetXMLAtt("GENERAL_DEVELOPER_ID", version, entityComponent);
                     if (at != null)
                     {
                         nonDefault = true;
@@ -48,12 +48,12 @@ namespace SGDeContent.Processors
                     bool gotScale = false;
                     foreach (XmlElement nodeComponent in entityComponent)
                     {
-                        if (nodeComponent.Name.Equals("Vector2"))
+                        if (ContentTagManager.TagMatches("ENTITY_NODE_VECTOR2", nodeComponent.Name, version))
                         {
                             #region Vector2
 
-                            string type = nodeComponent.Attributes["ID"].Value;
-                            at = nodeComponent.Attributes["X"];
+                            string type = ContentTagManager.GetXMLAtt("GENERAL_ID", version, nodeComponent).Value;
+                            at = ContentTagManager.GetXMLAtt("GENERAL_X", version, nodeComponent);
                             if (at != null)
                             {
                                 object val;
@@ -63,33 +63,32 @@ namespace SGDeContent.Processors
                                 }
                                 catch
                                 {
-                                    val = CodeProcessor.Process(at, context);
+                                    val = CodeProcessor.Process(at, version, context);
                                 }
-                                switch (type)
+                                if (ContentTagManager.TagMatches("ENTITY_NODE_VECTOR2_TRANSLATION", type, version))
                                 {
-                                    case "Translation":
-                                        if (val is float)
-                                        {
-                                            node.Translation.X = (float)val;
-                                        }
-                                        else
-                                        {
-                                            node.tx = (SGDeContent.DataTypes.Code.Code)val;
-                                        }
-                                        break;
-                                    case "Scale":
-                                        if (val is float)
-                                        {
-                                            node.Scale.X = (float)val;
-                                        }
-                                        else
-                                        {
-                                            node.sx = (SGDeContent.DataTypes.Code.Code)val;
-                                        }
-                                        break;
+                                    if (val is float)
+                                    {
+                                        node.Translation.X = (float)val;
+                                    }
+                                    else
+                                    {
+                                        node.tx = (SGDeContent.DataTypes.Code.Code)val;
+                                    }
+                                }
+                                else if (ContentTagManager.TagMatches("ENTITY_NODE_VECTOR2_SCALE", type, version))
+                                {
+                                    if (val is float)
+                                    {
+                                        node.Scale.X = (float)val;
+                                    }
+                                    else
+                                    {
+                                        node.sx = (SGDeContent.DataTypes.Code.Code)val;
+                                    }
                                 }
                             }
-                            at = nodeComponent.Attributes["Y"];
+                            at = ContentTagManager.GetXMLAtt("GENERAL_Y", version, nodeComponent);
                             if (at != null)
                             {
                                 object val;
@@ -99,58 +98,56 @@ namespace SGDeContent.Processors
                                 }
                                 catch
                                 {
-                                    val = CodeProcessor.Process(at, context);
+                                    val = CodeProcessor.Process(at, version, context);
                                 }
-                                switch (type)
+                                if (ContentTagManager.TagMatches("ENTITY_NODE_VECTOR2_TRANSLATION", type, version))
                                 {
-                                    case "Translation":
-                                        if (val is float)
-                                        {
-                                            node.Translation.Y = (float)val;
-                                        }
-                                        else
-                                        {
-                                            node.ty = (SGDeContent.DataTypes.Code.Code)val;
-                                        }
-                                        break;
-                                    case "Scale":
-                                        if (val is float)
-                                        {
-                                            node.Scale.Y = (float)val;
-                                        }
-                                        else
-                                        {
-                                            node.sy = (SGDeContent.DataTypes.Code.Code)val;
-                                        }
-                                        break;
+                                    if (val is float)
+                                    {
+                                        node.Translation.Y = (float)val;
+                                    }
+                                    else
+                                    {
+                                        node.ty = (SGDeContent.DataTypes.Code.Code)val;
+                                    }
+                                }
+                                else if (ContentTagManager.TagMatches("ENTITY_NODE_VECTOR2_SCALE", type, version))
+                                {
+                                    if (val is float)
+                                    {
+                                        node.Scale.Y = (float)val;
+                                    }
+                                    else
+                                    {
+                                        node.sy = (SGDeContent.DataTypes.Code.Code)val;
+                                    }
                                 }
                             }
-                            switch (type)
+                            if (ContentTagManager.TagMatches("ENTITY_NODE_VECTOR2_TRANSLATION", type, version))
                             {
-                                case "Translation":
-                                    if (node.Translation != Vector2.Zero || (node.tx != null || node.ty != null))
-                                    {
-                                        nonDefault = true;
-                                    }
-                                    break;
-                                case "Scale":
-                                    gotScale = true;
-                                    if (node.Scale != Vector2.One || (node.sx != null || node.sy != null))
-                                    {
-                                        nonDefault = true;
-                                    }
-                                    break;
+                                if (node.Translation != Vector2.Zero || (node.tx != null || node.ty != null))
+                                {
+                                    nonDefault = true;
+                                }
+                            }
+                            else if (ContentTagManager.TagMatches("ENTITY_NODE_VECTOR2_SCALE", type, version))
+                            {
+                                gotScale = true;
+                                if (node.Scale != Vector2.One || (node.sx != null || node.sy != null))
+                                {
+                                    nonDefault = true;
+                                }
                             }
 
                             #endregion
                         }
-                        else if (nodeComponent.Name.Equals("Float"))
+                        else if (ContentTagManager.TagMatches("ENTITY_NODE_VECTOR1", nodeComponent.Name, version))
                         {
                             #region Float
 
                             float val = 0;
 
-                            at = nodeComponent.Attributes["Value"];
+                            at = ContentTagManager.GetXMLAtt("ENTITY_NODE_VECTOR1_VALUE", version, nodeComponent);
                             if (at != null)
                             {
                                 try
@@ -159,11 +156,11 @@ namespace SGDeContent.Processors
                                 }
                                 catch
                                 {
-                                    val = Convert.ToSingle(CodeProcessor.Process(at, context).Constant);
+                                    val = Convert.ToSingle(CodeProcessor.Process(at, version, context).Constant);
                                 }
                             }
-                            at = nodeComponent.Attributes["ID"];
-                            if (at.Value.Equals("Rotation"))
+                            at = ContentTagManager.GetXMLAtt("GENERAL_ID", version, nodeComponent);
+                            if (ContentTagManager.TagMatches("ENTITY_NODE_VECTOR1_ROTATION", at.Value, version))
                             {
                                 node.Rotation = val;
                                 if (val != 0)
@@ -188,11 +185,11 @@ namespace SGDeContent.Processors
 
                     #endregion
                 }
-                else if (entityComponent.Name.Equals("Sprite"))
+                else if (ContentTagManager.TagMatches("ENTITY_SPRITE", entityComponent.Name, version))
                 {
                     #region Sprite
 
-                    at = entityComponent.Attributes["SID"];
+                    at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_ID", version, entityComponent);
                     if (at == null)
                     {
                         entity.SpriteID = -1;
@@ -217,19 +214,19 @@ namespace SGDeContent.Processors
                             throw new InvalidContentException(Messages.Entity_Sprite_PositiveID);
                         }
                     }
-                    at = entityComponent.Attributes["DID"];
+                    at = ContentTagManager.GetXMLAtt("GENERAL_DEVELOPER_ID", version, entityComponent);
                     if (at != null)
                     {
                         entity.SpriteDID = new object();
                         entity.DevID(at, entity.SpriteDID);
                     }
-                    at = entityComponent.Attributes["Region"];
+                    at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_REGION", version, entityComponent);
                     if (at != null)
                     {
                         #region Region
 
                         string value = at.Value;
-                        if (!value.Equals("Full", StringComparison.OrdinalIgnoreCase))
+                        if (!ContentTagManager.TagMatches("ENTITY_SPRITE_REGION_FULL", value, version, StringComparison.OrdinalIgnoreCase))
                         {
                             string[] components = value.Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
                             if (components.Length < 1 || components.Length > 2)
@@ -281,7 +278,7 @@ namespace SGDeContent.Processors
 
                         #endregion
                     }
-                    at = entityComponent.Attributes["Color"];
+                    at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_COLOR", version, entityComponent);
                     if (at != null)
                     {
                         #region Color
@@ -304,7 +301,7 @@ namespace SGDeContent.Processors
 
                         #endregion
                     }
-                    at = entityComponent.Attributes["Override"];
+                    at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_OVERRIDE", version, entityComponent);
                     if (at != null)
                     {
                         #region Override
@@ -342,7 +339,7 @@ namespace SGDeContent.Processors
                             context.Logger.LogWarning(null, null, Messages.Entity_Sprite_TooManyAnimations);
                             break;
                         }
-                        if (spriteComponent.Name.Equals("Animation"))
+                        if (ContentTagManager.TagMatches("SPRITEMAP_MAP_COMP_ANIMATION", spriteComponent.Name, version))
                         {
                             count++;
 
@@ -353,7 +350,7 @@ namespace SGDeContent.Processors
                                 //Only one animation is supported at this time but use a list for future support.
                                 entity.Animations = new List<AnimationSet>();
                             }
-                            Animation animation = AnimationProcessor.Process(spriteComponent, context);
+                            Animation animation = AnimationProcessor.Process(spriteComponent, version, context);
                             entity.DefaultAnimation = -1;
                             if (entity.BuiltInAnimation = animation.BuiltIn)
                             {
@@ -387,45 +384,45 @@ namespace SGDeContent.Processors
 
                     #endregion
                 }
-                else if (entityComponent.Name.Equals("Physics"))
+                else if (ContentTagManager.TagMatches("ENTITY_PHYSICS", entityComponent.Name, version))
                 {
                     #region Physics
 
                     entity.Physics = new Dictionary<string, object>();
-                    at = entityComponent.Attributes["Enabled"];
+                    at = ContentTagManager.GetXMLAtt("ENTITY_PHYSICS_ENABLED", version, entityComponent);
                     if (at != null)
                     {
                         entity.Physics.Add("Enabled", bool.Parse(at.Value));
                     }
-                    at = entityComponent.Attributes["EnableOnEnable"];
+                    at = ContentTagManager.GetXMLAtt("ENTITY_PHYSICS_ENABLEDONENABLED", version, entityComponent);
                     if (at != null)
                     {
                         entity.Physics.Add("EnableOnEnable", bool.Parse(at.Value));
                     }
-                    at = entityComponent.Attributes["Collision"];
+                    at = ContentTagManager.GetXMLAtt("ENTITY_PHYSICS_COLLISION", version, entityComponent);
                     if (at != null)
                     {
                         entity.Physics.Add("Collision", bool.Parse(at.Value));
                     }
-                    at = entityComponent.Attributes["Static"];
+                    at = ContentTagManager.GetXMLAtt("ENTITY_PHYSICS_STATIC", version, entityComponent);
                     if (at != null)
                     {
                         entity.Physics.Add("Static", bool.Parse(at.Value));
                     }
-                    at = entityComponent.Attributes["PostSetup"];
+                    at = ContentTagManager.GetXMLAtt("ENTITY_PHYSICS_POSTSETUP", version, entityComponent);
                     if (at != null)
                     {
                         entity.Physics.Add("PostSetup", bool.Parse(at.Value));
                     }
                     foreach (XmlElement physicsElement in entityComponent)
                     {
-                        if (physicsElement.Name.Equals("Velocity"))
+                        if (ContentTagManager.TagMatches("ENTITY_PHYSICS_VELOCITY", physicsElement.Name, version))
                         {
                             #region Velocity
 
                             Vector2 vect = new Vector2();
                             object[] vecto = null;
-                            at = physicsElement.Attributes["X"];
+                            at = ContentTagManager.GetXMLAtt("GENERAL_X", version, physicsElement);
                             if (at != null)
                             {
                                 try
@@ -435,15 +432,15 @@ namespace SGDeContent.Processors
                                 catch
                                 {
                                     vecto = new object[2];
-                                    vecto[0] = CodeProcessor.Process(at, context);
+                                    vecto[0] = CodeProcessor.Process(at, version, context);
                                 }
                             }
-                            at = physicsElement.Attributes["Y"];
+                            at = ContentTagManager.GetXMLAtt("GENERAL_Y", version, physicsElement);
                             if (at != null)
                             {
                                 if (vecto != null && vecto.Length == 2)
                                 {
-                                    vecto[1] = CodeProcessor.Process(at, context);
+                                    vecto[1] = CodeProcessor.Process(at, version, context);
                                 }
                                 else
                                 {
@@ -462,7 +459,7 @@ namespace SGDeContent.Processors
                                             code.ConstantValue = vect.X;
                                             vecto[0] = code;
                                         }
-                                        vecto[1] = CodeProcessor.Process(at, context);
+                                        vecto[1] = CodeProcessor.Process(at, version, context);
                                     }
                                 }
                             }
@@ -502,7 +499,7 @@ namespace SGDeContent.Processors
 
                             #endregion
                         }
-                        else if (physicsElement.Name.Equals("Forces"))
+                        else if (ContentTagManager.TagMatches("ENTITY_PHYSICS_FORCES", physicsElement.Name, version))
                         {
                             #region Forces
 
@@ -516,7 +513,7 @@ namespace SGDeContent.Processors
                                     #region Attempt at simple processing
 
                                     Vector2 vect = new Vector2();
-                                    at = force.Attributes["X"];
+                                    at = ContentTagManager.GetXMLAtt("GENERAL_X", version, force);
                                     if (at != null)
                                     {
                                         try
@@ -528,7 +525,7 @@ namespace SGDeContent.Processors
                                             add = true;
                                         }
                                     }
-                                    at = force.Attributes["Y"];
+                                    at = ContentTagManager.GetXMLAtt("GENERAL_Y", version, force);
                                     if (at != null && !add)
                                     {
                                         try
@@ -558,10 +555,10 @@ namespace SGDeContent.Processors
                                     if (string.IsNullOrWhiteSpace(innerText))
                                     {
                                         object[] obj = new object[2];
-                                        at = force.Attributes["X"];
+                                        at = ContentTagManager.GetXMLAtt("GENERAL_X", version, force);
                                         if (at != null)
                                         {
-                                            obj[0] = CodeProcessor.Process(at, context);
+                                            obj[0] = CodeProcessor.Process(at, version, context);
                                         }
                                         else
                                         {
@@ -570,10 +567,10 @@ namespace SGDeContent.Processors
                                             code.ConstantValue = 0f;
                                             obj[0] = code;
                                         }
-                                        at = force.Attributes["Y"];
+                                        at = ContentTagManager.GetXMLAtt("GENERAL_Y", version, force);
                                         if (at != null)
                                         {
-                                            obj[1] = CodeProcessor.Process(at, context);
+                                            obj[1] = CodeProcessor.Process(at, version, context);
                                         }
                                         else
                                         {
@@ -586,7 +583,7 @@ namespace SGDeContent.Processors
                                     }
                                     else
                                     {
-                                        pforce.Add(CodeProcessor.Process(force, context));
+                                        pforce.Add(CodeProcessor.Process(force, version, context));
                                     }
 
                                     #endregion
@@ -603,11 +600,11 @@ namespace SGDeContent.Processors
 
                     #endregion
                 }
-                else if (entityComponent.Name.Equals("CustomEntity"))
+                else if (ContentTagManager.TagMatches("ENTITY_CUSTOMENTITY", entityComponent.Name, version))
                 {
                     #region Custom Entity
 
-                    Type type = Type.GetType(entityComponent.Attributes["Base"].Value);
+                    Type type = Type.GetType(ContentTagManager.GetXMLAtt("ENTITY_CUSTOMENTITY_BASE", version, entityComponent).Value);
                     if (type != null)
                     {
                         Type entityType = typeof(SGDE.Entity);
@@ -634,7 +631,7 @@ namespace SGDeContent.Processors
                             continue;
                         }
 
-                        if (customEntityComponent.Name.Equals("Contructor"))
+                        if (ContentTagManager.TagMatches("ENTITY_CUSTOMENTITY_CONSTRUCTOR", customEntityComponent.Name, version))
                         {
                             #region Contructor
 
@@ -642,7 +639,7 @@ namespace SGDeContent.Processors
                             List<int> indexes = new List<int>();
                             for (int i = 0; i < customEntityComponent.ChildNodes.Count; i++)
                             {
-                                int index = int.Parse(customEntityComponent.ChildNodes[i].Attributes["Index"].Value);
+                                int index = int.Parse(ContentTagManager.GetXMLAtt("ENTITY_CUSTOMENTITY_CONSTRUCTOR_INDEX", version, customEntityComponent.ChildNodes[i]).Value);
                                 if (index < 0)
                                 {
                                     throw new InvalidContentException(Messages.Entity_NeedPosInt);
@@ -661,9 +658,9 @@ namespace SGDeContent.Processors
                             entity.ArgTypes = new Queue<string>(tcount);
                             for (int i = 0; i < customEntityComponent.ChildNodes.Count; i++)
                             {
-                                string typeS = customEntityComponent.ChildNodes[i].Attributes["Type"].Value;
+                                string typeS = ContentTagManager.GetXMLAtt("ENTITY_CUSTOMENTITY_CONSTRUCTOR_TYPE", version, customEntityComponent.ChildNodes[i]).Value;
                                 type = Type.GetType(typeS);
-                                string value = customEntityComponent.ChildNodes[i].Attributes["Value"].Value.Trim();
+                                string value = ContentTagManager.GetXMLAtt("ENTITY_CUSTOMENTITY_CONSTRUCTOR_VALUE", version, customEntityComponent.ChildNodes[i]).Value.Trim();
                                 if (typeof(string).Equals(type))
                                 {
                                     //The type is a String so simply pass the value.
@@ -680,7 +677,7 @@ namespace SGDeContent.Processors
                                         }
                                         catch
                                         {
-                                            SGDeContent.DataTypes.Code.Code code = SGDeContent.Processors.CodeProcessor.Process(customEntityComponent.ChildNodes[i].Attributes["Value"], context);
+                                            SGDeContent.DataTypes.Code.Code code = SGDeContent.Processors.CodeProcessor.Process(ContentTagManager.GetXMLAtt("ENTITY_CUSTOMENTITY_CONSTRUCTOR_VALUE", version, customEntityComponent.ChildNodes[i]), version, context);
                                             if (code == null)
                                             {
                                                 try
@@ -707,7 +704,7 @@ namespace SGDeContent.Processors
                                             entity.Args.Add(null);
                                         }
                                          */
-                                        entity.Args.Add(SGDeContent.Processors.CodeProcessor.Process(customEntityComponent.ChildNodes[i].Attributes["Value"], context));
+                                        entity.Args.Add(SGDeContent.Processors.CodeProcessor.Process(customEntityComponent.ChildNodes[i].Attributes["Value"], version, context));
                                         entity.ArgTypes.Enqueue(typeof(void).AssemblyQualifiedName);
                                     }
                                 }

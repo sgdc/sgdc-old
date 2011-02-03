@@ -13,8 +13,8 @@ namespace SGDeContent
     [LocalizedContentImporter(".sgde", "SGDEImporter", DefaultProcessor = "SGDEProcessor")]
     public class SGDEImport : ContentImporter<Content>
     {
-        private const double MIN_VERSION = 1.0;
-        private const double MAX_VERSION = MIN_VERSION;
+        internal const double MIN_VERSION = 1.0;
+        private const double MAX_VERSION = 1.1;
 
         public override Content Import(string filename, ContentImporterContext context)
         {
@@ -22,7 +22,7 @@ namespace SGDeContent
             doc.Load(filename);
             ContentTypes type = ContentTypes.Unknown;
             XmlElement root = doc.DocumentElement;
-            if (!root.Name.Equals("SGDE"))
+            if (!ContentTagManager.TagMatches("IMPORT_ROOT_DOCUMENT", root.Name, MIN_VERSION))
             {
                 throw new InvalidContentException(Messages.InvalidSGDEElement);
             }
@@ -36,23 +36,23 @@ namespace SGDeContent
                 throw new InvalidContentException(Messages.NoChildNodes);
             }
             XmlElement mainElement = (XmlElement)root.ChildNodes[0];
-            switch (mainElement.Name)
+            if (ContentTagManager.TagMatches("IMPORT_GAME_ELEMENT", mainElement.Name, version))
             {
-                case "Game":
-                    type = ContentTypes.Game;
-                    break;
-                case "Map":
-                    type = ContentTypes.Map;
-                    break;
-                case "Entity":
-                    type = ContentTypes.Entity;
-                    break;
-                case "SpriteMaps":
-                    type = ContentTypes.SpriteMap;
-                    break;
-                    //TODO: Other types
+                type = ContentTypes.Game;
             }
-            return new Content(doc, type);
+            else if (ContentTagManager.TagMatches("IMPORT_MAP_ELEMENT", mainElement.Name, version))
+            {
+                type = ContentTypes.Map;
+            }
+            else if (ContentTagManager.TagMatches("IMPORT_ENTITIY_ELEMENT", mainElement.Name, version))
+            {
+                type = ContentTypes.Entity;
+            }
+            else if (ContentTagManager.TagMatches("IMPORT_SPRITEMAP_ELEMENT", mainElement.Name, version))
+            {
+                type = ContentTypes.SpriteMap;
+            }
+            return new Content(doc, type, version);
         }
     }
 }

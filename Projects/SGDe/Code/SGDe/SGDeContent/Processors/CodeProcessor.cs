@@ -11,12 +11,12 @@ namespace SGDeContent.Processors
 {
     public class CodeProcessor
     {
-        public static SGDeContent.DataTypes.Code.Code Process(XmlElement input, ContentProcessorContext context)
+        public static SGDeContent.DataTypes.Code.Code Process(XmlElement input, double version, ContentProcessorContext context)
         {
-            return Process((XmlNode)input, context);
+            return Process((XmlNode)input, version, context);
         }
 
-        public static SGDeContent.DataTypes.Code.Code Process(XmlNode input, ContentProcessorContext context)
+        public static SGDeContent.DataTypes.Code.Code Process(XmlNode input, double version, ContentProcessorContext context)
         {
             SGDeContent.DataTypes.Code.Code code = new SGDeContent.DataTypes.Code.Code();
 
@@ -86,12 +86,12 @@ namespace SGDeContent.Processors
                     if (input.ChildNodes.Count > 0 && input.ChildNodes[0].Name.Equals("Code"))
                     {
                         //Full code system
-                        processor.Compile((XmlElement)input, ref code, context);
+                        processor.Compile((XmlElement)input, version, ref code, context);
                     }
                     else
                     {
                         //K.I.S.S. code system
-                        processor.Compile(innerText, ref code, context);
+                        processor.Compile(innerText, version, ref code, context);
                     }
                 }
                 catch
@@ -104,7 +104,7 @@ namespace SGDeContent.Processors
         }
 
         //This is for simple, one line code elements
-        private void Compile(string sourceCode, ref SGDeContent.DataTypes.Code.Code code, ContentProcessorContext context)
+        private void Compile(string sourceCode, double version, ref SGDeContent.DataTypes.Code.Code code, ContentProcessorContext context)
         {
             if (sourceCode.Equals("null", StringComparison.OrdinalIgnoreCase))
             {
@@ -114,9 +114,15 @@ namespace SGDeContent.Processors
         }
 
         //This is for complex, multi line/class code systems
-        private void Compile(XmlElement sourceCodeGroup, ref SGDeContent.DataTypes.Code.Code code, ContentProcessorContext context)
+        private void Compile(XmlElement sourceCodeGroup, double version, ref SGDeContent.DataTypes.Code.Code code, ContentProcessorContext context)
         {
             //TODO
+        }
+
+        internal static string AbsReference(string reference)
+        {
+            //TODO: Convert a relitive path (such as Math.PI) to an Absoulte Path that will be used by SGDE (SGDE.Content.Code.Library.SGDE.Math.PI). Relitive path can also be "Abs" in relation to library such as "SGDE.Math.PI"
+            return "";
         }
     }
 }

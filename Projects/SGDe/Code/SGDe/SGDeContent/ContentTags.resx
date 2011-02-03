@@ -1,0 +1,417 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ANIMATION_GLOBAL_1_0" xml:space="preserve">
+    <value>Global</value>
+  </data>
+  <data name="ANIMATION_LOCAL_1_0" xml:space="preserve">
+    <value>Local</value>
+  </data>
+  <data name="ANIMATION_LOCAL_DEFAULT_1_0" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FPS_1_0" xml:space="preserve">
+    <value>FPS</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FRAME_1_0" xml:space="preserve">
+    <value>Frame</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FRAME_COLOR_1_0" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FRAME_CONTINUE_1_0" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FRAME_EFFECT_1_0" xml:space="preserve">
+    <value>Effect</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FRAME_FRAMECOUNT_1_0" xml:space="preserve">
+    <value>FrameCount</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FRAME_FRAME_1_0" xml:space="preserve">
+    <value>Frame</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FRAME_ORIGIN_1_0" xml:space="preserve">
+    <value>Origin</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FRAME_ROTATION_1_0" xml:space="preserve">
+    <value>Rotation</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FRAME_ROTATION_FORMAT_1_0" xml:space="preserve">
+    <value>RotationFormat</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FRAME_ROTATION_FORMAT_DEGREE_1_0" xml:space="preserve">
+    <value>Degree</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FRAME_ROTATION_FORMAT_RADIAN_1_0" xml:space="preserve">
+    <value>Radian</value>
+  </data>
+  <data name="ANIMATION_LOCAL_FRAME_SCALE_1_0" xml:space="preserve">
+    <value>Scale</value>
+  </data>
+  <data name="ANIMATION_LOCAL_SET_1_0" xml:space="preserve">
+    <value>AnimationSet</value>
+  </data>
+  <data name="ENTITY_CUSTOMENTITY_1_0" xml:space="preserve">
+    <value>CustomEntity</value>
+  </data>
+  <data name="ENTITY_CUSTOMENTITY_BASE_1_0" xml:space="preserve">
+    <value>Base</value>
+  </data>
+  <data name="ENTITY_CUSTOMENTITY_CONSTRUCTOR_1_0" xml:space="preserve">
+    <value>Contructor</value>
+  </data>
+  <data name="ENTITY_CUSTOMENTITY_CONSTRUCTOR_INDEX_1_0" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="ENTITY_CUSTOMENTITY_CONSTRUCTOR_TYPE_1_0" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ENTITY_CUSTOMENTITY_CONSTRUCTOR_VALUE_1_0" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="ENTITY_NAME_1_0" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ENTITY_NODE_1_0" xml:space="preserve">
+    <value>Node</value>
+  </data>
+  <data name="ENTITY_NODE_VECTOR1_1_0" xml:space="preserve">
+    <value>Float</value>
+  </data>
+  <data name="ENTITY_NODE_VECTOR1_ROTATION_1_0" xml:space="preserve">
+    <value>Rotation</value>
+  </data>
+  <data name="ENTITY_NODE_VECTOR1_VALUE_1_0" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="ENTITY_NODE_VECTOR2_1_0" xml:space="preserve">
+    <value>Vector2</value>
+  </data>
+  <data name="ENTITY_NODE_VECTOR2_SCALE_1_0" xml:space="preserve">
+    <value>Scale</value>
+  </data>
+  <data name="ENTITY_NODE_VECTOR2_TRANSLATION_1_0" xml:space="preserve">
+    <value>Translation</value>
+  </data>
+  <data name="ENTITY_PHYSICS_1_0" xml:space="preserve">
+    <value>Physics</value>
+  </data>
+  <data name="ENTITY_PHYSICS_COLLISION_1_0" xml:space="preserve">
+    <value>Collision</value>
+  </data>
+  <data name="ENTITY_PHYSICS_ENABLEDONENABLED_1_0" xml:space="preserve">
+    <value>EnableOnEnable</value>
+  </data>
+  <data name="ENTITY_PHYSICS_ENABLED_1_0" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="ENTITY_PHYSICS_FORCES_1_0" xml:space="preserve">
+    <value>Forces</value>
+  </data>
+  <data name="ENTITY_PHYSICS_POSTSETUP_1_0" xml:space="preserve">
+    <value>PostSetup</value>
+  </data>
+  <data name="ENTITY_PHYSICS_STATIC_1_0" xml:space="preserve">
+    <value>Static</value>
+  </data>
+  <data name="ENTITY_PHYSICS_VELOCITY_1_0" xml:space="preserve">
+    <value>Velocity</value>
+  </data>
+  <data name="ENTITY_SPRITE_1_0" xml:space="preserve">
+    <value>Sprite</value>
+  </data>
+  <data name="ENTITY_SPRITE_COLOR_1_0" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="ENTITY_SPRITE_ID_1_0" xml:space="preserve">
+    <value>SID</value>
+  </data>
+  <data name="ENTITY_SPRITE_OVERRIDE_1_0" xml:space="preserve">
+    <value>Override</value>
+  </data>
+  <data name="ENTITY_SPRITE_REGION_1_0" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="ENTITY_SPRITE_REGION_FULL_1_0" xml:space="preserve">
+    <value>Full</value>
+  </data>
+  <data name="GAME_GAME_MAPS_1_0" xml:space="preserve">
+    <value>Maps</value>
+  </data>
+  <data name="GAME_SETTINGS_1_0" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="GAME_SETTINGS_DEFSETTINGS_1_0" xml:space="preserve">
+    <value>DefGameSettings</value>
+  </data>
+  <data name="GAME_SETTINGS_DEFSETTINGS_GAME_1_0" xml:space="preserve">
+    <value>Game</value>
+  </data>
+  <data name="GAME_SETTINGS_DEFSETTINGS_GAME_FIXEDTIME_1_0" xml:space="preserve">
+    <value>FixedTime</value>
+  </data>
+  <data name="GAME_SETTINGS_DEFSETTINGS_GAME_FRAMETIME_1_0" xml:space="preserve">
+    <value>FrameTime</value>
+  </data>
+  <data name="GAME_SETTINGS_DEFSETTINGS_GAME_MOUSEVISIBLE_1_0" xml:space="preserve">
+    <value>MouseVisible</value>
+  </data>
+  <data name="GAME_SETTINGS_DEFSETTINGS_GAME_ORIENTATION_1_0" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="GAME_SETTINGS_DEFSETTINGS_GAME_TITLE_1_0" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="GAME_SETTINGS_DEFSETTINGS_GAME_WINDOWRESIZEABLE_1_0" xml:space="preserve">
+    <value>WindowResizeable</value>
+  </data>
+  <data name="GAME_SETTINGS_DEFSETTINGS_SCREEN_1_0" xml:space="preserve">
+    <value>Screen</value>
+  </data>
+  <data name="GAME_SETTINGS_DEFSETTINGS_SCREEN_FULLSCREEN_1_0" xml:space="preserve">
+    <value>Fullscreen</value>
+  </data>
+  <data name="GAME_SETTINGS_DEFSETTINGS_SCREEN_MULTISAMPLE_1_0" xml:space="preserve">
+    <value>Multisample</value>
+  </data>
+  <data name="GAME_SETTINGS_DEFSETTINGS_SCREEN_VSYNC_1_0" xml:space="preserve">
+    <value>VSync</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_1_0" xml:space="preserve">
+    <value>MapList</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_1_0" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_INITIALMAP_1_0" xml:space="preserve">
+    <value>InitialMap</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_NAME_1_0" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="GAME_SETTINGS_SPRITEMAP_1_0" xml:space="preserve">
+    <value>SpriteSheet</value>
+  </data>
+  <data name="GENERAL_DEVELOPER_ID_1_0" xml:space="preserve">
+    <value>DID</value>
+  </data>
+  <data name="GENERAL_DEVELOPER_ID_1_1" xml:space="preserve">
+    <value>AssetID</value>
+  </data>
+  <data name="GENERAL_HEIGHT_1_0" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="GENERAL_ID_1_0" xml:space="preserve">
+    <value>ID</value>
+  </data>
+  <data name="GENERAL_WIDTH_1_0" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="GENERAL_X_1_0" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="GENERAL_Y_1_0" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="IMPORT_ENTITIY_ELEMENT_1_0" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="IMPORT_GAME_ELEMENT_1_0" xml:space="preserve">
+    <value>Game</value>
+  </data>
+  <data name="IMPORT_MAP_ELEMENT_1_0" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="IMPORT_ROOT_DOCUMENT_1_0" xml:space="preserve">
+    <value>SGDE</value>
+  </data>
+  <data name="IMPORT_SPRITEMAP_ELEMENT_1_0" xml:space="preserve">
+    <value>SpriteMaps</value>
+  </data>
+  <data name="IMPORT_SPRITEMAP_ELEMENT_1_1" xml:space="preserve">
+    <value>SpriteSheets</value>
+  </data>
+  <data name="MAP_MAP_LAYOUT_1_0" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="MAP_MAP_LAYOUT_OPERATION_1_0" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="MAP_MAP_LAYOUT_POSITION_1_0" xml:space="preserve">
+    <value>EntityPos</value>
+  </data>
+  <data name="MAP_MAP_LAYOUT_POSITION_1_1" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="MAP_MAP_LAYOUT_POSITION_LAYOUT_1_0" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="MAP_MAP_LAYOUT_POSITION_LAYOUT_DEFINED_1_0" xml:space="preserve">
+    <value>Defined</value>
+  </data>
+  <data name="MAP_MAP_LAYOUT_POSITION_LAYOUT_DEFINED_1_1" xml:space="preserve">
+    <value>Explicit</value>
+  </data>
+  <data name="MAP_MAP_LAYOUT_POSITION_LAYOUT_PREDEFINED_1_0" xml:space="preserve">
+    <value>EntityDefined</value>
+  </data>
+  <data name="MAP_MAP_LAYOUT_POSITION_LAYOUT_PREDEFINED_1_1" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="MAP_MAP_PHYSICS_1_0" xml:space="preserve">
+    <value>Physics</value>
+  </data>
+  <data name="MAP_MAP_PHYSICS_ENABLED_1_0" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="MAP_MAP_PHYSICS_PHARAOH_1_0" xml:space="preserve">
+    <value>Pharaoh</value>
+  </data>
+  <data name="MAP_MAP_PHYSICS_PHARAOH_CELL_1_0" xml:space="preserve">
+    <value>Cell</value>
+  </data>
+  <data name="MAP_MAP_PHYSICS_PHARAOH_GRAVITY_1_0" xml:space="preserve">
+    <value>Gravity</value>
+  </data>
+  <data name="MAP_MAP_PHYSICS_PHARAOH_WORLD_1_0" xml:space="preserve">
+    <value>World</value>
+  </data>
+  <data name="MAP_RESOURCE_1_0" xml:space="preserve">
+    <value>Resources</value>
+  </data>
+  <data name="MAP_RESOURCE_ENTITIES_1_0" xml:space="preserve">
+    <value>Entities</value>
+  </data>
+  <data name="SPRITEMAP_MAP_1_0" xml:space="preserve">
+    <value>SpriteMap</value>
+  </data>
+  <data name="SPRITEMAP_MAP_1_1" xml:space="preserve">
+    <value>SpriteSheet</value>
+  </data>
+  <data name="SPRITEMAP_MAP_COMP_ANIMATION_1_0" xml:space="preserve">
+    <value>Animation</value>
+  </data>
+  <data name="SPRITEMAP_MAP_COMP_SOURCE_1_0" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="SPRITEMAP_MAP_NAME_1_0" xml:space="preserve">
+    <value>Name</value>
+  </data>
+</root>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SGDE Version="1.0">
+<SGDE Version="1.1">
   <Entity Name="Portal Out">
     <Sprite SID="4" Color="FFFF00FF" />
     <Physics Enabled="true" Collision="true" PostSetup="true" />

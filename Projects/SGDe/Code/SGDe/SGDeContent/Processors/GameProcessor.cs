@@ -20,19 +20,19 @@ namespace SGDeContent.Processors
             foreach (XmlElement component in input.document.DocumentElement)
             {
                 //Handle the Game component (resources)
-                if (component.Name.Equals("Game"))
+                if (ContentTagManager.TagMatches("IMPORT_GAME_ELEMENT", component.Name, input.Version))
                 {
                     #region Game
 
                     foreach (XmlElement gameComponent in component)
                     {
-                        if (gameComponent.Name.Equals("Maps"))
+                        if (ContentTagManager.TagMatches("GAME_GAME_MAPS", gameComponent.Name, input.Version))
                         {
                             #region Maps
 
                             foreach (XmlElement map in gameComponent)
                             {
-                                int id = int.Parse(map.Attributes["ID"].Value);
+                                int id = int.Parse(ContentTagManager.GetXMLAtt("GENERAL_ID", input.Version, map).Value);
                                 if (game.MapIDs.Contains(id))
                                 {
                                     throw new InvalidContentException(string.Format(Messages.Game_MapIDExists, id));
@@ -42,7 +42,7 @@ namespace SGDeContent.Processors
                                 if (string.IsNullOrWhiteSpace(innerText))
                                 {
                                     //Actual map
-                                    game.Maps.Add(MapProcessor.Process((XmlElement)map.ChildNodes[0], context));
+                                    game.Maps.Add(MapProcessor.Process((XmlElement)map.ChildNodes[0], input.Version, context));
                                 }
                                 else
                                 {
@@ -63,13 +63,13 @@ namespace SGDeContent.Processors
                     #endregion
                 }
                 //Handle the Settings component (game description)
-                else if (component.Name.Equals("Settings"))
+                else if (ContentTagManager.TagMatches("GAME_SETTINGS", component.Name, input.Version))
                 {
                     #region Setting
 
                     #region SpriteSheet
 
-                    XmlAttribute at = component.Attributes["SpriteSheet"];
+                    XmlAttribute at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_SPRITEMAP", input.Version, component);
                     if (at != null)
                     {
                         //Specific SpriteSheet
@@ -78,28 +78,28 @@ namespace SGDeContent.Processors
                     else
                     {
                         //Default SpriteSheet
-                        game.SpriteSheet = Utils.CompileExternal<SpriteMap>("SpriteSheet.sgde", context);
+                        game.SpriteSheet = Utils.CompileExternal<SpriteMap>(at.Name + ".sgde", context);
                     }
 
                     #endregion
 
                     foreach (XmlElement settingComponent in component)
                     {
-                        if (settingComponent.Name.Equals("MapList"))
+                        if (ContentTagManager.TagMatches("GAME_SETTINGS_MAPLIST", settingComponent.Name, input.Version))
                         {
                             #region Map List
 
                             int index = 0;
                             foreach (XmlElement map in settingComponent)
                             {
-                                if (map.Name.Equals("Map"))
+                                if (ContentTagManager.TagMatches("GAME_SETTINGS_MAPLIST_MAP", map.Name, input.Version))
                                 {
-                                    int id = int.Parse(map.Attributes["ID"].Value);
+                                    int id = int.Parse(ContentTagManager.GetXMLAtt("GENERAL_ID", input.Version, map).Value);
                                     if (!game.MapIDs.Contains(id))
                                     {
                                         throw new InvalidContentException(string.Format(Messages.Game_MapIDNotExist, id));
                                     }
-                                    at = map.Attributes["InitialMap"];
+                                    at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_MAPLIST_MAP_INITIALMAP", input.Version, map);
                                     if (at != null)
                                     {
                                         if (bool.Parse(at.Value))
@@ -114,7 +114,7 @@ namespace SGDeContent.Processors
                                     }
                                     //Don't do any checks because maps can repeat
                                     game.MapOrderId.Add(id);
-                                    at = map.Attributes["Name"];
+                                    at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_MAPLIST_MAP_NAME", input.Version, map);
                                     if (at != null)
                                     {
                                         game.MapOrderName.Add(at.Value);
@@ -129,29 +129,29 @@ namespace SGDeContent.Processors
 
                             #endregion
                         }
-                        else if (settingComponent.Name.Equals("DefGameSettings"))
+                        else if (ContentTagManager.TagMatches("GAME_SETTINGS_DEFSETTINGS", settingComponent.Name, input.Version))
                         {
                             #region Default Game Settings
 
                             foreach (XmlElement gameSettingComponent in settingComponent)
                             {
-                                if (gameSettingComponent.Name.Equals("Screen"))
+                                if (ContentTagManager.TagMatches("GAME_SETTINGS_DEFSETTINGS_SCREEN", gameSettingComponent.Name, input.Version))
                                 {
                                     #region Screen
 
                                     //Any platform
-                                    at = gameSettingComponent.Attributes["Fullscreen"];
+                                    at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_DEFSETTINGS_SCREEN_FULLSCREEN", input.Version, gameSettingComponent);
                                     if (at != null)
                                     {
                                         //Ignored on Xbox
                                         game.Fullscreen = bool.Parse(at.Value);
                                     }
-                                    at = gameSettingComponent.Attributes["VSync"];
+                                    at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_DEFSETTINGS_SCREEN_VSYNC", input.Version, gameSettingComponent);
                                     if (at != null)
                                     {
                                         game.VSync = bool.Parse(at.Value);
                                     }
-                                    at = gameSettingComponent.Attributes["Multisample"];
+                                    at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_DEFSETTINGS_SCREEN_MULTISAMPLE", input.Version, gameSettingComponent);
                                     if (at != null)
                                     {
                                         game.Multisample = bool.Parse(at.Value);
@@ -162,12 +162,12 @@ namespace SGDeContent.Processors
                                         case TargetPlatform.WindowsPhone:
                                             //TODO: Not sure what resoultion this should be built for or if this should be like Windows.
                                         case TargetPlatform.Windows:
-                                            at = gameSettingComponent.Attributes["Width"];
+                                            at = ContentTagManager.GetXMLAtt("GENERAL_WIDTH", input.Version, gameSettingComponent);
                                             if (at != null)
                                             {
                                                 game.Width = int.Parse(at.Value);
                                             }
-                                            at = gameSettingComponent.Attributes["Height"];
+                                            at = ContentTagManager.GetXMLAtt("GENERAL_HEIGHT", input.Version, gameSettingComponent);
                                             if (at != null)
                                             {
                                                 game.Height = int.Parse(at.Value);
@@ -187,17 +187,17 @@ namespace SGDeContent.Processors
 
                                     #endregion
                                 }
-                                else if (gameSettingComponent.Name.Equals("Game"))
+                                else if (ContentTagManager.TagMatches("GAME_SETTINGS_DEFSETTINGS_GAME", gameSettingComponent.Name, input.Version))
                                 {
                                     #region Game
 
                                     //Any platform
-                                    at = gameSettingComponent.Attributes["FixedTime"];
+                                    at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_DEFSETTINGS_GAME_FIXEDTIME", input.Version, gameSettingComponent);
                                     if (at != null)
                                     {
                                         game.FixedTime = bool.Parse(at.Value);
                                     }
-                                    at = gameSettingComponent.Attributes["FrameTime"];
+                                    at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_DEFSETTINGS_GAME_FRAMETIME", input.Version, gameSettingComponent);
                                     if (at != null)
                                     {
                                         if (!TimeSpan.TryParse(at.Value, out game.FrameTime) && (game.FixedTime.HasValue && game.FixedTime.Value))
@@ -211,14 +211,14 @@ namespace SGDeContent.Processors
                                     switch (context.TargetPlatform)
                                     {
                                         case TargetPlatform.Windows:
-                                            at = gameSettingComponent.Attributes["MouseVisible"];
+                                            at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_DEFSETTINGS_GAME_MOUSEVISIBLE", input.Version, gameSettingComponent);
                                             if (at != null)
                                             {
                                                 game.MouseVisible = bool.Parse(at.Value);
                                             }
                                             break;
                                         case TargetPlatform.WindowsPhone:
-                                            at = gameSettingComponent.Attributes["Orientation"];
+                                            at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_DEFSETTINGS_GAME_ORIENTATION", input.Version, gameSettingComponent);
                                             if (at != null)
                                             {
                                                 game.Orientation = Utils.ParseEnum<Microsoft.Xna.Framework.DisplayOrientation>(at.Value, Microsoft.Xna.Framework.DisplayOrientation.Default, context.Logger);
@@ -229,7 +229,7 @@ namespace SGDeContent.Processors
                                     {
                                         case TargetPlatform.Windows:
                                         case TargetPlatform.WindowsPhone:
-                                            at = gameSettingComponent.Attributes["WindowResizeable"];
+                                            at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_DEFSETTINGS_GAME_WINDOWRESIZEABLE", input.Version, gameSettingComponent);
                                             if (at != null)
                                             {
                                                 game.WindowResize = bool.Parse(at.Value);
@@ -238,7 +238,7 @@ namespace SGDeContent.Processors
                                                     context.Logger.LogWarning(null, null, Messages.Game_WindowResizeable);
                                                 }
                                             }
-                                            at = gameSettingComponent.Attributes["Title"];
+                                            at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_DEFSETTINGS_GAME_TITLE", input.Version, gameSettingComponent);
                                             if (at != null)
                                             {
                                                 game.Title = at.Value;

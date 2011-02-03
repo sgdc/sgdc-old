@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SGDE Version="1.0">
+<SGDE Version="1.1">
   <Entity Name="Yoda">
     <Sprite SID="0" Color="FF000000"></Sprite>
     <CustomEntity Base="SGDE.Entity, SGDe">TestDemo.BounceBall, TestDemo</CustomEntity>

@@ -100,6 +100,9 @@
     <Compile Include="Audio\SoundObject.cs" />
     <Compile Include="Audio\SoundQueue.cs" />
     <Compile Include="Content\Code\Code.cs" />
+    <Compile Include="Content\Code\Library\ObjectImpl.cs" />
+    <Compile Include="Content\Code\Library\SGDE\Math.cs" />
+    <Compile Include="Content\Code\Library\SGDE\Number.cs" />
     <Compile Include="Content\ContentUtil.cs" />
     <Compile Include="Content\DataTypes\EntityBuilder.cs" />
     <Compile Include="Content\DataTypes\GameContent.cs" />

@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SGDE Version="1.0">
-  <SpriteMaps>
-    <SpriteMap ID="0">
+<SGDE Version="1.1">
+  <SpriteSheets>
+    <SpriteSheet ID="0">
       <Source>theball.png</Source>
-    </SpriteMap>
-    <SpriteMap Name="Star" ID="1">
+    </SpriteSheet>
+    <SpriteSheet Name="Star" ID="1">
       <Source>star.png</Source>
-    </SpriteMap>
-    <SpriteMap Name="Collsion Grid Cell 1" ID="2">
+    </SpriteSheet>
+    <SpriteSheet Name="Collsion Grid Cell 1" ID="2">
       <Source>CollisionGridCell.jpg</Source>
-    </SpriteMap>
-    <SpriteMap Name="Collsion Grid Cell 2" ID="3">
+    </SpriteSheet>
+    <SpriteSheet Name="Collsion Grid Cell 2" ID="3">
       <Source>CollisionGridCell2.jpg</Source>
-    </SpriteMap>
-    <SpriteMap ID="4">
+    </SpriteSheet>
+    <SpriteSheet ID="4">
       <Source>thesquare.png</Source>
-    </SpriteMap>
-    <SpriteMap ID="5">
+    </SpriteSheet>
+    <SpriteSheet ID="5">
       <Source>stevens-official-logo_1.png</Source>
-    </SpriteMap>
-  </SpriteMaps>
+    </SpriteSheet>
+  </SpriteSheets>
 </SGDE>

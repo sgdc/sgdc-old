@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("SGDe")]
 [assembly: AssemblyProduct("SGDe")]
 [assembly: AssemblyDescription("Stevens Game Development Club Engine")]
-[assembly: AssemblyCopyright("Copyright © Stevens Game Development Club 2010")]
+[assembly: AssemblyCopyright("Copyright © Stevens Game Development Club 2011")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

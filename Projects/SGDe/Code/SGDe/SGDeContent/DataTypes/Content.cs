@@ -10,11 +10,13 @@ namespace SGDeContent.DataTypes
     {
         public XmlDocument document;
         public ContentTypes Type;
+        public double Version;
 
-        public Content(XmlDocument doc, ContentTypes type)
+        public Content(XmlDocument doc, ContentTypes type, double version)
         {
             this.document = doc;
             this.Type = type;
+            this.Version = version;
         }
     }
 }

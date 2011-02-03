@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SGDE Version="1.0">
+<SGDE Version="1.1">
   <Entity Name="Vader">
     <Node>
       <Vector2 ID="Translation" X="150" Y="130" />

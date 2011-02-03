@@ -11,16 +11,16 @@ namespace SGDeContent.Processors
 {
     public class AnimationProcessor
     {
-        public static Animation Process(XmlElement input, ContentProcessorContext context)
+        public static Animation Process(XmlElement input, double version, ContentProcessorContext context)
         {
             Animation animation = new Animation();
             string innerText = SGDEProcessor.GetInnerText(input);
-            if (innerText.Equals("Global"))
+            if (ContentTagManager.TagMatches("ANIMATION_GLOBAL", innerText, version))
             {
                 animation.BuiltIn = false;
-                animation.ID = int.Parse(input.Attributes["ID"].Value);
+                animation.ID = int.Parse(ContentTagManager.GetXMLAtt("GENERAL_ID", version, input).Value);
             }
-            else if (innerText.Equals("Local"))
+            else if (ContentTagManager.TagMatches("ANIMATION_LOCAL", innerText, version))
             {
                 animation.BuiltIn = true;
 
@@ -35,23 +35,23 @@ namespace SGDeContent.Processors
                         continue;
                     }
                     XmlElement element = node as XmlElement;
-                    if (element.Name.Equals("AnimationSet"))
+                    if (ContentTagManager.TagMatches("ANIMATION_LOCAL_SET", element.Name, version))
                     {
                         #region AnimationSet
 
                         AnimationSet set = new AnimationSet();
                         set.Index = index++;
-                        XmlAttribute at = element.Attributes["Default"];
+                        XmlAttribute at = ContentTagManager.GetXMLAtt("ANIMATION_LOCAL_DEFAULT", version, element);
                         if (at != null)
                         {
                             set.Default = bool.Parse(at.Value);
                         }
-                        at = element.Attributes["FPS"];
+                        at = ContentTagManager.GetXMLAtt("ANIMATION_LOCAL_FPS", version, element);
                         if (at != null)
                         {
                             set.FPS = float.Parse(at.Value);
                         }
-                        at = element.Attributes["DID"];
+                        at = ContentTagManager.GetXMLAtt("GENERAL_DEVELOPER_ID", version, element);
                         if (at != null)
                         {
                             set.DevID(at, set);
@@ -60,9 +60,9 @@ namespace SGDeContent.Processors
                         //This happens twice, first gets the frame count...
                         foreach (XmlElement frame in element)
                         {
-                            if (frame.Name.Equals("Frame"))
+                            if (ContentTagManager.TagMatches("ANIMATION_LOCAL_FRAME", frame.Name, version))
                             {
-                                at = frame.Attributes["FrameCount"];
+                                at = ContentTagManager.GetXMLAtt("ANIMATION_LOCAL_FRAME_FRAMECOUNT", version, frame);
                                 if (at != null)
                                 {
                                     int c = int.Parse(at.Value);
@@ -86,12 +86,12 @@ namespace SGDeContent.Processors
                         Rectangle? region = null;
                         foreach (XmlElement frame in element)
                         {
-                            if (frame.Name.Equals("Frame"))
+                            if (ContentTagManager.TagMatches("ANIMATION_LOCAL_FRAME", frame.Name, version))
                             {
                                 #region Frame
 
                                 AnimationFrame aframe = null;
-                                at = frame.Attributes["Continue"];
+                                at = ContentTagManager.GetXMLAtt("ANIMATION_LOCAL_FRAME_CONTINUE", version, frame);
                                 if (at != null)
                                 {
                                     bool value = bool.Parse(at.Value);
@@ -111,7 +111,7 @@ namespace SGDeContent.Processors
                                 {
                                     aframe = new AnimationFrame();
                                 }
-                                at = frame.Attributes["FrameCount"];
+                                at = ContentTagManager.GetXMLAtt("ANIMATION_LOCAL_FRAME_FRAMECOUNT", version, frame);
                                 if (at != null)
                                 {
                                     int c = int.Parse(at.Value);
@@ -131,7 +131,7 @@ namespace SGDeContent.Processors
                                 {
                                     set.Frames.Add(aframe);
                                 }
-                                at = frame.Attributes["Effect"];
+                                at = ContentTagManager.GetXMLAtt("ANIMATION_LOCAL_FRAME_EFFECT", version, frame);
                                 if (at != null)
                                 {
                                     aframe.Effect = Utils.ParseEnum<Microsoft.Xna.Framework.Graphics.SpriteEffects>(at.Value, Microsoft.Xna.Framework.Graphics.SpriteEffects.None, context.Logger);
@@ -145,7 +145,7 @@ namespace SGDeContent.Processors
                                         aframe.Used &= (byte)((~SGDE.Content.Readers.AnimationReader.EffectUsed) & 0xFF);
                                     }
                                 }
-                                at = frame.Attributes["Color"];
+                                at = ContentTagManager.GetXMLAtt("ANIMATION_LOCAL_FRAME_COLOR", version, frame);
                                 if (at != null)
                                 {
                                     try
@@ -165,7 +165,7 @@ namespace SGDeContent.Processors
                                         context.Logger.LogWarning(null, null, Messages.Animation_InvalidColor, at.Value);
                                     }
                                 }
-                                at = frame.Attributes["Frame"];
+                                at = ContentTagManager.GetXMLAtt("ANIMATION_LOCAL_FRAME_FRAME", version, frame);
                                 if (at != null)
                                 {
                                     string[] values = at.Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -208,7 +208,7 @@ namespace SGDeContent.Processors
                                         }
                                     }
                                 }
-                                at = frame.Attributes["Origin"];
+                                at = ContentTagManager.GetXMLAtt("ANIMATION_LOCAL_FRAME_ORIGIN", version, frame);
                                 if (at != null)
                                 {
                                     string[] values = at.Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -246,7 +246,7 @@ namespace SGDeContent.Processors
                                         }
                                     }
                                 }
-                                at = frame.Attributes["Scale"];
+                                at = ContentTagManager.GetXMLAtt("ANIMATION_LOCAL_FRAME_SCALE", version, frame);
                                 if (at != null)
                                 {
                                     string[] values = at.Value.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
@@ -284,19 +284,19 @@ namespace SGDeContent.Processors
                                         }
                                     }
                                 }
-                                at = frame.Attributes["Rotation"];
+                                at = ContentTagManager.GetXMLAtt("ANIMATION_LOCAL_FRAME_ROTATION", version, frame);
                                 if (at != null)
                                 {
                                     bool radian = false;
                                     string value = at.Value;
-                                    at = frame.Attributes["RotationFormat"];
+                                    at = ContentTagManager.GetXMLAtt("ANIMATION_LOCAL_FRAME_ROTATION_FORMAT", version, frame);
                                     if (at != null)
                                     {
-                                        if (at.Value.Equals("Radian"))
+                                        if (ContentTagManager.TagMatches("ANIMATION_LOCAL_FRAME_ROTATION_FORMAT_RADIAN", at.Value, version))
                                         {
                                             radian = true;
                                         }
-                                        else if (at.Value.Equals("Degree"))
+                                        else if (ContentTagManager.TagMatches("ANIMATION_LOCAL_FRAME_ROTATION_FORMAT_DEGREE", at.Value, version))
                                         {
                                             radian = false;
                                         }
@@ -324,17 +324,17 @@ namespace SGDeContent.Processors
                                         }
                                         catch
                                         {
-                                            XmlAttribute tempnode = frame.OwnerDocument.CreateAttribute("Rotation");
+                                            XmlAttribute tempnode = frame.OwnerDocument.CreateAttribute(ContentTagManager.GetTagValue("ANIMATION_LOCAL_FRAME_ROTATION", version));
                                             //Replace "Pi" with "Math.PI" for easier execution
                                             int nindex = value.IndexOf("PI", StringComparison.OrdinalIgnoreCase);
                                             if (nindex >= 0)
                                             {
                                                 string piValue = value.Substring(nindex, 2);
-                                                value = value.Replace(piValue, "Math.PI");
+                                                value = value.Replace(piValue, CodeProcessor.AbsReference("Math.PI"));
                                             }
                                             tempnode.Value = value;
 
-                                            SGDeContent.DataTypes.Code.Code code = CodeProcessor.Process(tempnode, context);
+                                            SGDeContent.DataTypes.Code.Code code = CodeProcessor.Process(tempnode, version, context);
                                             if (code.Constant)
                                             {
                                                 radianVal = Convert.ToDouble(code.ConstantValue);
