@@ -116,6 +116,8 @@
     <Compile Include="Content\Readers\SpriteManagerReader.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Graphics\SpriteManager.cs" />
+    <Compile Include="Input\GamePadComponent.cs" />
+    <Compile Include="Input\GamePadEvent.cs" />
     <Compile Include="Input\KeyboardComponent.cs" />
     <Compile Include="Messages.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -32,6 +32,9 @@ namespace SGDE
         /// <summary>Object which allows for keyboard events. Only instantiate if object responds to keyboard input.</summary>
         protected KeyboardComponent keyboardListener;
 
+        /// <summary>Object which allows for gamepad events. Only instantiate if object responds to gamepad input.</summary>
+        protected GamePadComponent gamePadListener;
+
         internal bool penabled, pcollision;
         internal object[] args;
 
