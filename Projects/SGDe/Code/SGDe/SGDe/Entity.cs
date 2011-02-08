@@ -35,6 +35,9 @@ namespace SGDE
         /// <summary>Object which allows for gamepad events. Only instantiate if object responds to gamepad input.</summary>
         protected GamePadComponent gamePadListener;
 
+        /// <summary> ID for Checking the type of an Entity </summary>
+        protected uint id;
+
         internal bool penabled, pcollision;
         internal object[] args;
 
@@ -264,6 +267,16 @@ namespace SGDE
             ent.image.animEnd = this.image.animEnd;
             ent.image.FPS = this.image.FPS;
             ent.image.Tint = this.image.Tint;
+        }
+
+        public uint GetID()
+        {
+            return id;
+        }
+
+        public bool CompareID(Entity e)
+        {
+            return (e.id == id);
         }
     }
 }
