@@ -60,6 +60,7 @@ namespace SGDE
             SetRotation(0);
             mPhysBaby = new PhysicsBaby(this);
             SetTranslation(new Vector2(x, y));
+            id = 0; //Zero is a generic id
         }
 
         /// <summary>
@@ -232,6 +233,7 @@ namespace SGDE
             CopySpriteTo(ref ent);
             SceneNode nNode = ent.SpriteImage;
             node.CopyTo(ref nNode);
+            ent.id = this.id;
             /*
             if (this.mCollisionUnit != null && ent.mCollisionUnit == null)
             {
@@ -272,6 +274,11 @@ namespace SGDE
         public uint GetID()
         {
             return id;
+        }
+
+        internal void SetID(uint id)
+        {
+            this.id = id;
         }
 
         public bool CompareID(Entity e)

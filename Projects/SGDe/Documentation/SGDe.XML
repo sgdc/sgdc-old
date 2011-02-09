@@ -57,6 +57,12 @@
         <member name="F:SGDE.Entity.keyboardListener">
             <summary>Object which allows for keyboard events. Only instantiate if object responds to keyboard input.</summary>
         </member>
+        <member name="F:SGDE.Entity.gamePadListener">
+            <summary>Object which allows for gamepad events. Only instantiate if object responds to gamepad input.</summary>
+        </member>
+        <member name="F:SGDE.Entity.id">
+            <summary> ID for Checking the type of an Entity </summary>
+        </member>
         <member name="M:SGDE.Entity.#ctor(System.Single,System.Single)">
             <summary>
             Constructs a new entity in the scene
@@ -89,6 +95,95 @@
             <summary>
             Used internally
             </summary>
+        </member>
+        <member name="T:SGDE.Entity.GamePadComponent">
+            <summary>
+            For handling xbox controller input.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Code.Library.String">
+            <summary>
+            The String class is a data type that represents a string of characters.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Code.Library.Object">
+            <summary>
+            The Object class is at the root of the ActionScript class hierarchy.
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.#ctor">
+            <summary>
+            Creates an Object object and stores a reference to the object's constructor method in the object's constructor property.
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.toString">
+            <summary>
+            Returns the string representation of the specified object.
+            </summary>
+            <returns>A string representation of the object.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.toLocaleString">
+            <summary>
+            Returns the string representation of this object, formatted according to locale-specific conventions.
+            </summary>
+            <returns>A string representation of this object formatted according to local conventions.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.valueOf">
+            <summary>
+            Returns the primitive value of the specified object.
+            </summary>
+            <returns>The primitive value of this object or the object itself.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.hasOwnProperty(SGDE.Content.Code.Library.String)">
+            <summary>
+            Indicates whether an object has a specified property defined.
+            </summary>
+            <param name="name">The property of the object.</param>
+            <returns>If the target object has the property specified by the name parameter this value is true, otherwise false.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.isPrototypeOf(SGDE.Content.Code.Library.Object)">
+            <summary>
+            Indicates whether an instance of the Object class is in the prototype chain of the object specified as the parameter.
+            </summary>
+            <param name="theClass">The class to which the specified object may refer.</param>
+            <returns>If the object is in the prototype chain of the object specified by the theClass parameter this value is true, otherwise false.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.propertyIsEnumerable(SGDE.Content.Code.Library.String)">
+            <summary>
+            Indicates whether the specified property exists and is enumerable.
+            </summary>
+            <param name="name">The property of the object.</param>
+            <returns>If the property specified by the name parameter is enumerable this value is true, otherwise false.</returns>
+        </member>
+        <member name="P:SGDE.Content.Code.Library.Object.constructor">
+            <summary>
+            A reference to the class object or constructor function for a given object instance.
+            </summary>
+        </member>
+        <member name="P:SGDE.Content.Code.Library.Object.__proto__">
+            <summary>
+            A reference to the prototype object of a class or function object.
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.String.#ctor(SGDE.Content.Code.Library.String)">
+            <summary>
+            Creates a new String object initialized to the specified string.
+            </summary>
+            <param name="val">The initial value of the new String object.</param>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.String.op_Implicit(System.String)~SGDE.Content.Code.Library.String">
+            <summary>
+            Convert a primitive string to a String.
+            </summary>
+            <param name="s">The string value to create the String with.</param>
+            <returns>The created String.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.String.op_Implicit(SGDE.Content.Code.Library.String)~System.String">
+            <summary>
+            Convert a String to a primitive string.
+            </summary>
+            <param name="s">The String to convert to a string.</param>
+            <returns>The retrieved string.</returns>
         </member>
         <member name="T:SGDE.Graphics.Sprite">
             <summary>
@@ -207,16 +302,6 @@
             Read a SpriteAnimation.
             </summary>
         </member>
-        <member name="T:SGDE.Content.Code.Library.SGDE.Math">
-            <summary>
-            The Math class contains methods and constants that represent common mathematical functions and values.
-            </summary>
-        </member>
-        <member name="F:SGDE.Content.Code.Library.SGDE.Math.PI">
-            <summary>
-            A mathematical constant for the ratio of the circumference of a circle to its diameter, expressed as pi, with a value of 3.141592653589793.
-            </summary>
-        </member>
         <member name="F:SGDE.Content.ContentUtil.LoadingBuilders">
             <summary>
             Loading entity builders.
@@ -303,6 +388,28 @@
               Looks up a localized string similar to Texture ID does not match saved ID.
             </summary>
         </member>
+        <member name="M:SGDE.GamePadEvent.#ctor(Microsoft.Xna.Framework.Input.Buttons,SGDE.GamePadEvent.ButtonEvent)">
+            <summary>
+            Constructor for an Xbox 360 Controller Button Event
+            </summary>
+            <param name="button">A, B, X, Y, LeftShoulder, RightShoulder, LeftStick, RightStick, Back, Start, 
+                                DPadLeft, DPadRight, DPadUp, DPadDown</param>
+            <param name="buttonEvent">Event for a button with a callback function</param>
+        </member>
+        <member name="M:SGDE.GamePadEvent.#ctor(SGDE.GamePadEvent.ThumbSticks,SGDE.GamePadEvent.ThumbStickEvent)">
+            <summary>
+            Constructor for an Xbox 360 Controller Thumbstick Event
+            </summary>
+            <param name="thumbstick">Left, Right</param>
+            <param name="thumbStickEvent">Event for a thumbstick with a callback function</param>
+        </member>
+        <member name="M:SGDE.GamePadEvent.#ctor(SGDE.GamePadEvent.Triggers,SGDE.GamePadEvent.TriggerEvent)">
+            <summary>
+            Constructor for an Xbox 360 Controller Trigger Event 
+            </summary>
+            <param name="trigger">Left, Right</param>
+            <param name="triggerEvent">Event for a trigger with a callback function</param>
+        </member>
         <member name="T:SGDE.Game">
             <summary>
             Base game that wraps much of the game's functions so they can be adjusted from the Game editor.
@@ -369,6 +476,56 @@
             of white-spaces it will be ignored as well. If this value references a game content that doesn't exist it will throw an exception.
             </summary>
         </member>
+        <member name="T:SGDE.Content.Code.Library.Number">
+            <summary>
+            A data type representing an IEEE-754 double-precision floating-point number.
+            </summary>
+        </member>
+        <member name="F:SGDE.Content.Code.Library.Number.MAX_VALUE">
+            <summary>
+            The largest representable number (double-precision IEEE-754).
+            </summary>
+        </member>
+        <member name="F:SGDE.Content.Code.Library.Number.MIN_VALUE">
+            <summary>
+            The smallest representable non-negative, non-zero, number (double-precision IEEE-754).
+            </summary>
+        </member>
+        <member name="F:SGDE.Content.Code.Library.Number.NaN">
+            <summary>
+            The IEEE-754 value representing Not a Number (NaN).
+            </summary>
+        </member>
+        <member name="F:SGDE.Content.Code.Library.Number.NEGATIVE_INFINITY">
+            <summary>
+            Specifies the IEEE-754 value representing negative infinity.
+            </summary>
+        </member>
+        <member name="F:SGDE.Content.Code.Library.Number.POSITIVE_INFINITY">
+            <summary>
+            Specifies the IEEE-754 value representing positive infinity.
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Number.#ctor(SGDE.Content.Code.Library.Object)">
+            <summary>
+            Creates a Number object with the specified value.
+            </summary>
+            <param name="num">The numeric value of the Number instance being created or a value to be converted to a Number.</param>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Number.op_Implicit(System.Double)~SGDE.Content.Code.Library.Number">
+            <summary>
+            Convert a primitive double to a Number.
+            </summary>
+            <param name="d">The double value to create the Number with.</param>
+            <returns>The created Number.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Number.op_Implicit(SGDE.Content.Code.Library.Number)~System.Double">
+            <summary>
+            Convert a Number to a primitive double.
+            </summary>
+            <param name="n">The Number to convert to a double.</param>
+            <returns>The retrieved double.</returns>
+        </member>
         <member name="T:SGDE.Content.Readers.NodeReader">
             <summary>
             Read and process a SceneNode class
@@ -409,6 +566,16 @@
             Read a Entity.
             </summary>
         </member>
+        <member name="T:SGDE.Content.Code.Library.Math">
+            <summary>
+            The Math class contains methods and constants that represent common mathematical functions and values.
+            </summary>
+        </member>
+        <member name="F:SGDE.Content.Code.Library.Math.PI">
+            <summary>
+            A mathematical constant for the ratio of the circumference of a circle to its diameter, expressed as pi, with a value of 3.141592653589793.
+            </summary>
+        </member>
         <member name="T:SGDE.Content.Readers.MapReader">
             <summary>
             Read and process a MapContent class
@@ -419,6 +586,37 @@
             Read a MapContent.
             </summary>
         </member>
+        <member name="T:SGDE.Content.Code.Library.Boolean">
+            <summary>
+            A Boolean object is a data type that can have one of two values, either true or false, used for logical operations.
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Boolean.#ctor(SGDE.Content.Code.Library.Object)">
+            <summary>
+            Creates a Boolean object with the specified value.
+            </summary>
+            <param name="expression">Any expression.</param>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Boolean.toString">
+            <summary>
+            Returns the string representation ("true" or "false") of the Boolean object.
+            </summary>
+            <returns>The string "true" or "false".</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Boolean.op_Implicit(System.Boolean)~SGDE.Content.Code.Library.Boolean">
+            <summary>
+            Convert a primitive bool to a Boolean.
+            </summary>
+            <param name="b">The bool value to create the Boolean with.</param>
+            <returns>The created Boolean.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Boolean.op_Implicit(SGDE.Content.Code.Library.Boolean)~System.Boolean">
+            <summary>
+            Convert a Boolean to a primitive bool.
+            </summary>
+            <param name="b">The Boolean to convert to a bool.</param>
+            <returns>The retrieved bool.</returns>
+        </member>
         <member name="T:SGDE.Content.Readers.CodeReader">
             <summary>
             Read and process a Code class
@@ -427,6 +625,16 @@
         <member name="M:SGDE.Content.Readers.CodeReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Content.Code.Code)">
             <summary>
             Read a Code.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Code.Library.Global">
+            <summary>
+            Top level or global functions are available in any place where ActionScript is used, or in any user-defined class.
+            </summary>
+        </member>
+        <member name="F:SGDE.Content.Code.Library.Global.undefined">
+            <summary>
+            A special value that applies to untyped variables that have not been initialized or dynamic object properties that are not initialized.
             </summary>
         </member>
         <member name="T:SGDE.Content.DataTypes.GameContent">
@@ -495,31 +703,6 @@
             <summary>
             Read a SpriteManager.
             </summary>
-        </member>
-        <member name="T:SGDE.Content.Code.Library.SGDE.Number">
-            <summary>
-            A data type representing an IEEE-754 double-precision floating-point number.
-            </summary>
-        </member>
-        <member name="M:SGDE.Content.Code.Library.SGDE.Number.#ctor(System.Double)">
-            <summary>
-            Creates a Number object with the specified value.
-            </summary>
-            <param name="num">The numeric value of the Number instance being created or a value to be converted to a Number.</param>
-        </member>
-        <member name="M:SGDE.Content.Code.Library.SGDE.Number.op_Implicit(System.Double)~SGDE.Content.Code.Library.SGDE.Number">
-            <summary>
-            Convert a native double to a Number.
-            </summary>
-            <param name="d">The double value to create the Number with.</param>
-            <returns>The created Number.</returns>
-        </member>
-        <member name="M:SGDE.Content.Code.Library.SGDE.Number.op_Implicit(System.Single)~SGDE.Content.Code.Library.SGDE.Number">
-            <summary>
-            Convert a native float to a Number.
-            </summary>
-            <param name="d">The float value to create the Number with.</param>
-            <returns>The created Number.</returns>
         </member>
     </members>
 </doc>

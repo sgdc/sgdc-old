@@ -250,6 +250,15 @@ namespace SGDeContent {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Animation ID must be a valid positive number..
+        /// </summary>
+        internal static string Entity_Sprite_PositiveAID {
+            get {
+                return ResourceManager.GetString("Entity_Sprite_PositiveAID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sprite ID must be a valid positive number..
         /// </summary>
         internal static string Entity_Sprite_PositiveID {

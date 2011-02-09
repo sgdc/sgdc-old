@@ -17,7 +17,6 @@ namespace SGDeContent.Writers
     {
         protected override void Write(ContentWriter output, AnimationSet value)
         {
-            output.Write(value.SpriteID);
             output.Write(value.FPS);
             output.Write(value.Frames.Count);
             output.Write(value.Used);

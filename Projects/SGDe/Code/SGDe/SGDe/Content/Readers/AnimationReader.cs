@@ -28,7 +28,6 @@ namespace SGDE.Content.Readers
         {
             SpriteManager.SpriteAnimation animation = new SpriteManager.SpriteAnimation();
             animation.IsValid = true;
-            animation.ID = input.ReadInt32();
             animation.DefaultFPS = input.ReadSingle();
             animation.frameCount = input.ReadInt32();
             byte used = input.ReadByte();

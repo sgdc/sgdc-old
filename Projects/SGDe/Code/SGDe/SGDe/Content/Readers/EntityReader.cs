@@ -135,35 +135,37 @@ namespace SGDE.Content.Readers
         private static void ReadAnimation(ref Sprite sprite, ContentReader input)
         {
             bool builtInAnimation = input.ReadBoolean();
-            int defAnimation = input.ReadInt32();
-            List<SpriteManager.SpriteAnimation> animations = input.ReadObject<List<SpriteManager.SpriteAnimation>>();
-            if (!builtInAnimation)
+            bool localAnimation = input.ReadBoolean();
+            int animationID = input.ReadInt32();
+            List<SpriteManager.SpriteAnimation> animations = null;
+            if (input.ReadBoolean())
             {
-                SpriteManager manager = SpriteManager.GetInstance();
-                if (defAnimation == -1)
+                int count = input.ReadInt32();
+                animations = new List<SpriteManager.SpriteAnimation>(count);
+                for (int i = 0; i < count; i++)
                 {
-                    defAnimation = 0;
+                    animations.Add(input.ReadRawObject<SpriteManager.SpriteAnimation>());
                 }
+            }
+            SpriteManager manager = SpriteManager.GetInstance();
+            if (builtInAnimation)
+            {
                 if (animations != null)
                 {
                     bool gotAn = false;
-                    for (int i = 0; i < animations.Count; i++)
+                    for (int i = 1; i <= animations.Count; i++)
                     {
-                        SpriteManager.SpriteAnimation animation = animations[i];
-#if WINDOWS
-                        int value = manager.AddAnimation(animation, spriteId: (ushort)animation.ID);
-#else
-                        int value = manager.AddAnimation(animation, (ushort)animation.ID);
-#endif
-                        if (!gotAn && i == defAnimation)
+                        SpriteManager.SpriteAnimation animation = animations[i - 1];
+                        int value = manager.AddAnimation(animation);
+                        if (localAnimation && !gotAn && i == animationID)
                         {
                             gotAn = true;
-                            defAnimation = value;
+                            animationID = value;
                         }
                     }
                 }
             }
-            sprite.animation = SpriteManager.GetInstance().GetFrames(defAnimation);
+            sprite.animation = manager.GetFrames(animationID);
             sprite.FPS = sprite.animation.DefaultFPS;
             sprite.animStart = sprite.frame = 0;
             sprite.animEnd = sprite.animation.frameCount;

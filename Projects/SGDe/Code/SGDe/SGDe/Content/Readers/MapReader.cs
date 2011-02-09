@@ -51,6 +51,7 @@ namespace SGDE.Content.Readers
                 {
                     en = input.ReadExternalReference<Entity>();
                 }
+                en.SetID((uint)i + 1);
                 ContentUtil.FinishTempDID(ref content.developerTypes);
                 Dictionary<string, object> physics = ContentUtil.temp.ContainsKey("EntityPhysics") ? (Dictionary<string, object>)ContentUtil.temp["EntityPhysics"] : null;
                 if (physics != null)

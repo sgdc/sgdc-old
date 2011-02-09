@@ -23,7 +23,7 @@ namespace SGDE.Graphics
         }
 
         private List<Texture2D> textures;
-        private List<SpriteAnimation[]> animations;
+        private List<SpriteAnimation> animations;
 
         public Texture2D GetTexture(int index)
         {
@@ -48,26 +48,7 @@ namespace SGDE.Graphics
             return verifyId;
         }
 
-#if WINDOWS
-        public int AddAnimation(SpriteAnimation animation, ushort spriteId = 0, int verifyId = 0)
-#else
         public int AddAnimation(SpriteAnimation animation)
-        {
-            return AddAnimation(animation, 0, 0);
-        }
-
-        public int AddAnimation(SpriteAnimation animation, ushort spriteId)
-        {
-            return AddAnimation(animation, spriteId, 0);
-        }
-
-        public int AddAnimation(SpriteAnimation animation, int verifyId)
-        {
-            return AddAnimation(animation, 0, verifyId);
-        }
-
-        public int AddAnimation(SpriteAnimation animation, ushort spriteId, int verifyId)
-#endif
         {
             if (!animation.IsValid)
             {
@@ -75,53 +56,10 @@ namespace SGDE.Graphics
             }
             if (animations == null)
             {
-                animations = new List<SpriteAnimation[]>();
+                animations = new List<SpriteAnimation>();
             }
-            //Prep for the animation
-            ushort animationId = 0;
-            bool verify = false;
-            if (spriteId == 0)
-            {
-                spriteId = (ushort)((verifyId >> 16) & 0xFFFFU);
-                animationId = (ushort)(verifyId & 0xFFFFU);
-                verify = true;
-            }
-            else
-            {
-                spriteId--; //1 based index to zero based index
-            }
-            //Process the animation
-            SpriteAnimation[] anim;
-            if (animations.Count > spriteId)
-            {
-                SpriteAnimation[] sp = animations[spriteId];
-                anim = new SpriteAnimation[sp.Length + 1];
-                Array.Copy(sp, anim, sp.Length);
-            }
-            else
-            {
-                anim = new SpriteAnimation[1];
-                if (animations.Count != spriteId)
-                {
-                    throw new ArgumentException(Messages.SpriteManager_AnimationSetIDMismatch);
-                }
-                animations.Add(anim);
-            }
-            //Add the animation
-            if (verify)
-            {
-                if (anim.Length - 1 != animationId)
-                {
-                    throw new ArgumentException(Messages.SpriteManager_AnimationIDMismatch);
-                }
-                anim[animationId] = animation;
-            }
-            else
-            {
-                anim[animationId = (ushort)(anim.Length - 1)] = animation;
-                verifyId = (spriteId << 16) | animationId;
-            }
-            return verifyId;
+            animations.Add(animation);
+            return animations.Count;
         }
 
         public bool HasTexture(int index)
@@ -131,21 +69,16 @@ namespace SGDE.Graphics
 
         public SpriteAnimation GetFrames(int id)
         {
-            ushort spriteId = (ushort)((id >> 16) & 0xFFFFU);
-            ushort animationId = (ushort)(id & 0xFFFFU);
-            if (animations == null)
+            if (id <= 0 || animations == null)
             {
                 return new SpriteAnimation();
             }
-            if (animations.Count <= spriteId)
+            id--;
+            if (animations.Count < id)
             {
                 return new SpriteAnimation();
             }
-            if (animations[spriteId].Length <= animationId)
-            {
-                return new SpriteAnimation();
-            }
-            return animations[spriteId][animationId];
+            return animations[id];
         }
 
         public static void FrameAdjustment(ref int curFrame, int originFrame, int maxFrame, float fps, ref float current, GameTime gameTime, bool backwords)
@@ -185,7 +118,6 @@ namespace SGDE.Graphics
             public Vector2?[] origin;
             public Vector2?[] scale;
             public float DefaultFPS { get; set; }
-            public int ID;
 
             public SpriteEffects Effect(int frame)
             {

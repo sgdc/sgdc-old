@@ -330,6 +330,7 @@ namespace SGDeContent.Processors
                         #endregion
                     }
                     int count = 0;
+                    int aid = -1;
                     foreach (XmlElement spriteComponent in entityComponent)
                     {
                         #region Child components
@@ -351,17 +352,15 @@ namespace SGDeContent.Processors
                                 entity.Animations = new List<AnimationSet>();
                             }
                             Animation animation = AnimationProcessor.Process(spriteComponent, version, context);
-                            entity.DefaultAnimation = -1;
                             if (entity.BuiltInAnimation = animation.BuiltIn)
                             {
                                 foreach (AnimationSet set in animation.Sets)
                                 {
-                                    set.SpriteID = entity.SpriteID;
                                     if (set.Default)
                                     {
-                                        if (entity.DefaultAnimation == -1)
+                                        if (aid == -1)
                                         {
-                                            entity.DefaultAnimation = set.Index;
+                                            aid = set.Index;
                                         }
                                         else
                                         {
@@ -370,16 +369,47 @@ namespace SGDeContent.Processors
                                     }
                                     entity.Animations.Add(set);
                                 }
+                                entity.AnimationLocal = true;
                             }
                             else
                             {
-                                entity.DefaultAnimation = animation.ID;
+                                aid = animation.ID;
                             }
 
                             #endregion
                         }
 
                         #endregion
+                    }
+                    at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_ANIMATION_ID", version, entityComponent);
+                    if (at == null)
+                    {
+                        if (entity.AnimationID < 0)
+                        {
+                            if (MapProcessor.CurrentEntityID >= 0 && MapProcessor.map != null)
+                            {
+                                //Inheret the Animation ID
+                                if (MapProcessor.map.Entities[MapProcessor.CurrentEntityID] is Entity)
+                                {
+                                    aid = ((Entity)MapProcessor.map.Entities[MapProcessor.CurrentEntityID]).AnimationID;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        aid = int.Parse(at.Value);
+                        if (aid < 0)
+                        {
+                            throw new InvalidContentException(Messages.Entity_Sprite_PositiveAID);
+                        }
+                        aid--; //Adjust for writing
+                    }
+                    entity.AnimationID = aid;
+                    at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_ANIMATION_LOCALAID", version, entityComponent);
+                    if (at != null)
+                    {
+                        entity.AnimationLocal = bool.Parse(at.Value);
                     }
 
                     #endregion

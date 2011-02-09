@@ -32,6 +32,8 @@ namespace SGDeContent
             throw new NotImplementedException(string.Format(Messages.SGDETypeNotImplemented, input.document.DocumentElement.ChildNodes[0].Name));
         }
 
+        //TODO: Add generic writer so data can be written out to content format
+
         //What XmlNode.InnerText should really be doing.
         public static string GetInnerText(XmlNode node)
         {

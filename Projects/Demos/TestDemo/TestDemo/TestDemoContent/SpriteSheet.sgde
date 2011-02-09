@@ -3,6 +3,7 @@
   <SpriteSheets>
     <SpriteSheet ID="0">
       <Source>theball.png</Source>
+      <Animation>Local<AnimationSet FPS="2"><Frame Color="FF000000" /><Frame Color="FF00FF00" /></AnimationSet></Animation>
     </SpriteSheet>
     <SpriteSheet Name="Star" ID="1">
       <Source>star.png</Source>

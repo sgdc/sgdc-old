@@ -10,7 +10,6 @@ namespace SGDeContent.DataTypes
         public bool Default;
         public int Index;
 
-        public int SpriteID;
         public float FPS;
         public byte Used;
         public List<AnimationFrame> Frames;

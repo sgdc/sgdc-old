@@ -117,25 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUILDER_LOAD_DIALOG_TITLE" xml:space="preserve">
-    <value>Load SGDe Game</value>
-  </data>
-  <data name="DATA_UTIL_LOAD_BADTYPE" xml:space="preserve">
-    <value>Invalid Content Type. Expected: {0}, got {1}.</value>
-  </data>
-  <data name="GAMEDATA_SAVE_FORCEFUL" xml:space="preserve">
-    <value>This program MUST shut down. Do you want to save your work? Otherwise it will be lost.</value>
-  </data>
-  <data name="GAMEDATA_SAVE_NORMAL" xml:space="preserve">
-    <value>Work isn't saved. Would you like to save it?</value>
-  </data>
-  <data name="GAME_MAP_VIEW" xml:space="preserve">
-    <value>Map View</value>
-  </data>
-  <data name="GAME_PROPERTIES_TITLE" xml:space="preserve">
-    <value>Game Properties</value>
-  </data>
-  <data name="LOG_FRIENDLY_NAME" xml:space="preserve">
-    <value>Stevens Game Development Engine, Builder</value>
-  </data>
+  <metadata name="builderMenuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="openFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>164, 17</value>
+  </metadata>
+  <metadata name="saveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>297, 17</value>
+  </metadata>
 </root>

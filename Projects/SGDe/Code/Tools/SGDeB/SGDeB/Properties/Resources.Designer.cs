@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SGDeB.Properties
-{
-
-
+namespace SGDeB.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,49 +22,104 @@ namespace SGDeB.Properties
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources
-    {
-
+    internal class Resources {
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources()
-        {
+        internal Resources() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager
-        {
-            get
-            {
-                if ((resourceMan == null))
-                {
+        internal static global::System.Resources.ResourceManager ResourceManager {
+            get {
+                if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SGDeB.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture
-        {
-            get
-            {
+        internal static global::System.Globalization.CultureInfo Culture {
+            get {
                 return resourceCulture;
             }
-            set
-            {
+            set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load SGDe Game.
+        /// </summary>
+        internal static string BUILDER_LOAD_DIALOG_TITLE {
+            get {
+                return ResourceManager.GetString("BUILDER_LOAD_DIALOG_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Content Type. Expected: {0}, got {1}..
+        /// </summary>
+        internal static string DATA_UTIL_LOAD_BADTYPE {
+            get {
+                return ResourceManager.GetString("DATA_UTIL_LOAD_BADTYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map View.
+        /// </summary>
+        internal static string GAME_MAP_VIEW {
+            get {
+                return ResourceManager.GetString("GAME_MAP_VIEW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Game Properties.
+        /// </summary>
+        internal static string GAME_PROPERTIES_TITLE {
+            get {
+                return ResourceManager.GetString("GAME_PROPERTIES_TITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This program MUST shut down. Do you want to save your work? Otherwise it will be lost..
+        /// </summary>
+        internal static string GAMEDATA_SAVE_FORCEFUL {
+            get {
+                return ResourceManager.GetString("GAMEDATA_SAVE_FORCEFUL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Work isn&apos;t saved. Would you like to save it?.
+        /// </summary>
+        internal static string GAMEDATA_SAVE_NORMAL {
+            get {
+                return ResourceManager.GetString("GAMEDATA_SAVE_NORMAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stevens Game Development Engine, Builder.
+        /// </summary>
+        internal static string LOG_FRIENDLY_NAME {
+            get {
+                return ResourceManager.GetString("LOG_FRIENDLY_NAME", resourceCulture);
             }
         }
     }

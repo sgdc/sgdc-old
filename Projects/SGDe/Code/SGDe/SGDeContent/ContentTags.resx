@@ -237,6 +237,12 @@
   <data name="ENTITY_SPRITE_1_0" xml:space="preserve">
     <value>Sprite</value>
   </data>
+  <data name="ENTITY_SPRITE_ANIMATION_ID_1_1" xml:space="preserve">
+    <value>AID</value>
+  </data>
+  <data name="ENTITY_SPRITE_ANIMATION_LOCALAID_1_1" xml:space="preserve">
+    <value>LocalAID</value>
+  </data>
   <data name="ENTITY_SPRITE_COLOR_1_0" xml:space="preserve">
     <value>Color</value>
   </data>

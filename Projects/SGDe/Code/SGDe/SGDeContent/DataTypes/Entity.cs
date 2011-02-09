@@ -20,12 +20,13 @@ namespace SGDeContent.DataTypes
         //Sprite information
         public int SpriteID;
         public object SpriteDID;
+        public int AnimationID = -1;
+        public bool AnimationLocal;
         public Color? Tint;
         public bool HasOverride;
         public SGDE.Graphics.Sprite.SpriteAttributes OverrideAttributes;
         public bool HasRegion;
         public int RegionBegin, RegionEnd;
-        public int DefaultAnimation;
         public bool BuiltInAnimation;
         public List<AnimationSet> Animations;
 
@@ -33,10 +34,5 @@ namespace SGDeContent.DataTypes
         public string SpecialType;
         public List<object> Args;
         public Queue<string> ArgTypes;
-
-        public Entity()
-        {
-            DefaultAnimation = -1;
-        }
     }
 }

@@ -57,11 +57,6 @@ namespace SGDeContent.Processors
                                     {
                                         throw new InvalidContentException(Messages.SpriteMap_AnimationMustBeInternal);
                                     }
-                                    int sid = map.TextureIDs[map.TextureIDs.Count - 1];
-                                    for (int i = 0; i < animation.Sets.Count; i++)
-                                    {
-                                        animation.Sets[i].SpriteID = sid;
-                                    }
                                     map.AnimationSets.Add(animation.Sets);
                                 }
                             }

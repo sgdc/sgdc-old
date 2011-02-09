@@ -67,8 +67,21 @@ namespace SGDeContent.Writers
                 output.WriteObject(value.OverrideAttributes);
             }
             output.Write(value.BuiltInAnimation);
-            output.Write(value.DefaultAnimation);
-            output.WriteObject(value.Animations);
+            output.Write(value.AnimationLocal);
+            output.Write(value.AnimationID + 1);
+            if (value.Animations == null)
+            {
+                output.Write(false);
+            }
+            else
+            {
+                output.Write(true);
+                output.Write(value.Animations.Count);
+                foreach (AnimationSet ani in value.Animations)
+                {
+                    output.WriteRawObject(ani);
+                }
+            }
             output.Write(value.HasRegion);
             if (value.HasRegion)
             {

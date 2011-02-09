@@ -88,6 +88,12 @@ namespace SGDeContent.Processors
                 type = Type.GetType("Microsoft.Xna.Framework.Content.Pipeline.BuildCoordinator, Microsoft.Xna.Framework.Content.Pipeline");
                 return (string)type.GetMethod("GetRelativePath", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public).Invoke(buildCoordinator, new object[] { absPath });
             }
+            type = Type.GetType("SGDeB.ContentPipelineFake.FakeContentProcessorContext, SGDeB");
+            if (context.GetType().IsAssignableFrom(type))
+            {
+                //Simply return the path, it's Only used for ExternalReferences any way.
+                return absPath;
+            }
             throw new ArgumentException(Messages.Utils_ChangedBuild);
         }
     }

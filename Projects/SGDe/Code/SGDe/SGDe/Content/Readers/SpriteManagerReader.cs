@@ -36,13 +36,7 @@ namespace SGDE.Content.Readers
                 }
                 for (int k = 0; k < lc; k++)
                 {
-                    SpriteManager.SpriteAnimation an = input.ReadObject<SpriteManager.SpriteAnimation>();
-                    ushort sid = (ushort)an.ID;
-#if WINDOWS
-                    manager.AddAnimation(an, spriteId: sid);
-#else
-                    manager.AddAnimation(an, sid);
-#endif
+                    manager.AddAnimation(input.ReadObject<SpriteManager.SpriteAnimation>());
                 }
             }
             return manager;
