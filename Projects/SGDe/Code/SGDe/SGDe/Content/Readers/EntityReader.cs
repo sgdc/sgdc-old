@@ -86,39 +86,8 @@ namespace SGDE.Content.Readers
             }
             //Read Entity values
             //-Read sprite information
-            Sprite sprite = new Sprite();
-            entity.SpriteImage = sprite;
-            SpriteManager manager = SpriteManager.GetInstance();
-            sprite.baseTexture = manager.GetTexture(input.ReadInt32());
-            ContentUtil.TempDeveloperID(input, sprite);
-            Color? tint = input.ReadObject<Color?>();
-            if (tint.HasValue)
-            {
-                sprite.Tint = tint.Value;
-            }
-            if (input.ReadBoolean())
-            {
-                sprite.overrideAtt = input.ReadObject<Sprite.SpriteAttributes>();
-            }
-            ReadAnimation(ref sprite, input);
-            if (input.ReadBoolean())
-            {
-                sprite.animStart = input.ReadInt32(); //Begin
-                sprite.animEnd = input.ReadInt32(); //End
-                //If either value is -1 then reset to default animation value
-                if (sprite.animStart < 0)
-                {
-                    sprite.animStart = 0;
-                }
-                else
-                {
-                    sprite.frame = sprite.animStart;
-                }
-                if (sprite.animEnd < 0)
-                {
-                    sprite.animEnd = sprite.animation.frameCount;
-                }
-            }
+            entity.SpriteImage = input.ReadObject<Sprite>();
+            ContentUtil.TempDeveloperID(input, entity.SpriteImage);
             //-Read physics
             ProcessPhysics(ref entity, input);
             //Read in SceneNode information
@@ -130,48 +99,16 @@ namespace SGDE.Content.Readers
             return entity;
         }
 
-        #region ReadAnimation
-
-        private static void ReadAnimation(ref Sprite sprite, ContentReader input)
+        /// <summary>
+        /// Get the current version of the Entity Reader.
+        /// </summary>
+        public override int TypeVersion
         {
-            bool builtInAnimation = input.ReadBoolean();
-            bool localAnimation = input.ReadBoolean();
-            int animationID = input.ReadInt32();
-            List<SpriteManager.SpriteAnimation> animations = null;
-            if (input.ReadBoolean())
+            get
             {
-                int count = input.ReadInt32();
-                animations = new List<SpriteManager.SpriteAnimation>(count);
-                for (int i = 0; i < count; i++)
-                {
-                    animations.Add(input.ReadRawObject<SpriteManager.SpriteAnimation>());
-                }
+                return 1;
             }
-            SpriteManager manager = SpriteManager.GetInstance();
-            if (builtInAnimation)
-            {
-                if (animations != null)
-                {
-                    bool gotAn = false;
-                    for (int i = 1; i <= animations.Count; i++)
-                    {
-                        SpriteManager.SpriteAnimation animation = animations[i - 1];
-                        int value = manager.AddAnimation(animation);
-                        if (localAnimation && !gotAn && i == animationID)
-                        {
-                            gotAn = true;
-                            animationID = value;
-                        }
-                    }
-                }
-            }
-            sprite.animation = manager.GetFrames(animationID);
-            sprite.FPS = sprite.animation.DefaultFPS;
-            sprite.animStart = sprite.frame = 0;
-            sprite.animEnd = sprite.animation.frameCount;
         }
-
-        #endregion
 
         #region ProcessPhysics
 
@@ -181,7 +118,10 @@ namespace SGDE.Content.Readers
             if (physics != null)
             {
                 ContentUtil.temp.Add("EntityPhysics", physics);
-                ProcessPhysics(ref entity, physics);
+                if (entity.SpriteImage != null)
+                {
+                    ProcessPhysics(ref entity, physics);
+                }
             }
         }
 

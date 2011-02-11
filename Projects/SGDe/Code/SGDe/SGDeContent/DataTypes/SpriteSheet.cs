@@ -7,18 +7,18 @@ using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
 
 namespace SGDeContent.DataTypes
 {
-    public class SpriteMap : ProcessedContent
+    public class SpriteSheet : ProcessedContent
     {
         public List<string> Names;
         public List<int> TextureIDs;
-        public List<ExternalReference<TextureContent>> Textures;
+        public List<object> Textures;
         public List<List<AnimationSet>> AnimationSets;
 
-        public SpriteMap()
+        public SpriteSheet()
         {
             Names = new List<string>();
             TextureIDs = new List<int>();
-            Textures = new List<ExternalReference<TextureContent>>();
+            Textures = new List<object>();
             AnimationSets = new List<List<AnimationSet>>();
         }
     }

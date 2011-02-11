@@ -252,14 +252,17 @@
   <data name="SGDETypeNotImplemented" xml:space="preserve">
     <value>Type: "{0}" is not implemented.</value>
   </data>
-  <data name="SpriteMap_AnimationMustBeInternal" xml:space="preserve">
+  <data name="SpriteSheet_AnimationMustBeInternal" xml:space="preserve">
     <value>Animation must be a built in type.</value>
   </data>
-  <data name="SpriteMap_NeedsSource" xml:space="preserve">
-    <value>SpriteMap must contain a Source.</value>
+  <data name="SpriteSheet_NeedsSource" xml:space="preserve">
+    <value>SpriteSheet must contain a Source.</value>
   </data>
-  <data name="SpriteMap_RequiresID" xml:space="preserve">
-    <value>SpriteMap must contain an ID.</value>
+  <data name="SpriteSheet_RequiresID" xml:space="preserve">
+    <value>SpriteSheet must contain an ID.</value>
+  </data>
+  <data name="SpriteSheet_UnknownType" xml:space="preserve">
+    <value>Unknown sprite type.</value>
   </data>
   <data name="Utils_ChangedBuild" xml:space="preserve">
     <value>Microsoft changed the BuildCoordinator. You'll need to edit the code to adapt.</value>

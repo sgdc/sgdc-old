@@ -13,9 +13,9 @@ using SGDeContent.DataTypes.Code;
 namespace SGDeContent.Writers
 {
     [ContentTypeWriter]
-    public class SpriteMapWriter : ContentTypeWriter<SpriteMap>
+    public class SpriteSheetWriter : ContentTypeWriter<SpriteSheet>
     {
-        protected override void Write(ContentWriter output, SpriteMap value)
+        protected override void Write(ContentWriter output, SpriteSheet value)
         {
             output.WriteObject(value.Textures);
             output.Write(value.AnimationSets.Count);
@@ -31,6 +31,14 @@ namespace SGDeContent.Writers
                 {
                     output.WriteObject(aset);
                 }
+            }
+        }
+
+        public override int TypeVersion
+        {
+            get
+            {
+                return 1;
             }
         }
 

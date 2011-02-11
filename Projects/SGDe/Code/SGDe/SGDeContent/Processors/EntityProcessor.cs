@@ -6,6 +6,7 @@ using SGDeContent.DataTypes;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using System.Xml;
 using Microsoft.Xna.Framework;
+using SGDeContent.DataTypes.Sprites;
 
 namespace SGDeContent.Processors
 {
@@ -192,33 +193,33 @@ namespace SGDeContent.Processors
                     at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_ID", version, entityComponent);
                     if (at == null)
                     {
-                        entity.SpriteID = -1;
                         if (MapProcessor.CurrentEntityID >= 0 && MapProcessor.map != null)
                         {
                             //Inheret the Sprite ID
                             if (MapProcessor.map.Entities[MapProcessor.CurrentEntityID] is Entity)
                             {
-                                entity.SpriteID = ((Entity)MapProcessor.map.Entities[MapProcessor.CurrentEntityID]).SpriteID;
+                                entity.Sprite = CopySprite(((Entity)MapProcessor.map.Entities[MapProcessor.CurrentEntityID]).Sprite);
                             }
                         }
-                        if (entity.SpriteID == -1)
+                        if (entity.Sprite == null)
                         {
                             throw new InvalidContentException(Messages.Entity_Sprite_RequiresID);
                         }
                     }
                     else
                     {
-                        entity.SpriteID = int.Parse(at.Value);
-                        if (entity.SpriteID < 0)
+                        int id = int.Parse(at.Value);
+                        if (id < 0)
                         {
                             throw new InvalidContentException(Messages.Entity_Sprite_PositiveID);
                         }
+                        entity.Sprite = CreateSprite(id);
                     }
+
                     at = ContentTagManager.GetXMLAtt("GENERAL_DEVELOPER_ID", version, entityComponent);
                     if (at != null)
                     {
-                        entity.SpriteDID = new object();
-                        entity.DevID(at, entity.SpriteDID);
+                        entity.DevID(at, entity.Sprite);
                     }
                     at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_REGION", version, entityComponent);
                     if (at != null)
@@ -251,25 +252,25 @@ namespace SGDeContent.Processors
                                 }
                                 if (!error)
                                 {
-                                    entity.HasRegion = true;
+                                    entity.Sprite.HasRegion = true;
                                     switch (values.Length)
                                     {
                                         case 1:
-                                            entity.RegionBegin = entity.RegionEnd = -1;
+                                            entity.Sprite.RegionBegin = entity.Sprite.RegionEnd = -1;
                                             if (value.IndexOf('-') > value.IndexOf(components[0]))
                                             {
                                                 //Region defines starting portion of region
-                                                entity.RegionBegin = values[0];
+                                                entity.Sprite.RegionBegin = values[0];
                                             }
                                             else
                                             {
                                                 //Region defines ending portion of region
-                                                entity.RegionEnd = values[0];
+                                                entity.Sprite.RegionEnd = values[0];
                                             }
                                             break;
                                         case 2:
-                                            entity.RegionBegin = values[0];
-                                            entity.RegionEnd = values[1];
+                                            entity.Sprite.RegionBegin = values[0];
+                                            entity.Sprite.RegionEnd = values[1];
                                             break;
                                     }
                                 }
@@ -292,7 +293,7 @@ namespace SGDeContent.Processors
                              */
                             Color col = new Color(); //Build
                             col.PackedValue = Convert.ToUInt32(at.Value, 16); //Keep it clean
-                            entity.Tint = col;
+                            entity.Sprite.Tint = col;
                         }
                         catch
                         {
@@ -306,25 +307,25 @@ namespace SGDeContent.Processors
                     {
                         #region Override
 
-                        entity.OverrideAttributes = Utils.ParseEnum<SGDE.Graphics.Sprite.SpriteAttributes>(at.Value, SGDE.Graphics.Sprite.SpriteAttributes.None, context.Logger);
+                        entity.Sprite.OverrideAttributes = Utils.ParseEnum<SGDE.Graphics.Sprite.SpriteAttributes>(at.Value, SGDE.Graphics.Sprite.SpriteAttributes.None, context.Logger);
 
                         //Handle specific cases
-                        if (((entity.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.RotationAbs) == SGDE.Graphics.Sprite.SpriteAttributes.RotationAbs) &&
-                            ((entity.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.RotationRel) == SGDE.Graphics.Sprite.SpriteAttributes.RotationRel))
+                        if (((entity.Sprite.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.RotationAbs) == SGDE.Graphics.Sprite.SpriteAttributes.RotationAbs) &&
+                            ((entity.Sprite.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.RotationRel) == SGDE.Graphics.Sprite.SpriteAttributes.RotationRel))
                         {
                             context.Logger.LogWarning(null, null, Messages.Entity_Sprite_RelAbsRotation);
-                            entity.OverrideAttributes &= ~SGDE.Graphics.Sprite.SpriteAttributes.RotationRel;
+                            entity.Sprite.OverrideAttributes &= ~SGDE.Graphics.Sprite.SpriteAttributes.RotationRel;
                         }
-                        if (((entity.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.ScaleAbs) == SGDE.Graphics.Sprite.SpriteAttributes.ScaleAbs) &&
-                            ((entity.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.ScaleRel) == SGDE.Graphics.Sprite.SpriteAttributes.ScaleRel))
+                        if (((entity.Sprite.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.ScaleAbs) == SGDE.Graphics.Sprite.SpriteAttributes.ScaleAbs) &&
+                            ((entity.Sprite.OverrideAttributes & SGDE.Graphics.Sprite.SpriteAttributes.ScaleRel) == SGDE.Graphics.Sprite.SpriteAttributes.ScaleRel))
                         {
                             context.Logger.LogWarning(null, null, Messages.Entity_Sprite_RelAbsScale);
-                            entity.OverrideAttributes &= ~SGDE.Graphics.Sprite.SpriteAttributes.ScaleRel;
+                            entity.Sprite.OverrideAttributes &= ~SGDE.Graphics.Sprite.SpriteAttributes.ScaleRel;
                         }
 
-                        if (entity.OverrideAttributes != SGDE.Graphics.Sprite.SpriteAttributes.None)
+                        if (entity.Sprite.OverrideAttributes != SGDE.Graphics.Sprite.SpriteAttributes.None)
                         {
-                            entity.HasOverride = true;
+                            entity.Sprite.HasOverride = true;
                         }
 
                         #endregion
@@ -335,24 +336,23 @@ namespace SGDeContent.Processors
                     {
                         #region Child components
 
-                        if (count >= 1)
+                        if (ContentTagManager.TagMatches("SPRITESHEET_MAP_COMP_ANIMATION", spriteComponent.Name, version))
                         {
-                            context.Logger.LogWarning(null, null, Messages.Entity_Sprite_TooManyAnimations);
-                            break;
-                        }
-                        if (ContentTagManager.TagMatches("SPRITEMAP_MAP_COMP_ANIMATION", spriteComponent.Name, version))
-                        {
-                            count++;
-
                             #region Animation
 
-                            if (entity.Animations == null)
+                            if (++count >= 2)
+                            {
+                                context.Logger.LogWarning(null, null, Messages.Entity_Sprite_TooManyAnimations);
+                                continue;
+                            }
+
+                            if (entity.Sprite.Animations == null)
                             {
                                 //Only one animation is supported at this time but use a list for future support.
-                                entity.Animations = new List<AnimationSet>();
+                                entity.Sprite.Animations = new List<AnimationSet>();
                             }
                             Animation animation = AnimationProcessor.Process(spriteComponent, version, context);
-                            if (entity.BuiltInAnimation = animation.BuiltIn)
+                            if (entity.Sprite.BuiltInAnimation = animation.BuiltIn)
                             {
                                 foreach (AnimationSet set in animation.Sets)
                                 {
@@ -367,9 +367,9 @@ namespace SGDeContent.Processors
                                             context.Logger.LogWarning(null, null, Messages.Entity_Sprite_DefaultTooMany);
                                         }
                                     }
-                                    entity.Animations.Add(set);
+                                    entity.Sprite.Animations.Add(set);
                                 }
-                                entity.AnimationLocal = true;
+                                entity.Sprite.AnimationLocal = true;
                             }
                             else
                             {
@@ -378,20 +378,28 @@ namespace SGDeContent.Processors
 
                             #endregion
                         }
+                        else
+                        {
+                            ProcessSprite(ref entity.Sprite, spriteComponent, version);
+                        }
 
                         #endregion
+                    }
+                    if (!SpriteRequirementsMet(entity.Sprite, version))
+                    {
+                        SpecifySpriteRequirements(entity.Sprite, version, context);
                     }
                     at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_ANIMATION_ID", version, entityComponent);
                     if (at == null)
                     {
-                        if (entity.AnimationID < 0)
+                        if (entity.Sprite.AnimationID < 0)
                         {
                             if (MapProcessor.CurrentEntityID >= 0 && MapProcessor.map != null)
                             {
                                 //Inheret the Animation ID
                                 if (MapProcessor.map.Entities[MapProcessor.CurrentEntityID] is Entity)
                                 {
-                                    aid = ((Entity)MapProcessor.map.Entities[MapProcessor.CurrentEntityID]).AnimationID;
+                                    aid = ((Entity)MapProcessor.map.Entities[MapProcessor.CurrentEntityID]).Sprite.AnimationID;
                                 }
                             }
                         }
@@ -405,11 +413,11 @@ namespace SGDeContent.Processors
                         }
                         aid--; //Adjust for writing
                     }
-                    entity.AnimationID = aid;
+                    entity.Sprite.AnimationID = aid;
                     at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_ANIMATION_LOCALAID", version, entityComponent);
                     if (at != null)
                     {
-                        entity.AnimationLocal = bool.Parse(at.Value);
+                        entity.Sprite.AnimationLocal = bool.Parse(at.Value);
                     }
 
                     #endregion
@@ -814,6 +822,45 @@ namespace SGDeContent.Processors
                 }
             }
             return entity;
+        }
+
+        private static Sprite CreateSprite(int id)
+        {
+            switch (SpriteSheetProcessor.SpriteSheetTypes[id])
+            {
+                case SpriteSheetProcessor.SpriteType.Bitmap:
+                    BitmapSprite bs = new BitmapSprite();
+                    bs.SpriteID = id;
+                    return bs;
+            }
+            return null;
+        }
+
+        private static Sprite CopySprite(Sprite src)
+        {
+            if (src is BitmapSprite)
+            {
+                BitmapSprite dstB = new BitmapSprite();
+                dstB.SpriteID = ((BitmapSprite)src).SpriteID;
+                return dstB;
+            }
+            return null;
+        }
+
+        private static void ProcessSprite(ref Sprite sp, XmlElement spriteComponent, double version)
+        {
+            //TODO: Extra components to a Sprite: If a vector based Sprite, get the scale of the sprite
+        }
+
+        private static bool SpriteRequirementsMet(Sprite sp, double version)
+        {
+            //TODO: If a vector based Sprite, make sure it has a scale
+            return true;
+        }
+
+        private static void SpecifySpriteRequirements(Sprite sp, double version, ContentProcessorContext context)
+        {
+            //If vector based Sprite, print out that a scale is required and default to a scale of 1 for 1
         }
     }
 }

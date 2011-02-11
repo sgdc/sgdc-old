@@ -25,8 +25,8 @@ namespace SGDeContent
                     return MapProcessor.Process(input, context);
                 case ContentTypes.Entity:
                     return EntityProcessor.Process(input, context);
-                case ContentTypes.SpriteMap:
-                    return SpriteMapProcessor.Process(input, context);
+                case ContentTypes.SpriteSheet:
+                    return SpriteSheetProcessor.Process(input, context);
             }
             // TODO: process the input object, and return the modified data.
             throw new NotImplementedException(string.Format(Messages.SGDETypeNotImplemented, input.document.DocumentElement.ChildNodes[0].Name));

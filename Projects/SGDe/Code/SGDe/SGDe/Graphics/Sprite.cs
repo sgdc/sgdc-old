@@ -12,14 +12,15 @@ namespace SGDE.Graphics
     /// <summary>
     /// A drawable sprite object that can be displayed on screen.
     /// </summary>
-    public class Sprite : SceneNode
+    public abstract class Sprite : SceneNode
     {
-        //FUTURE: Effects like blur, shadows, glow
-
-        internal Texture2D baseTexture;
         internal SpriteManager.SpriteAnimation animation;
         private float fps, curPos;
-        internal SpriteAttributes overrideAtt;
+        /// <summary>
+        /// The current SpriteAttributes that can override the Sprite's default attributes.
+        /// </summary>
+        protected SpriteAttributes overrideAtt;
+        internal SpriteAttributes OverrideAttributes { get { return this.overrideAtt; } set { this.overrideAtt = value; } }
         internal int frame, animStart, animEnd;
         private bool backwords;
 
@@ -59,119 +60,26 @@ namespace SGDE.Graphics
             FPS = 0x20 //FPS is initially set on load, can be set by dev using FPS attribute, but if this is used then if/when an animation change occurs the FPS gets set to the value specified in the animation
         }
 
-        /*
-        /// <summary>
-        /// Get or set SpriteBatch to use when drawing. Can only be done once.
-        /// </summary>
-        public static SpriteBatch SpriteBatch
-        {
-            get
-            {
-                return SpriteManager.spriteMan;
-            }
-            set
-            {
-                if (SpriteManager.spriteMan == null)
-                {
-                    SpriteManager.spriteMan = value;
-                }
-                else
-                {
-                    throw new InvalidOperationException("SpriteManager already exists");
-                }
-            }
-        }
-         */
-
         /// <summary>
         /// Create a new Sprite with default values.
         /// </summary>
-        public Sprite()
+        protected Sprite()
         {
             Tint = Color.White;
             overrideAtt = SpriteAttributes.None;
-            Tint = Color.White;
-            //overrideAtt = (int)(SpriteAttributes.Tint | SpriteAttributes.RotationAbs | SpriteAttributes.ScaleAbs);
         }
 
         /// <summary>
         /// Draw this Sprite.
         /// </summary>
         /// <param name="gameTime">The GameTime since the last draw.</param>
-        public void Draw(GameTime gameTime)
-        {
-            //Get tint values
-            Color? tint = animation.Tint(frame);
-            //Get rotation
-            float? rotationAn = animation.Rotation(frame);
-            float rotation;
-            if (rotationAn.HasValue)
-            {
-                if (OverrideAnimation(SpriteAttributes.RotationAbs, null))
-                {
-                    rotation = rotationAn.Value;
-                }
-                else
-                {
-                    float trot = MathHelper.ToRadians(base.GetRotation());
-                    if (OverrideAnimation(SpriteAttributes.RotationRel, null))
-                    {
-                        rotation = rotationAn.Value + trot;
-                    }
-                    else
-                    {
-                        rotation = trot;
-                    }
-                }
-            }
-            else
-            {
-                rotation = MathHelper.ToRadians(base.GetRotation());
-            }
-            //Get origin
-            Vector2? origin = animation.Origin(frame);
-            //Get scale
-            Vector2? scaleAn = animation.Scale(frame);
-            Vector2 scale;
-            if (scaleAn.HasValue)
-            {
-                if (OverrideAnimation(SpriteAttributes.ScaleAbs, null))
-                {
-                    scale = scaleAn.Value;
-                }
-                else
-                {
-                    Vector2 tscale = base.GetScale();
-                    if (OverrideAnimation(SpriteAttributes.ScaleRel, null))
-                    {
-                        scale = scaleAn.Value + tscale;
-                    }
-                    else
-                    {
-                        scale = tscale;
-                    }
-                }
-            }
-            else
-            {
-                scale = base.GetScale();
-            }
-            //Draw...
-            SpriteManager.spriteBat.Draw(baseTexture,
-                GetTranslation() + Vector2.Zero, //Second parameter is camera support
-                animation.Frame(frame), 
-                tint.HasValue && OverrideAnimation(SpriteAttributes.Tint, null) ? tint.Value : this.Tint, 
-                rotation, 
-                origin.HasValue ? origin.Value : Vector2.Zero, 
-                scale, 
-                animation.Effect(frame), 0);
-        }
+        public abstract void Draw(GameTime gameTime);
 
         /// <summary>
         /// Update this Sprite.
         /// </summary>
         /// <param name="gameTime">The GameTime since the last update.</param>
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             if (this.fps > 0)
             {
@@ -208,62 +116,17 @@ namespace SGDE.Graphics
         /// <summary>
         /// Get the center of the Sprite based off it's current animation.
         /// </summary>
-        public Vector2 Center
-        {
-            get
-            {
-                Vector2 center = GetTranslation();
-
-                Rectangle? rect = animation.Frame(frame);
-                float width, height;
-                if (rect.HasValue)
-                {
-                    width = rect.Value.Width;
-                    height = rect.Value.Height;
-                }
-                else
-                {
-                    width = baseTexture.Width;
-                    height = baseTexture.Height;
-                }
-                center.X += width / 2f;
-                center.Y += height / 2f;
-
-                return center;
-            }
-        }
+        public abstract Vector2 Center { get; }
 
         /// <summary>
         /// Get the width of the Sprite based off it's current animation.
         /// </summary>
-        public int Width
-        {
-            get
-            {
-                Rectangle? rect = animation.Frame(frame);
-                if (rect.HasValue)
-                {
-                    return rect.Value.Width;
-                }
-                return baseTexture.Width;
-            }
-        }
+        public abstract int Width { get; }
 
         /// <summary>
         /// Get the height of the Sprite based off it's current animation.
         /// </summary>
-        public int Height
-        {
-            get
-            {
-                Rectangle? rect = animation.Frame(frame);
-                if (rect.HasValue)
-                {
-                    return rect.Value.Height;
-                }
-                return baseTexture.Height;
-            }
-        }
+        public abstract int Height { get; }
 
         /// <summary>
         /// Get or set the tint to apply to this Sprite. This can be overriden, if allowed, by the Sprite animation.
@@ -309,26 +172,40 @@ namespace SGDE.Graphics
             }
         }
 
-        /* For later implementation
-        public void LoadAnimation(string name)
+        /// <summary>
+        /// Get if this Sprite is potentially visible on screen or not.
+        /// </summary>
+        public bool IsVisible
         {
-            //TODO
+            get
+            {
+                //TODO: Look at Draw and pull out the information so that it can simply be extracted and tested.
+                return true;
+            }
         }
-         */
 
         /// <summary>
-        /// Get this node element as the specified type.
+        /// If this Sprite is visible.
         /// </summary>
-        /// <typeparam name="T">Type of object to get.</typeparam>
-        /// <returns>This node as the specified type or the default value of that type.</returns>
-        public override T GetAsType<T>()
+        public bool Visible { get; set; }
+
+        internal void CopySpriteToIn(ref Sprite sp)
         {
-            Type type = typeof(T);
-            if (type.Equals(typeof(Texture2D)))
-            {
-                return (T)((object)this.baseTexture); //Need to do a little work around to get this to compile.
-            }
-            return base.GetAsType<T>();
+            sp.Visible = this.Visible;
+            sp.animation = this.animation;
+            sp.overrideAtt = this.overrideAtt;
+            sp.frame = this.frame;
+            sp.animStart = this.animStart;
+            sp.animEnd = this.animEnd;
+            sp.FPS = this.FPS;
+            sp.Tint = this.Tint;
+            this.CopySpriteTo(ref sp);
         }
+
+        /// <summary>
+        /// Copy this Sprite to another Sprite.
+        /// </summary>
+        /// <param name="sp">The Sprite to copy to.</param>
+        protected abstract void CopySpriteTo(ref Sprite sp);
     }
 }

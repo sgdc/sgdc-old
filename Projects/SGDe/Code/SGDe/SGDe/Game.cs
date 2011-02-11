@@ -124,7 +124,7 @@ namespace SGDE
         /// </summary>
         /// <typeparam name="T">The data type that is expected to be returned.</typeparam>
         /// <param name="gameElement">The developer-defined name for a component.</param>
-        /// <returns>The requested content, if it exisst, or the default value of the content.</returns>
+        /// <returns>The requested content, if it exists, or the default value of the content.</returns>
         public T GetContent<T>(string gameElement)
         {
             return gameContent.GetMapContent<T>(gameElement);

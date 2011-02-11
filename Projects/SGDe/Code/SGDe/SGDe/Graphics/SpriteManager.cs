@@ -10,6 +10,8 @@ namespace SGDE.Graphics
 {
     internal class SpriteManager
     {
+        #region Static
+
         internal static SpriteBatch spriteBat;
         internal static SpriteManager spManager;
 
@@ -22,15 +24,13 @@ namespace SGDE.Graphics
             return spManager;
         }
 
-        private List<Texture2D> textures;
-        private List<SpriteAnimation> animations;
+        #endregion
 
-        public Texture2D GetTexture(int index)
-        {
-            return textures[index];
-        }
+        #region Textures
 
-        public int AddTexture(Texture2D texture, int verifyId)
+        private List<object> textures;
+
+        public int AddTexture(object texture, int verifyId)
         {
             if (texture == null)
             {
@@ -38,7 +38,7 @@ namespace SGDE.Graphics
             }
             if (textures == null)
             {
-                textures = new List<Texture2D>();
+                textures = new List<object>();
             }
             if (textures.Count != verifyId)
             {
@@ -47,6 +47,18 @@ namespace SGDE.Graphics
             textures.Add(texture);
             return verifyId;
         }
+
+        //Bitmap texture
+        public Texture2D GetBitmapTexture(int index)
+        {
+            return textures[index] as Texture2D;
+        }
+
+        #endregion
+
+        #region Animations
+
+        private List<SpriteAnimation> animations;
 
         public int AddAnimation(SpriteAnimation animation)
         {
@@ -60,11 +72,6 @@ namespace SGDE.Graphics
             }
             animations.Add(animation);
             return animations.Count;
-        }
-
-        public bool HasTexture(int index)
-        {
-            return index >= 0 && index < textures.Count;
         }
 
         public SpriteAnimation GetFrames(int id)
@@ -162,5 +169,7 @@ namespace SGDE.Graphics
                 return values[frame];
             }
         }
+
+        #endregion
     }
 }

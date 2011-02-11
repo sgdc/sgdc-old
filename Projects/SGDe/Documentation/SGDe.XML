@@ -85,6 +85,12 @@
         <member name="M:SGDE.Entity.Draw(Microsoft.Xna.Framework.GameTime)">
             <summary>Draws the entity to the screen</summary>
         </member>
+        <member name="M:SGDE.Entity.SetColor(Microsoft.Xna.Framework.Color)">
+            <summary>
+            Set the entity's tint.
+            </summary>
+            <param name="backColor">The tint to use.</param>
+        </member>
         <member name="M:SGDE.Entity.CopyTo(SGDE.Entity@)">
             <summary>
             Copy this Entity to another entity. If overriden then the base.CopyTo call must be the first line of code.
@@ -190,6 +196,11 @@
             A drawable sprite object that can be displayed on screen.
             </summary>
         </member>
+        <member name="F:SGDE.Graphics.Sprite.overrideAtt">
+            <summary>
+            The current SpriteAttributes that can override the Sprite's default attributes.
+            </summary>
+        </member>
         <member name="M:SGDE.Graphics.Sprite.#ctor">
             <summary>
             Create a new Sprite with default values.
@@ -215,12 +226,11 @@
             <param name="allowed"><code>true</code> if this compoennt can be overriden by the Sprite's animation, <code>false</code> is otherwise. Can also be set to <code>null</code> if the value should be returned.</param>
             <returns><code>true</code> if the the Sprite's animation can override the developer setting, <code>false</code> if otherwise.</returns>
         </member>
-        <member name="M:SGDE.Graphics.Sprite.GetAsType``1">
+        <member name="M:SGDE.Graphics.Sprite.CopySpriteTo(SGDE.Graphics.Sprite@)">
             <summary>
-            Get this node element as the specified type.
+            Copy this Sprite to another Sprite.
             </summary>
-            <typeparam name="T">Type of object to get.</typeparam>
-            <returns>This node as the specified type or the default value of that type.</returns>
+            <param name="sp">The Sprite to copy to.</param>
         </member>
         <member name="P:SGDE.Graphics.Sprite.Center">
             <summary>
@@ -250,6 +260,16 @@
         <member name="P:SGDE.Graphics.Sprite.FPS">
             <summary>
             Get or set the current animation FPS.
+            </summary>
+        </member>
+        <member name="P:SGDE.Graphics.Sprite.IsVisible">
+            <summary>
+            Get if this Sprite is potentially visible on screen or not.
+            </summary>
+        </member>
+        <member name="P:SGDE.Graphics.Sprite.Visible">
+            <summary>
+            If this Sprite is visible.
             </summary>
         </member>
         <member name="T:SGDE.Graphics.Sprite.SpriteAttributes">
@@ -290,6 +310,16 @@
         <member name="F:SGDE.Graphics.Sprite.SpriteAttributes.FPS">
             <summary>
             The Sprite's FPS
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.SpriteReader`1">
+            <summary>
+            Read and process a Sprite class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.SpriteReader`1.Read(Microsoft.Xna.Framework.Content.ContentReader,`0)">
+            <summary>
+            Read a Sprite.
             </summary>
         </member>
         <member name="T:SGDE.Content.Readers.AnimationReader">
@@ -436,7 +466,7 @@
             </summary>
             <typeparam name="T">The data type that is expected to be returned.</typeparam>
             <param name="gameElement">The developer-defined name for a component.</param>
-            <returns>The requested content, if it exisst, or the default value of the content.</returns>
+            <returns>The requested content, if it exists, or the default value of the content.</returns>
         </member>
         <member name="M:SGDE.Game.Update(Microsoft.Xna.Framework.GameTime)">
             <summary>
@@ -541,6 +571,11 @@
             Can deserialize into an existing object. Have to do that for Nodes.
             </summary>
         </member>
+        <member name="T:SGDE.Content.Readers.BitmapSpriteReader">
+            <summary>
+            Read and process a BitmapSprite class
+            </summary>
+        </member>
         <member name="T:SGDE.Content.DataTypes.MapContent">
             <summary>
             Used internally.
@@ -556,6 +591,11 @@
             Used Internally
             </summary>
         </member>
+        <member name="T:SGDE.Graphics.BitmapSprite">
+            <summary>
+            A bitmap based Sprite.
+            </summary>
+        </member>
         <member name="T:SGDE.Content.Readers.EntityReader">
             <summary>
             Read and process a Entity class
@@ -564,6 +604,11 @@
         <member name="M:SGDE.Content.Readers.EntityReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Entity)">
             <summary>
             Read a Entity.
+            </summary>
+        </member>
+        <member name="P:SGDE.Content.Readers.EntityReader.TypeVersion">
+            <summary>
+            Get the current version of the Entity Reader.
             </summary>
         </member>
         <member name="T:SGDE.Content.Code.Library.Math">

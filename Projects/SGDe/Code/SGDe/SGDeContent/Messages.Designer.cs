@@ -468,27 +468,36 @@ namespace SGDeContent {
         /// <summary>
         ///   Looks up a localized string similar to Animation must be a built in type..
         /// </summary>
-        internal static string SpriteMap_AnimationMustBeInternal {
+        internal static string SpriteSheet_AnimationMustBeInternal {
             get {
-                return ResourceManager.GetString("SpriteMap_AnimationMustBeInternal", resourceCulture);
+                return ResourceManager.GetString("SpriteSheet_AnimationMustBeInternal", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SpriteMap must contain a Source..
+        ///   Looks up a localized string similar to SpriteSheet must contain a Source..
         /// </summary>
-        internal static string SpriteMap_NeedsSource {
+        internal static string SpriteSheet_NeedsSource {
             get {
-                return ResourceManager.GetString("SpriteMap_NeedsSource", resourceCulture);
+                return ResourceManager.GetString("SpriteSheet_NeedsSource", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SpriteMap must contain an ID..
+        ///   Looks up a localized string similar to SpriteSheet must contain an ID..
         /// </summary>
-        internal static string SpriteMap_RequiresID {
+        internal static string SpriteSheet_RequiresID {
             get {
-                return ResourceManager.GetString("SpriteMap_RequiresID", resourceCulture);
+                return ResourceManager.GetString("SpriteSheet_RequiresID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown sprite type..
+        /// </summary>
+        internal static string SpriteSheet_UnknownType {
+            get {
+                return ResourceManager.GetString("SpriteSheet_UnknownType", resourceCulture);
             }
         }
         

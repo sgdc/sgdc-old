@@ -48,9 +48,9 @@ namespace SGDeContent
             {
                 type = ContentTypes.Entity;
             }
-            else if (ContentTagManager.TagMatches("IMPORT_SPRITEMAP_ELEMENT", mainElement.Name, version))
+            else if (ContentTagManager.TagMatches("IMPORT_SPRITESHEET_ELEMENT", mainElement.Name, version))
             {
-                type = ContentTypes.SpriteMap;
+                type = ContentTypes.SpriteSheet;
             }
             return new Content(doc, type, version);
         }

@@ -58,36 +58,8 @@ namespace SGDeContent.Writers
             }
             //Write out Entity values
             //-Write out sprite information
-            output.Write(value.SpriteID);
-            value.DeveloperIDWriter(output, value.SpriteDID); //Write it after so that a valid texture can be loaded (or exception thrown) before being added to developer ID content.
-            output.WriteObject(value.Tint);
-            output.Write(value.HasOverride);
-            if (value.HasOverride)
-            {
-                output.WriteObject(value.OverrideAttributes);
-            }
-            output.Write(value.BuiltInAnimation);
-            output.Write(value.AnimationLocal);
-            output.Write(value.AnimationID + 1);
-            if (value.Animations == null)
-            {
-                output.Write(false);
-            }
-            else
-            {
-                output.Write(true);
-                output.Write(value.Animations.Count);
-                foreach (AnimationSet ani in value.Animations)
-                {
-                    output.WriteRawObject(ani);
-                }
-            }
-            output.Write(value.HasRegion);
-            if (value.HasRegion)
-            {
-                output.Write(value.RegionBegin);
-                output.Write(value.RegionEnd);
-            }
+            output.WriteObject(value.Sprite);
+            value.DeveloperIDWriter(output, value.Sprite); //Write it after so that a valid texture can be loaded (or exception thrown) before being added to developer ID content.
             //-Write out physics values
             output.WriteObject(value.Physics);
             //Write standard node values
@@ -96,6 +68,14 @@ namespace SGDeContent.Writers
             {
                 output.WriteRawObject(value.Node);
                 value.DeveloperIDWriter(output, value.Node);
+            }
+        }
+
+        public override int TypeVersion
+        {
+            get
+            {
+                return 1;
             }
         }
 

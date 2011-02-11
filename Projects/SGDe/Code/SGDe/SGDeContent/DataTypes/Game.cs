@@ -16,7 +16,7 @@ namespace SGDeContent.DataTypes
         public int FirstRun;
         public List<int> MapOrderId;
         public List<string> MapOrderName;
-        public ExternalReference<SpriteMap> SpriteSheet;
+        public ExternalReference<SpriteSheet> SpriteSheet;
 
         //Game settings
         public int Width, Height;

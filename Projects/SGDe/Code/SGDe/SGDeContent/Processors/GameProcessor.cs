@@ -69,17 +69,20 @@ namespace SGDeContent.Processors
 
                     #region SpriteSheet
 
-                    XmlAttribute at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_SPRITEMAP", input.Version, component);
+                    XmlAttribute at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_SPRITESHEET", input.Version, component);
+                    string sPath;
                     if (at != null)
                     {
                         //Specific SpriteSheet
-                        game.SpriteSheet = Utils.CompileExternal<SpriteMap>(at.Value, context);
+                        sPath = at.Value;
                     }
                     else
                     {
                         //Default SpriteSheet
-                        game.SpriteSheet = Utils.CompileExternal<SpriteMap>(at.Name + ".sgde", context);
+                        sPath = at.Name + ".sgde";
                     }
+                    game.SpriteSheet = Utils.CompileExternal<SpriteSheet>(sPath, context);
+                    LoadSpriteTypes(sPath, context);
 
                     #endregion
 
@@ -261,6 +264,12 @@ namespace SGDeContent.Processors
             game.Sort();
 
             return game;
+        }
+
+        private static void LoadSpriteTypes(string spriteSheet, ContentProcessorContext context)
+        {
+            SpriteSheetProcessor.SpriteSheetTypes = new Dictionary<int, SpriteSheetProcessor.SpriteType>();
+            SpriteSheetProcessor.Process(new SGDEImport().Import(spriteSheet, null), context, false);
         }
     }
 }

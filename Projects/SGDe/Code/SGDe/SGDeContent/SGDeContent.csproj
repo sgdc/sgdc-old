@@ -66,8 +66,10 @@
     <Compile Include="DataTypes\Map.cs" />
     <Compile Include="DataTypes\Node.cs" />
     <Compile Include="DataTypes\ProcessedContent.cs" />
-    <Compile Include="DataTypes\SpriteMap.cs" />
+    <Compile Include="DataTypes\SpriteSheet.cs" />
     <Compile Include="Attributes.cs" />
+    <Compile Include="DataTypes\Sprites\BitmapSprite.cs" />
+    <Compile Include="DataTypes\Sprites\Sprite.cs" />
     <Compile Include="Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -79,10 +81,12 @@
     <Compile Include="Processors\EntityProcessor.cs" />
     <Compile Include="Processors\GameProcessor.cs" />
     <Compile Include="Processors\MapProcessor.cs" />
-    <Compile Include="Processors\SpriteMapProcessor.cs" />
+    <Compile Include="Processors\SpriteSheetProcessor.cs" />
     <Compile Include="Processors\Utils.cs" />
     <Compile Include="Writers\AnimationWriter.cs" />
+    <Compile Include="Writers\BitmapSpriteWriter.cs" />
     <Compile Include="Writers\CodeWriter.cs" />
+    <Compile Include="Writers\SpriteWriter.cs" />
     <Compile Include="Writers\EntityWriter.cs" />
     <Compile Include="Writers\GameWriter.cs" />
     <Compile Include="Writers\MapWriter.cs" />
@@ -90,7 +94,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SGDEImport.cs" />
     <Compile Include="SGDEProcessor.cs" />
-    <Compile Include="Writers\SpriteMapWriter.cs" />
+    <Compile Include="Writers\SpriteSheetWriter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Debugging.txt" />

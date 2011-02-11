@@ -186,6 +186,9 @@
   <data name="ENTITY_CUSTOMENTITY_CONSTRUCTOR_VALUE_1_0" xml:space="preserve">
     <value>Value</value>
   </data>
+  <data name="ENTITY_ENABLED_1_1" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
   <data name="ENTITY_NAME_1_0" xml:space="preserve">
     <value>Name</value>
   </data>
@@ -258,6 +261,9 @@
   <data name="ENTITY_SPRITE_REGION_FULL_1_0" xml:space="preserve">
     <value>Full</value>
   </data>
+  <data name="ENTITY_SPRITE_VISIBLE_1_1" xml:space="preserve">
+    <value>Visible</value>
+  </data>
   <data name="GAME_GAME_MAPS_1_0" xml:space="preserve">
     <value>Maps</value>
   </data>
@@ -312,7 +318,7 @@
   <data name="GAME_SETTINGS_MAPLIST_MAP_NAME_1_0" xml:space="preserve">
     <value>Name</value>
   </data>
-  <data name="GAME_SETTINGS_SPRITEMAP_1_0" xml:space="preserve">
+  <data name="GAME_SETTINGS_SPRITESHEET_1_0" xml:space="preserve">
     <value>SpriteSheet</value>
   </data>
   <data name="GENERAL_DEVELOPER_ID_1_0" xml:space="preserve">
@@ -348,10 +354,10 @@
   <data name="IMPORT_ROOT_DOCUMENT_1_0" xml:space="preserve">
     <value>SGDE</value>
   </data>
-  <data name="IMPORT_SPRITEMAP_ELEMENT_1_0" xml:space="preserve">
+  <data name="IMPORT_SPRITESHEET_ELEMENT_1_0" xml:space="preserve">
     <value>SpriteMaps</value>
   </data>
-  <data name="IMPORT_SPRITEMAP_ELEMENT_1_1" xml:space="preserve">
+  <data name="IMPORT_SPRITESHEET_ELEMENT_1_1" xml:space="preserve">
     <value>SpriteSheets</value>
   </data>
   <data name="MAP_MAP_LAYOUT_1_0" xml:space="preserve">
@@ -405,19 +411,19 @@
   <data name="MAP_RESOURCE_ENTITIES_1_0" xml:space="preserve">
     <value>Entities</value>
   </data>
-  <data name="SPRITEMAP_MAP_1_0" xml:space="preserve">
+  <data name="SPRITESHEET_MAP_1_0" xml:space="preserve">
     <value>SpriteMap</value>
   </data>
-  <data name="SPRITEMAP_MAP_1_1" xml:space="preserve">
+  <data name="SPRITESHEET_MAP_1_1" xml:space="preserve">
     <value>SpriteSheet</value>
   </data>
-  <data name="SPRITEMAP_MAP_COMP_ANIMATION_1_0" xml:space="preserve">
+  <data name="SPRITESHEET_MAP_COMP_ANIMATION_1_0" xml:space="preserve">
     <value>Animation</value>
   </data>
-  <data name="SPRITEMAP_MAP_COMP_SOURCE_1_0" xml:space="preserve">
+  <data name="SPRITESHEET_MAP_COMP_SOURCE_1_0" xml:space="preserve">
     <value>Source</value>
   </data>
-  <data name="SPRITEMAP_MAP_NAME_1_0" xml:space="preserve">
+  <data name="SPRITESHEET_MAP_NAME_1_0" xml:space="preserve">
     <value>Name</value>
   </data>
 </root>

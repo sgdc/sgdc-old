@@ -20,9 +20,9 @@ namespace SGDE.Content.Readers
         protected override SpriteManager Read(ContentReader input, SpriteManager existingInstance)
         {
             SpriteManager manager = new SpriteManager();
-            List<Texture> textures = input.ReadObject<List<Texture>>();
+            List<object> textures = input.ReadObject<List<object>>();
             int id = 0;
-            foreach (Texture2D tex in textures)
+            foreach (object tex in textures)
             {
                 id = manager.AddTexture(tex, id) + 1;
             }
@@ -40,6 +40,14 @@ namespace SGDE.Content.Readers
                 }
             }
             return manager;
+        }
+
+        public override int TypeVersion
+        {
+            get
+            {
+                return 1;
+            }
         }
     }
 }

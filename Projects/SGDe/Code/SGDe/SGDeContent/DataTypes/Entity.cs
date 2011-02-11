@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using SGDeContent.DataTypes.Sprites;
 
 namespace SGDeContent.DataTypes
 {
@@ -18,17 +19,7 @@ namespace SGDeContent.DataTypes
         public Dictionary<string, object> Physics;
 
         //Sprite information
-        public int SpriteID;
-        public object SpriteDID;
-        public int AnimationID = -1;
-        public bool AnimationLocal;
-        public Color? Tint;
-        public bool HasOverride;
-        public SGDE.Graphics.Sprite.SpriteAttributes OverrideAttributes;
-        public bool HasRegion;
-        public int RegionBegin, RegionEnd;
-        public bool BuiltInAnimation;
-        public List<AnimationSet> Animations;
+        public Sprite Sprite;
 
         //Entity type data
         public string SpecialType;

@@ -171,9 +171,18 @@ namespace SGDE
         /// <summary>Draws the entity to the screen</summary>
         public virtual void Draw(GameTime gameTime)
         {
-            image.Draw(gameTime);
+            if (image.Visible && image.IsVisible)
+            {
+                //Only draw when the developer desires it to be visible and if it would be visible if drawn
+                image.Draw(gameTime);
+            }
         }
 
+        /// <summary>
+        /// Set the entity's tint.
+        /// </summary>
+        /// <param name="backColor">The tint to use.</param>
+        [Obsolete("Use {this}.SpriteImage.Tint instead")]
         public void SetColor(Color backColor)
         {
             image.Tint = backColor;
@@ -229,8 +238,8 @@ namespace SGDE
             SceneNode node = ent;
             base.CopyTo(ref node);
             //Entity
-            ent.SpriteImage = new Sprite();
-            CopySpriteTo(ref ent);
+            ent.SpriteImage = (Sprite)Activator.CreateInstance(this.image.GetType());
+            this.image.CopySpriteToIn(ref ent.image);
             SceneNode nNode = ent.SpriteImage;
             node.CopyTo(ref nNode);
             ent.id = this.id;
@@ -257,18 +266,6 @@ namespace SGDE
             }
             ent.EnablePhysics(this.penabled, this.pcollision);
              */
-        }
-
-        internal void CopySpriteTo(ref Entity ent)
-        {
-            ent.image.baseTexture = this.image.baseTexture;
-            ent.image.animation = this.image.animation;
-            ent.image.overrideAtt = this.image.overrideAtt;
-            ent.image.frame = this.image.frame;
-            ent.image.animStart = this.image.animStart;
-            ent.image.animEnd = this.image.animEnd;
-            ent.image.FPS = this.image.FPS;
-            ent.image.Tint = this.image.Tint;
         }
 
         public uint GetID()
