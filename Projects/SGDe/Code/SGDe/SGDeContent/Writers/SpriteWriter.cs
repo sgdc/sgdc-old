@@ -17,7 +17,7 @@ namespace SGDeContent.Writers
     {
         protected override void Write(ContentWriter output, T value)
         {
-            output.Write(true); //true if the Sprite is visible. TODO for implementation
+            output.Write(value.Visible);
             output.WriteObject(value.Tint);
             output.Write(value.HasOverride);
             if (value.HasOverride)
@@ -46,6 +46,7 @@ namespace SGDeContent.Writers
                 output.Write(value.RegionBegin);
                 output.Write(value.RegionEnd);
             }
+            output.Write(value.SpriteID);
             WriteSpecific(output, value);
         }
 

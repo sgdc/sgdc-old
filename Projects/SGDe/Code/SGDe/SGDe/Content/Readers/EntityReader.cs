@@ -91,6 +91,7 @@ namespace SGDE.Content.Readers
             //-Read physics
             ProcessPhysics(ref entity, input);
             //Read in SceneNode information
+            entity.Enabled = input.ReadBoolean();
             if (input.ReadBoolean())
             {
                 input.ReadRawObject<SceneNode>(entity);

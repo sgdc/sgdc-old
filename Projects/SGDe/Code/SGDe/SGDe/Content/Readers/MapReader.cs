@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SGDE.Graphics;
 using SGDE.Content.DataTypes;
+using SGDE.Input;
 
 namespace SGDE.Content.Readers
 {
@@ -66,6 +67,7 @@ namespace SGDE.Content.Readers
             //Read map information
             count = input.ReadInt32();
             content.entities = new List<Entity>(count);
+            InputManager iman = Game.CurrentGame.imanager;
             for (int i = 0; i < count; i++)
             {
                 switch (input.ReadInt32())
@@ -84,7 +86,12 @@ namespace SGDE.Content.Readers
                             ContentUtil.temp.Remove("EntityPhysics"); //Keep it clean
                         }
                         ContentUtil.LoadingBuilders = false;
-                        content.entities.Add(content.builders[builderIndex].Create(ent, physics));
+                        Entity resultingEntity = content.builders[builderIndex].Create(ent, physics);
+                        if(resultingEntity is InputHandler)
+                        {
+                            iman.AddNewHandler((InputHandler)resultingEntity);
+                        }
+                        content.entities.Add(resultingEntity);
                         ContentUtil.FinishTempDID(ref content.developerTypes);
                         break;
                 }
@@ -96,6 +103,7 @@ namespace SGDE.Content.Readers
         private void RunOperation(ref MapContent content, SGDE.Content.Code.Code code)
         {
             //TODO: Don't forget "SGDE.Physics.PhysicsPharaoh.loadingBuilders = false;"
+            //TODO: Don't forget to add entity to InputManager if it uses InputHandler
         }
     }
 }

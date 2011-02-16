@@ -17,9 +17,9 @@ namespace SGDE.Content.Readers
             return new BitmapSprite();
         }
 
-        public override void ReadSpecific(ContentReader input, BitmapSprite instance)
+        public override void HandleSpecific(ContentReader input, int id, BitmapSprite instance)
         {
-            instance.baseTexture = SpriteManager.GetInstance().GetBitmapTexture(input.ReadInt32());
+            instance.baseTexture = SpriteManager.GetInstance().GetBitmapTexture(id);
         }
     }
 }

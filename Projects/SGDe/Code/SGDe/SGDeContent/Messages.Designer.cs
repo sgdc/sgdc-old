@@ -502,6 +502,24 @@ namespace SGDeContent {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SVG Importer.
+        /// </summary>
+        internal static string SVGImporter {
+            get {
+                return ResourceManager.GetString("SVGImporter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SVG Processor.
+        /// </summary>
+        internal static string SVGProcessor {
+            get {
+                return ResourceManager.GetString("SVGProcessor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Microsoft changed the BuildCoordinator. You&apos;ll need to edit the code to adapt..
         /// </summary>
         internal static string Utils_ChangedBuild {

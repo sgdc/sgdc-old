@@ -190,7 +190,7 @@ namespace TestDemo
             mySoundQueue.PlayMusic(song, 0);
         }
 
-        public void ToggleCollision(SGDE.Game thisGame)
+        public void ToggleCollision()
         {
             showCollision = !showCollision;
         }

@@ -11,6 +11,7 @@ namespace SGDeContent.DataTypes
         Game,
         Map,
         Entity,
-        SpriteSheet
+        SpriteSheet,
+        SVG
     }
 }

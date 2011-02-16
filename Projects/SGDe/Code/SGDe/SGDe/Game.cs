@@ -10,6 +10,7 @@ using SGDE.Content.DataTypes;
 using SGDE.Physics;
 using SGDE.SceneManagement;
 using Microsoft.Xna.Framework.Input;
+using SGDE.Input;
 
 namespace SGDE
 {
@@ -37,8 +38,7 @@ namespace SGDE
         private bool loaded;
         private string gameContentName;
 
-        //REPLACE WITH ACTUAL INPUT SYSTEM
-        private KeyboardState cstate, ostate;
+        internal InputManager imanager;
 
         #endregion
 
@@ -81,7 +81,7 @@ namespace SGDE
         /// </summary>
         protected Game()
         {
-            if (cGame != null)
+            if (Game.cGame != null)
             {
                 throw new InvalidOperationException(Messages.Game_TooManyGames);
             }
@@ -90,6 +90,7 @@ namespace SGDE
             gameContentName = "Game";
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            imanager = new InputManager();
         }
 
         /// <summary>
@@ -135,12 +136,6 @@ namespace SGDE
         /// </summary>
         protected override void Update(GameTime gameTime)
         {
-            ostate = cstate;
-
-            //Something that requires key states
-
-            cstate = Keyboard.GetState();
-
             //Could possibly do/call UpdateGame here. Leave it up to dev for now.
             base.Update(gameTime);
         }
@@ -160,13 +155,12 @@ namespace SGDE
             {
                 foreach (Entity entity in gameContent.Entities)
                 {
-                    entity.Update(gameTime);
+                    if (entity.Enabled)
+                    {
+                        entity.Update(gameTime);
+                    }
                 }
-                //Very inefficient manner of processing. Leave it for now.
-                foreach (Entity e in SceneManager.GetInstance().GetKeyboardListeners())
-                {
-                    e.HandleInput(cstate, this);
-                }
+                imanager.Update(this, gameTime);
             }
         }
 

@@ -264,6 +264,12 @@
   <data name="SpriteSheet_UnknownType" xml:space="preserve">
     <value>Unknown sprite type.</value>
   </data>
+  <data name="SVGImporter" xml:space="preserve">
+    <value>SVG Importer</value>
+  </data>
+  <data name="SVGProcessor" xml:space="preserve">
+    <value>SVG Processor</value>
+  </data>
   <data name="Utils_ChangedBuild" xml:space="preserve">
     <value>Microsoft changed the BuildCoordinator. You'll need to edit the code to adapt.</value>
   </data>

@@ -4,109 +4,6 @@
         <name>SGDe</name>
     </assembly>
     <members>
-        <member name="T:SGDE.Entity">
-            <summary>
-            Base Class representative of any onscreen drawable that appears in a scene
-            </summary>
-        </member>
-        <member name="T:SGDE.SceneNode">
-            <summary>
-            Base class for any and all classes which can be added to the scene graph
-            </summary>
-        </member>
-        <member name="M:SGDE.SceneNode.#ctor">
-            <summary>
-            Constructor for a scene node
-            </summary>
-        </member>
-        <member name="M:SGDE.SceneNode.SetTranslation(Microsoft.Xna.Framework.Vector2)">
-            <summary>Sets the translation of the scene node</summary>
-            <param name="translation">Translation vector</param>
-        </member>
-        <member name="M:SGDE.SceneNode.SetRotation(System.Single)">
-            <summary>
-            Set the rotation of this scene node.
-            </summary>
-            <param name="rotation">Degree measure for rotation.</param>
-        </member>
-        <member name="M:SGDE.SceneNode.Rotate(System.Single)">
-            <summary>
-            Change the rotation of this scene node.
-            </summary>
-            <param name="rotation">The deleta degree measure for rotation.</param>
-        </member>
-        <member name="M:SGDE.SceneNode.GetRotation">
-            <summary>
-            Get the rotation of this scene node.
-            </summary>
-            <returns>The degree measure of this scene node.</returns>
-        </member>
-        <member name="M:SGDE.SceneNode.GetAsType``1">
-            <summary>
-            Get this node element as the specified type.
-            </summary>
-            <typeparam name="T">Type of object to get.</typeparam>
-            <returns>This node as the specified type or the default value of that type.</returns>
-        </member>
-        <member name="F:SGDE.Entity.image">
-            <summary>Sprite which is drawn to represent the entity</summary>
-        </member>
-        <member name="F:SGDE.Entity.mCollisionUnit">
-            <summary>Contains the collision logic for the entity</summary>
-        </member>
-        <member name="F:SGDE.Entity.keyboardListener">
-            <summary>Object which allows for keyboard events. Only instantiate if object responds to keyboard input.</summary>
-        </member>
-        <member name="F:SGDE.Entity.gamePadListener">
-            <summary>Object which allows for gamepad events. Only instantiate if object responds to gamepad input.</summary>
-        </member>
-        <member name="F:SGDE.Entity.id">
-            <summary> ID for Checking the type of an Entity </summary>
-        </member>
-        <member name="M:SGDE.Entity.#ctor(System.Single,System.Single)">
-            <summary>
-            Constructs a new entity in the scene
-            </summary>
-            <param name="x">X coordinate</param>
-            <param name="y">Y coordinate</param>
-        </member>
-        <member name="M:SGDE.Entity.#ctor(Microsoft.Xna.Framework.Vector2)">
-            <summary>
-            Constructs a new entity in the scene
-            </summary>
-            <param name="position">Coordinates</param>
-        </member>
-        <member name="M:SGDE.Entity.Update(Microsoft.Xna.Framework.GameTime)">
-            <summary>
-            Called once during each step taken by the engine
-            </summary>
-            <param name="gameTime">The current game time</param>
-        </member>
-        <member name="M:SGDE.Entity.Draw(Microsoft.Xna.Framework.GameTime)">
-            <summary>Draws the entity to the screen</summary>
-        </member>
-        <member name="M:SGDE.Entity.SetColor(Microsoft.Xna.Framework.Color)">
-            <summary>
-            Set the entity's tint.
-            </summary>
-            <param name="backColor">The tint to use.</param>
-        </member>
-        <member name="M:SGDE.Entity.CopyTo(SGDE.Entity@)">
-            <summary>
-            Copy this Entity to another entity. If overriden then the base.CopyTo call must be the first line of code.
-            </summary>
-            <param name="ent">The entity to copy to.</param>
-        </member>
-        <member name="P:SGDE.Entity.SpriteImage">
-            <summary>
-            Used internally
-            </summary>
-        </member>
-        <member name="T:SGDE.Entity.GamePadComponent">
-            <summary>
-            For handling xbox controller input.
-            </summary>
-        </member>
         <member name="T:SGDE.Content.Code.Library.String">
             <summary>
             The String class is a data type that represents a string of characters.
@@ -195,6 +92,45 @@
             <summary>
             A drawable sprite object that can be displayed on screen.
             </summary>
+        </member>
+        <member name="T:SGDE.SceneNode">
+            <summary>
+            Base class for any and all classes which can be added to the scene graph
+            </summary>
+        </member>
+        <member name="M:SGDE.SceneNode.#ctor">
+            <summary>
+            Constructor for a scene node
+            </summary>
+        </member>
+        <member name="M:SGDE.SceneNode.SetTranslation(Microsoft.Xna.Framework.Vector2)">
+            <summary>Sets the translation of the scene node</summary>
+            <param name="translation">Translation vector</param>
+        </member>
+        <member name="M:SGDE.SceneNode.SetRotation(System.Single)">
+            <summary>
+            Set the rotation of this scene node.
+            </summary>
+            <param name="rotation">Degree measure for rotation.</param>
+        </member>
+        <member name="M:SGDE.SceneNode.Rotate(System.Single)">
+            <summary>
+            Change the rotation of this scene node.
+            </summary>
+            <param name="rotation">The deleta degree measure for rotation.</param>
+        </member>
+        <member name="M:SGDE.SceneNode.GetRotation">
+            <summary>
+            Get the rotation of this scene node.
+            </summary>
+            <returns>The degree measure of this scene node.</returns>
+        </member>
+        <member name="M:SGDE.SceneNode.GetAsType``1">
+            <summary>
+            Get this node element as the specified type.
+            </summary>
+            <typeparam name="T">Type of object to get.</typeparam>
+            <returns>This node as the specified type or the default value of that type.</returns>
         </member>
         <member name="F:SGDE.Graphics.Sprite.overrideAtt">
             <summary>
@@ -322,6 +258,96 @@
             Read a Sprite.
             </summary>
         </member>
+        <member name="T:SGDE.Input.InputManager">
+            <summary>
+            Handles all input.
+            </summary>
+        </member>
+        <member name="M:SGDE.Input.InputManager.AddNewConverter(SGDE.Input.InputConverter)">
+            <summary>
+            Add a new input converter.
+            </summary>
+            <param name="converter">The input converter to add.</param>
+        </member>
+        <member name="M:SGDE.Input.InputManager.RemoveNewConverter(SGDE.Input.InputConverter)">
+            <summary>
+            Remove a input converter.
+            </summary>
+            <param name="converter">The input converter to remove.</param>
+            <returns><code>true</code> if the converter was removed, <code>false</code> if otherwise.</returns>
+        </member>
+        <member name="T:SGDE.Input.InputHandler">
+            <summary>
+            Handle input operations.
+            </summary>
+        </member>
+        <member name="M:SGDE.Input.InputHandler.HandleInput(SGDE.Game,SGDE.Input.InputComponent)">
+            <summary>
+            Handle input operations. If this InputHandler supports more then one input device then it will be called more then once, one for each input device.
+            </summary>
+            <param name="game">The current, calling, game.</param>
+            <param name="input">The input component that can be used to handle input.</param>
+        </member>
+        <member name="P:SGDE.Input.InputHandler.Handles">
+            <summary>
+            Get what input type this handler can process.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.InputHandler.Enabled">
+            <summary>
+            Get if this input handler is enabled.
+            </summary>
+        </member>
+        <member name="T:SGDE.Input.InputConverter">
+            <summary>
+            Convert from one input format to another.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.InputConverter.ConvertFrom">
+            <summary>
+            Get what input type this converter converts from. You cannot append more then one type. Only a basic comparison is used ot check "from" types.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.InputConverter.ConvertTo">
+            <summary>
+            Get what input this converter converts to. You cannot append more then one type. Only a basic comparison is used ot check "to" types.
+            </summary>
+        </member>
+        <member name="T:SGDE.Input.InputComponent">
+            <summary>
+            An input component from InputType.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.InputComponent.Type">
+            <summary>
+            Get what type of input this input component comprises.
+            </summary>
+        </member>
+        <member name="T:SGDE.Input.InputType">
+            <summary>
+            The input type in use
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.InputType.GamePad">
+            <summary>
+            Any game controller
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.InputType.Mouse">
+            <summary>
+            A Mouse
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.InputType.Keyboard">
+            <summary>
+            A keyboard
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.InputType.Touchscreen">
+            <summary>
+            A touchscreen device
+            </summary>
+        </member>
         <member name="T:SGDE.Content.Readers.AnimationReader">
             <summary>
             Read and process a SpriteAnimation class
@@ -439,6 +465,69 @@
             </summary>
             <param name="trigger">Left, Right</param>
             <param name="triggerEvent">Event for a trigger with a callback function</param>
+        </member>
+        <member name="T:SGDE.Entity">
+            <summary>
+            Base Class representative of any onscreen drawable that appears in a scene
+            </summary>
+        </member>
+        <member name="F:SGDE.Entity.image">
+            <summary>Sprite which is drawn to represent the entity</summary>
+        </member>
+        <member name="F:SGDE.Entity.mCollisionUnit">
+            <summary>Contains the collision logic for the entity</summary>
+        </member>
+        <member name="F:SGDE.Entity.id">
+            <summary> ID for Checking the type of an Entity </summary>
+        </member>
+        <member name="M:SGDE.Entity.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructs a new entity in the scene
+            </summary>
+            <param name="x">X coordinate</param>
+            <param name="y">Y coordinate</param>
+        </member>
+        <member name="M:SGDE.Entity.#ctor(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Constructs a new entity in the scene
+            </summary>
+            <param name="position">Coordinates</param>
+        </member>
+        <member name="M:SGDE.Entity.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Called once during each step taken by the engine
+            </summary>
+            <param name="gameTime">The current game time</param>
+        </member>
+        <member name="M:SGDE.Entity.Draw(Microsoft.Xna.Framework.GameTime)">
+            <summary>Draws the entity to the screen</summary>
+        </member>
+        <member name="M:SGDE.Entity.SetColor(Microsoft.Xna.Framework.Color)">
+            <summary>
+            Set the entity's tint.
+            </summary>
+            <param name="backColor">The tint to use.</param>
+        </member>
+        <member name="M:SGDE.Entity.CopyTo(SGDE.Entity@)">
+            <summary>
+            Copy this Entity to another entity. If overriden then the base.CopyTo call must be the first line of code.
+            </summary>
+            <param name="ent">The entity to copy to.</param>
+        </member>
+        <member name="P:SGDE.Entity.Enabled">
+            <summary>
+            Get or set if the Entity component is enabled or not. If the entity is enabled then the following functions are called: Update, HandleInput.
+            </summary>
+        </member>
+        <member name="P:SGDE.Entity.SpriteImage">
+            <summary>
+            Used internally
+            </summary>
+        </member>
+        <member name="T:SGDE.Entity.GamePadComponent">
+            <summary>
+            For handling xbox controller input.
+            </summary>
         </member>
         <member name="T:SGDE.Game">
             <summary>
@@ -576,6 +665,11 @@
             Read and process a BitmapSprite class
             </summary>
         </member>
+        <member name="T:SGDE.Content.Readers.VectorSpriteReader">
+            <summary>
+            Read and process a VectorSprite class
+            </summary>
+        </member>
         <member name="T:SGDE.Content.DataTypes.MapContent">
             <summary>
             Used internally.
@@ -589,6 +683,11 @@
         <member name="T:SGDE.Content.DataTypes.EntityBuilder">
             <summary>
             Used Internally
+            </summary>
+        </member>
+        <member name="T:SGDE.Graphics.VectorSprite">
+            <summary>
+            A vector based Sprite.
             </summary>
         </member>
         <member name="T:SGDE.Graphics.BitmapSprite">
@@ -619,6 +718,54 @@
         <member name="F:SGDE.Content.Code.Library.Math.PI">
             <summary>
             A mathematical constant for the ratio of the circumference of a circle to its diameter, expressed as pi, with a value of 3.141592653589793.
+            </summary>
+        </member>
+        <member name="T:SGDE.Input.Keyboard">
+            <summary>
+            A keyboard input device.
+            </summary>
+        </member>
+        <member name="M:SGDE.Input.Keyboard.GetCurrentState">
+            <summary>
+            Get the current keyboard input state.
+            </summary>
+            <returns>The current, native, input state of the Keyboard.</returns>
+        </member>
+        <member name="M:SGDE.Input.Keyboard.GetPastState">
+            <summary>
+            Get the past keyboard input state.
+            </summary>
+            <returns>The past, native, input state of the Keyboard.</returns>
+        </member>
+        <member name="M:SGDE.Input.Keyboard.IsKeyClicked(Microsoft.Xna.Framework.Input.Keys)">
+            <summary>
+            Get if the specified key is clicked. This means that the key is down right now but wasn't always pressed down.
+            </summary>
+            <param name="key">The key to check if clicked.</param>
+            <returns><code>true</code> if the key is clicked, <code>false</code> if otherwise.</returns>
+        </member>
+        <member name="M:SGDE.Input.Keyboard.IsKeyPressed(Microsoft.Xna.Framework.Input.Keys)">
+            <summary>
+            Get if the specified key is pressed. This means that the key is down right now.
+            </summary>
+            <param name="key">The key to check if pressed.</param>
+            <returns><code>true</code> if the key is pressed, <code>false</code> if otherwise.</returns>
+        </member>
+        <member name="M:SGDE.Input.Keyboard.GetPressedKeys">
+            <summary>
+            Get the currently pressed keys.
+            </summary>
+            <returns>A list of the pressed keys.</returns>
+        </member>
+        <member name="M:SGDE.Input.Keyboard.GetClickedKeys">
+            <summary>
+            Get the currently clicked keys.
+            </summary>
+            <returns>A list of the clicked keys.</returns>
+        </member>
+        <member name="P:SGDE.Input.Keyboard.Type">
+            <summary>
+            Always returns Keybaord.
             </summary>
         </member>
         <member name="T:SGDE.Content.Readers.MapReader">
@@ -737,6 +884,16 @@
         <member name="P:SGDE.Content.DataTypes.GameContent.MapName">
             <summary>
             Get the current Map name. Will be null if none exists.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.SVGReader">
+            <summary>
+            Read and process a SVG class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.SVGReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Graphics.SVG.SVG)">
+            <summary>
+            Read a SVG.
             </summary>
         </member>
         <member name="T:SGDE.Content.Readers.SpriteManagerReader">

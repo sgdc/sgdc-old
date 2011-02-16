@@ -29,12 +29,6 @@ namespace SGDE
 
         protected PhysicsBaby mPhysBaby;
 
-        /// <summary>Object which allows for keyboard events. Only instantiate if object responds to keyboard input.</summary>
-        protected KeyboardComponent keyboardListener;
-
-        /// <summary>Object which allows for gamepad events. Only instantiate if object responds to gamepad input.</summary>
-        protected GamePadComponent gamePadListener;
-
         /// <summary> ID for Checking the type of an Entity </summary>
         protected uint id;
 
@@ -71,6 +65,11 @@ namespace SGDE
             : this(position.X, position.Y)
         {
         }
+
+        /// <summary>
+        /// Get or set if the Entity component is enabled or not. If the entity is enabled then the following functions are called: Update, HandleInput.
+        /// </summary>
+        public bool Enabled { get; set; }
 
         public virtual void Initialize()
         {
@@ -198,11 +197,6 @@ namespace SGDE
             //{
             //    mPhysBaby.AddBounce2(mCollisionUnit, other);
             //}
-        }
-
-        public void HandleInput(KeyboardState keyboardState, Game thisGame)
-        {
-            keyboardListener.HandleEvents(keyboardState, thisGame);
         }
 
         /// <summary>

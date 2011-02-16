@@ -49,13 +49,13 @@ namespace SGDE.Content.Readers
                     sprite.animEnd = sprite.animation.frameCount;
                 }
             }
-            ReadSpecific(input, sprite);
+            HandleSpecific(input, input.ReadInt32(), sprite);
             return sprite;
         }
 
         public abstract T CreateInstance();
 
-        public abstract void ReadSpecific(ContentReader input, T instance);
+        public abstract void HandleSpecific(ContentReader input, int id, T instance);
 
         #region ReadAnimation
 

@@ -69,6 +69,9 @@ namespace SGDeContent.Processors
                                             case SpriteType.Bitmap:
                                                 map.Textures.Add(Utils.CompileExternal<TextureContent, TextureContent, TextureContent, Microsoft.Xna.Framework.Content.Pipeline.TextureImporter, Microsoft.Xna.Framework.Content.Pipeline.Processors.TextureProcessor>(SGDEProcessor.GetInnerText(mapComponent), context));
                                                 break;
+                                            case SpriteType.SVG:
+                                                map.Textures.Add(Utils.CompileExternal<Content, ProcessedContent, SGDeContent.DataTypes.Sprites.SVG.SVGfx, SVGImport, SVGProcessor>(SGDEProcessor.GetInnerText(mapComponent), context));
+                                                break;
                                             default:
                                                 throw new InvalidContentException(Messages.SpriteSheet_UnknownType);
                                         }

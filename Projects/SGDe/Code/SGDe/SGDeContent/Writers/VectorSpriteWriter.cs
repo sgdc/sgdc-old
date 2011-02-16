@@ -14,16 +14,16 @@ using SGDeContent.DataTypes.Sprites;
 namespace SGDeContent.Writers
 {
     [ContentTypeWriter]
-    public class BitmapSpriteWriter : SpriteWriter<BitmapSprite>
+    public class VectorSpriteWriter : SpriteWriter<VectorRefSprite>
     {
-        public override void WriteSpecific(ContentWriter output, BitmapSprite value)
+        public override void WriteSpecific(ContentWriter output, VectorRefSprite value)
         {
-            //Nothing to do
+            //TODO
         }
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            return typeof(SGDE.Content.Readers.BitmapSpriteReader).AssemblyQualifiedName;
+            return typeof(SGDE.Content.Readers.VectorSpriteReader).AssemblyQualifiedName;
         }
     }
 }

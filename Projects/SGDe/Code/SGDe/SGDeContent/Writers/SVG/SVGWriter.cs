@@ -9,21 +9,20 @@ using Microsoft.Xna.Framework.Content.Pipeline.Processors;
 using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Compiler;
 using SGDeContent.DataTypes;
 using SGDeContent.DataTypes.Code;
-using SGDeContent.DataTypes.Sprites;
+using SGDeContent.DataTypes.Sprites.SVG;
 
 namespace SGDeContent.Writers
 {
     [ContentTypeWriter]
-    public class BitmapSpriteWriter : SpriteWriter<BitmapSprite>
+    public class SVGWriter : ContentTypeWriter<SVGfx>
     {
-        public override void WriteSpecific(ContentWriter output, BitmapSprite value)
+        protected override void Write(ContentWriter output, SVGfx value)
         {
-            //Nothing to do
         }
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
-            return typeof(SGDE.Content.Readers.BitmapSpriteReader).AssemblyQualifiedName;
+            return typeof(SGDE.Content.Readers.MapReader).AssemblyQualifiedName;
         }
     }
 }

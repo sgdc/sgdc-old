@@ -9,6 +9,8 @@ namespace SGDeContent.DataTypes.Sprites
 {
     public abstract class Sprite : ProcessedContent
     {
+        public bool Visible;
+        public int SpriteID;
         public int AnimationID = -1;
         public bool AnimationLocal;
         public Color? Tint;

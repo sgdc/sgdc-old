@@ -831,6 +831,7 @@ namespace SGDeContent.Processors
                 case SpriteSheetProcessor.SpriteType.Bitmap:
                     BitmapSprite bs = new BitmapSprite();
                     bs.SpriteID = id;
+                    bs.Visible = true;
                     return bs;
             }
             return null;
@@ -842,6 +843,7 @@ namespace SGDeContent.Processors
             {
                 BitmapSprite dstB = new BitmapSprite();
                 dstB.SpriteID = ((BitmapSprite)src).SpriteID;
+                dstB.Visible = src.Visible;
                 return dstB;
             }
             return null;
