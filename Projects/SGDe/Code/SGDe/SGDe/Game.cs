@@ -107,10 +107,12 @@ namespace SGDE
         }
 
         /// <summary>
-        /// Load a SGDE game.
+        /// Load game content. If overriden, call this functions before attempting to load any other content.
         /// </summary>
-        protected void LoadGame()
+        protected override void LoadContent()
         {
+            base.LoadContent();
+
             //Sprite.SpriteBatch = new SpriteBatch(GraphicsDevice);
             SpriteManager.spriteBat = new SpriteBatch(GraphicsDevice);
 
@@ -136,16 +138,6 @@ namespace SGDE
         /// </summary>
         protected override void Update(GameTime gameTime)
         {
-            //Could possibly do/call UpdateGame here. Leave it up to dev for now.
-            base.Update(gameTime);
-        }
-
-        /// <summary>
-        /// Update this Game's loaded content.
-        /// </summary>
-        /// <param name="gameTime">The GameTime since the last update.</param>
-        protected void UpdateGame(GameTime gameTime)
-        {
             PhysicsPharaoh pharaoh = PhysicsPharaoh.GetInstance();
             lock (pharaoh)
             {
@@ -162,6 +154,7 @@ namespace SGDE
                 }
                 imanager.Update(this, gameTime);
             }
+            base.Update(gameTime);
         }
 
         /// <summary>

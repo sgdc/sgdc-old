@@ -152,7 +152,7 @@ namespace TestDemo
         {
             //Sprite.SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            base.LoadGame();
+            base.LoadContent();
 
             ping = Content.Load<SoundEffect>("ping");
             song = Content.Load<Song>("05 - Kids");
@@ -202,20 +202,6 @@ namespace TestDemo
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
-        }
-
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Update(GameTime gameTime)
-        {
-            base.UpdateGame(gameTime);
-            //mPhysicsPharaoh.Update(gameTime);
-            //redBall.Update(gameTime);
-
-            base.Update(gameTime);
         }
 
         /// <summary>

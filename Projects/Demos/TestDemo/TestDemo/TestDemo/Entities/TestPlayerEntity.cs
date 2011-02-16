@@ -51,5 +51,21 @@ namespace TestDemo
                 ((Game1)game).ToggleCollision();
             }
         }
+
+        public bool IndexSpecific
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public Microsoft.Xna.Framework.PlayerIndex Index
+        {
+            get
+            {
+                return Microsoft.Xna.Framework.PlayerIndex.One;
+            }
+        }
     }
 }

@@ -30,13 +30,14 @@ namespace SGDE.Input
         private int touchIndex;
 #else
         //Gamepad controller
-        //TODO
+        internal GamePadState[] c_pad_states, o_pad_states;
         private int padIndex;
+        private static GamePadState defPad = default(GamePadState);
 #endif
 
 #if WINDOWS
         //Mouse
-        //TODO
+        internal MouseState c_mouse_state, o_mouse_state;
         private int mouseIndex;
 #endif
 
@@ -66,7 +67,9 @@ namespace SGDE.Input
 #else
                     if (((handler.Handles & InputType.GamePad) == InputType.GamePad) && ((this.handles & InputType.GamePad) != InputType.GamePad))
                     {
-                        //TODO
+                        this.handles |= InputType.GamePad;
+                        padIndex = components.Count;
+                        //components.Add(new GamePad(this));
                     }
 #endif
 #if WINDOWS
@@ -81,6 +84,21 @@ namespace SGDE.Input
                         keyIndex = components.Count;
                         components.Add(new Keyboard(this));
                         o_key_state = c_key_state = Microsoft.Xna.Framework.Input.Keyboard.GetState();
+                    }
+                }
+                if ((handler.Handles & InputType.GamePad) == InputType.GamePad)
+                {
+                    if (handler.IndexSpecific)
+                    {
+                        int index = (int)handler.Index;
+                        if (c_pad_states[index].Equals(defPad))
+                        {
+                            c_pad_states[index] = o_pad_states[index] = Microsoft.Xna.Framework.Input.GamePad.GetState(handler.Index);
+                        }
+                    }
+                    else if (c_pad_states[0].Equals(defPad))
+                    {
+                        c_pad_states[0] = o_pad_states[0] = Microsoft.Xna.Framework.Input.GamePad.GetState(PlayerIndex.One);
                     }
                 }
             }
@@ -135,13 +153,16 @@ namespace SGDE.Input
 #else
                 if ((this.handles & InputType.GamePad) == InputType.GamePad)
                 {
-                    //TODO
+                    HandleGameInput(PlayerIndex.One, game);
+                    HandleGameInput(PlayerIndex.Two, game);
+                    HandleGameInput(PlayerIndex.Three, game);
+                    HandleGameInput(PlayerIndex.Four, game);
                 }
 #endif
 #if WINDOWS
                 if ((this.handles & InputType.Mouse) == InputType.Mouse)
                 {
-                    //TODO
+                    //TOOD
                 }
 #endif
                 if ((this.handles & InputType.Keyboard) == InputType.Keyboard)
@@ -161,6 +182,39 @@ namespace SGDE.Input
 
                     o_key_state = c_key_state;
                 }
+            }
+        }
+
+        private void HandleGameInput(PlayerIndex index, Game game)
+        {
+            int ind = (int)index;
+            if (!c_pad_states[ind].Equals(defPad))
+            {
+                bool indexOne = index == PlayerIndex.One;
+                c_pad_states[ind] = GamePad.GetState(index);
+
+                foreach (InputHandler handler in this.handlers)
+                {
+                    if (handler.Enabled)
+                    {
+                        if ((handler.Handles & InputType.GamePad) == InputType.GamePad)
+                        {
+                            if (handler.IndexSpecific)
+                            {
+                                if (handler.Index == index)
+                                {
+                                    handler.HandleInput(game, this.components[this.padIndex]);
+                                }
+                            }
+                            else if (indexOne)
+                            {
+                                handler.HandleInput(game, this.components[this.padIndex]);
+                            }
+                        }
+                    }
+                }
+
+                o_pad_states[ind] = c_pad_states[ind];
             }
         }
 
@@ -192,6 +246,16 @@ namespace SGDE.Input
         /// <param name="game">The current, calling, game.</param>
         /// <param name="input">The input component that can be used to handle input.</param>
         void HandleInput(Game game, InputComponent input);
+
+        /// <summary>
+        /// Is the input handler input specific. Only used GamePad support.
+        /// </summary>
+        bool IndexSpecific { get; }
+
+        /// <summary>
+        /// What index this input handler supports. Used only when IndexSpecific is <code>true</code>.
+        /// </summary>
+        PlayerIndex Index { get; }
     }
 
     #endregion

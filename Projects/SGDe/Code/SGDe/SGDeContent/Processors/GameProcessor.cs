@@ -79,7 +79,7 @@ namespace SGDeContent.Processors
                     else
                     {
                         //Default SpriteSheet
-                        sPath = at.Name + ".sgde";
+                        sPath = ContentTagManager.GetTagValue("GAME_SETTINGS_SPRITESHEET", input.Version) + ".sgde";
                     }
                     game.SpriteSheet = Utils.CompileExternal<SpriteSheet>(sPath, context);
                     LoadSpriteTypes(sPath, context);

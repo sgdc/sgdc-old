@@ -298,6 +298,16 @@
             Get if this input handler is enabled.
             </summary>
         </member>
+        <member name="P:SGDE.Input.InputHandler.IndexSpecific">
+            <summary>
+            Is the input handler input specific. Only used GamePad support.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.InputHandler.Index">
+            <summary>
+            What index this input handler supports. Used only when IndexSpecific is <code>true</code>.
+            </summary>
+        </member>
         <member name="T:SGDE.Input.InputConverter">
             <summary>
             Convert from one input format to another.
@@ -466,69 +476,6 @@
             <param name="trigger">Left, Right</param>
             <param name="triggerEvent">Event for a trigger with a callback function</param>
         </member>
-        <member name="T:SGDE.Entity">
-            <summary>
-            Base Class representative of any onscreen drawable that appears in a scene
-            </summary>
-        </member>
-        <member name="F:SGDE.Entity.image">
-            <summary>Sprite which is drawn to represent the entity</summary>
-        </member>
-        <member name="F:SGDE.Entity.mCollisionUnit">
-            <summary>Contains the collision logic for the entity</summary>
-        </member>
-        <member name="F:SGDE.Entity.id">
-            <summary> ID for Checking the type of an Entity </summary>
-        </member>
-        <member name="M:SGDE.Entity.#ctor(System.Single,System.Single)">
-            <summary>
-            Constructs a new entity in the scene
-            </summary>
-            <param name="x">X coordinate</param>
-            <param name="y">Y coordinate</param>
-        </member>
-        <member name="M:SGDE.Entity.#ctor(Microsoft.Xna.Framework.Vector2)">
-            <summary>
-            Constructs a new entity in the scene
-            </summary>
-            <param name="position">Coordinates</param>
-        </member>
-        <member name="M:SGDE.Entity.Update(Microsoft.Xna.Framework.GameTime)">
-            <summary>
-            Called once during each step taken by the engine
-            </summary>
-            <param name="gameTime">The current game time</param>
-        </member>
-        <member name="M:SGDE.Entity.Draw(Microsoft.Xna.Framework.GameTime)">
-            <summary>Draws the entity to the screen</summary>
-        </member>
-        <member name="M:SGDE.Entity.SetColor(Microsoft.Xna.Framework.Color)">
-            <summary>
-            Set the entity's tint.
-            </summary>
-            <param name="backColor">The tint to use.</param>
-        </member>
-        <member name="M:SGDE.Entity.CopyTo(SGDE.Entity@)">
-            <summary>
-            Copy this Entity to another entity. If overriden then the base.CopyTo call must be the first line of code.
-            </summary>
-            <param name="ent">The entity to copy to.</param>
-        </member>
-        <member name="P:SGDE.Entity.Enabled">
-            <summary>
-            Get or set if the Entity component is enabled or not. If the entity is enabled then the following functions are called: Update, HandleInput.
-            </summary>
-        </member>
-        <member name="P:SGDE.Entity.SpriteImage">
-            <summary>
-            Used internally
-            </summary>
-        </member>
-        <member name="T:SGDE.Entity.GamePadComponent">
-            <summary>
-            For handling xbox controller input.
-            </summary>
-        </member>
         <member name="T:SGDE.Game">
             <summary>
             Base game that wraps much of the game's functions so they can be adjusted from the Game editor.
@@ -544,9 +491,9 @@
             Initialize the game components.
             </summary>
         </member>
-        <member name="M:SGDE.Game.LoadGame">
+        <member name="M:SGDE.Game.LoadContent">
             <summary>
-            Load a SGDE game.
+            Load game content. If overriden, call this functions before attempting to load any other content.
             </summary>
         </member>
         <member name="M:SGDE.Game.GetContent``1(System.String)">
@@ -561,12 +508,6 @@
             <summary>
             Update the game.
             </summary>
-        </member>
-        <member name="M:SGDE.Game.UpdateGame(Microsoft.Xna.Framework.GameTime)">
-            <summary>
-            Update this Game's loaded content.
-            </summary>
-            <param name="gameTime">The GameTime since the last update.</param>
         </member>
         <member name="M:SGDE.Game.Draw(Microsoft.Xna.Framework.GameTime)">
             <summary>
@@ -663,6 +604,64 @@
         <member name="T:SGDE.Content.Readers.BitmapSpriteReader">
             <summary>
             Read and process a BitmapSprite class
+            </summary>
+        </member>
+        <member name="T:SGDE.Entity">
+            <summary>
+            Base Class representative of any onscreen drawable that appears in a scene
+            </summary>
+        </member>
+        <member name="F:SGDE.Entity.image">
+            <summary>Sprite which is drawn to represent the entity</summary>
+        </member>
+        <member name="F:SGDE.Entity.mCollisionUnit">
+            <summary>Contains the collision logic for the entity</summary>
+        </member>
+        <member name="F:SGDE.Entity.id">
+            <summary> ID for Checking the type of an Entity </summary>
+        </member>
+        <member name="M:SGDE.Entity.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructs a new entity in the scene
+            </summary>
+            <param name="x">X coordinate</param>
+            <param name="y">Y coordinate</param>
+        </member>
+        <member name="M:SGDE.Entity.#ctor(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Constructs a new entity in the scene
+            </summary>
+            <param name="position">Coordinates</param>
+        </member>
+        <member name="M:SGDE.Entity.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Called once during each step taken by the engine
+            </summary>
+            <param name="gameTime">The current game time</param>
+        </member>
+        <member name="M:SGDE.Entity.Draw(Microsoft.Xna.Framework.GameTime)">
+            <summary>Draws the entity to the screen</summary>
+        </member>
+        <member name="M:SGDE.Entity.SetColor(Microsoft.Xna.Framework.Color)">
+            <summary>
+            Set the entity's tint.
+            </summary>
+            <param name="backColor">The tint to use.</param>
+        </member>
+        <member name="M:SGDE.Entity.CopyTo(SGDE.Entity@)">
+            <summary>
+            Copy this Entity to another entity. If overriden then the base.CopyTo call must be the first line of code.
+            </summary>
+            <param name="ent">The entity to copy to.</param>
+        </member>
+        <member name="P:SGDE.Entity.Enabled">
+            <summary>
+            Get or set if the Entity component is enabled or not. If the entity is enabled then the following functions are called: Update, HandleInput.
+            </summary>
+        </member>
+        <member name="P:SGDE.Entity.SpriteImage">
+            <summary>
+            Used internally
             </summary>
         </member>
         <member name="T:SGDE.Content.Readers.VectorSpriteReader">
