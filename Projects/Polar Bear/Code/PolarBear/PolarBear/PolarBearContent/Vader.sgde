@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SGDE Version="1.1">
+  <Entity Name="Vader">
+    <Node>
+      <Vector2 ID="Translation" X="150" Y="130" />
+    </Node>
+    <Sprite SID="0" Color="FFFF0000"></Sprite>
+    <Physics Enabled="true" Collision="true">
+      <Velocity X="1" Y="1" />
+    </Physics>
+    <CustomEntity Base="SGDE.Entity, SGDe">TestDemo.BounceBall, TestDemo</CustomEntity>
+  </Entity>
+</SGDE>

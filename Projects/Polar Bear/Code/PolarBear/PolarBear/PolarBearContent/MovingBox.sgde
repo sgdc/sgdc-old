@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SGDE Version="1.1">
+  <Entity Name="Moving Box">
+    <Sprite SID="4" />
+    <Physics Enabled="true" Collision="true">
+      <Velocity X="-2" Y="0" />
+    </Physics>
+    <CustomEntity Base="SGDE.Entity, SGDe">TestDemo.BounceBox, TestDemo<Contructor><Arg Index="0" Type="System.Int32, mscorlib" Value="450" /><Arg Index="1" Type="System.Int32, mscorlib" Value="100" /></Contructor></CustomEntity>
+  </Entity>
+</SGDE>

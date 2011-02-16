@@ -1,0 +1,555 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SGDe</name>
+    </assembly>
+    <members>
+        <member name="F:SGDE.Content.ContentUtil.LoadingBuilders">
+            <summary>
+            Loading entity builders.
+            </summary>
+        </member>
+        <member name="T:SGDE.SceneNode">
+            <summary>
+            Base class for any and all classes which can be added to the scene graph
+            </summary>
+        </member>
+        <member name="M:SGDE.SceneNode.#ctor">
+            <summary>
+            Constructor for a scene node
+            </summary>
+        </member>
+        <member name="M:SGDE.SceneNode.SetTranslation(Microsoft.Xna.Framework.Vector2)">
+            <summary>Sets the translation of the scene node</summary>
+            <param name="translation">Translation vector</param>
+        </member>
+        <member name="M:SGDE.SceneNode.SetRotation(System.Single)">
+            <summary>
+            Set the rotation of this scene node.
+            </summary>
+            <param name="rotation">Degree measure for rotation.</param>
+        </member>
+        <member name="M:SGDE.SceneNode.Rotate(System.Single)">
+            <summary>
+            Change the rotation of this scene node.
+            </summary>
+            <param name="rotation">The deleta degree measure for rotation.</param>
+        </member>
+        <member name="M:SGDE.SceneNode.GetRotation">
+            <summary>
+            Get the rotation of this scene node.
+            </summary>
+            <returns>The degree measure of this scene node.</returns>
+        </member>
+        <member name="M:SGDE.SceneNode.GetAsType``1">
+            <summary>
+            Get this node element as the specified type.
+            </summary>
+            <typeparam name="T">Type of object to get.</typeparam>
+            <returns>This node as the specified type or the default value of that type.</returns>
+        </member>
+        <member name="T:SGDE.Graphics.Sprite">
+            <summary>
+            A drawable sprite object that can be displayed on screen.
+            </summary>
+        </member>
+        <member name="M:SGDE.Graphics.Sprite.#ctor">
+            <summary>
+            Create a new Sprite with default values.
+            </summary>
+        </member>
+        <member name="M:SGDE.Graphics.Sprite.Draw(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Draw this Sprite.
+            </summary>
+            <param name="gameTime">The GameTime since the last draw.</param>
+        </member>
+        <member name="M:SGDE.Graphics.Sprite.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Update this Sprite.
+            </summary>
+            <param name="gameTime">The GameTime since the last update.</param>
+        </member>
+        <member name="M:SGDE.Graphics.Sprite.OverrideAnimation(SGDE.Graphics.Sprite.SpriteAttributes,System.Nullable{System.Boolean})">
+            <summary>
+            Some attributes about a Sprite can be determined by it's animation. This function allows the determination of what attributes are allowed to be set by the animation and what are user determined.
+            </summary>
+            <param name="component">What component of the Sprite should be get/set.</param>
+            <param name="allowed"><code>true</code> if this compoennt can be overriden by the Sprite's animation, <code>false</code> is otherwise. Can also be set to <code>null</code> if the value should be returned.</param>
+            <returns><code>true</code> if the the Sprite's animation can override the developer setting, <code>false</code> if otherwise.</returns>
+        </member>
+        <member name="M:SGDE.Graphics.Sprite.GetAsType``1">
+            <summary>
+            Get this node element as the specified type.
+            </summary>
+            <typeparam name="T">Type of object to get.</typeparam>
+            <returns>This node as the specified type or the default value of that type.</returns>
+        </member>
+        <member name="P:SGDE.Graphics.Sprite.Center">
+            <summary>
+            Get the center of the Sprite based off it's current animation.
+            </summary>
+        </member>
+        <member name="P:SGDE.Graphics.Sprite.Width">
+            <summary>
+            Get the width of the Sprite based off it's current animation.
+            </summary>
+        </member>
+        <member name="P:SGDE.Graphics.Sprite.Height">
+            <summary>
+            Get the height of the Sprite based off it's current animation.
+            </summary>
+        </member>
+        <member name="P:SGDE.Graphics.Sprite.Tint">
+            <summary>
+            Get or set the tint to apply to this Sprite. This can be overriden, if allowed, by the Sprite animation.
+            </summary>
+        </member>
+        <member name="P:SGDE.Graphics.Sprite.Frame">
+            <summary>
+            Get or set the current animation Frame
+            </summary>
+        </member>
+        <member name="P:SGDE.Graphics.Sprite.FPS">
+            <summary>
+            Get or set the current animation FPS.
+            </summary>
+        </member>
+        <member name="T:SGDE.Graphics.Sprite.SpriteAttributes">
+            <summary>
+            Sprite attributes that can be overriden by Sprite animation.
+            </summary>
+        </member>
+        <member name="F:SGDE.Graphics.Sprite.SpriteAttributes.None">
+            <summary>
+            This space intentionally left blank...
+            </summary>
+        </member>
+        <member name="F:SGDE.Graphics.Sprite.SpriteAttributes.Tint">
+            <summary>
+            The Sprite's tint.
+            </summary>
+        </member>
+        <member name="F:SGDE.Graphics.Sprite.SpriteAttributes.RotationAbs">
+            <summary>
+            The Sprite's rotation is absoulte.
+            </summary>
+        </member>
+        <member name="F:SGDE.Graphics.Sprite.SpriteAttributes.RotationRel">
+            <summary>
+            The Sprite's rotation is relitive.
+            </summary>
+        </member>
+        <member name="F:SGDE.Graphics.Sprite.SpriteAttributes.ScaleAbs">
+            <summary>
+            The Sprite's scale is absoulte.
+            </summary>
+        </member>
+        <member name="F:SGDE.Graphics.Sprite.SpriteAttributes.ScaleRel">
+            <summary>
+            The Sprite's scale is relitive.
+            </summary>
+        </member>
+        <member name="F:SGDE.Graphics.Sprite.SpriteAttributes.FPS">
+            <summary>
+            The Sprite's FPS
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.GameReader">
+            <summary>
+            Read and process a GameContent class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.GameReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Content.DataTypes.GameContent)">
+            <summary>
+            Read a GameContent.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.AnimationReader">
+            <summary>
+            Read and process a SpriteAnimation class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.AnimationReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Graphics.SpriteManager.SpriteAnimation)">
+            <summary>
+            Read a SpriteAnimation.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.DataTypes.MapContent">
+            <summary>
+            Used internally.
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.DataTypes.MapContent.#ctor">
+            <summary>
+            Create a new MapContent object.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.EntityReader">
+            <summary>
+            Read and process a Entity class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.EntityReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Entity)">
+            <summary>
+            Read a Entity.
+            </summary>
+        </member>
+        <member name="T:SGDE.Entity">
+            <summary>
+            Base Class representative of any onscreen drawable that appears in a scene
+            </summary>
+        </member>
+        <member name="F:SGDE.Entity.image">
+            <summary>Sprite which is drawn to represent the entity</summary>
+        </member>
+        <member name="F:SGDE.Entity.mCollisionUnit">
+            <summary>Contains the collision logic for the entity</summary>
+        </member>
+        <member name="F:SGDE.Entity.keyboardListener">
+            <summary>Object which allows for keyboard events. Only instantiate if object responds to keyboard input.</summary>
+        </member>
+        <member name="F:SGDE.Entity.gamePadListener">
+            <summary>Object which allows for gamepad events. Only instantiate if object responds to gamepad input.</summary>
+        </member>
+        <member name="M:SGDE.Entity.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructs a new entity in the scene
+            </summary>
+            <param name="x">X coordinate</param>
+            <param name="y">Y coordinate</param>
+        </member>
+        <member name="M:SGDE.Entity.#ctor(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Constructs a new entity in the scene
+            </summary>
+            <param name="position">Coordinates</param>
+        </member>
+        <member name="M:SGDE.Entity.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Called once during each step taken by the engine
+            </summary>
+            <param name="gameTime">The current game time</param>
+        </member>
+        <member name="M:SGDE.Entity.Draw(Microsoft.Xna.Framework.GameTime)">
+            <summary>Draws the entity to the screen</summary>
+        </member>
+        <member name="M:SGDE.Entity.CopyTo(SGDE.Entity@)">
+            <summary>
+            Copy this Entity to another entity. If overriden then the base.CopyTo call must be the first line of code.
+            </summary>
+            <param name="ent">The entity to copy to.</param>
+        </member>
+        <member name="P:SGDE.Entity.SpriteImage">
+            <summary>
+            Used internally
+            </summary>
+        </member>
+        <member name="T:SGDE.Entity.GamePadComponent">
+            <summary>
+            For handling xbox controller input.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.DataTypes.GameContent">
+            <summary>
+            Used internally
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.DataTypes.GameContent.GotoLevel(System.Int32)">
+            <summary>
+            Goto a specific level.
+            </summary>
+            <param name="level">The zero-based index of the level to go to.</param>
+        </member>
+        <member name="M:SGDE.Content.DataTypes.GameContent.NextLevel">
+            <summary>
+            Go to the next level based on level order, if possible.
+            </summary>
+            <returns><code>true</code> if level was progressed. <code>false</code> if couldn't load level, usually because the level order is done.</returns>
+        </member>
+        <member name="M:SGDE.Content.DataTypes.GameContent.Setup(SGDE.Game@)">
+            <summary>
+            Setup one-time game settings.
+            </summary>
+            <param name="game">The Game that will be set.</param>
+        </member>
+        <member name="M:SGDE.Content.DataTypes.GameContent.GetMapContent``1(System.String)">
+            <summary>
+            Get content from the current map that has an developer ID (DID) assigned to it.
+            </summary>
+            <typeparam name="T">The type of content to load.</typeparam>
+            <param name="did">The developer ID of the game content.</param>
+            <returns>The game content, if it exists, or the default value of the requested type.</returns>
+        </member>
+        <member name="M:SGDE.Content.DataTypes.GameContent.Process(SGDE.Game@)">
+            <summary>
+            Process all Code elements.
+            </summary>
+            <param name="game">The Game to process the Code elements on.</param>
+        </member>
+        <member name="P:SGDE.Content.DataTypes.GameContent.CurrentLevel">
+            <summary>
+            Get the current level of the Game.
+            </summary>
+        </member>
+        <member name="P:SGDE.Content.DataTypes.GameContent.NumberOfLevels">
+            <summary>
+            Get the number of levels.
+            </summary>
+        </member>
+        <member name="P:SGDE.Content.DataTypes.GameContent.Entities">
+            <summary>
+            Get the Entities for the specified map.
+            </summary>
+        </member>
+        <member name="P:SGDE.Content.DataTypes.GameContent.MapName">
+            <summary>
+            Get the current Map name. Will be null if none exists.
+            </summary>
+        </member>
+        <member name="T:SGDE.Physics.Collision.CollisionChief">
+            <summary>
+            Not sure yet...
+            </summary>
+        </member>
+        <member name="M:SGDE.GamePadEvent.#ctor(Microsoft.Xna.Framework.Input.Buttons,SGDE.GamePadEvent.ButtonEvent)">
+            <summary>
+            Constructor for an Xbox 360 Controller Button Event
+            </summary>
+            <param name="button">A, B, X, Y, LeftShoulder, RightShoulder, LeftStick, RightStick, Back, Start, 
+                                DPadLeft, DPadRight, DPadUp, DPadDown</param>
+            <param name="buttonEvent">Event for a button with a callback function</param>
+        </member>
+        <member name="M:SGDE.GamePadEvent.#ctor(SGDE.GamePadEvent.ThumbSticks,SGDE.GamePadEvent.ThumbStickEvent)">
+            <summary>
+            Constructor for an Xbox 360 Controller Thumbstick Event
+            </summary>
+            <param name="thumbstick">Left, Right</param>
+            <param name="thumbStickEvent">Event for a thumbstick with a callback function</param>
+        </member>
+        <member name="M:SGDE.GamePadEvent.#ctor(SGDE.GamePadEvent.Triggers,SGDE.GamePadEvent.TriggerEvent)">
+            <summary>
+            Constructor for an Xbox 360 Controller Trigger Event 
+            </summary>
+            <param name="trigger">Left, Right</param>
+            <param name="triggerEvent">Event for a trigger with a callback function</param>
+        </member>
+        <member name="T:SGDE.Content.Readers.NodeReader">
+            <summary>
+            Read and process a SceneNode class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.NodeReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.SceneNode)">
+            <summary>
+            Read a SceneNode.
+            </summary>
+        </member>
+        <member name="P:SGDE.Content.Readers.NodeReader.CanDeserializeIntoExistingObject">
+            <summary>
+            Can deserialize into an existing object. Have to do that for Nodes.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.SpriteManagerReader">
+            <summary>
+            Read and process a SpriteManager class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.SpriteManagerReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Graphics.SpriteManager)">
+            <summary>
+            Read a SpriteManager.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Code.Library.SGDE.Math">
+            <summary>
+            The Math class contains methods and constants that represent common mathematical functions and values.
+            </summary>
+        </member>
+        <member name="F:SGDE.Content.Code.Library.SGDE.Math.PI">
+            <summary>
+            A mathematical constant for the ratio of the circumference of a circle to its diameter, expressed as pi, with a value of 3.141592653589793.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Code.Code">
+            <summary>
+            Used Internally
+            </summary>
+        </member>
+        <member name="T:SGDE.Messages">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.Code_CannotEvaluate">
+            <summary>
+              Looks up a localized string similar to Cannot evaluate code. Arguments could be required..
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.ContentUtil_DIDExists">
+            <summary>
+              Looks up a localized string similar to Concurrency error.
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.Game_TooManyGames">
+            <summary>
+              Looks up a localized string similar to Only one SGDe game can be run at a time..
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.GameContent_LevelNotExist">
+            <summary>
+              Looks up a localized string similar to Level does not exist..
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.GameReader_OnlyOneGameContent">
+            <summary>
+              Looks up a localized string similar to Only one game content can exist..
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.NodeReader_SceneNodeAbstract">
+            <summary>
+              Looks up a localized string similar to SceneNode cannot be loaded independent of another type..
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.SpriteManager_AnimationIDMismatch">
+            <summary>
+              Looks up a localized string similar to Animation ID does not match saved ID.
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.SpriteManager_AnimationSetIDMismatch">
+            <summary>
+              Looks up a localized string similar to Animation Set ID does not match saved ID.
+            </summary>
+        </member>
+        <member name="P:SGDE.Messages.SpriteManager_SpriteIDMismatch">
+            <summary>
+              Looks up a localized string similar to Texture ID does not match saved ID.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.CodeReader">
+            <summary>
+            Read and process a Code class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.CodeReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Content.Code.Code)">
+            <summary>
+            Read a Code.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.MapReader">
+            <summary>
+            Read and process a MapContent class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.MapReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Content.DataTypes.MapContent)">
+            <summary>
+            Read a MapContent.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.DataTypes.EntityBuilder">
+            <summary>
+            Used Internally
+            </summary>
+        </member>
+        <member name="T:SGDE.Game">
+            <summary>
+            Base game that wraps much of the game's functions so they can be adjusted from the Game editor.
+            </summary>
+        </member>
+        <member name="M:SGDE.Game.#ctor">
+            <summary>
+            Create a new Game.
+            </summary>
+        </member>
+        <member name="M:SGDE.Game.Initialize">
+            <summary>
+            Initialize the game components.
+            </summary>
+        </member>
+        <member name="M:SGDE.Game.LoadGame">
+            <summary>
+            Load a SGDE game.
+            </summary>
+        </member>
+        <member name="M:SGDE.Game.GetContent``1(System.String)">
+            <summary>
+            Get loaded content from this Game.
+            </summary>
+            <typeparam name="T">The data type that is expected to be returned.</typeparam>
+            <param name="gameElement">The developer-defined name for a component.</param>
+            <returns>The requested content, if it exisst, or the default value of the content.</returns>
+        </member>
+        <member name="M:SGDE.Game.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Update the game.
+            </summary>
+        </member>
+        <member name="M:SGDE.Game.UpdateGame(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Update this Game's loaded content.
+            </summary>
+            <param name="gameTime">The GameTime since the last update.</param>
+        </member>
+        <member name="M:SGDE.Game.Draw(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Draw the game.
+            </summary>
+        </member>
+        <member name="M:SGDE.Game.DrawGame(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Draw this Game's loaded content.
+            </summary>
+            <param name="gameTime">The GameTime since the last draw.</param>
+        </member>
+        <member name="P:SGDE.Game.CurrentGame">
+            <summary>
+            Gets the current running game.
+            </summary>
+        </member>
+        <member name="P:SGDE.Game.SpriteBatch">
+            <summary>
+            Get the current SpriteBatch.
+            </summary>
+        </member>
+        <member name="P:SGDE.Game.GameContentName">
+            <summary>
+            Get or set the name of the game content that will be loaded. If this value is set after the <see cref="M:SGDE.Game.Initialize"/> function has executed it will be ignored. If the value is null, empty, or made 
+            of white-spaces it will be ignored as well. If this value references a game content that doesn't exist it will throw an exception.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Code.Library.SGDE.Number">
+            <summary>
+            A data type representing an IEEE-754 double-precision floating-point number.
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.SGDE.Number.#ctor(System.Double)">
+            <summary>
+            Creates a Number object with the specified value.
+            </summary>
+            <param name="num">The numeric value of the Number instance being created or a value to be converted to a Number.</param>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.SGDE.Number.op_Implicit(System.Double)~SGDE.Content.Code.Library.SGDE.Number">
+            <summary>
+            Convert a native double to a Number.
+            </summary>
+            <param name="d">The double value to create the Number with.</param>
+            <returns>The created Number.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.SGDE.Number.op_Implicit(System.Single)~SGDE.Content.Code.Library.SGDE.Number">
+            <summary>
+            Convert a native float to a Number.
+            </summary>
+            <param name="d">The float value to create the Number with.</param>
+            <returns>The created Number.</returns>
+        </member>
+    </members>
+</doc>

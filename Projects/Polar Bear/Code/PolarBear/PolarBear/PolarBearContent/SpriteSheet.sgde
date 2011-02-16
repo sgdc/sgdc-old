@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SGDE Version="1.1">
+  <SpriteSheets>
+    <SpriteSheet ID="0">
+      <Source>theball.png</Source>
+      <Animation>Local<AnimationSet FPS="2"><Frame Color="FF000000" /><Frame Color="FF00FF00" /></AnimationSet></Animation>
+    </SpriteSheet>
+    <SpriteSheet Name="Star" ID="1">
+      <Source>star.png</Source>
+    </SpriteSheet>
+    <SpriteSheet Name="Collsion Grid Cell 1" ID="2">
+      <Source>CollisionGridCell.jpg</Source>
+    </SpriteSheet>
+    <SpriteSheet Name="Collsion Grid Cell 2" ID="3">
+      <Source>CollisionGridCell2.jpg</Source>
+    </SpriteSheet>
+    <SpriteSheet ID="4">
+      <Source>thesquare.png</Source>
+    </SpriteSheet>
+    <SpriteSheet ID="5">
+      <Source>stevens-official-logo_1.png</Source>
+    </SpriteSheet>
+  </SpriteSheets>
+</SGDE>

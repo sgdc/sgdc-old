@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
+  <Asset Type="Pipeline:BuildItemCollection">
+    <Item>
+      <Source>Game.sgde</Source>
+      <Name>Game</Name>
+      <Importer>SGDEImport</Importer>
+      <Processor>SGDEProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\Game.xnb</Output>
+      <Time>2011-02-03T19:28:14.5654034-05:00</Time>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\DemoMap.xnb</Request>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\SpriteSheet.xnb</Request>
+    </Item>
+    <Item>
+      <Source>DemoMap.sgde</Source>
+      <Name>DemoMap</Name>
+      <Importer>SGDEImport</Importer>
+      <Processor>SGDEProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\DemoMap.xnb</Output>
+      <Time>2011-02-03T19:28:14.5784042-05:00</Time>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\Vader.xnb</Request>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\Yoda.xnb</Request>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\MovingBox.xnb</Request>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\Box.xnb</Request>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\PortalIn.xnb</Request>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\PortalOut.xnb</Request>
+    </Item>
+    <Item>
+      <Source>SpriteSheet.sgde</Source>
+      <Name>SpriteSheet</Name>
+      <Importer>SGDEImport</Importer>
+      <Processor>SGDEProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\SpriteSheet.xnb</Output>
+      <Time>2011-02-15T21:52:17.5940802-05:00</Time>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\theball.xnb</Request>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\star.xnb</Request>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\CollisionGridCell.xnb</Request>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\CollisionGridCell2.xnb</Request>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\thesquare.xnb</Request>
+      <Request>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\stevens-official-logo_1.xnb</Request>
+    </Item>
+    <Item>
+      <Source>Vader.sgde</Source>
+      <Name>Vader</Name>
+      <Importer>SGDEImport</Importer>
+      <Processor>SGDEProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\Vader.xnb</Output>
+      <Time>2011-02-03T19:28:14.5454023-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Yoda.sgde</Source>
+      <Name>Yoda</Name>
+      <Importer>SGDEImport</Importer>
+      <Processor>SGDEProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\Yoda.xnb</Output>
+      <Time>2011-02-15T21:52:17.6050808-05:00</Time>
+    </Item>
+    <Item>
+      <Source>MovingBox.sgde</Source>
+      <Name>MovingBox</Name>
+      <Importer>SGDEImport</Importer>
+      <Processor>SGDEProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\MovingBox.xnb</Output>
+      <Time>2011-02-03T19:28:14.5544028-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Box.sgde</Source>
+      <Name>Box</Name>
+      <Importer>SGDEImport</Importer>
+      <Processor>SGDEProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\Box.xnb</Output>
+      <Time>2011-02-03T19:28:14.5964052-05:00</Time>
+    </Item>
+    <Item>
+      <Source>PortalIn.sgde</Source>
+      <Name>PortalIn</Name>
+      <Importer>SGDEImport</Importer>
+      <Processor>SGDEProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\PortalIn.xnb</Output>
+      <Time>2011-02-03T19:28:14.5894048-05:00</Time>
+    </Item>
+    <Item>
+      <Source>PortalOut.sgde</Source>
+      <Name>PortalOut</Name>
+      <Importer>SGDEImport</Importer>
+      <Processor>SGDEProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\PortalOut.xnb</Output>
+      <Time>2011-02-03T19:28:14.6024056-05:00</Time>
+    </Item>
+    <Item>
+      <Source>theball.png</Source>
+      <Name>theball</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\theball.xnb</Output>
+      <Time>2011-01-25T22:39:43.9927661-05:00</Time>
+    </Item>
+    <Item>
+      <Source>star.png</Source>
+      <Name>star</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\star.xnb</Output>
+      <Time>2011-01-25T22:39:43.9897659-05:00</Time>
+    </Item>
+    <Item>
+      <Source>CollisionGridCell.jpg</Source>
+      <Name>CollisionGridCell</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\CollisionGridCell.xnb</Output>
+      <Time>2011-01-25T22:39:43.9427632-05:00</Time>
+    </Item>
+    <Item>
+      <Source>CollisionGridCell2.jpg</Source>
+      <Name>CollisionGridCell2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\CollisionGridCell2.xnb</Output>
+      <Time>2011-01-25T22:39:43.9967663-05:00</Time>
+    </Item>
+    <Item>
+      <Source>thesquare.png</Source>
+      <Name>thesquare</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\thesquare.xnb</Output>
+      <Time>2011-01-25T22:39:43.9597642-05:00</Time>
+    </Item>
+    <Item>
+      <Source>stevens-official-logo_1.png</Source>
+      <Name>stevens-official-logo_1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\stevens-official-logo_1.xnb</Output>
+      <Time>2011-01-25T22:39:44.0007665-05:00</Time>
+    </Item>
+    <BuildSuccessful>true</BuildSuccessful>
+    <Settings>
+      <TargetPlatform>Windows</TargetPlatform>
+      <TargetProfile>HiDef</TargetProfile>
+      <BuildConfiguration>Debug</BuildConfiguration>
+      <CompressContent>false</CompressContent>
+      <RootDirectory>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBearContent\</RootDirectory>
+      <LoggerRootDirectory>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\</LoggerRootDirectory>
+      <IntermediateDirectory>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBearContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\PolarBear\PolarBear\PolarBear\bin\x86\Debug\Content\</OutputDirectory>
+    </Settings>
+    <Assemblies>
+      <Assembly>
+        <Key>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\SGDe\Code\SGDe\SGDeContent\_build\Debug\bin\x86\SGDeContent.dll</Key>
+        <Value>2011-02-08T14:19:20.3831963-05:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.VideoImporters.dll</Key>
+        <Value>2010-08-23T12:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.TextureImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.FBXImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.EffectImporter.dll</Key>
+        <Value>2010-08-23T12:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.AudioImporters.dll</Key>
+        <Value>2010-08-23T12:41:18-04:00</Value>
+      </Assembly>
+      <Assembly>
+        <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
+        <Value>2010-10-27T20:21:02.0421441-04:00</Value>
+      </Assembly>
+    </Assemblies>
+  </Asset>
+</XnaContent>
