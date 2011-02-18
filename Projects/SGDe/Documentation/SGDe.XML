@@ -843,7 +843,7 @@
         </member>
         <member name="P:SGDE.Entity.SpriteImage">
             <summary>
-            Used internally
+            Get the Entity's Sprite component.
             </summary>
         </member>
         <member name="T:SGDE.Content.Readers.VectorSpriteReader">

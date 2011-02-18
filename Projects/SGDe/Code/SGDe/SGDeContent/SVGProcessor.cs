@@ -72,22 +72,56 @@ namespace SGDeContent
             at = svg.Attributes["x"];
             if (at != null)
             {
-                //TODO: if not found, 0
+                svgImg.X = new AnimatableComponent();
+                svgImg.X.Add(SpecificNumber.Parse(at.Value), TimeSpan.Zero);
+            }
+            else
+            {
+                svgImg.X = new AnimatableComponent();
+                svgImg.X.Add(new SpecificNumber(0, NumberType.Precent), TimeSpan.Zero);
             }
             at = svg.Attributes["y"];
             if (at != null)
             {
-                //TODO: if not found, 0
+                svgImg.Y = new AnimatableComponent();
+                svgImg.Y.Add(SpecificNumber.Parse(at.Value), TimeSpan.Zero);
+            }
+            else
+            {
+                svgImg.Y = new AnimatableComponent();
+                svgImg.Y.Add(new SpecificNumber(0, NumberType.Precent), TimeSpan.Zero);
             }
             at = svg.Attributes["width"];
             if (at != null)
             {
-                //TODO: if not found, 100%. If 0, sprite is not visible. If negative, error.
+                svgImg.Width = new AnimatableComponent();
+                SpecificNumber num = SpecificNumber.Parse(at.Value);
+                if (num.Number < 0)
+                {
+                    throw new ArgumentOutOfRangeException("Width < 0");
+                }
+                svgImg.Width.Add(num, TimeSpan.Zero);
+            }
+            else
+            {
+                svgImg.Width = new AnimatableComponent();
+                svgImg.Width.Add(new SpecificNumber(100, NumberType.Precent), TimeSpan.Zero);
             }
             at = svg.Attributes["height"];
             if (at != null)
             {
-                //TODO: if not found, 100%. If 0, sprite is not visible. If negative, error.
+                svgImg.Height = new AnimatableComponent();
+                SpecificNumber num = SpecificNumber.Parse(at.Value);
+                if (num.Number < 0)
+                {
+                    throw new ArgumentOutOfRangeException("Height < 0");
+                }
+                svgImg.Height.Add(num, TimeSpan.Zero);
+            }
+            else
+            {
+                svgImg.Height = new AnimatableComponent();
+                svgImg.Height.Add(new SpecificNumber(100, NumberType.Precent), TimeSpan.Zero);
             }
             at = svg.Attributes["viewBox"];
             if (at != null)

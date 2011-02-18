@@ -200,15 +200,15 @@ namespace SGDE
         }
 
         /// <summary>
-        /// Used internally
+        /// Get the Entity's Sprite component.
         /// </summary>
-        internal Sprite SpriteImage
+        public Sprite SpriteImage
         {
             get
             {
                 return this.image;
             }
-            set
+            internal set
             {
                 if (this.image != value)
                 {
