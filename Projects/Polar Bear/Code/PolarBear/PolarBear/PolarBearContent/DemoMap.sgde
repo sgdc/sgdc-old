@@ -1,87 +1,12 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <SGDE Version="1.1">
   <Map>
     <Layout>
-      <Entity ID="0" AssetID="Vader">
+      <Entity ID="0">
         <Layout>Default</Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="725" Y="330" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="600" Y="100" /></Node><Physics Enabled="true" Collision="true"><Velocity X="2" Y="1" /></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="650" Y="300" /></Node><Physics Enabled="true" Collision="true"><Velocity X="-2" Y="1" /></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="0" Y="120" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="0" Y="240" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="730" Y="120" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="730" Y="240" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="3">
-        <Layout>Default</Layout>
-      </Entity>
-      <Entity ID="4">
-        <Layout>Default</Layout>
-      </Entity>
-      <Entity ID="5" AssetID="PortalIn">
-        <Layout>Default</Layout>
-      </Entity>
-      <Entity ID="6" AssetID="PortalOut">
-        <Layout>Default</Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="320" Y="0" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="400" Y="0" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="480" Y="0" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="560" Y="0" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="640" Y="0" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="720" Y="0" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="80" Y="250" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="160" Y="280" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="240" Y="310" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="320" Y="340" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="400" Y="370" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="480" Y="400" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="8">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="550" Y="100" /></Node><Sprite Color="FF008000" /></Layout>
-      </Entity>
+      </Entity>      
     </Layout>
-    <Physics Enabled="true">
+    <Physics>
       <Pharaoh>
         <Cell Width="25" Height="25" />
         <World Width="800" Height="480" />
@@ -92,38 +17,9 @@
   <Resources>
     <Entities>
       <Entity ID="0">
-        <Entity>Vader.sgde</Entity>
-      </Entity>
-      <Entity ID="1">
-        <Entity>Yoda.sgde</Entity>
-      </Entity>
-      <Entity ID="2">
         <Entity>
-          <Sprite AssetID="Star" SID="1" />
-        </Entity>
-      </Entity>
-      <Entity ID="3">
-        <Entity>MovingBox.sgde</Entity>
-      </Entity>
-      <Entity ID="4">
-        <Entity>Box.sgde</Entity>
-      </Entity>
-      <Entity ID="5">
-        <Entity>PortalIn.sgde</Entity>
-      </Entity>
-      <Entity ID="6">
-        <Entity>PortalOut.sgde</Entity>
-      </Entity>
-      <Entity ID="7">
-        <Entity>
-          <Sprite AssetID="Grid" SID="2" />
-        </Entity>
-      </Entity>
-      <Entity ID="8">
-        <Entity Name="User">
-          <Sprite SID="1" />
-          <Physics Static="true"></Physics>
-          <CustomEntity Base="SGDE.Entity, SGDe">TestDemo.TestPlayerEntity, TestDemo<Contructor><Arg Index="0" Type="System.Int32, mscorlib" Value="0" /><Arg Index="1" Type="System.Int32, mscorlib" Value="0" /></Contructor></CustomEntity>
+          <Sprite SID="0" />  
+          <CustomEntity Base="SGDE.Entity, SGDe">PolarBear.Player, PolarBear</CustomEntity>        
         </Entity>
       </Entity>
     </Entities>
