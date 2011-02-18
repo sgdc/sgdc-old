@@ -19,7 +19,7 @@ namespace SGDE.Content.Readers
 
         public override void HandleSpecific(ContentReader input, int id, VectorSprite instance)
         {
-            //TODO
+            instance.svg = SpriteManager.GetInstance().GetVectorTexture(id);
         }
 
         //TODO: Apply the read in values seperetly so that EntityBuilder can process them

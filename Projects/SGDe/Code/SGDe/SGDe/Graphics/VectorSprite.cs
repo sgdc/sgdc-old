@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace SGDE.Graphics
 {
@@ -10,9 +11,12 @@ namespace SGDE.Graphics
     /// </summary>
     internal class VectorSprite : Sprite
     {
+        internal SGDE.Graphics.SVG.SVG svg;
+
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            throw new NotImplementedException();
+            GraphicsDevice gd = SpriteManager.spriteBat.GraphicsDevice;
+            //TODO
         }
 
         public override Microsoft.Xna.Framework.Vector2 Center

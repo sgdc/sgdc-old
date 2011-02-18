@@ -54,6 +54,12 @@ namespace SGDE.Graphics
             return textures[index] as Texture2D;
         }
 
+        //SVG texture
+        public SGDE.Graphics.SVG.SVG GetVectorTexture(int index)
+        {
+            return textures[index] as SGDE.Graphics.SVG.SVG;
+        }
+
         #endregion
 
         #region Animations

@@ -31,14 +31,17 @@ namespace SGDE.Input
 #else
         //Gamepad controller
         internal GamePadState[] c_pad_states, o_pad_states;
+        internal GamePadDeadZone[] pad_zone;
+        private bool[] pad_loaded;
         private int padIndex;
-        private static GamePadState defPad = default(GamePadState);
 #endif
 
 #if WINDOWS
         //Mouse
         internal MouseState c_mouse_state, o_mouse_state;
         private int mouseIndex;
+
+        //TODO Kinect ;)
 #endif
 
         internal InputManager()
@@ -56,7 +59,10 @@ namespace SGDE.Input
                 handlers.Add(handler);
                 if ((handler.Handles & this.handles) != handler.Handles)
                 {
-                    components = new List<InputComponent>(4);
+                    if (components == null)
+                    {
+                        components = new List<InputComponent>(4);
+                    }
 
                     //Add new handlers
 #if WINDOWS_PHONE
@@ -69,7 +75,11 @@ namespace SGDE.Input
                     {
                         this.handles |= InputType.GamePad;
                         padIndex = components.Count;
-                        //components.Add(new GamePad(this));
+                        components.Add(new GamePad(this));
+                        c_pad_states = new GamePadState[(int)PlayerIndex.Four + 1];
+                        o_pad_states = new GamePadState[c_pad_states.Length];
+                        pad_loaded = new bool[c_pad_states.Length];
+                        pad_zone = new GamePadDeadZone[c_pad_states.Length];
                     }
 #endif
 #if WINDOWS
@@ -77,6 +87,7 @@ namespace SGDE.Input
                     {
                         //TODO
                     }
+                    //TODO Kinect ;)
 #endif
                     if (((handler.Handles & InputType.Keyboard) == InputType.Keyboard) && ((this.handles & InputType.Keyboard) != InputType.Keyboard))
                     {
@@ -91,14 +102,18 @@ namespace SGDE.Input
                     if (handler.IndexSpecific)
                     {
                         int index = (int)handler.Index;
-                        if (c_pad_states[index].Equals(defPad))
+                        if (!pad_loaded[index])
                         {
+                            pad_zone[index] = GamePadDeadZone.IndependentAxes;
                             c_pad_states[index] = o_pad_states[index] = Microsoft.Xna.Framework.Input.GamePad.GetState(handler.Index);
+                            pad_loaded[index] = true;
                         }
                     }
-                    else if (c_pad_states[0].Equals(defPad))
+                    else if (!pad_loaded[0])
                     {
+                        pad_zone[0] = GamePadDeadZone.IndependentAxes;
                         c_pad_states[0] = o_pad_states[0] = Microsoft.Xna.Framework.Input.GamePad.GetState(PlayerIndex.One);
+                        pad_loaded[0] = true;
                     }
                 }
             }
@@ -125,7 +140,7 @@ namespace SGDE.Input
         /// </summary>
         /// <param name="converter">The input converter to remove.</param>
         /// <returns><code>true</code> if the converter was removed, <code>false</code> if otherwise.</returns>
-        public bool RemoveNewConverter(InputConverter converter)
+        public bool RemoveConverter(InputConverter converter)
         {
             if (converter != null)
             {
@@ -164,6 +179,7 @@ namespace SGDE.Input
                 {
                     //TOOD
                 }
+                //TODO Kinect ;)
 #endif
                 if ((this.handles & InputType.Keyboard) == InputType.Keyboard)
                 {
@@ -188,10 +204,12 @@ namespace SGDE.Input
         private void HandleGameInput(PlayerIndex index, Game game)
         {
             int ind = (int)index;
-            if (!c_pad_states[ind].Equals(defPad))
+            if (pad_loaded[ind])
             {
                 bool indexOne = index == PlayerIndex.One;
-                c_pad_states[ind] = GamePad.GetState(index);
+                c_pad_states[ind] = Microsoft.Xna.Framework.Input.GamePad.GetState(index, pad_zone[ind]);
+
+                ((GamePad)this.components[this.padIndex]).index = index;
 
                 foreach (InputHandler handler in this.handlers)
                 {
@@ -313,6 +331,12 @@ namespace SGDE.Input
         /// <summary>
         /// A touchscreen device
         /// </summary>
-        Touchscreen = 0x8
+        Touchscreen = 0x8,
+        /* //TODO Kinect ;)
+        /// <summary>
+        /// A Kinect device.
+        /// </summary>
+        Kinect = 0x10
+         */
     }
 }

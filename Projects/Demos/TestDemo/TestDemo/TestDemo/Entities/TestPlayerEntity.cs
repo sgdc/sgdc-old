@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using SGDE;
 using SGDE.Input;
+using Microsoft.Xna.Framework;
 
 namespace TestDemo
 {
@@ -19,36 +20,57 @@ namespace TestDemo
         {
             get
             {
-                return InputType.Keyboard;
+                return InputType.Keyboard | InputType.GamePad;
             }
         }
 
-        public void HandleInput(Game game, InputComponent input)
+        public void HandleInput(SGDE.Game game, InputComponent input)
         {
-            SGDE.Input.Keyboard keyboard = (SGDE.Input.Keyboard)input;
-            if (keyboard.IsKeyPressed(Keys.Left))
+            switch (input.Type)
             {
-                this.Translate(-5, 0);
-            }
-            if (keyboard.IsKeyPressed(Keys.Right))
-            {
-                this.Translate(5, 0);
-            }
-            if (keyboard.IsKeyPressed(Keys.Up))
-            {
-                this.Translate(0, -5);
-            }
-            if (keyboard.IsKeyPressed(Keys.Down))
-            {
-                this.Translate(0, 5);
-            }
-            if (keyboard.IsKeyClicked(Keys.Escape))
-            {
-                game.Exit();
-            }
-            if (keyboard.IsKeyClicked(Keys.C))
-            {
-                ((Game1)game).ToggleCollision();
+                case InputType.Keyboard:
+                    SGDE.Input.Keyboard keyboard = (SGDE.Input.Keyboard)input;
+                    if (keyboard.IsKeyPressed(Keys.Left))
+                    {
+                        this.Translate(-5, 0);
+                    }
+                    if (keyboard.IsKeyPressed(Keys.Right))
+                    {
+                        this.Translate(5, 0);
+                    }
+                    if (keyboard.IsKeyPressed(Keys.Up))
+                    {
+                        this.Translate(0, -5);
+                    }
+                    if (keyboard.IsKeyPressed(Keys.Down))
+                    {
+                        this.Translate(0, 5);
+                    }
+                    if (keyboard.IsKeyClicked(Keys.Escape))
+                    {
+                        game.Exit();
+                    }
+                    if (keyboard.IsKeyClicked(Keys.C))
+                    {
+                        ((Game1)game).ToggleCollision();
+                    }
+                    break;
+                case InputType.GamePad:
+                    SGDE.Input.GamePad gamePad = (SGDE.Input.GamePad)input;
+                    Vector2 rightThumb = gamePad.GetThumbstickPosition(GamePadComponent.RightStick);
+                    if (rightThumb != Vector2.Zero)
+                    {
+                        this.Translate(rightThumb.X * 5, rightThumb.Y * 5);
+                    }
+                    if (gamePad.IsButtonClicked(GamePadComponent.Back))
+                    {
+                        game.Exit();
+                    }
+                    if (gamePad.IsButtonClicked(GamePadComponent.A))
+                    {
+                        ((Game1)game).ToggleCollision();
+                    }
+                    break;
             }
         }
 

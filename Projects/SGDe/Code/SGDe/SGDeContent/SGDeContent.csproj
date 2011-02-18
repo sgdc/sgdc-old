@@ -70,6 +70,8 @@
     <Compile Include="Attributes.cs" />
     <Compile Include="DataTypes\Sprites\BitmapSprite.cs" />
     <Compile Include="DataTypes\Sprites\Sprite.cs" />
+    <Compile Include="DataTypes\Sprites\SVG\AnimatableComponent.cs" />
+    <Compile Include="DataTypes\Sprites\SVG\Core.cs" />
     <Compile Include="DataTypes\Sprites\SVG\SVGfx.cs" />
     <Compile Include="DataTypes\Sprites\VectorSprite.cs" />
     <Compile Include="Messages.Designer.cs">
@@ -99,7 +101,7 @@
     <Compile Include="SGDEImport.cs" />
     <Compile Include="SGDEProcessor.cs" />
     <Compile Include="Writers\SpriteSheetWriter.cs" />
-    <Compile Include="Writers\SVG\DataTypes.cs" />
+    <Compile Include="DataTypes\Sprites\SVG\DataTypes.cs" />
     <Compile Include="Writers\SVG\SVGWriter.cs" />
     <Compile Include="Writers\VectorSpriteWriter.cs" />
   </ItemGroup>

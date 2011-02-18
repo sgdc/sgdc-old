@@ -19,7 +19,7 @@ namespace SGDE.Input
         }
 
         /// <summary>
-        /// Always returns Keybaord.
+        /// Always returns Keyboard.
         /// </summary>
         public InputType Type
         {

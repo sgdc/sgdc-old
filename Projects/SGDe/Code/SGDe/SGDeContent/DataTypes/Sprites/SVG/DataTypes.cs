@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SGDeContent.Writers.SVG
+namespace SGDeContent.DataTypes.Sprites.SVG
 {
     public enum NumberType
     {
@@ -15,6 +15,8 @@ namespace SGDeContent.Writers.SVG
         Pica,
         Precent
     }
+
+    #region SpecificNumber
 
     public struct SpecificNumber
     {
@@ -105,4 +107,23 @@ namespace SGDeContent.Writers.SVG
             return default(SpecificNumber);
         }
     }
+
+    #endregion
+
+    #region FRectangle
+
+    public struct FRectangle
+    {
+        public float X, Y, Width, Height;
+
+        public FRectangle(float x, float y, float width, float height)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Width = width;
+            this.Height = height;
+        }
+    }
+
+    #endregion
 }
