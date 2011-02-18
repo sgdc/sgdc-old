@@ -82,7 +82,8 @@ namespace SGDE.Physics
         }
 
         public void SetGravity(Vector2 gravity)
-        {
+        {            
+
             foreach (PhysicsBaby physBaby in mDynamicBabies)
             {
                 physBaby.AddForce(mGravity * -1);
@@ -105,6 +106,11 @@ namespace SGDE.Physics
 
         public void Update(GameTime gameTime)
         {
+            if (mDynamicBabies == null)
+            {
+                Initialize(new Vector2(800, 480), new Vector2(25, 25));
+            }
+
             foreach (PhysicsBaby physBaby in mDynamicBabies)
             {
                 physBaby.Update(gameTime);

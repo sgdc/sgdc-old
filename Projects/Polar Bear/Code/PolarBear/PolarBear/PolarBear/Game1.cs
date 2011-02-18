@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using SGDE.Physics;
+
 namespace PolarBear
 {
     /// <summary>
@@ -16,8 +18,12 @@ namespace PolarBear
     /// </summary>
     public class Game1 : SGDE.Game
     {
+
+        Texture collisionGrid;
+
         public Game1()
         {
+            
         }
 
         /// <summary>
@@ -26,9 +32,11 @@ namespace PolarBear
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.CornflowerBlue);           
 
             this.SpriteBatch.Begin();
+
+            //PhysicsPharaoh.GetInstance().DrawCollisionGrid(collisionGrid);
 
             base.DrawGame(gameTime);
 

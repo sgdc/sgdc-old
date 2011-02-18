@@ -4,5 +4,8 @@
     <SpriteSheet ID="0">
       <Source>PolarBear.png</Source>      
     </SpriteSheet>
+    <SpriteSheet ID="1">
+      <Source>star.png</Source>
+    </SpriteSheet>
   </SpriteSheets>
 </SGDE>
