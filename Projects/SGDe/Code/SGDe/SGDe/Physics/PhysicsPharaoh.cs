@@ -106,11 +106,6 @@ namespace SGDE.Physics
 
         public void Update(GameTime gameTime)
         {
-            if (mDynamicBabies == null)
-            {
-                Initialize(new Vector2(800, 480), new Vector2(25, 25));
-            }
-
             foreach (PhysicsBaby physBaby in mDynamicBabies)
             {
                 physBaby.Update(gameTime);

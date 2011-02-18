@@ -65,6 +65,7 @@
       <Name>Game</Name>
       <Importer>SGDEImport</Importer>
       <Processor>SGDEProcessor</Processor>
+      <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>

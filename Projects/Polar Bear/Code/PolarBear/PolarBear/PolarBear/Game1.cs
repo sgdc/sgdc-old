@@ -19,11 +19,26 @@ namespace PolarBear
     public class Game1 : SGDE.Game
     {
 
-        Texture collisionGrid;
+        Texture2D collisionGrid;
+        bool showCollision;
 
         public Game1()
         {
             
+        }
+
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+
+            showCollision = false;
+
+            collisionGrid = base.GetContent<Texture2D>("Grid");
+        }
+
+        public void ToggleCollision()
+        {
+            showCollision = !showCollision;
         }
 
         /// <summary>
@@ -32,11 +47,14 @@ namespace PolarBear
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);           
+            GraphicsDevice.Clear(Color.White);           
 
             this.SpriteBatch.Begin();
 
-            //PhysicsPharaoh.GetInstance().DrawCollisionGrid(collisionGrid);
+            if (showCollision)
+            {
+                PhysicsPharaoh.GetInstance().DrawCollisionGrid(collisionGrid);
+            }
 
             base.DrawGame(gameTime);
 

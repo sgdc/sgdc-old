@@ -1,5 +1,5 @@
 "Polar Bear Game" Team Members
-- Ryan Phillips:	Game Design
-- Brent Cox:		Programming
-- Alberto Almonte:	Programming
-- Brian Cesar-...:	Art Creator
+- Ryan Phillips, rphilli1@stevens.edu:	   Game Design
+- Brent Cox, bcoxie@gmail.com:	           Programming
+- Alberto Almonte, aalmonte@stevens.edu:	 Programming
+- Brian Cesar-Tondreau, xhero91@gmail.com: Art Creator
