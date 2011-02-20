@@ -25,10 +25,10 @@ namespace SGDeContent
 
         public override ProcessedContent Process(Content input, ContentProcessorContext context)
         {
-            return SVGProcessor.Process(input.document.DocumentElement, input.Version, context);
+            return SVGProcessor.Process(input.document.DocumentElement, input.Version, context, null);
         }
 
-        public static ProcessedContent Process(XmlElement svg, double version, ContentProcessorContext context)
+        public static ProcessedContent Process(XmlElement svg, double version, ContentProcessorContext context, SVGfx parent)
         {
             SVGType type = SVGType.Full;
             XmlAttribute at = svg.Attributes["baseProfile"];

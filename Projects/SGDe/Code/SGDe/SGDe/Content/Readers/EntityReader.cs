@@ -121,12 +121,12 @@ namespace SGDE.Content.Readers
                 ContentUtil.temp.Add("EntityPhysics", physics);
                 if (entity.SpriteImage != null)
                 {
-                    ProcessPhysics(ref entity, physics);
+                    ProcessPhysics(ref entity, physics, false);
                 }
             }
         }
 
-        internal static void ProcessPhysics(ref Entity entity, Dictionary<string, object> physics)
+        internal static void ProcessPhysics(ref Entity entity, Dictionary<string, object> physics, bool modification)
         {
             if (physics != null)
             {
@@ -143,12 +143,20 @@ namespace SGDE.Content.Readers
                 SGDE.Physics.Collision.CollisionUnit unit;
                 if (!initializePostCreate)
                 {
-                    entity.Initialize();
+                    if (!modification)
+                    {
+                        entity.Initialize();
+                    }
                     unit = entity.GetCollisionUnit();
                 }
 
                 //Baby processes
                 SGDE.Physics.PhysicsBaby baby = entity.GetPhysicsBaby();
+                if (modification)
+                {
+                    //Count call "entity.EnablePhysics(false, collision);" but until the remove collision unit portion is finished, it's safer to simply do this:
+                    SGDE.Physics.PhysicsPharaoh.GetInstance().RemovePhysicsBaby(baby);
+                }
                 if (physics.ContainsKey("Static"))
                 {
                     baby.SetStatic((bool)physics["Static"]);
@@ -210,7 +218,10 @@ namespace SGDE.Content.Readers
 
                 if (initializePostCreate)
                 {
-                    entity.Initialize();
+                    if (!modification)
+                    {
+                        entity.Initialize();
+                    }
                     unit = entity.GetCollisionUnit();
                 }
 

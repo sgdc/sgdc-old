@@ -42,7 +42,7 @@ namespace SGDE.Content.DataTypes
             ent.Enabled = BaseEntity.Enabled;
             //Copy over attributes
             BaseEntity.CopyTo(ref ent);
-            SGDE.Content.Readers.EntityReader.ProcessPhysics(ref ent, this.physics);
+            SGDE.Content.Readers.EntityReader.ProcessPhysics(ref ent, this.physics, false);
             //TODO: Add support for Sprite-specific settings
             if (mod != null)
             {
@@ -59,7 +59,7 @@ namespace SGDE.Content.DataTypes
                 {
                     ent.SetTranslation(mod.GetTranslation());
                 }
-                SGDE.Content.Readers.EntityReader.ProcessPhysics(ref ent, physics);
+                SGDE.Content.Readers.EntityReader.ProcessPhysics(ref ent, physics, this.physics != null && physics != null);
                 ent.Enabled = mod.Enabled;
                 //TODO: Add support for Sprite-specific settings
             }

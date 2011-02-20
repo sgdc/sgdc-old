@@ -104,7 +104,7 @@ namespace SGDeContent.DataTypes.Sprites.SVG
             return ConvertTo(type, -1);
         }
 
-        /// <param name="ratio">Only needed for converting to pixels or precentage. If converting to precent, then this is the total number of inches that the image is. If converting tp pixels then this is Pixels Per Inch.</param>
+        /// <param name="ratio">//TODO</param>
         public SpecificNumber ConvertTo(NumberType type, float ratio)
         {
             if (this.Type == type)
@@ -117,6 +117,8 @@ namespace SGDeContent.DataTypes.Sprites.SVG
                 {
                     return this;
                 }
+                //TODO: Precent and Pixel
+                /*
                 switch (this.Type)
                 {
                     case NumberType.Precent:
@@ -138,6 +140,7 @@ namespace SGDeContent.DataTypes.Sprites.SVG
                             return new SpecificNumber(this.Number / ratio, NumberType.Inch).ConvertTo(type);
                         }
                 }
+                 */
             }
             else
             {
