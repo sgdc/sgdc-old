@@ -3,10 +3,10 @@
   <Map>
     <Layout>
       <Entity ID="0">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="400" Y="200"/></Node><Physics Enabled="true" Collision="true"></Physics></Layout>
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="0" Y="200"/></Node><Physics Enabled="true" Collision="true"></Physics></Layout>
       </Entity> 
       <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="400" Y="200"/></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="400" Y="0"/></Node><Physics Enabled="true" Collision="true"></Physics></Layout>
       </Entity>     
     </Layout>
     <Physics Enabled="true">
@@ -23,13 +23,13 @@
         <Entity>
           <Sprite SID="0" />  
           <Physics Static="false"></Physics>
-          <CustomEntity Base="SGDE.Entity, SGDe">PolarBear.Player, PolarBear<Contructor><Arg Index="0" Type="System.Int32, mscorlib" Value="0" /><Arg Index="1" Type="System.Int32, mscorlib" Value="0" /></Contructor></CustomEntity>        
+          <CustomEntity Base="SGDE.Entity, SGDe">PolarBear.Player, PolarBear</CustomEntity>        
         </Entity>
       </Entity>
       <Entity ID="1">
         <Entity>
           <Sprite SID="1" />
-          <Physics Static="true"></Physics>
+          <Physics Static="false"></Physics>
           <CustomEntity Base="SGDE.Entity, SGDe">PolarBear.Enemy, PolarBear</CustomEntity>
         </Entity>
       </Entity>
