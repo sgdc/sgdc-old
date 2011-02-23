@@ -30,6 +30,7 @@ namespace SGDE.Content.Readers
             {
                 sprite.OverrideAttributes = input.ReadObject<Sprite.SpriteAttributes>();
             }
+            sprite.offsetOrigin = input.ReadBoolean();
             ReadAnimation(ref sprite, input);
             if (input.ReadBoolean())
             {

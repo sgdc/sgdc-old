@@ -252,6 +252,9 @@
   <data name="ENTITY_SPRITE_ID_1_0" xml:space="preserve">
     <value>SID</value>
   </data>
+  <data name="ENTITY_SPRITE_OFFSET_ORIGIN_1_1" xml:space="preserve">
+    <value>OffsetOrigin</value>
+  </data>
   <data name="ENTITY_SPRITE_OVERRIDE_1_0" xml:space="preserve">
     <value>Override</value>
   </data>

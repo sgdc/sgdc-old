@@ -73,8 +73,9 @@ namespace SGDE.Graphics
                 scale = base.GetScale();
             }
             //Draw...
+            Vector2 pos = GetTranslation() + (this.offsetOrigin && origin.HasValue ? -origin.Value : Vector2.Zero);
             SpriteManager.spriteBat.Draw(baseTexture,
-                GetTranslation(),
+                pos,
                 animation.Frame(frame),
                 tint.HasValue && OverrideAnimation(SpriteAttributes.Tint, null) ? tint.Value : this.Tint,
                 rotation,
@@ -146,8 +147,7 @@ namespace SGDE.Graphics
 
         protected override void CopySpriteTo(ref Sprite sp)
         {
-            BitmapSprite bs = sp as BitmapSprite;
-            bs.baseTexture = this.baseTexture;
+            ((BitmapSprite)sp).baseTexture = this.baseTexture;
         }
     }
 }

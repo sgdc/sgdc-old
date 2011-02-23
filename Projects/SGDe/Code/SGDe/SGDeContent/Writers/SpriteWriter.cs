@@ -24,6 +24,7 @@ namespace SGDeContent.Writers
             {
                 output.WriteObject(value.OverrideAttributes);
             }
+            output.Write(value.OffsetOrigin);
             output.Write(value.BuiltInAnimation);
             output.Write(value.AnimationLocal);
             output.Write(value.AnimationID + 1);

@@ -32,20 +32,80 @@ namespace TestDemo
                     SGDE.Input.Keyboard keyboard = (SGDE.Input.Keyboard)input;
                     if (keyboard.IsKeyPressed(Keys.Left))
                     {
-                        this.Translate(-5, 0);
+                        if (keyboard.IsKeyPressed(Keys.LeftShift))
+                        {
+                            game.CameraControl.Position += new Vector2(5, 0);
+                        }
+                        else
+                        {
+                            this.Translate(-5, 0);
+                        }
                     }
                     if (keyboard.IsKeyPressed(Keys.Right))
                     {
-                        this.Translate(5, 0);
+                        if (keyboard.IsKeyPressed(Keys.LeftShift))
+                        {
+                            game.CameraControl.Position -= new Vector2(5, 0);
+                        }
+                        else
+                        {
+                            this.Translate(5, 0);
+                        }
                     }
                     if (keyboard.IsKeyPressed(Keys.Up))
                     {
-                        this.Translate(0, -5);
+                        if (keyboard.IsKeyPressed(Keys.LeftShift))
+                        {
+                            game.CameraControl.Position += new Vector2(0, 5);
+                        }
+                        else
+                        {
+                            this.Translate(0, -5);
+                        }
                     }
                     if (keyboard.IsKeyPressed(Keys.Down))
                     {
-                        this.Translate(0, 5);
+                        if (keyboard.IsKeyPressed(Keys.LeftShift))
+                        {
+                            game.CameraControl.Position -= new Vector2(0, 5);
+                        }
+                        else
+                        {
+                            this.Translate(0, 5);
+                        }
                     }
+
+                    if (keyboard.IsKeyPressed(Keys.O))
+                    {
+                        if (keyboard.IsKeyPressed(Keys.LeftShift))
+                        {
+                            this.Scale(new Vector2(-0.1f, -0.1f));
+                        }
+                        else
+                        {
+                            game.CameraControl.Scale -= 0.1f;
+                        }
+                    }
+                    if (keyboard.IsKeyPressed(Keys.I))
+                    {
+                        if (keyboard.IsKeyPressed(Keys.LeftShift))
+                        {
+                            this.Scale(new Vector2(0.1f, 0.1f));
+                        }
+                        else
+                        {
+                            game.CameraControl.Scale += 0.1f;
+                        }
+                    }
+                    if (keyboard.IsKeyPressed(Keys.R))
+                    {
+                        game.CameraControl.Rotation += (float)(Math.PI / 32);
+                    }
+                    if (keyboard.IsKeyPressed(Keys.L))
+                    {
+                        game.CameraControl.Rotation -= (float)(Math.PI / 32);
+                    }
+
                     if (keyboard.IsKeyClicked(Keys.Escape))
                     {
                         game.Exit();

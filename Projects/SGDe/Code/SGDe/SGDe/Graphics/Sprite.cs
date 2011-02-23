@@ -15,14 +15,17 @@ namespace SGDE.Graphics
     public abstract class Sprite : SceneNode
     {
         internal SpriteManager.SpriteAnimation animation;
-        private float fps, curPos;
+        internal SpriteAttributes OverrideAttributes { get { return this.overrideAtt; } set { this.overrideAtt = value; } }
+        internal int frame, animStart, animEnd;
+        internal bool offsetOrigin;
+
         /// <summary>
         /// The current SpriteAttributes that can override the Sprite's default attributes.
         /// </summary>
         protected SpriteAttributes overrideAtt;
-        internal SpriteAttributes OverrideAttributes { get { return this.overrideAtt; } set { this.overrideAtt = value; } }
-        internal int frame, animStart, animEnd;
+
         private bool backwords;
+        private float fps, curPos;
 
         /// <summary>
         /// Sprite attributes that can be overriden by Sprite animation.

@@ -132,16 +132,25 @@ namespace SGDE.Input
         /// Add a new input converter.
         /// </summary>
         /// <param name="converter">The input converter to add.</param>
-        public void AddNewConverter(InputConverter converter)
+        /// <returns><code>true</code> if the converter was added, <code>false</code> if otherwise.</returns>
+        public bool AddNewConverter(InputConverter converter)
         {
             if (converter != null)
             {
+                //Check to make sure it's valid
+                if ((converter.ConvertFrom.ToString().IndexOf('|') >= 0) || (converter.ConvertTo.ToString().IndexOf('|') >= 0))
+                {
+                    return false;
+                }
+                //Add converter
                 if (converters == null)
                 {
                     converters = new List<InputConverter>();
                 }
                 converters.Add(converter);
+                return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -261,8 +270,6 @@ namespace SGDE.Input
             }
         }
 #endif
-
-        //TODO
     }
 
     #endregion

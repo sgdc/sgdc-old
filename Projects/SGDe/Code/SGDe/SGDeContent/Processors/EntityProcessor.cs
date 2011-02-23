@@ -239,6 +239,11 @@ namespace SGDeContent.Processors
                     {
                         entity.Sprite.Visible = true;
                     }
+                    at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_OFFSET_ORIGIN", version, entityComponent);
+                    if (at != null)
+                    {
+                        entity.Sprite.OffsetOrigin = bool.Parse(at.Value);
+                    }
                     at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_REGION", version, entityComponent);
                     if (at != null)
                     {

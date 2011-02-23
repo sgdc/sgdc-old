@@ -10,6 +10,7 @@ namespace SGDeContent.DataTypes.Sprites
     public abstract class Sprite : ProcessedContent
     {
         public bool Visible;
+        public bool OffsetOrigin;
         public int SpriteID;
         public int AnimationID = -1;
         public bool AnimationLocal;
