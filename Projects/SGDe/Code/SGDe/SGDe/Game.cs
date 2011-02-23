@@ -34,6 +34,7 @@ namespace SGDE
 
         internal GraphicsDeviceManager graphics;
         internal GameContent gameContent;
+        internal Camera camera;
 
         private bool loaded;
         private string gameContentName;
@@ -73,6 +74,17 @@ namespace SGDE
                     return;
                 }
                 this.gameContentName = value;
+            }
+        }
+
+        /// <summary>
+        /// Get the camera control for this Game.
+        /// </summary>
+        public Camera CameraControl
+        {
+            get
+            {
+                return this.camera;
             }
         }
 
@@ -119,6 +131,7 @@ namespace SGDE
             gameContent = Content.Load<GameContent>(gameContentName);
             Game t = this;
             gameContent.Setup(ref t);
+            camera = new Camera(GraphicsDevice.Viewport);
             gameContent.Process(ref t);
         }
 
@@ -154,24 +167,21 @@ namespace SGDE
                 }
                 imanager.Update(this, gameTime);
             }
+            camera.Update(gameTime);
             base.Update(gameTime);
         }
 
         /// <summary>
-        /// Draw the game.
+        /// Draw the game. The order that draw operations occur in: <see cref="PreBeginSpriteBatch"/>, <see cref="BeginSpriteBatch"/>, <see cref="PreDraw"/>, draw game, <see cref="PostDraw"/>, <see cref="EndSpriteBatch"/>, <see cref="PostEndSpriteBatch"/>.
         /// </summary>
         protected override void Draw(GameTime gameTime)
         {
-            //Could possibly do/call DrawGame here. Leave it up to dev for now.
-            base.Draw(gameTime);
-        }
+            PreBeginSpriteBatch(gameTime);
 
-        /// <summary>
-        /// Draw this Game's loaded content.
-        /// </summary>
-        /// <param name="gameTime">The GameTime since the last draw.</param>
-        protected void DrawGame(GameTime gameTime)
-        {
+            BeginSpriteBatch(gameTime);
+
+            PreDraw(gameTime);
+
             lock (gameContent)
             {
                 foreach (Entity entity in gameContent.Entities)
@@ -179,6 +189,59 @@ namespace SGDE
                     entity.Draw(gameTime);
                 }
             }
+
+            PostDraw(gameTime);
+
+            EndSpriteBatch(gameTime);
+
+            PostEndSpriteBatch(gameTime);
+
+            base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// The first operation in the draw pipeline.
+        /// </summary>
+        protected virtual void PreBeginSpriteBatch(GameTime gameTime)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+        }
+
+        /// <summary>
+        /// The second operation in the draw pipeline. Begin the SpriteBatch operation. This is primarily a helper function to handle camera.
+        /// </summary>
+        protected virtual void BeginSpriteBatch(GameTime gameTime)
+        {
+            SpriteManager.spriteBat.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera._transformMatrix);
+        }
+
+        /// <summary>
+        /// The third operation in the draw pipeline.
+        /// </summary>
+        protected virtual void PreDraw(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// The fifth operation in the draw pipeline.
+        /// </summary>
+        protected virtual void PostDraw(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// The sixth operation in the draw pipeline. End the SpriteBatch operation.
+        /// </summary>
+        protected virtual void EndSpriteBatch(GameTime gameTime)
+        {
+            SpriteManager.spriteBat.End();
+        }
+
+        /// <summary>
+        /// The seventh operation in the draw pipeline.
+        /// </summary>
+        protected virtual void PostEndSpriteBatch(GameTime gameTime)
+        {
         }
     }
 }

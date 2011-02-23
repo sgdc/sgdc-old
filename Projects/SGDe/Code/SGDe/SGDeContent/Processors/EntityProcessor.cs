@@ -25,6 +25,15 @@ namespace SGDeContent.Processors
             {
                 entity.Name = at.Value;
             }
+            at = ContentTagManager.GetXMLAtt("ENTITY_ENABLED", version, input);
+            if (at != null)
+            {
+                entity.Enabled = bool.Parse(at.Value);
+            }
+            else
+            {
+                entity.Enabled = true;
+            }
             for (int e = 0; e < input.ChildNodes.Count; e++)
             {
                 XmlNode xmlNode = input.ChildNodes[e];
@@ -220,6 +229,15 @@ namespace SGDeContent.Processors
                     if (at != null)
                     {
                         entity.DevID(at, entity.Sprite);
+                    }
+                    at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_VISIBLE", version, entityComponent);
+                    if (at != null)
+                    {
+                        entity.Sprite.Visible = bool.Parse(at.Value);
+                    }
+                    else
+                    {
+                        entity.Sprite.Visible = true;
                     }
                     at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_REGION", version, entityComponent);
                     if (at != null)

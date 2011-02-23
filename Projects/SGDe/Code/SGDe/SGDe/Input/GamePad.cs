@@ -124,7 +124,11 @@ namespace SGDE.Input
         {
             get
             {
+#if !WINDOWS_PHONE
                 return this.manager.c_pad_states[(int)index].IsConnected;
+#else
+                return false;
+#endif
             }
         }
 
@@ -133,6 +137,7 @@ namespace SGDE.Input
         /// </summary>
         public GamePadDeadZone DeadZone
         {
+#if !WINDOWS_PHONE
             get
             {
                 return this.manager.pad_zone[(int)index];
@@ -141,6 +146,15 @@ namespace SGDE.Input
             {
                 this.manager.pad_zone[(int)index] = value;
             }
+#else
+            get
+            {
+                return GamePadDeadZone.IndependentAxes;
+            }
+            set
+            {
+            }
+#endif
         }
 
         /// <summary>
@@ -160,7 +174,11 @@ namespace SGDE.Input
         /// <returns>The current, native, input state of the GamePad.</returns>
         public GamePadState GetCurrentState()
         {
+#if !WINDOWS_PHONE
             return this.manager.c_pad_states[(int)index];
+#else
+            return default(GamePadState);
+#endif
         }
 
         /// <summary>
@@ -169,7 +187,11 @@ namespace SGDE.Input
         /// <returns>The past, native, input state of the GamePad.</returns>
         public GamePadState GetPastState()
         {
+#if !WINDOWS_PHONE
             return this.manager.o_pad_states[(int)index];
+#else
+            return default(GamePadState);
+#endif
         }
 
         /// <summary>
@@ -203,7 +225,11 @@ namespace SGDE.Input
         /// <returns><code>true</code> if the button was pressed, <code>false</code> if otherwise.</returns>
         public bool IsButtonPressed(GamePadComponent com)
         {
+#if !WINDOWS_PHONE
             return this.manager.c_pad_states[(int)index].IsButtonDown(Component2Button(com));
+#else
+            return false;
+#endif
         }
 
         /// <summary>
@@ -214,7 +240,11 @@ namespace SGDE.Input
         public bool IsButtonClicked(GamePadComponent com)
         {
             Buttons but = Component2Button(com);
+#if !WINDOWS_PHONE
             return this.manager.c_pad_states[(int)index].IsButtonDown(but) && this.manager.o_pad_states[(int)index].IsButtonUp(but);
+#else
+            return false;
+#endif
         }
 
         private Buttons Component2Button(GamePadComponent com)
@@ -329,6 +359,7 @@ namespace SGDE.Input
 
         private GamePadThumbSticks GetThumbStick(int index, bool cur)
         {
+#if !WINDOWS_PHONE
             if (cur)
             {
                 return this.manager.c_pad_states[index].ThumbSticks;
@@ -337,6 +368,9 @@ namespace SGDE.Input
             {
                 return this.manager.o_pad_states[index].ThumbSticks;
             }
+#else
+            return default(GamePadThumbSticks);
+#endif
         }
 
         /// <summary>
@@ -396,6 +430,7 @@ namespace SGDE.Input
 
         private GamePadTriggers GetTriggers(int index, bool cur)
         {
+#if !WINDOWS_PHONE
             if (cur)
             {
                 return this.manager.c_pad_states[index].Triggers;
@@ -404,6 +439,9 @@ namespace SGDE.Input
             {
                 return this.manager.o_pad_states[index].Triggers;
             }
+#else
+            return default(GamePadTriggers);
+#endif
         }
 
         //TODO: capabilities (maybe?)

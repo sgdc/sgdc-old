@@ -13,6 +13,7 @@ namespace SGDeContent.DataTypes
         public bool NonDefaultNode;
         public Node Node;
 
+        public bool Enabled;
         public string Name;
 
         //Physics

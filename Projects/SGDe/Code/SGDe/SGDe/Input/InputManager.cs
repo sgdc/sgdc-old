@@ -36,11 +36,13 @@ namespace SGDE.Input
         private int padIndex;
 #endif
 
-#if WINDOWS
+#if !XBOX
         //Mouse
         internal MouseState c_mouse_state, o_mouse_state;
         private int mouseIndex;
+#endif
 
+#if WINDOWS
         //TODO Kinect ;)
 #endif
 
@@ -82,11 +84,16 @@ namespace SGDE.Input
                         pad_zone = new GamePadDeadZone[c_pad_states.Length];
                     }
 #endif
-#if WINDOWS
+#if !XBOX
                     if (((handler.Handles & InputType.Mouse) == InputType.Mouse) && ((this.handles & InputType.Mouse) != InputType.Mouse))
                     {
-                        //TODO
+                        this.handles |= InputType.Mouse;
+                        mouseIndex = components.Count;
+                        components.Add(new Mouse(this));
+                        o_mouse_state = c_mouse_state = Microsoft.Xna.Framework.Input.Mouse.GetState();
                     }
+#endif
+#if WINDOWS
                     //TODO Kinect ;)
 #endif
                     if (((handler.Handles & InputType.Keyboard) == InputType.Keyboard) && ((this.handles & InputType.Keyboard) != InputType.Keyboard))
@@ -97,6 +104,7 @@ namespace SGDE.Input
                         o_key_state = c_key_state = Microsoft.Xna.Framework.Input.Keyboard.GetState();
                     }
                 }
+#if !WINDOWS_PHONE
                 if ((handler.Handles & InputType.GamePad) == InputType.GamePad)
                 {
                     if (handler.IndexSpecific)
@@ -116,6 +124,7 @@ namespace SGDE.Input
                         pad_loaded[0] = true;
                     }
                 }
+#endif
             }
         }
 
@@ -174,11 +183,26 @@ namespace SGDE.Input
                     HandleGameInput(PlayerIndex.Four, game);
                 }
 #endif
-#if WINDOWS
+#if !XBOX
                 if ((this.handles & InputType.Mouse) == InputType.Mouse)
                 {
-                    //TOOD
+                    o_mouse_state = Microsoft.Xna.Framework.Input.Mouse.GetState();
+
+                    foreach (InputHandler handler in this.handlers)
+                    {
+                        if (handler.Enabled)
+                        {
+                            if ((handler.Handles & InputType.Mouse) == InputType.Mouse)
+                            {
+                                handler.HandleInput(game, this.components[this.mouseIndex]);
+                            }
+                        }
+                    }
+
+                    o_mouse_state = c_mouse_state;
                 }
+#endif
+#if WINDOWS
                 //TODO Kinect ;)
 #endif
                 if ((this.handles & InputType.Keyboard) == InputType.Keyboard)
@@ -201,6 +225,7 @@ namespace SGDE.Input
             }
         }
 
+#if !WINDOWS_PHONE
         private void HandleGameInput(PlayerIndex index, Game game)
         {
             int ind = (int)index;
@@ -235,6 +260,7 @@ namespace SGDE.Input
                 o_pad_states[ind] = c_pad_states[ind];
             }
         }
+#endif
 
         //TODO
     }

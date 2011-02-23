@@ -5,64 +5,79 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Demo
+namespace SGDE
 {
-    class Camera
+    /// <summary>
+    /// Camera control class.
+    /// </summary>
+    public sealed class Camera
     {
         private Vector2 _position;
         private float _rotation;
         private float _scale;        
-        private Matrix _transformMatrix;        
+        internal Matrix _transformMatrix;        
         private Vector2 _origin;
         private Vector2 _screenCenter;        
 
+        /// <summary>
+        /// Get or set the position of the camera.
+        /// </summary>
         public Vector2 Position
         {
             get { return _position; }
             set { _position = value; }
         }
 
+        /// <summary>
+        /// Get or set the rotation of the camera in radians.
+        /// </summary>
         public float Rotation
         {
             get { return _rotation; }
             set { _rotation = value; }
         }
 
+        /// <summary>
+        /// Get or set the scale of the camera.
+        /// </summary>
         public float Scale
         {
             get { return _scale; }
             set { _scale = value; }
         }
 
+        /// <summary>
+        /// Get the transform matrix of the camera.
+        /// </summary>
         public Matrix TransformMatrix
         {
             get { return _transformMatrix; }
-        }               
+        }
 
-        public Camera(Viewport viewport)
+        internal Camera(Viewport viewport)
         {
             _scale = 1;
             _rotation = 0;
             _screenCenter = new Vector2(viewport.Width / 2, viewport.Height / 2);
+            _position = new Vector2(_screenCenter.X, _screenCenter.Y);
         }
 
-        public void Update()
+        internal void Update(GameTime gameTime)
         {
             _origin = _screenCenter / _scale;
 
-            _transformMatrix = Matrix.Identity *
-                               Matrix.CreateTranslation(-_position.X, -_position.Y, 0) *
+            _transformMatrix = Matrix.CreateTranslation(-_position.X, -_position.Y, 0) *
                                Matrix.CreateRotationZ(_rotation) *
                                Matrix.CreateTranslation(_origin.X, _origin.Y, 0) *
-                               Matrix.CreateScale(_scale);                        
+                               Matrix.CreateScale(_scale);
 
             /* 
              *  Set the camera's position to the player's position in order to focus on and follow him.
              */
         }
 
-        /*  How to Use:
-         * 
+        /*  How to Use: //It's all handled in game
+         *  
          *  Declare:
          *  Camera camera;
          *  

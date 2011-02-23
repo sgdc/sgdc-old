@@ -74,7 +74,7 @@ namespace SGDE.Graphics
             }
             //Draw...
             SpriteManager.spriteBat.Draw(baseTexture,
-                GetTranslation() + Vector2.Zero, //Second parameter is camera support
+                GetTranslation(),
                 animation.Frame(frame),
                 tint.HasValue && OverrideAnimation(SpriteAttributes.Tint, null) ? tint.Value : this.Tint,
                 rotation,

@@ -195,44 +195,22 @@ namespace TestDemo
             showCollision = !showCollision;
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
-        protected override void UnloadContent()
-        {
-            // TODO: Unload any non ContentManager content here
-        }
-
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        protected override void Draw(GameTime gameTime)
+        protected override void PreBeginSpriteBatch(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Coral);
+        }
 
-            this.SpriteBatch.Begin();
+        protected override void PreDraw(GameTime gameTime)
+        {
             if (showCollision)
             {
                 PhysicsPharaoh.GetInstance().DrawCollisionGrid(mGridTexture);
             }
-            base.DrawGame(gameTime);
-            /*
-            redBall.Draw(gameTime);
-            box.Draw(gameTime);
-            movingBox.Draw(gameTime);
-            pBox1.Draw(gameTime);
-            pBox2.Draw(gameTime);
-            foreach (Entity ball in blueBalls)
-            {
-                ball.Draw(gameTime);
-            }
-             */
-            redBall.DrawHitSpot(this.SpriteBatch, mHitTexture);
-            this.SpriteBatch.End();
+        }
 
-            base.Draw(gameTime);
+        protected override void PostDraw(GameTime gameTime)
+        {
+            redBall.DrawHitSpot(this.SpriteBatch, mHitTexture);
         }
     }
 }

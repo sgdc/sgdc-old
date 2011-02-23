@@ -71,6 +71,12 @@ namespace TestDemo
                         ((Game1)game).ToggleCollision();
                     }
                     break;
+                case InputType.Mouse:
+                    //Little buggy, otherwise it would be enabled
+                    SGDE.Input.Mouse mouse = (SGDE.Input.Mouse)input;
+                    Vector2 diff = mouse.PositionDiff;
+                    this.Translate(diff.X, diff.Y);
+                    break;
             }
         }
 

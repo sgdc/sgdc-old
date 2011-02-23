@@ -63,7 +63,7 @@ namespace SGDeContent.Writers
             //-Write out physics values
             output.WriteObject(value.Physics);
             //Write standard node values
-            output.Write(true); //TODO: If the entity is enabled or not
+            output.Write(value.Enabled);
             output.Write(value.NonDefaultNode);
             if (value.NonDefaultNode)
             {

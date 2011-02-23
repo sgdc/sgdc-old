@@ -388,6 +388,102 @@
             Not sure yet...
             </summary>
         </member>
+        <member name="T:SGDE.Input.MouseButton">
+            <summary>
+            Mouse buttons
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.MouseButton.LeftButton">
+            <summary>
+            Left mouse button.
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.MouseButton.MiddleButton">
+            <summary>
+            Middle mouse button.
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.MouseButton.RightButton">
+            <summary>
+            Right mouse button.
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.MouseButton.XButton1">
+            <summary>
+            XBUTTON1 mouse button.
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.MouseButton.XButton2">
+            <summary>
+            XBUTTON2 mouse button.
+            </summary>
+        </member>
+        <member name="T:SGDE.Input.Mouse">
+            <summary>
+            A mouse input device.
+            </summary>
+        </member>
+        <member name="M:SGDE.Input.Mouse.GetCurrentState">
+            <summary>
+            Get the current Mouse input state.
+            </summary>
+            <returns>The current, native, input state of the Mouse.</returns>
+        </member>
+        <member name="M:SGDE.Input.Mouse.GetPastState">
+            <summary>
+            Get the past Mouse input state.
+            </summary>
+            <returns>The past, native, input state of the Mouse.</returns>
+        </member>
+        <member name="M:SGDE.Input.Mouse.IsButtonPressed(SGDE.Input.MouseButton)">
+            <summary>
+            Determine if the specified button is pressed.
+            </summary>
+            <param name="but">The button to check if pressed.</param>
+            <returns><code>true</code> if the button was pressed, <code>false</code> if otherwise.</returns>
+        </member>
+        <member name="M:SGDE.Input.Mouse.IsButtonClicked(SGDE.Input.MouseButton)">
+            <summary>
+            Determine if the specified button is clicked. This means that the button is down right now but wasn't always pressed down.
+            </summary>
+            <param name="but">The button to check if pressed.</param>
+            <returns><code>true</code> if the button was pressed, <code>false</code> if otherwise.</returns>
+        </member>
+        <member name="P:SGDE.Input.Mouse.Type">
+            <summary>
+            Always returns Mouse.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Mouse.Position">
+            <summary>
+            Get or set the mouse position. Positions are relative to the upper-left hand corner of the window.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Mouse.PastPosition">
+            <summary>
+            Get the past mouse position. Positions are relative to the upper-left hand corner of the window.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Mouse.PositionDiff">
+            <summary>
+            Get the mouse position difference between the current and past positions.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Mouse.Scoll">
+            <summary>
+            Get the mouse scroll wheel position.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Mouse.PastScoll">
+            <summary>
+            Get the past mouse scroll wheel position.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Mouse.ScollDiff">
+            <summary>
+            Get the mouse scroll wheel position difference between current and past scroll positions.
+            </summary>
+        </member>
         <member name="T:SGDE.Input.GamePadComponent">
             <summary>
             The possible input components of a GamePad.
@@ -693,14 +789,38 @@
         </member>
         <member name="M:SGDE.Game.Draw(Microsoft.Xna.Framework.GameTime)">
             <summary>
-            Draw the game.
+            Draw the game. The order that draw operations occur in: <see cref="M:SGDE.Game.PreBeginSpriteBatch(Microsoft.Xna.Framework.GameTime)"/>, <see cref="M:SGDE.Game.BeginSpriteBatch(Microsoft.Xna.Framework.GameTime)"/>, <see cref="M:SGDE.Game.PreDraw(Microsoft.Xna.Framework.GameTime)"/>, draw game, <see cref="M:SGDE.Game.PostDraw(Microsoft.Xna.Framework.GameTime)"/>, <see cref="M:SGDE.Game.EndSpriteBatch(Microsoft.Xna.Framework.GameTime)"/>, <see cref="M:SGDE.Game.PostEndSpriteBatch(Microsoft.Xna.Framework.GameTime)"/>.
             </summary>
         </member>
-        <member name="M:SGDE.Game.DrawGame(Microsoft.Xna.Framework.GameTime)">
+        <member name="M:SGDE.Game.PreBeginSpriteBatch(Microsoft.Xna.Framework.GameTime)">
             <summary>
-            Draw this Game's loaded content.
+            The first operation in the draw pipeline.
             </summary>
-            <param name="gameTime">The GameTime since the last draw.</param>
+        </member>
+        <member name="M:SGDE.Game.BeginSpriteBatch(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            The second operation in the draw pipeline. Begin the SpriteBatch operation. This is primarily a helper function to handle camera.
+            </summary>
+        </member>
+        <member name="M:SGDE.Game.PreDraw(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            The third operation in the draw pipeline.
+            </summary>
+        </member>
+        <member name="M:SGDE.Game.PostDraw(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            The fifth operation in the draw pipeline.
+            </summary>
+        </member>
+        <member name="M:SGDE.Game.EndSpriteBatch(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            The sixth operation in the draw pipeline. End the SpriteBatch operation.
+            </summary>
+        </member>
+        <member name="M:SGDE.Game.PostEndSpriteBatch(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            The seventh operation in the draw pipeline.
+            </summary>
         </member>
         <member name="P:SGDE.Game.CurrentGame">
             <summary>
@@ -716,6 +836,11 @@
             <summary>
             Get or set the name of the game content that will be loaded. If this value is set after the <see cref="M:SGDE.Game.Initialize"/> function has executed it will be ignored. If the value is null, empty, or made 
             of white-spaces it will be ignored as well. If this value references a game content that doesn't exist it will throw an exception.
+            </summary>
+        </member>
+        <member name="P:SGDE.Game.CameraControl">
+            <summary>
+            Get the camera control for this Game.
             </summary>
         </member>
         <member name="T:SGDE.Content.Code.Library.Number">
@@ -786,6 +911,31 @@
         <member name="T:SGDE.Content.Readers.BitmapSpriteReader">
             <summary>
             Read and process a BitmapSprite class
+            </summary>
+        </member>
+        <member name="T:SGDE.Camera">
+            <summary>
+            Camera control class.
+            </summary>
+        </member>
+        <member name="P:SGDE.Camera.Position">
+            <summary>
+            Get or set the position of the camera.
+            </summary>
+        </member>
+        <member name="P:SGDE.Camera.Rotation">
+            <summary>
+            Get or set the rotation of the camera in radians.
+            </summary>
+        </member>
+        <member name="P:SGDE.Camera.Scale">
+            <summary>
+            Get or set the scale of the camera.
+            </summary>
+        </member>
+        <member name="P:SGDE.Camera.TransformMatrix">
+            <summary>
+            Get the transform matrix of the camera.
             </summary>
         </member>
         <member name="T:SGDE.Entity">
