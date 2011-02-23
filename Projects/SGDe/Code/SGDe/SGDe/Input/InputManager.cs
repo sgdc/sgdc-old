@@ -186,7 +186,7 @@ namespace SGDE.Input
 #if !XBOX
                 if ((this.handles & InputType.Mouse) == InputType.Mouse)
                 {
-                    o_mouse_state = Microsoft.Xna.Framework.Input.Mouse.GetState();
+                    c_mouse_state = Microsoft.Xna.Framework.Input.Mouse.GetState();
 
                     foreach (InputHandler handler in this.handlers)
                     {
