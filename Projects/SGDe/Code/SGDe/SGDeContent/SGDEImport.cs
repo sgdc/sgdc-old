@@ -8,7 +8,7 @@ namespace SGDeContent
     public class SGDEImport : ContentImporter<Content>
     {
         internal const double MIN_VERSION = 1.0;
-        private const double MAX_VERSION = 1.1;
+        internal const double MAX_VERSION = 1.1;
 
         public override Content Import(string filename, ContentImporterContext context)
         {

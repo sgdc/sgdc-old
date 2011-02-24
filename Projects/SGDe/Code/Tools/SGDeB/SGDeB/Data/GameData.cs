@@ -83,6 +83,7 @@ namespace SGDeB.Data
             FakeContentLogger logger = new FakeContentLogger(2);
             //TODO: Take into account the other target platforms
             Game gameContent = (Game)DataUtil.LoadContent(file, logger, ContentTypes.Game);
+            DataUtil.SaveContent(@"C:\Users\Class2014\Documents\Visual Studio\C#\XNA\Stevens Game Dev Club\Projects\Demos\TestDemo\TestDemo\Bla.sgde", gameContent);
             //Load the game content
             this.width = gameContent.Width;
             this.height = gameContent.Height;

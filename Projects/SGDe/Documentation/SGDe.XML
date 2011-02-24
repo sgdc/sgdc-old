@@ -664,6 +664,12 @@
             <param name="com">Which trigger to get, only support LeftTrigger, and RightTrigger.</param>
             <returns>The difference between the current and past state as a scalar value between 0 and 1.</returns>
         </member>
+        <member name="M:SGDE.Input.GamePad.GetGamePadCapability">
+            <summary>
+            Get what the GamePad is capable of.
+            </summary>
+            <returns>The current GamePad's capabilities.</returns>
+        </member>
         <member name="P:SGDE.Input.GamePad.Type">
             <summary>
             Always returns GamePad.
@@ -1216,6 +1222,94 @@
         <member name="P:SGDE.Content.DataTypes.GameContent.MapName">
             <summary>
             Get the current Map name. Will be null if none exists.
+            </summary>
+        </member>
+        <member name="T:SGDE.Input.Touchscreen">
+            <summary>
+            A touchscreen input device.
+            </summary>
+        </member>
+        <member name="M:SGDE.Input.Touchscreen.GetCurrentState">
+            <summary>
+            Get the current Mouse input state.
+            </summary>
+            <returns>The current, native, input state of the Mouse.</returns>
+        </member>
+        <member name="M:SGDE.Input.Touchscreen.GetPastState">
+            <summary>
+            Get the past Mouse input state.
+            </summary>
+            <returns>The past, native, input state of the Mouse.</returns>
+        </member>
+        <member name="M:SGDE.Input.Touchscreen.GetGesture">
+            <summary>
+            Get's a gesture if one exists. <see cref="P:SGDE.Input.Touchscreen.IsGesturesAvalible"/>
+            </summary>
+            <returns>A gesture, if one exists.</returns>
+        </member>
+        <member name="M:SGDE.Input.Touchscreen.GetTouchLocations">
+            <summary>
+            Get the current touch locations.
+            </summary>
+            <returns>The current touch locations.</returns>
+        </member>
+        <member name="M:SGDE.Input.Touchscreen.GetPastTouchLocations">
+            <summary>
+            Get the past touch locations.
+            </summary>
+            <returns>The past touch locations.</returns>
+        </member>
+        <member name="M:SGDE.Input.Touchscreen.GetTouchLocationsDIff">
+            <summary>
+            Get the difference between touch locations. This matches up TouchLocations by ID and returns the difference between them. Only points that exist on both are returned. All fields (besides ID and Position) are ignored.
+            </summary>
+            <returns>The difference between touch locations.</returns>
+        </member>
+        <member name="M:SGDE.Input.Touchscreen.GetLocationByID(System.Int32)">
+            <summary>
+            Get the current touch location for the specified ID.
+            </summary>
+            <param name="id">The ID of the touch location.</param>
+            <returns>The touch location, if it exists.</returns>
+        </member>
+        <member name="M:SGDE.Input.Touchscreen.GetPastLocationByID(System.Int32)">
+            <summary>
+            Get the past touch location for the specified ID.
+            </summary>
+            <param name="id">The ID of the past touch location.</param>
+            <returns>The past touch location, if it exists.</returns>
+        </member>
+        <member name="M:SGDE.Input.Touchscreen.GetDiffLocationByID(System.Int32)">
+            <summary>
+            Get the difference between present and past touch locations for the specified ID. Only points that exist on both are returned. All fields (besides ID and Position) are ignored.
+            </summary>
+            <param name="id">The ID of the touch locations to get the difference of.</param>
+            <returns>The touch location difference, if it exists. If it exists the TouchState will be Pressed regardless of it's actual state or difference in state.</returns>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:SGDE.Input.Touchscreen.Type" -->
+        <member name="P:SGDE.Input.Touchscreen.IsConnected">
+            <summary>
+            Get if the touchscreen device is currently connected.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Touchscreen.EnabledGestures">
+            <summary>
+            Get the currently enabled gestures.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Touchscreen.IsGesturesAvalible">
+            <summary>
+            Get if touch a gesture is avalible to be read.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Touchscreen.MaxSupportedTouchCount">
+            <summary>
+            Get the maximum number of supported touch points.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Touchscreen.TouchCount">
+            <summary>
+            Get the number of touch points.
             </summary>
         </member>
         <member name="T:SGDE.Content.Readers.SVGReader">

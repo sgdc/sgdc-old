@@ -26,7 +26,35 @@ namespace SGDeContent
             throw new NotImplementedException(string.Format(Messages.SGDETypeNotImplemented, input.document.DocumentElement.ChildNodes[0].Name));
         }
 
-        //TODO: Add generic writer so data can be written out to content format
+        public bool Write(Content output, ProcessedContent content, string file)
+        {
+            if (string.IsNullOrEmpty(file) || output.Version < SGDEImport.MIN_VERSION || output.Version > SGDEImport.MAX_VERSION)
+            {
+                return false;
+            }
+            bool success = false;
+            output.document = new XmlDocument();
+            output.document.AppendChild(output.document.CreateXmlDeclaration("1.0", "utf-8", null));
+            output.document.AppendChild(output.document.CreateElement("SGDE"));
+            output.document.DocumentElement.Attributes.Append(output.document.CreateAttribute("Version"));
+            output.document.DocumentElement.Attributes["Version"].Value = output.Version.ToString();
+            switch (output.Type)
+            {
+                case ContentTypes.Game:
+                    success = GameProcessor.Write(output.Version, output.document.DocumentElement, content);
+                    break;
+                case ContentTypes.Map:
+                case ContentTypes.Entity:
+                case ContentTypes.SpriteSheet:
+                    //TODO
+                    break;
+            }
+            if (success)
+            {
+                output.document.Save(file);
+            }
+            return success;
+        }
 
         //What XmlNode.InnerText should really be doing.
         public static string GetInnerText(XmlNode node)

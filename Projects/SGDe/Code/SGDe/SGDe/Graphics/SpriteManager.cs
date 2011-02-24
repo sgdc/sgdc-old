@@ -98,24 +98,31 @@ namespace SGDE.Graphics
         {
             float frame = 1000f / fps;
             float totalFrame = (gameTime.ElapsedGameTime.Milliseconds + current) / frame;
-            int count = (int)(totalFrame / 1);
+            int count = (int)totalFrame;
             current = (totalFrame % 1) * frame;
-            if (backwords)
+            if (count > 0)
             {
-                curFrame -= count;
-                if (curFrame < 0)
+                if (backwords)
                 {
-                    if (curFrame < -maxFrame)
+                    curFrame -= count;
+                    if (curFrame < originFrame)
                     {
-                        curFrame %= maxFrame; //This will do a normal mod operation, if the abs value is less or equal to maxFrame then the value will be positive and the simple addition operation will not work correctly
+                        if (curFrame < -maxFrame)
+                        {
+                            curFrame %= maxFrame; //This will do a normal mod operation, if the abs value is less or equal to maxFrame then the value will be positive and the simple addition operation will not work correctly
+                        }
+                        curFrame += maxFrame;
                     }
-                    curFrame += maxFrame;
                 }
-            }
-            else
-            {
-                curFrame += count;
-                curFrame %= maxFrame; //This makes sure the frame never exceeds the maximum.
+                else
+                {
+                    curFrame += count;
+                    curFrame %= maxFrame; //This makes sure the frame never exceeds the maximum.
+                    if (curFrame < originFrame)
+                    {
+                        curFrame = originFrame;
+                    }
+                }
             }
         }
 

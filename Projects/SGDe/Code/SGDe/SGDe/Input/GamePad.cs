@@ -444,6 +444,13 @@ namespace SGDE.Input
 #endif
         }
 
-        //TODO: capabilities (maybe?)
+        /// <summary>
+        /// Get what the GamePad is capable of.
+        /// </summary>
+        /// <returns>The current GamePad's capabilities.</returns>
+        public GamePadCapabilities GetGamePadCapability()
+        {
+            return Microsoft.Xna.Framework.Input.GamePad.GetCapabilities(this.index);
+        }
     }
 }

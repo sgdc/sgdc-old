@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace SGDE.Input
 {
@@ -26,7 +27,7 @@ namespace SGDE.Input
 
 #if WINDOWS_PHONE
         //Touchscreen
-        //TODO
+        internal TouchCollection c_touch_state, o_touch_state;
         private int touchIndex;
 #else
         //Gamepad controller
@@ -50,10 +51,41 @@ namespace SGDE.Input
         {
         }
 
+        private bool Ignore(InputHandler handle)
+        {
+            //We only want to ignore them if they are the only thing it supports. Support for multiple devices is fine.
+#if !WINDOWS
+            //TODO Kinect ;)
+#endif
+#if XBOX
+            if (handle.Handles == InputType.Mouse)
+            {
+                return true;
+            }
+#endif
+#if WINDOWS_PHONE
+            if (handle.Handles == InputType.GamePad)
+            {
+                return true;
+            }
+#else
+            if (handle.Handles == InputType.Touchscreen)
+            {
+                return true;
+            }
+#endif
+            return false;
+        }
+
         internal void AddNewHandler(InputHandler handler)
         {
             if (handler != null)
             {
+                if (Ignore(handler))
+                {
+                    //Don't add unneccessery handlers
+                    return;
+                }
                 if (handlers == null)
                 {
                     handlers = new List<InputHandler>();
@@ -70,7 +102,10 @@ namespace SGDE.Input
 #if WINDOWS_PHONE
                     if (((handler.Handles & InputType.Touchscreen) == InputType.Touchscreen) && ((this.handles & InputType.Touchscreen) != InputType.Touchscreen))
                     {
-                        //TODO
+                        this.handles |= InputType.Touchscreen;
+                        touchIndex = components.Count;
+                        components.Add(new Touchscreen(this));
+                        o_touch_state = c_touch_state = TouchPanel.GetState();
                     }
 #else
                     if (((handler.Handles & InputType.GamePad) == InputType.GamePad) && ((this.handles & InputType.GamePad) != InputType.GamePad))
@@ -181,7 +216,20 @@ namespace SGDE.Input
 #if WINDOWS_PHONE
                 if ((this.handles & InputType.Touchscreen) == InputType.Touchscreen)
                 {
-                    //TODO
+                    c_touch_state = TouchPanel.GetState();
+
+                    foreach (InputHandler handler in this.handlers)
+                    {
+                        if (handler.Enabled)
+                        {
+                            if ((handler.Handles & InputType.Touchscreen) == InputType.Touchscreen)
+                            {
+                                handler.HandleInput(game, this.components[this.touchIndex]);
+                            }
+                        }
+                    }
+
+                    o_touch_state = c_touch_state;
                 }
 #else
                 if ((this.handles & InputType.GamePad) == InputType.GamePad)

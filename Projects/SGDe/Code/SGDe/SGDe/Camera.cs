@@ -14,10 +14,10 @@ namespace SGDE
     {
         private Vector2 _position;
         private float _rotation;
-        private float _scale;        
-        internal Matrix _transformMatrix;        
+        private float _scale;
+        internal Matrix _transformMatrix;
         private Vector2 _origin;
-        private Vector2 _screenCenter;        
+        private Vector2 _screenCenter;
 
         /// <summary>
         /// Get or set the position of the camera.

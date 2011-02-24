@@ -11,6 +11,8 @@ namespace SGDeContent.Processors
 {
     public class GameProcessor
     {
+        #region Reading
+
         public static SGDeContent.DataTypes.Game Process(Content input, ContentProcessorContext context)
         {
             Game game = new Game();
@@ -271,5 +273,25 @@ namespace SGDeContent.Processors
             SpriteSheetProcessor.SpriteSheetTypes = new Dictionary<int, SpriteSheetProcessor.SpriteType>();
             SpriteSheetProcessor.Process(new SGDEImport().Import(spriteSheet, null), context, false);
         }
+
+        #endregion
+
+        #region Writing
+
+        public static bool Write(double version, XmlElement parent, ProcessedContent content)
+        {
+            SGDeContent.DataTypes.Game game = content as SGDeContent.DataTypes.Game;
+            if (game == null)
+            {
+                return false;
+            }
+            //Write out the game resources
+            //TODO
+            //Write out the game settings
+            //TODO
+            return true;
+        }
+
+        #endregion
     }
 }

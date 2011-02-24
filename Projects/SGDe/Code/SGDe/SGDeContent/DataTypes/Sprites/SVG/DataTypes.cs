@@ -218,21 +218,4 @@ namespace SGDeContent.DataTypes.Sprites.SVG
     }
 
     #endregion
-
-    #region FRectangle
-
-    public struct FRectangle
-    {
-        public float X, Y, Width, Height;
-
-        public FRectangle(float x, float y, float width, float height)
-        {
-            this.X = x;
-            this.Y = y;
-            this.Width = width;
-            this.Height = height;
-        }
-    }
-
-    #endregion
 }

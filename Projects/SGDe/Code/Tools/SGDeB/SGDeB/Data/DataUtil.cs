@@ -33,6 +33,16 @@ namespace SGDeB.Data
             return new TempProcessedContent(); //Just to prevent a null outptu
         }
 
+        public static bool SaveContent(string file, ProcessedContent content)
+        {
+            ContentTypes type = ContentTypes.Unknown;
+            if (content is Game)
+            {
+                type = ContentTypes.Game;
+            }
+            return new SGDEProcessor().Write(new Content(null, type, SGDEImport.MAX_VERSION), content, file);
+        }
+
         private class TempProcessedContent : ProcessedContent
         {
         }
