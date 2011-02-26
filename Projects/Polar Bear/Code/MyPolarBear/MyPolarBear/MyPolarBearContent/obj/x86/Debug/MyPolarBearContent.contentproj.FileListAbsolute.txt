@@ -1,1 +1,2 @@
 D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBearContent\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBearContent\obj\x86\Debug\ResolveAssemblyReference.cache

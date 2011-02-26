@@ -66,24 +66,33 @@ namespace MyPolarBear
             set { _isFocused = value; }
         }
 
-        public Camera(Viewport viewport, bool isFocused)
+        public Vector2 TopLeft;
+
+        public GraphicsDevice _graphics;
+
+        public Camera(GraphicsDevice graphics, bool isFocused)
         {
             Scale = 1;
             Rotation = 0;
-            ScreenCenter = new Vector2(viewport.Width / 2, viewport.Height / 2);            
+            ScreenCenter = new Vector2(graphics.Viewport.Width / 2, graphics.Viewport.Height / 2);
+            TopLeft = Vector2.Zero;
             Position = new Vector2(ScreenCenter.X, ScreenCenter.Y);
             TransformMatrix = Matrix.Identity;
-            IsFocused = isFocused;
+            _graphics = graphics;
+            IsFocused = isFocused;            
         }
 
         public void Update()
         {
-            Origin = ScreenCenter / Scale;
+            Origin = ScreenCenter / Scale;          
 
             TransformMatrix = Matrix.CreateTranslation(-Position.X, -Position.Y, 0) *
                               Matrix.CreateRotationZ(Rotation) *
                               Matrix.CreateTranslation(Origin.X, Origin.Y, 0) *
                               Matrix.CreateScale(Scale);
+
+            TopLeft.X = Position.X - _graphics.Viewport.Width / 2;
+            TopLeft.Y = Position.Y - _graphics.Viewport.Height / 2;
         }
 
         public void FollowEntity()

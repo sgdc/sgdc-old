@@ -7,7 +7,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\FieryHeart.xnb</Output>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\FieryHeart.xnb</Output>
       <Time>2011-02-23T16:47:21.3144658-05:00</Time>
     </Item>
     <Item>
@@ -16,7 +16,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\FirePowerPolarBear.xnb</Output>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\FirePowerPolarBear.xnb</Output>
       <Time>2011-02-23T18:59:38.5584502-05:00</Time>
     </Item>
     <Item>
@@ -25,7 +25,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\GrassPowerPolarBear.xnb</Output>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\GrassPowerPolarBear.xnb</Output>
       <Time>2011-02-23T18:59:51.5491932-05:00</Time>
     </Item>
     <Item>
@@ -34,7 +34,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\GrassyHeart.xnb</Output>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\GrassyHeart.xnb</Output>
       <Time>2011-02-23T17:05:11.3666693-05:00</Time>
     </Item>
     <Item>
@@ -43,7 +43,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\Heart.xnb</Output>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\Heart.xnb</Output>
       <Time>2011-02-23T16:31:16.5562848-05:00</Time>
     </Item>
     <Item>
@@ -52,7 +52,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\IcePowerPolarBear.xnb</Output>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\IcePowerPolarBear.xnb</Output>
       <Time>2011-02-23T18:59:46.2038875-05:00</Time>
     </Item>
     <Item>
@@ -61,7 +61,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\IcyHeart.xnb</Output>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\IcyHeart.xnb</Output>
       <Time>2011-02-23T16:50:37.0366605-05:00</Time>
     </Item>
     <Item>
@@ -70,7 +70,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\PolarBear.xnb</Output>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\PolarBear.xnb</Output>
       <Time>2011-02-23T18:59:56.8154944-05:00</Time>
     </Item>
     <Item>
@@ -79,8 +79,17 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\WorldMap.xnb</Output>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\WorldMap.xnb</Output>
       <Time>2011-02-21T22:17:35.8992547-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Images\Reticule.png</Source>
+      <Name>Images\Reticule</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Images\Reticule.xnb</Output>
+      <Time>2011-02-26T15:57:09.0086067-05:00</Time>
     </Item>
     <Item>
       <Source>Fonts\Calibri.spritefont</Source>
@@ -88,7 +97,7 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Fonts\Calibri.xnb</Output>
+      <Output>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\Fonts\Calibri.xnb</Output>
       <Time>2011-02-25T08:28:11.4127713-05:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
@@ -97,10 +106,10 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBearContent\</RootDirectory>
-      <LoggerRootDirectory>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBear\</LoggerRootDirectory>
-      <IntermediateDirectory>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBearContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBearContent\</RootDirectory>
+      <LoggerRootDirectory>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\</LoggerRootDirectory>
+      <IntermediateDirectory>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBearContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>D:\Users\Monkeh\Documents\Visual Studio 2010\Projects\GC2010_2011\Projects\Polar Bear\Code\MyPolarBear\MyPolarBear\MyPolarBear\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>

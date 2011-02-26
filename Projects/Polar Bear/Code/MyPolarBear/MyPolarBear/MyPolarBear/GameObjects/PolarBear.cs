@@ -25,6 +25,7 @@ namespace MyPolarBear.GameObjects
         public PolarBear(Vector2 position)
             : base(position)
         {
+
         }
 
         public override void Update(GameTime gameTime)

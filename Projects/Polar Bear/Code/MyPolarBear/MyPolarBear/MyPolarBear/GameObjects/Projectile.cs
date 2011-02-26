@@ -28,7 +28,7 @@ namespace MyPolarBear.GameObjects
         {
             Position = position;
             Velocity = new Vector2(speed);
-            Direction = Vector2.Normalize(direction);
+            Direction = Vector2.Normalize(direction);            
             Type = type;
             IsAlive = true;
         }

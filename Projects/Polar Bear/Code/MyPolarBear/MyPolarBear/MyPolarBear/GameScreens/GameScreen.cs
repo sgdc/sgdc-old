@@ -22,6 +22,10 @@ namespace MyPolarBear.GameScreens
         SoundBank soundBank;
         
         PolarBear polarBear;
+
+        Entity reticule;
+
+
         List<Projectile> projectiles = new List<Projectile>();
         List<Projectile> deadProjectiles = new List<Projectile>();
 
@@ -41,6 +45,8 @@ namespace MyPolarBear.GameScreens
             
             polarBear = new PolarBear(new Vector2(0, 0));
             polarBear.LoadContent(Game1.GetTextureAt(0), 1.0f);
+            reticule = new Entity(Vector2.Zero);
+            reticule.LoadContent(Game1.GetTextureAt(9), 0.5f);
             
             ScreenManager.camera.FocusEntity = polarBear;
         }
@@ -54,15 +60,24 @@ namespace MyPolarBear.GameScreens
                 ScreenManager.isExiting = true;
 
             if (ScreenManager.keyboard.IsKeyPressed(Keys.Left))
-                ScreenManager.camera.Translate(new Vector2(-5.0f, 0.0f));
+                polarBear.Translate(new Vector2(-5.0f, 0.0f));
             if (ScreenManager.keyboard.IsKeyPressed(Keys.Right))
-                ScreenManager.camera.Translate(new Vector2(5.0f, 0.0f));
+                polarBear.Translate(new Vector2(5.0f, 0.0f));
             if (ScreenManager.keyboard.IsKeyPressed(Keys.Up))
-                ScreenManager.camera.Translate(new Vector2(0.0f, -5.0f));
+                polarBear.Translate(new Vector2(0.0f, -5.0f));
             if (ScreenManager.keyboard.IsKeyPressed(Keys.Down))
-                ScreenManager.camera.Translate(new Vector2(0.0f, 5.0f));
+                polarBear.Translate(new Vector2(0.0f, 5.0f));
             if (ScreenManager.keyboard.IsKeyReleased(Keys.Space))
                 polarBear.SwitchPowers();
+
+            if (ScreenManager.mouse.IsButtonReleased(MouseComponent.MouseButton.Left))
+            {
+                Projectile projectile = polarBear.ShootProjectile(ScreenManager.mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter);
+                
+                projectile.LoadContent(Game1.GetTextureAt(4), 0.25f);
+                projectiles.Add(projectile);
+                projectile.IsAlive = true;
+            }
 
             if (ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Left) != Vector2.Zero)
                 polarBear.Translate(ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Left) * 5);
@@ -87,12 +102,21 @@ namespace MyPolarBear.GameScreens
             if (ScreenManager.gamepad.GetTriggerState(GamePadComponent.Trigger.Right) != 0)
                 ScreenManager.camera.Zoom(0.01f);
 
+            if (ScreenManager.keyboard.IsKeyPressed(Keys.A))
+                ScreenManager.camera.Zoom(-0.01f);
+            if (ScreenManager.keyboard.IsKeyPressed(Keys.S))
+                ScreenManager.camera.Zoom(0.01f);
+
             foreach (Projectile projectile in projectiles)
             {
                 projectile.Update(gameTime);
                 if (ScreenManager.gamepad.IsButtonPressed(Buttons.B))
                     deadProjectiles.Add(projectile);
+                if (ScreenManager.mouse.IsButtonReleased(MouseComponent.MouseButton.Right))
+                    projectile.Position = ScreenManager.mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
             }
+
+            reticule.Position = ScreenManager.mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft; ;
 
             foreach (Projectile deadprojectile in deadProjectiles)
             {
@@ -115,6 +139,8 @@ namespace MyPolarBear.GameScreens
             {
                 projectile.Draw(spriteBatch);
             }
+
+            reticule.Draw(spriteBatch);
 
             base.DrawGame(spriteBatch);
         }        

@@ -119,6 +119,7 @@
     <Compile Include="GameScreens\ScreenManager.cs" />
     <Compile Include="Input\GamePadComponent.cs" />
     <Compile Include="Input\KeyboardComponent.cs" />
+    <Compile Include="Input\MouseComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

@@ -7,4 +7,5 @@ Content\Images\IcePowerPolarBear.xnb
 Content\Images\IcyHeart.xnb
 Content\Images\PolarBear.xnb
 Content\Images\WorldMap.xnb
+Content\Images\Reticule.xnb
 Content\Fonts\Calibri.xnb

@@ -21,6 +21,7 @@ namespace MyPolarBear.GameScreens
         public static ScreenType screenType;
         public static KeyboardComponent keyboard;
         public static GamePadComponent gamepad;
+        public static MouseComponent mouse;
         public static SpriteFont spriteFont;
         public static Camera camera;
 
@@ -41,7 +42,7 @@ namespace MyPolarBear.GameScreens
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteFont = Game.Content.Load<SpriteFont>("Fonts/Calibri");
-            camera = new Camera(Game.GraphicsDevice.Viewport, true);
+            camera = new Camera(Game.GraphicsDevice, true);
 
             titleScreen = new TitleScreen(ScreenType.TitleScreen);
             pauseScreen = new PauseScreen(ScreenType.PauseScreen);
@@ -49,6 +50,7 @@ namespace MyPolarBear.GameScreens
             gameScreen.LoadContent();
             keyboard = new KeyboardComponent();
             gamepad = new GamePadComponent(PlayerIndex.One);
+            mouse = new MouseComponent();
             
         }
 
@@ -57,6 +59,7 @@ namespace MyPolarBear.GameScreens
             //TODO:    Update screens and keyboard
             keyboard.Update();
             gamepad.Update();
+            mouse.Update();
             camera.Update();
 
             if (screenType == ScreenType.TitleScreen)

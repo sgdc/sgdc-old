@@ -68,6 +68,7 @@ namespace MyPolarBear
             textures.Add(Content.Load<Texture2D>("Images/FieryHeart"));
             textures.Add(Content.Load<Texture2D>("Images/GrassyHeart"));
             textures.Add(Content.Load<Texture2D>("Images/WorldMap"));
+            textures.Add(Content.Load<Texture2D>("Images/Reticule"));
 
             Components.Add(screenManager);
 
