@@ -62,6 +62,10 @@ namespace PolarBear
                     {
                         this.Scale(new Vector2(-0.01f, -0.01f));
                     }
+                    if (keyboard.IsKeyClicked(Keys.Space))
+                    {
+                        this.ShootProjectile();
+                    }
 
                     break;
                 case InputType.GamePad:
@@ -97,6 +101,11 @@ namespace PolarBear
             }
 
             base.Update(gameTime);
+        }
+
+        public Projectile ShootProjectile()
+        {
+            return new Projectile(this.GetTranslation(), 10.0f, this.GetRotation(), 1.0f);
         }
 
         public InputType Handles

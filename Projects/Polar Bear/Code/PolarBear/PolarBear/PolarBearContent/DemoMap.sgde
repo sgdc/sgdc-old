@@ -7,6 +7,9 @@
       </Entity> 
       <Entity ID="1">
         <Layout>Explicit<Node><Vector2 ID="Translation" X="400" Y="0"/></Node><Physics Enabled="true" Collision="true"></Physics></Layout>
+      </Entity>
+      <Entity ID="3">
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="0" Y="200"/></Node><Physics Enabled="true" Collision="true"></Physics></Layout>
       </Entity>     
     </Layout>
     <Physics Enabled="true">
@@ -36,6 +39,12 @@
       <Entity ID="2">
         <Entity>
           <Sprite AssetID="Grid" SID="2" />
+        </Entity>
+      </Entity>
+      <Entity ID="3">
+        <Entity>
+          <Sprite SID="3" />
+          <Physics Static="false"></Physics>
         </Entity>
       </Entity>
     </Entities>

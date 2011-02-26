@@ -47,18 +47,18 @@ namespace PolarBear
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);           
+            ////GraphicsDevice.Clear(Color.White);              
 
-            this.SpriteBatch.Begin();
+            //this.SpriteBatch.Begin();
 
-            if (showCollision)
-            {
-                PhysicsPharaoh.GetInstance().DrawCollisionGrid(collisionGrid);
-            }
+            //if (showCollision)
+            //{
+            //    PhysicsPharaoh.GetInstance().DrawCollisionGrid(collisionGrid);
+            //}
 
-            base.DrawGame(gameTime);
+            ////base.Draw(gameTime);
 
-            this.SpriteBatch.End();
+            //this.SpriteBatch.End();
 
             base.Draw(gameTime);
         }

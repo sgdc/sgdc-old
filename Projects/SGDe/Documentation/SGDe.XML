@@ -4,89 +4,212 @@
         <name>SGDe</name>
     </assembly>
     <members>
-        <member name="T:SGDE.Content.Code.Library.String">
+        <member name="F:SGDE.Content.ContentUtil.LoadingBuilders">
             <summary>
-            The String class is a data type that represents a string of characters.
+            Loading entity builders.
             </summary>
         </member>
-        <member name="T:SGDE.Content.Code.Library.Object">
+        <member name="T:SGDE.Input.MouseButton">
             <summary>
-            The Object class is at the root of the ActionScript class hierarchy.
+            Mouse buttons
             </summary>
         </member>
-        <member name="M:SGDE.Content.Code.Library.Object.#ctor">
+        <member name="F:SGDE.Input.MouseButton.LeftButton">
             <summary>
-            Creates an Object object and stores a reference to the object's constructor method in the object's constructor property.
+            Left mouse button.
             </summary>
         </member>
-        <member name="M:SGDE.Content.Code.Library.Object.toString">
+        <member name="F:SGDE.Input.MouseButton.MiddleButton">
             <summary>
-            Returns the string representation of the specified object.
-            </summary>
-            <returns>A string representation of the object.</returns>
-        </member>
-        <member name="M:SGDE.Content.Code.Library.Object.toLocaleString">
-            <summary>
-            Returns the string representation of this object, formatted according to locale-specific conventions.
-            </summary>
-            <returns>A string representation of this object formatted according to local conventions.</returns>
-        </member>
-        <member name="M:SGDE.Content.Code.Library.Object.valueOf">
-            <summary>
-            Returns the primitive value of the specified object.
-            </summary>
-            <returns>The primitive value of this object or the object itself.</returns>
-        </member>
-        <member name="M:SGDE.Content.Code.Library.Object.hasOwnProperty(SGDE.Content.Code.Library.String)">
-            <summary>
-            Indicates whether an object has a specified property defined.
-            </summary>
-            <param name="name">The property of the object.</param>
-            <returns>If the target object has the property specified by the name parameter this value is true, otherwise false.</returns>
-        </member>
-        <member name="M:SGDE.Content.Code.Library.Object.isPrototypeOf(SGDE.Content.Code.Library.Object)">
-            <summary>
-            Indicates whether an instance of the Object class is in the prototype chain of the object specified as the parameter.
-            </summary>
-            <param name="theClass">The class to which the specified object may refer.</param>
-            <returns>If the object is in the prototype chain of the object specified by the theClass parameter this value is true, otherwise false.</returns>
-        </member>
-        <member name="M:SGDE.Content.Code.Library.Object.propertyIsEnumerable(SGDE.Content.Code.Library.String)">
-            <summary>
-            Indicates whether the specified property exists and is enumerable.
-            </summary>
-            <param name="name">The property of the object.</param>
-            <returns>If the property specified by the name parameter is enumerable this value is true, otherwise false.</returns>
-        </member>
-        <member name="P:SGDE.Content.Code.Library.Object.constructor">
-            <summary>
-            A reference to the class object or constructor function for a given object instance.
+            Middle mouse button.
             </summary>
         </member>
-        <member name="P:SGDE.Content.Code.Library.Object.__proto__">
+        <member name="F:SGDE.Input.MouseButton.RightButton">
             <summary>
-            A reference to the prototype object of a class or function object.
+            Right mouse button.
             </summary>
         </member>
-        <member name="M:SGDE.Content.Code.Library.String.#ctor(SGDE.Content.Code.Library.String)">
+        <member name="F:SGDE.Input.MouseButton.XButton1">
             <summary>
-            Creates a new String object initialized to the specified string.
+            XBUTTON1 mouse button.
             </summary>
-            <param name="val">The initial value of the new String object.</param>
         </member>
-        <member name="M:SGDE.Content.Code.Library.String.op_Implicit(System.String)~SGDE.Content.Code.Library.String">
+        <member name="F:SGDE.Input.MouseButton.XButton2">
             <summary>
-            Convert a primitive string to a String.
+            XBUTTON2 mouse button.
             </summary>
-            <param name="s">The string value to create the String with.</param>
-            <returns>The created String.</returns>
         </member>
-        <member name="M:SGDE.Content.Code.Library.String.op_Implicit(SGDE.Content.Code.Library.String)~System.String">
+        <member name="T:SGDE.Input.Mouse">
             <summary>
-            Convert a String to a primitive string.
+            A mouse input device.
             </summary>
-            <param name="s">The String to convert to a string.</param>
-            <returns>The retrieved string.</returns>
+        </member>
+        <member name="T:SGDE.Input.InputComponent">
+            <summary>
+            An input component from InputType.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.InputComponent.Type">
+            <summary>
+            Get what type of input this input component comprises.
+            </summary>
+        </member>
+        <member name="M:SGDE.Input.Mouse.GetCurrentState">
+            <summary>
+            Get the current Mouse input state.
+            </summary>
+            <returns>The current, native, input state of the Mouse.</returns>
+        </member>
+        <member name="M:SGDE.Input.Mouse.GetPastState">
+            <summary>
+            Get the past Mouse input state.
+            </summary>
+            <returns>The past, native, input state of the Mouse.</returns>
+        </member>
+        <member name="M:SGDE.Input.Mouse.IsButtonPressed(SGDE.Input.MouseButton)">
+            <summary>
+            Determine if the specified button is pressed.
+            </summary>
+            <param name="but">The button to check if pressed.</param>
+            <returns><code>true</code> if the button was pressed, <code>false</code> if otherwise.</returns>
+        </member>
+        <member name="M:SGDE.Input.Mouse.IsButtonClicked(SGDE.Input.MouseButton)">
+            <summary>
+            Determine if the specified button is clicked. This means that the button is down right now but wasn't always pressed down.
+            </summary>
+            <param name="but">The button to check if pressed.</param>
+            <returns><code>true</code> if the button was pressed, <code>false</code> if otherwise.</returns>
+        </member>
+        <member name="P:SGDE.Input.Mouse.Type">
+            <summary>
+            Always returns Mouse.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Mouse.Position">
+            <summary>
+            Get or set the mouse position. Positions are relative to the upper-left hand corner of the window.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Mouse.PastPosition">
+            <summary>
+            Get the past mouse position. Positions are relative to the upper-left hand corner of the window.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Mouse.PositionDiff">
+            <summary>
+            Get the mouse position difference between the current and past positions.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Mouse.Scoll">
+            <summary>
+            Get the mouse scroll wheel position.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Mouse.PastScoll">
+            <summary>
+            Get the past mouse scroll wheel position.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.Mouse.ScollDiff">
+            <summary>
+            Get the mouse scroll wheel position difference between current and past scroll positions.
+            </summary>
+        </member>
+        <member name="T:SGDE.Input.InputManager">
+            <summary>
+            Handles all input.
+            </summary>
+        </member>
+        <member name="M:SGDE.Input.InputManager.AddNewConverter(SGDE.Input.InputConverter)">
+            <summary>
+            Add a new input converter.
+            </summary>
+            <param name="converter">The input converter to add.</param>
+            <returns><code>true</code> if the converter was added, <code>false</code> if otherwise.</returns>
+        </member>
+        <member name="M:SGDE.Input.InputManager.RemoveConverter(SGDE.Input.InputConverter)">
+            <summary>
+            Remove a input converter.
+            </summary>
+            <param name="converter">The input converter to remove.</param>
+            <returns><code>true</code> if the converter was removed, <code>false</code> if otherwise.</returns>
+        </member>
+        <member name="T:SGDE.Input.InputHandler">
+            <summary>
+            Handle input operations.
+            </summary>
+        </member>
+        <member name="M:SGDE.Input.InputHandler.HandleInput(SGDE.Game,SGDE.Input.InputComponent)">
+            <summary>
+            Handle input operations. If this InputHandler supports more then one input device then it will be called more then once, one for each input device.
+            </summary>
+            <param name="game">The current, calling, game.</param>
+            <param name="input">The input component that can be used to handle input.</param>
+        </member>
+        <member name="P:SGDE.Input.InputHandler.Handles">
+            <summary>
+            Get what input type this handler can process.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.InputHandler.Enabled">
+            <summary>
+            Get if this input handler is enabled.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.InputHandler.IndexSpecific">
+            <summary>
+            Is the input handler input specific. Only used GamePad support.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.InputHandler.Index">
+            <summary>
+            What index this input handler supports. Used only when IndexSpecific is <code>true</code>.
+            </summary>
+        </member>
+        <member name="T:SGDE.Input.InputConverter">
+            <summary>
+            Convert from one input format to another.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.InputConverter.ConvertFrom">
+            <summary>
+            Get what input type this converter converts from. You cannot append more then one type. Only a basic comparison is used ot check "from" types.
+            </summary>
+        </member>
+        <member name="P:SGDE.Input.InputConverter.ConvertTo">
+            <summary>
+            Get what input this converter converts to. You cannot append more then one type. Only a basic comparison is used ot check "to" types.
+            </summary>
+        </member>
+        <member name="T:SGDE.Input.InputType">
+            <summary>
+            The input type in use
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.InputType.GamePad">
+            <summary>
+            Any game controller
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.InputType.Mouse">
+            <summary>
+            A Mouse
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.InputType.Keyboard">
+            <summary>
+            A keyboard
+            </summary>
+        </member>
+        <member name="F:SGDE.Input.InputType.Touchscreen">
+            <summary>
+            A touchscreen device
+            </summary>
+        </member>
+        <member name="T:SGDE.Graphics.VectorSprite">
+            <summary>
+            A vector based Sprite.
+            </summary>
         </member>
         <member name="T:SGDE.Graphics.Sprite">
             <summary>
@@ -248,130 +371,9 @@
             The Sprite's FPS
             </summary>
         </member>
-        <member name="T:SGDE.Content.Readers.SpriteReader`1">
+        <member name="T:SGDE.Graphics.BitmapSprite">
             <summary>
-            Read and process a Sprite class
-            </summary>
-        </member>
-        <member name="M:SGDE.Content.Readers.SpriteReader`1.Read(Microsoft.Xna.Framework.Content.ContentReader,`0)">
-            <summary>
-            Read a Sprite.
-            </summary>
-        </member>
-        <member name="T:SGDE.Input.InputManager">
-            <summary>
-            Handles all input.
-            </summary>
-        </member>
-        <member name="M:SGDE.Input.InputManager.AddNewConverter(SGDE.Input.InputConverter)">
-            <summary>
-            Add a new input converter.
-            </summary>
-            <param name="converter">The input converter to add.</param>
-            <returns><code>true</code> if the converter was added, <code>false</code> if otherwise.</returns>
-        </member>
-        <member name="M:SGDE.Input.InputManager.RemoveConverter(SGDE.Input.InputConverter)">
-            <summary>
-            Remove a input converter.
-            </summary>
-            <param name="converter">The input converter to remove.</param>
-            <returns><code>true</code> if the converter was removed, <code>false</code> if otherwise.</returns>
-        </member>
-        <member name="T:SGDE.Input.InputHandler">
-            <summary>
-            Handle input operations.
-            </summary>
-        </member>
-        <member name="M:SGDE.Input.InputHandler.HandleInput(SGDE.Game,SGDE.Input.InputComponent)">
-            <summary>
-            Handle input operations. If this InputHandler supports more then one input device then it will be called more then once, one for each input device.
-            </summary>
-            <param name="game">The current, calling, game.</param>
-            <param name="input">The input component that can be used to handle input.</param>
-        </member>
-        <member name="P:SGDE.Input.InputHandler.Handles">
-            <summary>
-            Get what input type this handler can process.
-            </summary>
-        </member>
-        <member name="P:SGDE.Input.InputHandler.Enabled">
-            <summary>
-            Get if this input handler is enabled.
-            </summary>
-        </member>
-        <member name="P:SGDE.Input.InputHandler.IndexSpecific">
-            <summary>
-            Is the input handler input specific. Only used GamePad support.
-            </summary>
-        </member>
-        <member name="P:SGDE.Input.InputHandler.Index">
-            <summary>
-            What index this input handler supports. Used only when IndexSpecific is <code>true</code>.
-            </summary>
-        </member>
-        <member name="T:SGDE.Input.InputConverter">
-            <summary>
-            Convert from one input format to another.
-            </summary>
-        </member>
-        <member name="P:SGDE.Input.InputConverter.ConvertFrom">
-            <summary>
-            Get what input type this converter converts from. You cannot append more then one type. Only a basic comparison is used ot check "from" types.
-            </summary>
-        </member>
-        <member name="P:SGDE.Input.InputConverter.ConvertTo">
-            <summary>
-            Get what input this converter converts to. You cannot append more then one type. Only a basic comparison is used ot check "to" types.
-            </summary>
-        </member>
-        <member name="T:SGDE.Input.InputComponent">
-            <summary>
-            An input component from InputType.
-            </summary>
-        </member>
-        <member name="P:SGDE.Input.InputComponent.Type">
-            <summary>
-            Get what type of input this input component comprises.
-            </summary>
-        </member>
-        <member name="T:SGDE.Input.InputType">
-            <summary>
-            The input type in use
-            </summary>
-        </member>
-        <member name="F:SGDE.Input.InputType.GamePad">
-            <summary>
-            Any game controller
-            </summary>
-        </member>
-        <member name="F:SGDE.Input.InputType.Mouse">
-            <summary>
-            A Mouse
-            </summary>
-        </member>
-        <member name="F:SGDE.Input.InputType.Keyboard">
-            <summary>
-            A keyboard
-            </summary>
-        </member>
-        <member name="F:SGDE.Input.InputType.Touchscreen">
-            <summary>
-            A touchscreen device
-            </summary>
-        </member>
-        <member name="T:SGDE.Content.Readers.AnimationReader">
-            <summary>
-            Read and process a SpriteAnimation class
-            </summary>
-        </member>
-        <member name="M:SGDE.Content.Readers.AnimationReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Graphics.SpriteManager.SpriteAnimation)">
-            <summary>
-            Read a SpriteAnimation.
-            </summary>
-        </member>
-        <member name="F:SGDE.Content.ContentUtil.LoadingBuilders">
-            <summary>
-            Loading entity builders.
+            A bitmap based Sprite.
             </summary>
         </member>
         <member name="T:SGDE.Content.Readers.GameReader">
@@ -384,105 +386,248 @@
             Read a GameContent.
             </summary>
         </member>
+        <member name="T:SGDE.Content.Readers.BitmapSpriteReader">
+            <summary>
+            Read and process a BitmapSprite class
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.SpriteReader`1">
+            <summary>
+            Read and process a Sprite class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.SpriteReader`1.Read(Microsoft.Xna.Framework.Content.ContentReader,`0)">
+            <summary>
+            Read a Sprite.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.VectorSpriteReader">
+            <summary>
+            Read and process a VectorSprite class
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.AnimationReader">
+            <summary>
+            Read and process a SpriteAnimation class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.AnimationReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Graphics.SpriteManager.SpriteAnimation)">
+            <summary>
+            Read a SpriteAnimation.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.DataTypes.MapContent">
+            <summary>
+            Used internally.
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.DataTypes.MapContent.#ctor">
+            <summary>
+            Create a new MapContent object.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Code.Library.Global">
+            <summary>
+            Top level or global functions are available in any place where ActionScript is used, or in any user-defined class.
+            </summary>
+        </member>
+        <member name="F:SGDE.Content.Code.Library.Global.undefined">
+            <summary>
+            A special value that applies to untyped variables that have not been initialized or dynamic object properties that are not initialized.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Code.Library.Object">
+            <summary>
+            The Object class is at the root of the ActionScript class hierarchy.
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.#ctor">
+            <summary>
+            Creates an Object object and stores a reference to the object's constructor method in the object's constructor property.
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.toString">
+            <summary>
+            Returns the string representation of the specified object.
+            </summary>
+            <returns>A string representation of the object.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.toLocaleString">
+            <summary>
+            Returns the string representation of this object, formatted according to locale-specific conventions.
+            </summary>
+            <returns>A string representation of this object formatted according to local conventions.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.valueOf">
+            <summary>
+            Returns the primitive value of the specified object.
+            </summary>
+            <returns>The primitive value of this object or the object itself.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.hasOwnProperty(SGDE.Content.Code.Library.String)">
+            <summary>
+            Indicates whether an object has a specified property defined.
+            </summary>
+            <param name="name">The property of the object.</param>
+            <returns>If the target object has the property specified by the name parameter this value is true, otherwise false.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.isPrototypeOf(SGDE.Content.Code.Library.Object)">
+            <summary>
+            Indicates whether an instance of the Object class is in the prototype chain of the object specified as the parameter.
+            </summary>
+            <param name="theClass">The class to which the specified object may refer.</param>
+            <returns>If the object is in the prototype chain of the object specified by the theClass parameter this value is true, otherwise false.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Object.propertyIsEnumerable(SGDE.Content.Code.Library.String)">
+            <summary>
+            Indicates whether the specified property exists and is enumerable.
+            </summary>
+            <param name="name">The property of the object.</param>
+            <returns>If the property specified by the name parameter is enumerable this value is true, otherwise false.</returns>
+        </member>
+        <member name="P:SGDE.Content.Code.Library.Object.constructor">
+            <summary>
+            A reference to the class object or constructor function for a given object instance.
+            </summary>
+        </member>
+        <member name="P:SGDE.Content.Code.Library.Object.__proto__">
+            <summary>
+            A reference to the prototype object of a class or function object.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.EntityReader">
+            <summary>
+            Read and process a Entity class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.EntityReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Entity)">
+            <summary>
+            Read a Entity.
+            </summary>
+        </member>
+        <member name="P:SGDE.Content.Readers.EntityReader.TypeVersion">
+            <summary>
+            Get the current version of the Entity Reader.
+            </summary>
+        </member>
+        <member name="T:SGDE.Entity">
+            <summary>
+            Base Class representative of any onscreen drawable that appears in a scene
+            </summary>
+        </member>
+        <member name="F:SGDE.Entity.image">
+            <summary>Sprite which is drawn to represent the entity</summary>
+        </member>
+        <member name="F:SGDE.Entity.mCollisionUnit">
+            <summary>Contains the collision logic for the entity</summary>
+        </member>
+        <member name="F:SGDE.Entity.id">
+            <summary> ID for Checking the type of an Entity </summary>
+        </member>
+        <member name="M:SGDE.Entity.#ctor(System.Single,System.Single)">
+            <summary>
+            Constructs a new entity in the scene
+            </summary>
+            <param name="x">X coordinate</param>
+            <param name="y">Y coordinate</param>
+        </member>
+        <member name="M:SGDE.Entity.#ctor(Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Constructs a new entity in the scene
+            </summary>
+            <param name="position">Coordinates</param>
+        </member>
+        <member name="M:SGDE.Entity.Update(Microsoft.Xna.Framework.GameTime)">
+            <summary>
+            Called once during each step taken by the engine
+            </summary>
+            <param name="gameTime">The current game time</param>
+        </member>
+        <member name="M:SGDE.Entity.Draw(Microsoft.Xna.Framework.GameTime)">
+            <summary>Draws the entity to the screen</summary>
+        </member>
+        <member name="M:SGDE.Entity.SetColor(Microsoft.Xna.Framework.Color)">
+            <summary>
+            Set the entity's tint.
+            </summary>
+            <param name="backColor">The tint to use.</param>
+        </member>
+        <member name="M:SGDE.Entity.CopyTo(SGDE.Entity@)">
+            <summary>
+            Copy this Entity to another entity. If overriden then the base.CopyTo call must be the first line of code.
+            </summary>
+            <param name="ent">The entity to copy to.</param>
+        </member>
+        <member name="P:SGDE.Entity.Enabled">
+            <summary>
+            Get or set if the Entity component is enabled or not. If the entity is enabled then the following functions are called: Update, HandleInput.
+            </summary>
+        </member>
+        <member name="P:SGDE.Entity.SpriteImage">
+            <summary>
+            Get the Entity's Sprite component.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.DataTypes.GameContent">
+            <summary>
+            Used internally
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.DataTypes.GameContent.GotoLevel(System.Int32)">
+            <summary>
+            Goto a specific level.
+            </summary>
+            <param name="level">The zero-based index of the level to go to.</param>
+        </member>
+        <member name="M:SGDE.Content.DataTypes.GameContent.NextLevel">
+            <summary>
+            Go to the next level based on level order, if possible.
+            </summary>
+            <returns><code>true</code> if level was progressed. <code>false</code> if couldn't load level, usually because the level order is done.</returns>
+        </member>
+        <member name="M:SGDE.Content.DataTypes.GameContent.Setup(SGDE.Game@)">
+            <summary>
+            Setup one-time game settings.
+            </summary>
+            <param name="game">The Game that will be set.</param>
+        </member>
+        <member name="M:SGDE.Content.DataTypes.GameContent.GetMapContent``1(System.String)">
+            <summary>
+            Get content from the current map that has an developer ID (DID) assigned to it.
+            </summary>
+            <typeparam name="T">The type of content to load.</typeparam>
+            <param name="did">The developer ID of the game content.</param>
+            <returns>The game content, if it exists, or the default value of the requested type.</returns>
+        </member>
+        <member name="M:SGDE.Content.DataTypes.GameContent.Process(SGDE.Game@)">
+            <summary>
+            Process all Code elements.
+            </summary>
+            <param name="game">The Game to process the Code elements on.</param>
+        </member>
+        <member name="P:SGDE.Content.DataTypes.GameContent.CurrentLevel">
+            <summary>
+            Get the current level of the Game.
+            </summary>
+        </member>
+        <member name="P:SGDE.Content.DataTypes.GameContent.NumberOfLevels">
+            <summary>
+            Get the number of levels.
+            </summary>
+        </member>
+        <member name="P:SGDE.Content.DataTypes.GameContent.Entities">
+            <summary>
+            Get the Entities for the specified map.
+            </summary>
+        </member>
+        <member name="P:SGDE.Content.DataTypes.GameContent.MapName">
+            <summary>
+            Get the current Map name. Will be null if none exists.
+            </summary>
+        </member>
         <member name="T:SGDE.Physics.Collision.CollisionChief">
             <summary>
             Not sure yet...
-            </summary>
-        </member>
-        <member name="T:SGDE.Input.MouseButton">
-            <summary>
-            Mouse buttons
-            </summary>
-        </member>
-        <member name="F:SGDE.Input.MouseButton.LeftButton">
-            <summary>
-            Left mouse button.
-            </summary>
-        </member>
-        <member name="F:SGDE.Input.MouseButton.MiddleButton">
-            <summary>
-            Middle mouse button.
-            </summary>
-        </member>
-        <member name="F:SGDE.Input.MouseButton.RightButton">
-            <summary>
-            Right mouse button.
-            </summary>
-        </member>
-        <member name="F:SGDE.Input.MouseButton.XButton1">
-            <summary>
-            XBUTTON1 mouse button.
-            </summary>
-        </member>
-        <member name="F:SGDE.Input.MouseButton.XButton2">
-            <summary>
-            XBUTTON2 mouse button.
-            </summary>
-        </member>
-        <member name="T:SGDE.Input.Mouse">
-            <summary>
-            A mouse input device.
-            </summary>
-        </member>
-        <member name="M:SGDE.Input.Mouse.GetCurrentState">
-            <summary>
-            Get the current Mouse input state.
-            </summary>
-            <returns>The current, native, input state of the Mouse.</returns>
-        </member>
-        <member name="M:SGDE.Input.Mouse.GetPastState">
-            <summary>
-            Get the past Mouse input state.
-            </summary>
-            <returns>The past, native, input state of the Mouse.</returns>
-        </member>
-        <member name="M:SGDE.Input.Mouse.IsButtonPressed(SGDE.Input.MouseButton)">
-            <summary>
-            Determine if the specified button is pressed.
-            </summary>
-            <param name="but">The button to check if pressed.</param>
-            <returns><code>true</code> if the button was pressed, <code>false</code> if otherwise.</returns>
-        </member>
-        <member name="M:SGDE.Input.Mouse.IsButtonClicked(SGDE.Input.MouseButton)">
-            <summary>
-            Determine if the specified button is clicked. This means that the button is down right now but wasn't always pressed down.
-            </summary>
-            <param name="but">The button to check if pressed.</param>
-            <returns><code>true</code> if the button was pressed, <code>false</code> if otherwise.</returns>
-        </member>
-        <member name="P:SGDE.Input.Mouse.Type">
-            <summary>
-            Always returns Mouse.
-            </summary>
-        </member>
-        <member name="P:SGDE.Input.Mouse.Position">
-            <summary>
-            Get or set the mouse position. Positions are relative to the upper-left hand corner of the window.
-            </summary>
-        </member>
-        <member name="P:SGDE.Input.Mouse.PastPosition">
-            <summary>
-            Get the past mouse position. Positions are relative to the upper-left hand corner of the window.
-            </summary>
-        </member>
-        <member name="P:SGDE.Input.Mouse.PositionDiff">
-            <summary>
-            Get the mouse position difference between the current and past positions.
-            </summary>
-        </member>
-        <member name="P:SGDE.Input.Mouse.Scoll">
-            <summary>
-            Get the mouse scroll wheel position.
-            </summary>
-        </member>
-        <member name="P:SGDE.Input.Mouse.PastScoll">
-            <summary>
-            Get the past mouse scroll wheel position.
-            </summary>
-        </member>
-        <member name="P:SGDE.Input.Mouse.ScollDiff">
-            <summary>
-            Get the mouse scroll wheel position difference between current and past scroll positions.
             </summary>
         </member>
         <member name="T:SGDE.Input.GamePadComponent">
@@ -695,9 +840,125 @@
             Get what kind of GamePad is in use.
             </summary>
         </member>
+        <member name="T:SGDE.Content.Readers.NodeReader">
+            <summary>
+            Read and process a SceneNode class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.NodeReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.SceneNode)">
+            <summary>
+            Read a SceneNode.
+            </summary>
+        </member>
+        <member name="P:SGDE.Content.Readers.NodeReader.CanDeserializeIntoExistingObject">
+            <summary>
+            Can deserialize into an existing object. Have to do that for Nodes.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Code.Library.String">
+            <summary>
+            The String class is a data type that represents a string of characters.
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.String.#ctor(SGDE.Content.Code.Library.String)">
+            <summary>
+            Creates a new String object initialized to the specified string.
+            </summary>
+            <param name="val">The initial value of the new String object.</param>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.String.op_Implicit(System.String)~SGDE.Content.Code.Library.String">
+            <summary>
+            Convert a primitive string to a String.
+            </summary>
+            <param name="s">The string value to create the String with.</param>
+            <returns>The created String.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.String.op_Implicit(SGDE.Content.Code.Library.String)~System.String">
+            <summary>
+            Convert a String to a primitive string.
+            </summary>
+            <param name="s">The String to convert to a string.</param>
+            <returns>The retrieved string.</returns>
+        </member>
+        <member name="T:SGDE.Content.Code.Library.Boolean">
+            <summary>
+            A Boolean object is a data type that can have one of two values, either true or false, used for logical operations.
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Boolean.#ctor(SGDE.Content.Code.Library.Object)">
+            <summary>
+            Creates a Boolean object with the specified value.
+            </summary>
+            <param name="expression">Any expression.</param>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Boolean.toString">
+            <summary>
+            Returns the string representation ("true" or "false") of the Boolean object.
+            </summary>
+            <returns>The string "true" or "false".</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Boolean.op_Implicit(System.Boolean)~SGDE.Content.Code.Library.Boolean">
+            <summary>
+            Convert a primitive bool to a Boolean.
+            </summary>
+            <param name="b">The bool value to create the Boolean with.</param>
+            <returns>The created Boolean.</returns>
+        </member>
+        <member name="M:SGDE.Content.Code.Library.Boolean.op_Implicit(SGDE.Content.Code.Library.Boolean)~System.Boolean">
+            <summary>
+            Convert a Boolean to a primitive bool.
+            </summary>
+            <param name="b">The Boolean to convert to a bool.</param>
+            <returns>The retrieved bool.</returns>
+        </member>
+        <member name="T:SGDE.Content.Readers.SpriteManagerReader">
+            <summary>
+            Read and process a SpriteManager class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.SpriteManagerReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Graphics.SpriteManager)">
+            <summary>
+            Read a SpriteManager.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Code.Library.Math">
+            <summary>
+            The Math class contains methods and constants that represent common mathematical functions and values.
+            </summary>
+        </member>
+        <member name="F:SGDE.Content.Code.Library.Math.PI">
+            <summary>
+            A mathematical constant for the ratio of the circumference of a circle to its diameter, expressed as pi, with a value of 3.141592653589793.
+            </summary>
+        </member>
         <member name="T:SGDE.Content.Code.Code">
             <summary>
             Used Internally
+            </summary>
+        </member>
+        <member name="T:SGDE.Camera">
+            <summary>
+            Camera control class.
+            </summary>
+        </member>
+        <member name="P:SGDE.Camera.Position">
+            <summary>
+            Get or set the position of the camera.
+            </summary>
+        </member>
+        <member name="P:SGDE.Camera.Rotation">
+            <summary>
+            Get or set the rotation of the camera in radians.
+            </summary>
+        </member>
+        <member name="P:SGDE.Camera.Scale">
+            <summary>
+            Get or set the scale of the camera.
+            </summary>
+        </member>
+        <member name="P:SGDE.Camera.TransformMatrix">
+            <summary>
+            Get the transform matrix of the camera.
             </summary>
         </member>
         <member name="T:SGDE.Messages">
@@ -759,6 +1020,31 @@
         <member name="P:SGDE.Messages.SpriteManager_SpriteIDMismatch">
             <summary>
               Looks up a localized string similar to Texture ID does not match saved ID.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.CodeReader">
+            <summary>
+            Read and process a Code class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.CodeReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Content.Code.Code)">
+            <summary>
+            Read a Code.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.Readers.MapReader">
+            <summary>
+            Read and process a MapContent class
+            </summary>
+        </member>
+        <member name="M:SGDE.Content.Readers.MapReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Content.DataTypes.MapContent)">
+            <summary>
+            Read a MapContent.
+            </summary>
+        </member>
+        <member name="T:SGDE.Content.DataTypes.EntityBuilder">
+            <summary>
+            Used Internally
             </summary>
         </member>
         <member name="T:SGDE.Game">
@@ -900,164 +1186,6 @@
             <param name="n">The Number to convert to a double.</param>
             <returns>The retrieved double.</returns>
         </member>
-        <member name="T:SGDE.Content.Readers.NodeReader">
-            <summary>
-            Read and process a SceneNode class
-            </summary>
-        </member>
-        <member name="M:SGDE.Content.Readers.NodeReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.SceneNode)">
-            <summary>
-            Read a SceneNode.
-            </summary>
-        </member>
-        <member name="P:SGDE.Content.Readers.NodeReader.CanDeserializeIntoExistingObject">
-            <summary>
-            Can deserialize into an existing object. Have to do that for Nodes.
-            </summary>
-        </member>
-        <member name="T:SGDE.Content.Readers.BitmapSpriteReader">
-            <summary>
-            Read and process a BitmapSprite class
-            </summary>
-        </member>
-        <member name="T:SGDE.Camera">
-            <summary>
-            Camera control class.
-            </summary>
-        </member>
-        <member name="P:SGDE.Camera.Position">
-            <summary>
-            Get or set the position of the camera.
-            </summary>
-        </member>
-        <member name="P:SGDE.Camera.Rotation">
-            <summary>
-            Get or set the rotation of the camera in radians.
-            </summary>
-        </member>
-        <member name="P:SGDE.Camera.Scale">
-            <summary>
-            Get or set the scale of the camera.
-            </summary>
-        </member>
-        <member name="P:SGDE.Camera.TransformMatrix">
-            <summary>
-            Get the transform matrix of the camera.
-            </summary>
-        </member>
-        <member name="T:SGDE.Entity">
-            <summary>
-            Base Class representative of any onscreen drawable that appears in a scene
-            </summary>
-        </member>
-        <member name="F:SGDE.Entity.image">
-            <summary>Sprite which is drawn to represent the entity</summary>
-        </member>
-        <member name="F:SGDE.Entity.mCollisionUnit">
-            <summary>Contains the collision logic for the entity</summary>
-        </member>
-        <member name="F:SGDE.Entity.id">
-            <summary> ID for Checking the type of an Entity </summary>
-        </member>
-        <member name="M:SGDE.Entity.#ctor(System.Single,System.Single)">
-            <summary>
-            Constructs a new entity in the scene
-            </summary>
-            <param name="x">X coordinate</param>
-            <param name="y">Y coordinate</param>
-        </member>
-        <member name="M:SGDE.Entity.#ctor(Microsoft.Xna.Framework.Vector2)">
-            <summary>
-            Constructs a new entity in the scene
-            </summary>
-            <param name="position">Coordinates</param>
-        </member>
-        <member name="M:SGDE.Entity.Update(Microsoft.Xna.Framework.GameTime)">
-            <summary>
-            Called once during each step taken by the engine
-            </summary>
-            <param name="gameTime">The current game time</param>
-        </member>
-        <member name="M:SGDE.Entity.Draw(Microsoft.Xna.Framework.GameTime)">
-            <summary>Draws the entity to the screen</summary>
-        </member>
-        <member name="M:SGDE.Entity.SetColor(Microsoft.Xna.Framework.Color)">
-            <summary>
-            Set the entity's tint.
-            </summary>
-            <param name="backColor">The tint to use.</param>
-        </member>
-        <member name="M:SGDE.Entity.CopyTo(SGDE.Entity@)">
-            <summary>
-            Copy this Entity to another entity. If overriden then the base.CopyTo call must be the first line of code.
-            </summary>
-            <param name="ent">The entity to copy to.</param>
-        </member>
-        <member name="P:SGDE.Entity.Enabled">
-            <summary>
-            Get or set if the Entity component is enabled or not. If the entity is enabled then the following functions are called: Update, HandleInput.
-            </summary>
-        </member>
-        <member name="P:SGDE.Entity.SpriteImage">
-            <summary>
-            Get the Entity's Sprite component.
-            </summary>
-        </member>
-        <member name="T:SGDE.Content.Readers.VectorSpriteReader">
-            <summary>
-            Read and process a VectorSprite class
-            </summary>
-        </member>
-        <member name="T:SGDE.Content.DataTypes.MapContent">
-            <summary>
-            Used internally.
-            </summary>
-        </member>
-        <member name="M:SGDE.Content.DataTypes.MapContent.#ctor">
-            <summary>
-            Create a new MapContent object.
-            </summary>
-        </member>
-        <member name="T:SGDE.Content.DataTypes.EntityBuilder">
-            <summary>
-            Used Internally
-            </summary>
-        </member>
-        <member name="T:SGDE.Graphics.VectorSprite">
-            <summary>
-            A vector based Sprite.
-            </summary>
-        </member>
-        <member name="T:SGDE.Graphics.BitmapSprite">
-            <summary>
-            A bitmap based Sprite.
-            </summary>
-        </member>
-        <member name="T:SGDE.Content.Readers.EntityReader">
-            <summary>
-            Read and process a Entity class
-            </summary>
-        </member>
-        <member name="M:SGDE.Content.Readers.EntityReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Entity)">
-            <summary>
-            Read a Entity.
-            </summary>
-        </member>
-        <member name="P:SGDE.Content.Readers.EntityReader.TypeVersion">
-            <summary>
-            Get the current version of the Entity Reader.
-            </summary>
-        </member>
-        <member name="T:SGDE.Content.Code.Library.Math">
-            <summary>
-            The Math class contains methods and constants that represent common mathematical functions and values.
-            </summary>
-        </member>
-        <member name="F:SGDE.Content.Code.Library.Math.PI">
-            <summary>
-            A mathematical constant for the ratio of the circumference of a circle to its diameter, expressed as pi, with a value of 3.141592653589793.
-            </summary>
-        </member>
         <member name="T:SGDE.Input.Keyboard">
             <summary>
             A keyboard input device.
@@ -1104,124 +1232,6 @@
         <member name="P:SGDE.Input.Keyboard.Type">
             <summary>
             Always returns Keyboard.
-            </summary>
-        </member>
-        <member name="T:SGDE.Content.Readers.MapReader">
-            <summary>
-            Read and process a MapContent class
-            </summary>
-        </member>
-        <member name="M:SGDE.Content.Readers.MapReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Content.DataTypes.MapContent)">
-            <summary>
-            Read a MapContent.
-            </summary>
-        </member>
-        <member name="T:SGDE.Content.Code.Library.Boolean">
-            <summary>
-            A Boolean object is a data type that can have one of two values, either true or false, used for logical operations.
-            </summary>
-        </member>
-        <member name="M:SGDE.Content.Code.Library.Boolean.#ctor(SGDE.Content.Code.Library.Object)">
-            <summary>
-            Creates a Boolean object with the specified value.
-            </summary>
-            <param name="expression">Any expression.</param>
-        </member>
-        <member name="M:SGDE.Content.Code.Library.Boolean.toString">
-            <summary>
-            Returns the string representation ("true" or "false") of the Boolean object.
-            </summary>
-            <returns>The string "true" or "false".</returns>
-        </member>
-        <member name="M:SGDE.Content.Code.Library.Boolean.op_Implicit(System.Boolean)~SGDE.Content.Code.Library.Boolean">
-            <summary>
-            Convert a primitive bool to a Boolean.
-            </summary>
-            <param name="b">The bool value to create the Boolean with.</param>
-            <returns>The created Boolean.</returns>
-        </member>
-        <member name="M:SGDE.Content.Code.Library.Boolean.op_Implicit(SGDE.Content.Code.Library.Boolean)~System.Boolean">
-            <summary>
-            Convert a Boolean to a primitive bool.
-            </summary>
-            <param name="b">The Boolean to convert to a bool.</param>
-            <returns>The retrieved bool.</returns>
-        </member>
-        <member name="T:SGDE.Content.Readers.CodeReader">
-            <summary>
-            Read and process a Code class
-            </summary>
-        </member>
-        <member name="M:SGDE.Content.Readers.CodeReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Content.Code.Code)">
-            <summary>
-            Read a Code.
-            </summary>
-        </member>
-        <member name="T:SGDE.Content.Code.Library.Global">
-            <summary>
-            Top level or global functions are available in any place where ActionScript is used, or in any user-defined class.
-            </summary>
-        </member>
-        <member name="F:SGDE.Content.Code.Library.Global.undefined">
-            <summary>
-            A special value that applies to untyped variables that have not been initialized or dynamic object properties that are not initialized.
-            </summary>
-        </member>
-        <member name="T:SGDE.Content.DataTypes.GameContent">
-            <summary>
-            Used internally
-            </summary>
-        </member>
-        <member name="M:SGDE.Content.DataTypes.GameContent.GotoLevel(System.Int32)">
-            <summary>
-            Goto a specific level.
-            </summary>
-            <param name="level">The zero-based index of the level to go to.</param>
-        </member>
-        <member name="M:SGDE.Content.DataTypes.GameContent.NextLevel">
-            <summary>
-            Go to the next level based on level order, if possible.
-            </summary>
-            <returns><code>true</code> if level was progressed. <code>false</code> if couldn't load level, usually because the level order is done.</returns>
-        </member>
-        <member name="M:SGDE.Content.DataTypes.GameContent.Setup(SGDE.Game@)">
-            <summary>
-            Setup one-time game settings.
-            </summary>
-            <param name="game">The Game that will be set.</param>
-        </member>
-        <member name="M:SGDE.Content.DataTypes.GameContent.GetMapContent``1(System.String)">
-            <summary>
-            Get content from the current map that has an developer ID (DID) assigned to it.
-            </summary>
-            <typeparam name="T">The type of content to load.</typeparam>
-            <param name="did">The developer ID of the game content.</param>
-            <returns>The game content, if it exists, or the default value of the requested type.</returns>
-        </member>
-        <member name="M:SGDE.Content.DataTypes.GameContent.Process(SGDE.Game@)">
-            <summary>
-            Process all Code elements.
-            </summary>
-            <param name="game">The Game to process the Code elements on.</param>
-        </member>
-        <member name="P:SGDE.Content.DataTypes.GameContent.CurrentLevel">
-            <summary>
-            Get the current level of the Game.
-            </summary>
-        </member>
-        <member name="P:SGDE.Content.DataTypes.GameContent.NumberOfLevels">
-            <summary>
-            Get the number of levels.
-            </summary>
-        </member>
-        <member name="P:SGDE.Content.DataTypes.GameContent.Entities">
-            <summary>
-            Get the Entities for the specified map.
-            </summary>
-        </member>
-        <member name="P:SGDE.Content.DataTypes.GameContent.MapName">
-            <summary>
-            Get the current Map name. Will be null if none exists.
             </summary>
         </member>
         <member name="T:SGDE.Input.Touchscreen">
@@ -1320,16 +1330,6 @@
         <member name="M:SGDE.Content.Readers.SVGReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Graphics.SVG.SVG)">
             <summary>
             Read a SVG.
-            </summary>
-        </member>
-        <member name="T:SGDE.Content.Readers.SpriteManagerReader">
-            <summary>
-            Read and process a SpriteManager class
-            </summary>
-        </member>
-        <member name="M:SGDE.Content.Readers.SpriteManagerReader.Read(Microsoft.Xna.Framework.Content.ContentReader,SGDE.Graphics.SpriteManager)">
-            <summary>
-            Read a SpriteManager.
             </summary>
         </member>
     </members>
