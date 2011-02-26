@@ -65,8 +65,9 @@ namespace SGDE.Graphics
         #region Animations
 
         private List<SpriteAnimation> animations;
+        private Dictionary<int, int> animationMapping;
 
-        public int AddAnimation(SpriteAnimation animation)
+        public int AddAnimation(SpriteAnimation animation, int sid)
         {
             if (!animation.IsValid)
             {
@@ -75,18 +76,42 @@ namespace SGDE.Graphics
             if (animations == null)
             {
                 animations = new List<SpriteAnimation>();
+                animationMapping = new Dictionary<int, int>();
             }
             animations.Add(animation);
+            if (sid >= 0)
+            {
+                if (!animationMapping.ContainsKey(sid))
+                {
+                    animationMapping.Add(sid, animations.Count);
+                }
+            }
             return animations.Count;
         }
 
         public SpriteAnimation GetFrames(int id)
+        {
+            return GetFrames(-1, id);
+        }
+
+        public SpriteAnimation GetFrames(int sid, int id)
         {
             if (id <= 0 || animations == null)
             {
                 return new SpriteAnimation();
             }
             id--;
+            if (sid >= 0)
+            {
+                if (animationMapping.ContainsKey(sid))
+                {
+                    id += animationMapping[sid];
+                }
+                else
+                {
+                    return new SpriteAnimation();
+                }
+            }
             if (animations.Count < id)
             {
                 return new SpriteAnimation();

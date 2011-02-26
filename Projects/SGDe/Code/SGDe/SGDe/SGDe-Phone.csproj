@@ -84,6 +84,7 @@
     <Compile Include="Content\Readers\SpriteManagerReader.cs" />
     <Compile Include="Content\Readers\SVGReader.cs" />
     <Compile Include="Content\Readers\VectorSpriteReader.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Graphics\BitmapSprite.cs" />
     <Compile Include="Graphics\SpriteManager.cs" />

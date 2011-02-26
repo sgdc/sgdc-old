@@ -31,7 +31,8 @@ namespace SGDE.Content.Readers
                 sprite.OverrideAttributes = input.ReadObject<Sprite.SpriteAttributes>();
             }
             sprite.offsetOrigin = input.ReadBoolean();
-            ReadAnimation(ref sprite, input);
+            int sid = input.ReadInt32();
+            ReadAnimation(ref sprite, sid, input);
             if (input.ReadBoolean())
             {
                 sprite.animStart = input.ReadInt32(); //Begin
@@ -50,7 +51,7 @@ namespace SGDE.Content.Readers
                     sprite.animEnd = sprite.animation.frameCount;
                 }
             }
-            HandleSpecific(input, input.ReadInt32(), sprite);
+            HandleSpecific(input, sid, sprite);
             return sprite;
         }
 
@@ -60,7 +61,7 @@ namespace SGDE.Content.Readers
 
         #region ReadAnimation
 
-        private static void ReadAnimation(ref T sprite, ContentReader input)
+        private static void ReadAnimation(ref T sprite, int sid, ContentReader input)
         {
             bool builtInAnimation = input.ReadBoolean();
             bool localAnimation = input.ReadBoolean();
@@ -84,7 +85,7 @@ namespace SGDE.Content.Readers
                     for (int i = 1; i <= animations.Count; i++)
                     {
                         SpriteManager.SpriteAnimation animation = animations[i - 1];
-                        int value = manager.AddAnimation(animation);
+                        int value = manager.AddAnimation(animation, sid);
                         if (localAnimation && !gotAn && i == animationID)
                         {
                             gotAn = true;

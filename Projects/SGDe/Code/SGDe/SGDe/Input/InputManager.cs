@@ -173,7 +173,7 @@ namespace SGDE.Input
             if (converter != null)
             {
                 //Check to make sure it's valid
-                if ((converter.ConvertFrom.ToString().IndexOf('|') >= 0) || (converter.ConvertTo.ToString().IndexOf('|') >= 0))
+                if ((converter.ConvertFrom.SeperatedFlags<InputType>().Length > 1) || (converter.ConvertTo.SeperatedFlags<InputType>().Length > 1))
                 {
                     return false;
                 }
@@ -379,6 +379,15 @@ namespace SGDE.Input
     }
 
     #endregion
+
+    public interface InputConvertionHandler
+    {
+        /* Context: Ex: Controller
+         * Value: Ex: Pressed
+         * overrideCurrent: Ex: true (if the current value is unpressed, then it is changed. This only happens if the input exists. If it doesn't exist then it simply creates it anyway and this is ignored)
+         */
+        bool AddSetting(object context, object value, bool overrideCurrent);
+    }
     
     /// <summary>
     /// An input component from InputType.

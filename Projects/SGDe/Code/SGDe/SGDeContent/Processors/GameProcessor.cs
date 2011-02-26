@@ -286,9 +286,17 @@ namespace SGDeContent.Processors
                 return false;
             }
             //Write out the game resources
+            XmlElement element1 = parent.OwnerDocument.CreateElement(ContentTagManager.GetTagValue("IMPORT_GAME_ELEMENT", version));
+            parent.AppendChild(element1);
+
             //TODO
+
             //Write out the game settings
+            element1 = parent.OwnerDocument.CreateElement(ContentTagManager.GetTagValue("GAME_SETTINGS", version));
+            parent.AppendChild(element1);
+
             //TODO
+
             return true;
         }
 

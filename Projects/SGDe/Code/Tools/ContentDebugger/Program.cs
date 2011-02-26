@@ -114,6 +114,11 @@ namespace ContentDebugger
         /// </summary>
         private const LoggerVerbosity LoggingVerbosity = LoggerVerbosity.Normal;
 
+        /// <summary>
+        /// TODO: Change this if you want the content to be rebuilt instead of a basic build.
+        /// </summary>
+        private const bool Rebuild = true;
+
         #region MSBuild hosting and execution
 
         /// <summary>
@@ -142,7 +147,7 @@ namespace ContentDebugger
             globalProperties.Add("CustomAfterMicrosoftCommonTargets", DebuggingTargets);
 
             var project = ProjectCollection.GlobalProjectCollection.LoadProject(ProjectName, globalProperties, MSBuildVersion);
-            bool succeeded = project.Build("rebuild", Loggers);
+            bool succeeded = project.Build((Rebuild ? "re" : string.Empty) + "build", Loggers);
 
             // To read the build output in the console window, place a breakpoint on the
             // Debug.WriteLine statement below.

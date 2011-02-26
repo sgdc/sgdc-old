@@ -25,6 +25,7 @@ namespace SGDeContent.Writers
                 output.WriteObject(value.OverrideAttributes);
             }
             output.Write(value.OffsetOrigin);
+            output.Write(value.SpriteID);
             output.Write(value.BuiltInAnimation);
             output.Write(value.AnimationLocal);
             output.Write(value.AnimationID + 1);
@@ -47,7 +48,6 @@ namespace SGDeContent.Writers
                 output.Write(value.RegionBegin);
                 output.Write(value.RegionEnd);
             }
-            output.Write(value.SpriteID);
             WriteSpecific(output, value);
         }
 

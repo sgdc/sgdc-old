@@ -1296,7 +1296,11 @@
             <param name="id">The ID of the touch locations to get the difference of.</param>
             <returns>The touch location difference, if it exists. If it exists the TouchState will be Pressed regardless of it's actual state or difference in state.</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "P:SGDE.Input.Touchscreen.Type" -->
+        <member name="P:SGDE.Input.Touchscreen.Type">
+            <summary>
+            Always returns Touchscreen.
+            </summary>
+        </member>
         <member name="P:SGDE.Input.Touchscreen.IsConnected">
             <summary>
             Get if the touchscreen device is currently connected.

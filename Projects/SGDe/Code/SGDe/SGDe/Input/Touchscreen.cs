@@ -18,7 +18,7 @@ namespace SGDE.Input
             this.manager = manager;
         }
 
-        ///// <summary>
+        /// <summary>
         /// Always returns Touchscreen.
         /// </summary>
         public InputType Type
