@@ -23,6 +23,8 @@ namespace MyPolarBear.GameObjects
             set { _isAlive = value; }
         }
 
+        public bool attached;
+
         public Projectile(Vector2 position, float speed, Vector2 direction, PolarBear.Power type) 
             : base(position)
         {
@@ -31,6 +33,7 @@ namespace MyPolarBear.GameObjects
             Direction = Vector2.Normalize(direction);            
             Type = type;
             IsAlive = true;
+            attached = false;
         }
 
         public override void Update(GameTime gameTime)
