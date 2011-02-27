@@ -107,6 +107,11 @@ namespace MyPolarBear.GameScreens
             if (ScreenManager.keyboard.IsKeyPressed(Keys.S))
                 ScreenManager.camera.Zoom(0.01f);
 
+            if (ScreenManager.keyboard.IsKeyPressed(Keys.R))
+            {
+                polarBear.FireIce();
+            }
+
             foreach (Projectile projectile in projectiles)
             {
                 projectile.Update(gameTime);

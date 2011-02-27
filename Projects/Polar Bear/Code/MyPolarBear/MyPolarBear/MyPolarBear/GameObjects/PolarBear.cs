@@ -20,6 +20,8 @@ namespace MyPolarBear.GameObjects
         }
 
         public Power power = Power.Normal;
+        public int aniFrame;
+        public bool isFiring;
 
 
         public PolarBear(Vector2 position)
@@ -59,6 +61,35 @@ namespace MyPolarBear.GameObjects
         public Projectile ShootProjectile(Vector2 direction)
         {
             return new Projectile(Position, 10.0f, direction, power);
+        }
+
+        public void FireIce()
+        {
+            aniFrame = 0;
+            isFiring = true;
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            //spriteBatch.Draw(Texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects.None, 0f);
+            int rectWidth = Texture.Width;
+            int rectHeight = Texture.Height / 4;
+            Rectangle sourceRect = new Rectangle(0, rectHeight * (aniFrame / 4), rectWidth, rectHeight);
+
+            rectWidth *= 4;
+            rectHeight *= 4;
+            Rectangle destRect = new Rectangle((int)Position.X - rectWidth / 2, (int)Position.Y - rectHeight / 2, rectWidth, rectHeight);
+            spriteBatch.Draw(Texture, destRect, sourceRect, Color.White);
+
+            if (isFiring)
+            {
+                aniFrame++;
+                if (aniFrame % 16 == 0)
+                {
+                    isFiring = false;
+                    aniFrame = 0;
+                }
+            }
         }
     }
 }
