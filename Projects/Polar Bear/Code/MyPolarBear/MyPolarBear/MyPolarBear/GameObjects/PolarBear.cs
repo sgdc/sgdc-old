@@ -73,18 +73,18 @@ namespace MyPolarBear.GameObjects
         {
             //spriteBatch.Draw(Texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects.None, 0f);
             int rectWidth = Texture.Width;
-            int rectHeight = Texture.Height / 4;
-            Rectangle sourceRect = new Rectangle(0, rectHeight * (aniFrame / 4), rectWidth, rectHeight);
+            int rectHeight = Texture.Height / 7;
+            Rectangle sourceRect = new Rectangle(0, rectHeight * (aniFrame / 8), rectWidth, rectHeight);
 
-            rectWidth *= 4;
-            rectHeight *= 4;
+            rectWidth *= 2;
+            rectHeight *= 2;
             Rectangle destRect = new Rectangle((int)Position.X - rectWidth / 2, (int)Position.Y - rectHeight / 2, rectWidth, rectHeight);
             spriteBatch.Draw(Texture, destRect, sourceRect, Color.White);
 
             if (isFiring)
             {
                 aniFrame++;
-                if (aniFrame % 16 == 0)
+                if (aniFrame % 56 == 0)
                 {
                     isFiring = false;
                     aniFrame = 0;
