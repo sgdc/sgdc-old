@@ -110,6 +110,7 @@
     <Compile Include="Camera.cs" />
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\EntityHelper.cs" />
+    <Compile Include="GameObjects\Enemy.cs" />
     <Compile Include="GameObjects\PolarBear.cs" />
     <Compile Include="GameObjects\Projectile.cs" />
     <Compile Include="GameScreens\GameScreen.cs" />

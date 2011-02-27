@@ -59,7 +59,7 @@ namespace MyPolarBear
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            textures.Add(Content.Load<Texture2D>("Images/nimbus urso attack"));
+            textures.Add(Content.Load<Texture2D>("SpriteSheets/Arctic/walkingRight"));
             textures.Add(Content.Load<Texture2D>("Images/IcePowerPolarBear"));
             textures.Add(Content.Load<Texture2D>("Images/FirePowerPolarBear"));
             textures.Add(Content.Load<Texture2D>("Images/GrassPowerPolarBear"));
@@ -69,6 +69,7 @@ namespace MyPolarBear
             textures.Add(Content.Load<Texture2D>("Images/GrassyHeart"));
             textures.Add(Content.Load<Texture2D>("Images/WorldMap"));
             textures.Add(Content.Load<Texture2D>("Images/Reticule"));
+            textures.Add(Content.Load<Texture2D>("SpriteSheets/Pyrus/walkRight"));
 
             Components.Add(screenManager);
 

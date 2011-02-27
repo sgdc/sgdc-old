@@ -23,7 +23,11 @@ namespace MyPolarBear.GameScreens
         
         PolarBear polarBear;
 
+        const int maxEnemies = 50;
+        Enemy[] enemies;
+
         Entity reticule;
+        Random random = new Random();
 
 
         List<Projectile> projectiles = new List<Projectile>();
@@ -47,6 +51,14 @@ namespace MyPolarBear.GameScreens
             polarBear.LoadContent(Game1.GetTextureAt(0), 1.0f);
             reticule = new Entity(Vector2.Zero);
             reticule.LoadContent(Game1.GetTextureAt(9), 0.5f);
+
+            enemies = new Enemy[maxEnemies];
+
+            for (int i = 0; i < maxEnemies; i++)
+            {
+                enemies[i] = new Enemy(new Vector2(MathHelper.Lerp(0.0f, 800.0f, (float)random.NextDouble()), MathHelper.Lerp(0.0f, 800.0f, (float)random.NextDouble())));
+                enemies[i].LoadContent(Game1.GetTextureAt(10), 1.0f);
+            }
             
             ScreenManager.camera.FocusEntity = polarBear;
         }
@@ -130,6 +142,11 @@ namespace MyPolarBear.GameScreens
 
             deadProjectiles.Clear();
 
+            foreach (Enemy eni in enemies)
+            {
+                eni.Update(gameTime);
+            }
+
             polarBear.Update(gameTime);    
                        
         }       
@@ -143,6 +160,11 @@ namespace MyPolarBear.GameScreens
             foreach (Projectile projectile in projectiles)
             {
                 projectile.Draw(spriteBatch);
+            }
+
+            foreach (Enemy eni in enemies)
+            {
+                eni.Draw(spriteBatch);
             }
 
             reticule.Draw(spriteBatch);
