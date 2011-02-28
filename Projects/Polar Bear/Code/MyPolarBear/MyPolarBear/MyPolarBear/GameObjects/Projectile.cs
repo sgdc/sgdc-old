@@ -64,35 +64,54 @@ namespace MyPolarBear.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-            if (ScreenManager.gamepad.IsButtonPressed(Buttons.B))
+            if (ScreenManager.gamepad.IsButtonPressed(Buttons.B) || !IsAlive)
             {
                 UpdateKeeper.getInstance().removeEntity(this);
                 DrawKeeper.getInstance().removeEntity(this);
                 return;
             }
 
-            if (IsAlive)
-            {      
-                Position += Direction * Velocity;
+            //if (IsAlive)
+            //{      
+            //    Position += Direction * Velocity;
 
-                base.Update(gameTime);
-            }
+            //    base.Update(gameTime);
+            //}
+
+            Position += Direction * Velocity;
 
             if (ScreenManager.mouse.IsButtonReleased(MouseComponent.MouseButton.Right))
                 Position = ScreenManager.mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
 
             foreach (Entity eni in UpdateKeeper.getInstance().getEntities())
             {
-                if (eni is Enemy && CollisionBox.Intersects(eni.CollisionBox))
-                {
-                    if (!attached)
-                    {
-                        Position = eni.Position;
-                        ((Enemy)eni).alive = false;
-                        attached = true;
-                    }
+                //if (eni is Enemy && CollisionBox.Intersects(eni.CollisionBox))
+                //{
+                //    if (!attached)
+                //    {
+                //        //Position = eni.Position;
+                //        //((Enemy)eni).alive = false;
+                //        //attached = true;
+                //        hitEntity(eni);
+                //    }
 
+                //}
+
+                if (CollisionBox.Intersects(eni.CollisionBox))
+                {
+                    hitEntity(eni);
                 }
+            }
+
+            base.Update(gameTime);
+        }
+
+        private void hitEntity(Entity eni)
+        {
+            if (eni is Enemy)
+            {
+                ((Enemy)eni).bFollowBear = true;
+                IsAlive = false;
             }
         }
 

@@ -25,14 +25,16 @@ namespace MyPolarBear
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
         ScreenManager screenManager;
-
         public static Dictionary<String, Texture2D> textures = new Dictionary<string, Texture2D>();
+        public static SpriteFont gameFont;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 1024;
+            graphics.PreferredBackBufferHeight = 1300;
+            graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             
             screenManager = new ScreenManager(this);
@@ -68,6 +70,7 @@ namespace MyPolarBear
             textures.Add("Images/GrassyHeart", Content.Load<Texture2D>("Images/GrassyHeart"));
             textures.Add("Images/WorldMap", Content.Load<Texture2D>("Images/WorldMap"));
             textures.Add("Images/Reticule", Content.Load<Texture2D>("Images/Reticule"));
+            textures.Add("Images/BasicTerrain", Content.Load<Texture2D>("Images/BasicTerrain"));
 
             // Arctic
             textures.Add("SpriteSheets/Arctic/icewaveBack", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveBack"));
@@ -92,6 +95,8 @@ namespace MyPolarBear
             textures.Add("SpriteSheets/Pyrus/walkFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkFront"));
             textures.Add("SpriteSheets/Pyrus/walkingBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkingBack"));
             textures.Add("SpriteSheets/Pyrus/walkRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkRight"));
+
+            gameFont = Content.Load<SpriteFont>("Fonts/Calibri");
             
             base.LoadContent();
 
@@ -127,7 +132,7 @@ namespace MyPolarBear
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.SteelBlue);
 
             base.Draw(gameTime);
         }

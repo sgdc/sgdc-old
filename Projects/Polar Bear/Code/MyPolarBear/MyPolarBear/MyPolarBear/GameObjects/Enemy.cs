@@ -18,6 +18,7 @@ namespace MyPolarBear.GameObjects
         public Vector2 swarmPos;
 
         private PolarBear followBear;
+        public bool bFollowBear;
 
         public Enemy(Vector2 position)
             : base(position)
@@ -28,6 +29,7 @@ namespace MyPolarBear.GameObjects
             followVelocity = new Vector2(0, 0);
             swarmPos = new Vector2(0, 0);
             followBear = null;
+            bFollowBear = false;
         }
 
         public override void LoadContent()
@@ -51,40 +53,60 @@ namespace MyPolarBear.GameObjects
                 }
             }
 
-            if (followBear != null)
+            if (followBear != null && bFollowBear)
             {
-                followVelocity = (followBear.Position - Position) * 10;
+                //followVelocity = (followBear.Position - Position) * 10;
+                Vector2 dist = followBear.Position - Position;
+                if (dist.X > 10 || dist.Y > 10)
+                {
+                    dist.Normalize();
+                    Velocity = dist * 2.0f;
+                }
+                //Velocity = new Vector2(5, 0);
             }
+            //else
+            //{
+                if ((Position.X > GameScreens.GameScreen.WORLDWIDTH - 400 && Velocity.X > 0) || (Position.X < 400 && Velocity.X < 0))
+                {
+                    //Velocity = new Vector2(0, Velocity.Y);
+                    Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+                }
+
+                if ((Position.Y > GameScreens.GameScreen.WORLDHEIGHT - 400 && Velocity.Y > 0) || (Position.Y < 400 && Velocity.Y < 0))
+                {
+                    Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
+                }
+            //}
 
             Position += Velocity;
-            if (alive)
-            {
-                swarmPos += followVelocity;
-            }
+            //if (alive)
+            //{
+            //    swarmPos += followVelocity;
+            //}
 
-            if (Position.X > swarmPos.X + 500 && moveRight)
-            {
-                moveRight = false;
-                Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
-            }
+            //if (Position.X > swarmPos.X + 500 && moveRight)
+            //{
+            //    moveRight = false;
+            //    Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+            //}
 
-            if (Position.X < swarmPos.X && !moveRight)
-            {
-                moveRight = true;
-                Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
-            }
+            //if (Position.X < swarmPos.X && !moveRight)
+            //{
+            //    moveRight = true;
+            //    Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+            //}
 
-            if (Position.Y > swarmPos.Y + 500 && moveDown)
-            {
-                moveDown = false;
-                Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
-            }
+            //if (Position.Y > swarmPos.Y + 500 && moveDown)
+            //{
+            //    moveDown = false;
+            //    Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
+            //}
 
-            if (Position.Y < swarmPos.Y && !moveDown)
-            {
-                moveDown = true;
-                Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
-            }
+            //if (Position.Y < swarmPos.Y && !moveDown)
+            //{
+            //    moveDown = true;
+            //    Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
+            //}
 
             base.Update(gameTime);
         }

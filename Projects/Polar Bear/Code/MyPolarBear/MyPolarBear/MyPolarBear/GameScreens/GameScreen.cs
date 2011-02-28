@@ -17,6 +17,8 @@ namespace MyPolarBear.GameScreens
 {
     class GameScreen : Screen
     {
+        public const int WORLDWIDTH = 4096;
+        public const int WORLDHEIGHT = 2600;
         AudioEngine audioEngine;
         WaveBank waveBank;
         SoundBank soundBank;
@@ -24,6 +26,7 @@ namespace MyPolarBear.GameScreens
         PolarBear polarBear;
 
         const int maxEnemies = 50;
+        private int lovedEnemies = 0;
 
         Entity reticule;
         Random random = new Random();
@@ -72,6 +75,11 @@ namespace MyPolarBear.GameScreens
             if (ScreenManager.gamepad.IsButtonReleased(Buttons.Back))
                 ScreenManager.isExiting = true;
 
+            if (ScreenManager.keyboard.IsKeyPressed(Keys.P))
+                ScreenManager.screenType = ScreenType.PauseScreen;
+            if (ScreenManager.keyboard.IsKeyPressed(Keys.Escape))
+                ScreenManager.isExiting = true;
+
             if (ScreenManager.gamepad.GetTriggerState(GamePadComponent.Trigger.Left) != 0)
                 ScreenManager.camera.Zoom(-0.01f);
             if (ScreenManager.gamepad.GetTriggerState(GamePadComponent.Trigger.Right) != 0)
@@ -84,6 +92,18 @@ namespace MyPolarBear.GameScreens
 
             reticule.Position = ScreenManager.mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
 
+            lovedEnemies = 0;
+            foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
+            {
+                if (ent is Enemy)
+                {
+                    if (((Enemy)ent).bFollowBear)
+                    {
+                        lovedEnemies++;
+                    }
+                }
+            }
+
             UpdateKeeper.getInstance().updateAll(gameTime);
         }       
 
@@ -91,11 +111,16 @@ namespace MyPolarBear.GameScreens
         {          
             //spriteBatch.Draw(Game1.GetTextureAt(8), Vector2.Zero, Color.White);
             //spriteBatch.Draw(Game1.GetTextureAt(8), Vector2.Zero, null, Color.White, 0.0f, new Vector2(Game1.GetTextureAt(8).Width / 2, Game1.GetTextureAt(8).Height / 2), 5.0f, SpriteEffects.None, 0.0f);
-            spriteBatch.Draw(Game1.textures["Images/WorldMap"], Vector2.Zero, Color.White);
+            //spriteBatch.Draw(Game1.textures["Images/WorldMap"], Vector2.Zero, Color.White);
+            //spriteBatch.Draw(Game1.textures["Images/BasicTerrain"], Vector2.Zero, Color.White);
+            spriteBatch.Draw(Game1.textures["Images/BasicTerrain"], new Rectangle(0, 0, WORLDWIDTH, WORLDHEIGHT), Color.White);
 
             reticule.Draw(spriteBatch);
 
             DrawKeeper.getInstance().drawAll(spriteBatch);
+
+            spriteBatch.DrawString(Game1.gameFont, lovedEnemies.ToString() + "/" + maxEnemies.ToString(),
+                                   ScreenManager.camera.TopLeft, Color.Yellow);
 
             base.DrawGame(spriteBatch);
         }        
