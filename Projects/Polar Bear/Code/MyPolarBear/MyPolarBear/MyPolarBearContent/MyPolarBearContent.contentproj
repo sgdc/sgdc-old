@@ -112,13 +112,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\nimbus urso attack.png">
-      <Name>nimbus urso attack</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="SpriteSheets\Arctic\icewaveBack.png">
       <Name>icewaveBack</Name>
       <Importer>TextureImporter</Importer>

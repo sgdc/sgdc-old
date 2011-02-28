@@ -24,16 +24,9 @@ namespace MyPolarBear.GameScreens
         PolarBear polarBear;
 
         const int maxEnemies = 50;
-        Enemy[] enemies;
 
         Entity reticule;
         Random random = new Random();
-
-
-        List<Projectile> projectiles = new List<Projectile>();
-        List<Projectile> deadProjectiles = new List<Projectile>();
-
-        int timeProjectileFired;
 
         public GameScreen(ScreenType screenType) : base(screenType)
         {
@@ -48,17 +41,24 @@ namespace MyPolarBear.GameScreens
             //soundBank.PlayCue("Music");
             
             polarBear = new PolarBear(new Vector2(400, 400));
-            polarBear.LoadContent(Game1.GetTextureAt(0), 1.0f);
-            reticule = new Entity(Vector2.Zero);
-            reticule.LoadContent(Game1.GetTextureAt(9), 0.5f);
+            //polarBear.LoadContent(Game1.GetTextureAt(0), 1.0f);
+            polarBear.LoadContent();
+            UpdateKeeper.getInstance().addEntity(polarBear);
+            DrawKeeper.getInstance().addEntity(polarBear);
 
-            enemies = new Enemy[maxEnemies];
+            reticule = new Entity(Vector2.Zero);
+            //reticule.LoadContent(Game1.GetTextureAt(9), 0.5f);
+            reticule.LoadContent(Game1.textures["Images/Reticule"], 0.5f);
+
+            Enemy ene;
 
             for (int i = 0; i < maxEnemies; i++)
             {
-                enemies[i] = new Enemy(new Vector2(MathHelper.Lerp(0.0f, 800.0f, (float)random.NextDouble()), MathHelper.Lerp(0.0f, 800.0f, (float)random.NextDouble())));
-                enemies[i].Velocity = new Vector2(random.Next(1, 20), random.Next(1, 20));
-                enemies[i].LoadContent(Game1.GetTextureAt(10), 1.0f);
+                ene = new Enemy(new Vector2(MathHelper.Lerp(0.0f, 800.0f, (float)random.NextDouble()), MathHelper.Lerp(0.0f, 800.0f, (float)random.NextDouble())));
+                ene.Velocity = new Vector2(random.Next(1, 20), random.Next(1, 20));
+                ene.LoadContent();
+                UpdateKeeper.getInstance().addEntity(ene);
+                DrawKeeper.getInstance().addEntity(ene);
             }
             
             ScreenManager.camera.FocusEntity = polarBear;
@@ -72,44 +72,6 @@ namespace MyPolarBear.GameScreens
             if (ScreenManager.gamepad.IsButtonReleased(Buttons.Back))
                 ScreenManager.isExiting = true;
 
-            if (ScreenManager.keyboard.IsKeyPressed(Keys.Left))
-                polarBear.Translate(new Vector2(-5.0f, 0.0f));
-            if (ScreenManager.keyboard.IsKeyPressed(Keys.Right))
-                polarBear.Translate(new Vector2(5.0f, 0.0f));
-            if (ScreenManager.keyboard.IsKeyPressed(Keys.Up))
-                polarBear.Translate(new Vector2(0.0f, -5.0f));
-            if (ScreenManager.keyboard.IsKeyPressed(Keys.Down))
-                polarBear.Translate(new Vector2(0.0f, 5.0f));
-            if (ScreenManager.keyboard.IsKeyReleased(Keys.Space))
-                polarBear.SwitchPowers();
-
-            if (ScreenManager.mouse.IsButtonReleased(MouseComponent.MouseButton.Left))
-            {
-                Projectile projectile = polarBear.ShootProjectile(ScreenManager.mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter);
-                
-                projectile.LoadContent(Game1.GetTextureAt(4), 0.25f);
-                projectiles.Add(projectile);
-                projectile.IsAlive = true;
-            }
-
-            if (ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Left) != Vector2.Zero)
-                polarBear.Translate(ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Left) * 5);
-
-            if (ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Right).Length() >= .5)
-            {
-                Projectile projectile = polarBear.ShootProjectile(ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Right));
-                if (gameTime.TotalGameTime.TotalMilliseconds - timeProjectileFired >= 500)
-                {
-                    projectile.LoadContent(Game1.GetTextureAt(4), 0.25f);
-                    projectiles.Add(projectile);
-                    projectile.IsAlive = true;
-                    timeProjectileFired = (int)gameTime.TotalGameTime.TotalMilliseconds;
-                }                                 
-            }
-
-            if (ScreenManager.gamepad.IsButtonReleased(Buttons.RightShoulder))
-                polarBear.SwitchPowers();
-
             if (ScreenManager.gamepad.GetTriggerState(GamePadComponent.Trigger.Left) != 0)
                 ScreenManager.camera.Zoom(-0.01f);
             if (ScreenManager.gamepad.GetTriggerState(GamePadComponent.Trigger.Right) != 0)
@@ -120,78 +82,20 @@ namespace MyPolarBear.GameScreens
             if (ScreenManager.keyboard.IsKeyPressed(Keys.S))
                 ScreenManager.camera.Zoom(0.01f);
 
-            if (ScreenManager.keyboard.IsKeyPressed(Keys.R))
-            {
-                polarBear.FireIce();
-            }
+            reticule.Position = ScreenManager.mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
 
-            foreach (Projectile projectile in projectiles)
-            {
-                projectile.Update(gameTime);
-                if (ScreenManager.gamepad.IsButtonPressed(Buttons.B))
-                    deadProjectiles.Add(projectile);
-                
-
-                foreach (Enemy eni in enemies)
-                {
-                    if (projectile.CollisionBox.Intersects(eni.CollisionBox))
-                    {
-                        //projectile.IsAlive = false;
-                        //foreach (Projectile proj in projectiles)
-                        //{
-                        //    proj.Position = eni.Position;
-                        //}
-                        if (!projectile.attached)
-                        {
-                            projectile.Position = eni.Position;
-                            eni.alive = false;
-                            projectile.attached = true;
-                        }
-
-                    }
-                }
-
-                if (ScreenManager.mouse.IsButtonReleased(MouseComponent.MouseButton.Right))
-                    projectile.Position = ScreenManager.mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
-            }
-
-            reticule.Position = ScreenManager.mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft; ;
-
-            foreach (Projectile deadprojectile in deadProjectiles)
-            {
-                deadprojectile.IsAlive = false;
-            }
-
-            deadProjectiles.Clear();
-
-            foreach (Enemy eni in enemies)
-            {
-                eni.Update(gameTime);
-                eni.followVelocity = (polarBear.Position - eni.Position) * 10;
-            }
-
-            polarBear.Update(gameTime);    
-                       
+            UpdateKeeper.getInstance().updateAll(gameTime);
         }       
 
         public override void DrawGame(SpriteBatch spriteBatch)
         {          
             //spriteBatch.Draw(Game1.GetTextureAt(8), Vector2.Zero, Color.White);
-            spriteBatch.Draw(Game1.GetTextureAt(8), Vector2.Zero, null, Color.White, 0.0f, new Vector2(Game1.GetTextureAt(8).Width / 2, Game1.GetTextureAt(8).Height / 2), 5.0f, SpriteEffects.None, 0.0f);
-
-            polarBear.Draw(spriteBatch);
-
-            foreach (Projectile projectile in projectiles)
-            {
-                projectile.Draw(spriteBatch);
-            }
-
-            foreach (Enemy eni in enemies)
-            {
-                eni.Draw(spriteBatch);
-            }
+            //spriteBatch.Draw(Game1.GetTextureAt(8), Vector2.Zero, null, Color.White, 0.0f, new Vector2(Game1.GetTextureAt(8).Width / 2, Game1.GetTextureAt(8).Height / 2), 5.0f, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(Game1.textures["Images/WorldMap"], Vector2.Zero, Color.White);
 
             reticule.Draw(spriteBatch);
+
+            DrawKeeper.getInstance().drawAll(spriteBatch);
 
             base.DrawGame(spriteBatch);
         }        

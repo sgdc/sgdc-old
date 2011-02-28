@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MyPolarBear.GameScreens;
+using Microsoft.Xna.Framework.Input;
+using MyPolarBear.Input;
 
 namespace MyPolarBear.GameObjects
 {
@@ -36,31 +39,63 @@ namespace MyPolarBear.GameObjects
             attached = false;
         }
 
+        public override void LoadContent()
+        {
+            switch (Type)
+            {
+                case PolarBear.Power.Normal:
+                    Texture = Game1.textures["Images/Heart"];
+                    break;
+                case PolarBear.Power.Ice:
+                    Texture = Game1.textures["Images/IcyHeart"];
+                    break;
+                case PolarBear.Power.Fire:
+                    Texture = Game1.textures["Images/FieryHeart"];
+                    break;
+                case PolarBear.Power.Grass:
+                    Texture = Game1.textures["Images/GrassyHeart"];
+                    break;
+            }
+
+            Scale = 0.25f;
+
+            base.LoadContent();
+        }
+
         public override void Update(GameTime gameTime)
         {
-            if (IsAlive)
+            if (ScreenManager.gamepad.IsButtonPressed(Buttons.B))
             {
-                switch (Type)
-                {
-                    case PolarBear.Power.Normal:
-                        Texture = Game1.GetTextureAt(4);
-                        break;
-                    case PolarBear.Power.Ice:
-                        Texture = Game1.GetTextureAt(5);
-                        break;
-                    case PolarBear.Power.Fire:
-                        Texture = Game1.GetTextureAt(6);
-                        break;
-                    case PolarBear.Power.Grass:
-                        Texture = Game1.GetTextureAt(7);
-                        break;
-                } 
-                     
+                UpdateKeeper.getInstance().removeEntity(this);
+                DrawKeeper.getInstance().removeEntity(this);
+                return;
+            }
+
+            if (IsAlive)
+            {      
                 Position += Direction * Velocity;
 
                 base.Update(gameTime);
             }
+
+            if (ScreenManager.mouse.IsButtonReleased(MouseComponent.MouseButton.Right))
+                Position = ScreenManager.mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
+
+            foreach (Entity eni in UpdateKeeper.getInstance().getEntities())
+            {
+                if (eni is Enemy && CollisionBox.Intersects(eni.CollisionBox))
+                {
+                    if (!attached)
+                    {
+                        Position = eni.Position;
+                        ((Enemy)eni).alive = false;
+                        attached = true;
+                    }
+
+                }
+            }
         }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (IsAlive)

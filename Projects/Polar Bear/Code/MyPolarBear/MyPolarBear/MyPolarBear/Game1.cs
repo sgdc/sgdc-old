@@ -28,21 +28,13 @@ namespace MyPolarBear
 
         ScreenManager screenManager;
 
-        static List<Texture2D> textures = new List<Texture2D>();
-
-        static public Texture2D GetTextureAt(int index)
-        {
-            if (index <= textures.Count() - 1)
-                return textures.ElementAt(index);
-            else
-                return textures.ElementAt(0); ;
-        }
+        public static Dictionary<String, Texture2D> textures = new Dictionary<string, Texture2D>();
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
+            
             screenManager = new ScreenManager(this);
         }
 
@@ -54,24 +46,8 @@ namespace MyPolarBear
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            textures.Add(Content.Load<Texture2D>("SpriteSheets/Arctic/walkingRight"));
-            textures.Add(Content.Load<Texture2D>("Images/IcePowerPolarBear"));
-            textures.Add(Content.Load<Texture2D>("Images/FirePowerPolarBear"));
-            textures.Add(Content.Load<Texture2D>("Images/GrassPowerPolarBear"));
-            textures.Add(Content.Load<Texture2D>("Images/Heart"));
-            textures.Add(Content.Load<Texture2D>("Images/IcyHeart"));
-            textures.Add(Content.Load<Texture2D>("Images/FieryHeart"));
-            textures.Add(Content.Load<Texture2D>("Images/GrassyHeart"));
-            textures.Add(Content.Load<Texture2D>("Images/WorldMap"));
-            textures.Add(Content.Load<Texture2D>("Images/Reticule"));
-            textures.Add(Content.Load<Texture2D>("SpriteSheets/Pyrus/walkRight"));
-
-            Components.Add(screenManager);
 
             base.Initialize();
         }
@@ -82,8 +58,45 @@ namespace MyPolarBear
         /// </summary>
         protected override void LoadContent()
         {
+            // Images
+            textures.Add("Images/IcePowerPolarBear", Content.Load<Texture2D>("Images/IcePowerPolarBear"));
+            textures.Add("Images/FirePowerPolarBear", Content.Load<Texture2D>("Images/FirePowerPolarBear"));
+            textures.Add("Images/GrassPowerPolarBear", Content.Load<Texture2D>("Images/GrassPowerPolarBear"));
+            textures.Add("Images/Heart", Content.Load<Texture2D>("Images/Heart"));
+            textures.Add("Images/IcyHeart", Content.Load<Texture2D>("Images/IcyHeart"));
+            textures.Add("Images/FieryHeart", Content.Load<Texture2D>("Images/FieryHeart"));
+            textures.Add("Images/GrassyHeart", Content.Load<Texture2D>("Images/GrassyHeart"));
+            textures.Add("Images/WorldMap", Content.Load<Texture2D>("Images/WorldMap"));
+            textures.Add("Images/Reticule", Content.Load<Texture2D>("Images/Reticule"));
+
+            // Arctic
+            textures.Add("SpriteSheets/Arctic/icewaveBack", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveBack"));
+            textures.Add("SpriteSheets/Arctic/icewaveFront", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveFront"));
+            textures.Add("SpriteSheets/Arctic/icewaveRight", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveRight"));
+            textures.Add("SpriteSheets/Arctic/walkingBack", Content.Load<Texture2D>("SpriteSheets/Arctic/walkingBack"));
+            textures.Add("SpriteSheets/Arctic/walkingFront", Content.Load<Texture2D>("SpriteSheets/Arctic/walkingFront"));
+            textures.Add("SpriteSheets/Arctic/walkingRight", Content.Load<Texture2D>("SpriteSheets/Arctic/walkingRight"));
+
+            // Nimbus
+            textures.Add("SpriteSheets/Nimbus/nimbusAttackRightt", Content.Load<Texture2D>("SpriteSheets/Nimbus/nimbusAttackRightt"));
+
+            // Normal
+            textures.Add("SpriteSheets/Normal/shootheartRight", Content.Load<Texture2D>("SpriteSheets/Normal/shootheartRight"));
+            textures.Add("SpriteSheets/Normal/walkLeft3", Content.Load<Texture2D>("SpriteSheets/Normal/walkLeft3"));
+            textures.Add("SpriteSheets/Normal/walkRight2", Content.Load<Texture2D>("SpriteSheets/Normal/walkRight2"));
+
+            // Pyrus
+            textures.Add("SpriteSheets/Pyrus/fireballBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballBack"));
+            textures.Add("SpriteSheets/Pyrus/fireballFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballFront"));
+            textures.Add("SpriteSheets/Pyrus/fireballRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballRight"));
+            textures.Add("SpriteSheets/Pyrus/walkFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkFront"));
+            textures.Add("SpriteSheets/Pyrus/walkingBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkingBack"));
+            textures.Add("SpriteSheets/Pyrus/walkRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkRight"));
             
-            // TODO: use this.Content to load your game content here
+            base.LoadContent();
+
+            Components.Add(screenManager);
+            screenManager.Initialize();
         }
 
         /// <summary>

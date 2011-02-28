@@ -6,6 +6,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MyPolarBear;
+using MyPolarBear.GameScreens;
+using Microsoft.Xna.Framework.Input;
+using MyPolarBear.Input;
 
 namespace MyPolarBear.GameObjects
 {
@@ -23,15 +26,71 @@ namespace MyPolarBear.GameObjects
         public int aniFrame;
         public bool isFiring;
 
+        private int timeProjectileFired;
+
 
         public PolarBear(Vector2 position)
             : base(position)
         {
+            
+        }
 
+        public override void LoadContent()
+        {
+            Texture = Game1.textures["SpriteSheets/Arctic/walkingRight"];
+
+            base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
+            if (ScreenManager.keyboard.IsKeyPressed(Keys.Left))
+                Translate(new Vector2(-5.0f, 0.0f));
+            if (ScreenManager.keyboard.IsKeyPressed(Keys.Right))
+                Translate(new Vector2(5.0f, 0.0f));
+            if (ScreenManager.keyboard.IsKeyPressed(Keys.Up))
+                Translate(new Vector2(0.0f, -5.0f));
+            if (ScreenManager.keyboard.IsKeyPressed(Keys.Down))
+                Translate(new Vector2(0.0f, 5.0f));
+            if (ScreenManager.keyboard.IsKeyReleased(Keys.Space))
+                SwitchPowers();
+
+            if (ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Left) != Vector2.Zero)
+                Translate(ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Left) * 5);
+
+            if (ScreenManager.gamepad.IsButtonReleased(Buttons.RightShoulder))
+                SwitchPowers();
+
+            if (ScreenManager.mouse.IsButtonReleased(MouseComponent.MouseButton.Left))
+            {
+                Projectile projectile = ShootProjectile(ScreenManager.mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter);
+
+                //projectile.LoadContent(Game1.GetTextureAt(4), 0.25f);
+                projectile.LoadContent();
+                projectile.IsAlive = true;
+                UpdateKeeper.getInstance().addEntity(projectile);
+                DrawKeeper.getInstance().addEntity(projectile);
+            }
+
+            if (ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Right).Length() >= .5)
+            {
+                Projectile projectile = ShootProjectile(ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Right));
+                if (gameTime.TotalGameTime.TotalMilliseconds - timeProjectileFired >= 500)
+                {
+                    //projectile.LoadContent(Game1.GetTextureAt(4), 0.25f);
+                    projectile.LoadContent();
+                    UpdateKeeper.getInstance().addEntity(projectile);
+                    DrawKeeper.getInstance().addEntity(projectile);
+                    projectile.IsAlive = true;
+                    timeProjectileFired = (int)gameTime.TotalGameTime.TotalMilliseconds;
+                }
+            }
+
+            if (ScreenManager.keyboard.IsKeyPressed(Keys.R))
+            {
+                FireIce();
+            }
+
             base.Update(gameTime);
         }
 
@@ -41,19 +100,19 @@ namespace MyPolarBear.GameObjects
             {
                 case Power.Normal:
                     power = Power.Ice;
-                    Texture = Game1.GetTextureAt(1);
+                    //Texture = Game1.GetTextureAt(1);
                     break;
                 case Power.Ice:
                     power = Power.Fire;
-                    Texture = Game1.GetTextureAt(2);
+                    //Texture = Game1.GetTextureAt(2);
                     break;
                 case Power.Fire:
                     power = Power.Grass;
-                    Texture = Game1.GetTextureAt(3);
+                    //Texture = Game1.GetTextureAt(3);
                     break;
                 case Power.Grass:
                     power = Power.Normal;
-                    Texture = Game1.GetTextureAt(0);
+                    //Texture = Game1.GetTextureAt(0);
                     break;
             }
         }

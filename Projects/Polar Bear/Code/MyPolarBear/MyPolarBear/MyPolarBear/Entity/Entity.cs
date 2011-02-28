@@ -86,7 +86,8 @@ namespace MyPolarBear
 
         public Entity(Vector2 position)
         { 
-            Position = position; 
+            Position = position;
+            Scale = 1.0f;
         }
 
         public virtual void Initialize() { }
@@ -99,6 +100,16 @@ namespace MyPolarBear
             CollisionBox = EntityHelper.CollisionBoxFromTexture(Position, Texture, Origin, Scale);
             Color = Color.White;
             //aniFrame = 0;
+        }
+
+        public virtual void LoadContent()
+        {
+            if (Texture != null)
+            {
+                Origin = new Vector2((float)Texture.Width / 2, (float)Texture.Height / 2);
+                CollisionBox = EntityHelper.CollisionBoxFromTexture(Position, Texture, Origin, Scale);
+            }
+            Color = Color.White;
         }
 
         public virtual void Update(GameTime gameTime)

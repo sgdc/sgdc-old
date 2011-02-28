@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="DrawKeeper.cs" />
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\EntityHelper.cs" />
     <Compile Include="GameObjects\Enemy.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Text.cs" />
+    <Compile Include="UpdateKeeper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

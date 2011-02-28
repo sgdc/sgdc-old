@@ -17,6 +17,8 @@ namespace MyPolarBear.GameObjects
         public Vector2 followVelocity;
         public Vector2 swarmPos;
 
+        private PolarBear followBear;
+
         public Enemy(Vector2 position)
             : base(position)
         {
@@ -25,18 +27,34 @@ namespace MyPolarBear.GameObjects
             moveDown = true;
             followVelocity = new Vector2(0, 0);
             swarmPos = new Vector2(0, 0);
+            followBear = null;
+        }
+
+        public override void LoadContent()
+        {
+            Texture = Game1.textures["SpriteSheets/Pyrus/walkRight"];
+
+            base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
-            //if (moveRight)
-            //{
-            //    Position = new Vector2(Position.X + random.Next(0, 5), Position.Y);
-            //}
-            //else
-            //{
-            //    Position = new Vector2(Position.X - 10, Position.Y);
-            //}
+            if (followBear == null)
+            {
+                foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
+                {
+                    if (ent is PolarBear)
+                    {
+                        followBear = (PolarBear)ent;
+                        break;
+                    }
+                }
+            }
+
+            if (followBear != null)
+            {
+                followVelocity = (followBear.Position - Position) * 10;
+            }
 
             Position += Velocity;
             if (alive)
@@ -83,15 +101,11 @@ namespace MyPolarBear.GameObjects
             Rectangle destRect = new Rectangle((int)Position.X - rectWidth / 2, (int)Position.Y - rectHeight / 2, rectWidth, rectHeight);
             spriteBatch.Draw(Texture, destRect, sourceRect, Color.White);
 
-            //if (isFiring)
-            //{
             aniFrame++;
             if (aniFrame % 32 == 0)
             {
-                //isFiring = false;
                 aniFrame = 0;
             }
-            //}
         }
     }
 }
