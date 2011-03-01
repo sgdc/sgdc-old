@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using MyPolarBear;
-using MyPolarBear.GameScreens;
 using Microsoft.Xna.Framework.Input;
+
+using MyPolarBear.GameScreens;
 using MyPolarBear.Input;
+using MyPolarBear.Content;
 
 namespace MyPolarBear.GameObjects
 {
@@ -22,7 +20,7 @@ namespace MyPolarBear.GameObjects
             Grass
         }
 
-        public Power power = Power.Normal;
+        public Power power;
         public int aniFrame;
         public bool isFiring;
 
@@ -32,38 +30,38 @@ namespace MyPolarBear.GameObjects
         public PolarBear(Vector2 position)
             : base(position)
         {
-            
+            power = Power.Ice;
         }
 
         public override void LoadContent()
         {
-            Texture = Game1.textures["SpriteSheets/Arctic/walkingRight"];
+            Texture = ContentManager.GetTexture("IceWalkingRight");
 
             base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (ScreenManager.keyboard.IsKeyPressed(Keys.Left))
+            if (InputManager.Keyboard.IsKeyPressed(Keys.Left))
                 Translate(new Vector2(-5.0f, 0.0f));
-            if (ScreenManager.keyboard.IsKeyPressed(Keys.Right))
+            if (InputManager.Keyboard.IsKeyPressed(Keys.Right))
                 Translate(new Vector2(5.0f, 0.0f));
-            if (ScreenManager.keyboard.IsKeyPressed(Keys.Up))
+            if (InputManager.Keyboard.IsKeyPressed(Keys.Up))
                 Translate(new Vector2(0.0f, -5.0f));
-            if (ScreenManager.keyboard.IsKeyPressed(Keys.Down))
+            if (InputManager.Keyboard.IsKeyPressed(Keys.Down))
                 Translate(new Vector2(0.0f, 5.0f));
-            if (ScreenManager.keyboard.IsKeyReleased(Keys.Space))
+            if (InputManager.Keyboard.IsKeyReleased(Keys.Space))
                 SwitchPowers();
 
-            if (ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Left) != Vector2.Zero)
-                Translate(ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Left) * 5);
+            if (InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Left) != Vector2.Zero)
+                Translate(InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Left) * 5);
 
-            if (ScreenManager.gamepad.IsButtonReleased(Buttons.RightShoulder))
+            if (InputManager.GamePad.IsButtonReleased(Buttons.RightShoulder))
                 SwitchPowers();
 
-            if (ScreenManager.mouse.IsButtonReleased(MouseComponent.MouseButton.Left))
+            if (InputManager.Mouse.IsButtonReleased(MouseComponent.MouseButton.Left))
             {
-                Projectile projectile = ShootProjectile(ScreenManager.mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter);
+                Projectile projectile = ShootProjectile(InputManager.Mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter);
 
                 //projectile.LoadContent(Game1.GetTextureAt(4), 0.25f);
                 projectile.LoadContent();
@@ -72,9 +70,9 @@ namespace MyPolarBear.GameObjects
                 DrawKeeper.getInstance().addEntity(projectile);
             }
 
-            if (ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Right).Length() >= .5)
+            if (InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Right).Length() >= .5)
             {
-                Projectile projectile = ShootProjectile(ScreenManager.gamepad.GetThumbStickState(GamePadComponent.Thumbstick.Right));
+                Projectile projectile = ShootProjectile(InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Right));
                 if (gameTime.TotalGameTime.TotalMilliseconds - timeProjectileFired >= 500)
                 {
                     //projectile.LoadContent(Game1.GetTextureAt(4), 0.25f);
@@ -83,10 +81,11 @@ namespace MyPolarBear.GameObjects
                     DrawKeeper.getInstance().addEntity(projectile);
                     projectile.IsAlive = true;
                     timeProjectileFired = (int)gameTime.TotalGameTime.TotalMilliseconds;
+                    InputManager.GamePad.StartVibration(1.0f, 0.0f);
                 }
             }
 
-            if (ScreenManager.keyboard.IsKeyPressed(Keys.R))
+            if (InputManager.Keyboard.IsKeyPressed(Keys.R))
             {
                 FireIce();
             }
@@ -98,21 +97,13 @@ namespace MyPolarBear.GameObjects
         {
             switch (power)
             {
-                case Power.Normal:
-                    power = Power.Ice;
-                    //Texture = Game1.GetTextureAt(1);
+                case Power.Normal: power = Power.Ice;
                     break;
-                case Power.Ice:
-                    power = Power.Fire;
-                    //Texture = Game1.GetTextureAt(2);
+                case Power.Ice: power = Power.Fire;
                     break;
-                case Power.Fire:
-                    power = Power.Grass;
-                    //Texture = Game1.GetTextureAt(3);
+                case Power.Fire: power = Power.Grass;
                     break;
-                case Power.Grass:
-                    power = Power.Normal;
-                    //Texture = Game1.GetTextureAt(0);
+                case Power.Grass: power = Power.Normal;
                     break;
             }
         }

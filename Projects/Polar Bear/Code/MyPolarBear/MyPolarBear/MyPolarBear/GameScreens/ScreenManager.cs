@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 using MyPolarBear.Input;
 
 namespace MyPolarBear.GameScreens
@@ -19,10 +18,7 @@ namespace MyPolarBear.GameScreens
     class ScreenManager : DrawableGameComponent
     {        
         public static ScreenType screenType;
-        public static KeyboardComponent keyboard;
-        public static GamePadComponent gamepad;
-        public static MouseComponent mouse;
-        public static SpriteFont spriteFont;
+
         public static Camera camera;
 
         public static bool isExiting = false;
@@ -40,40 +36,33 @@ namespace MyPolarBear.GameScreens
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            spriteFont = Game.Content.Load<SpriteFont>("Fonts/Calibri");
+            spriteBatch = new SpriteBatch(GraphicsDevice);            
             camera = new Camera(Game.GraphicsDevice, true);
 
             titleScreen = new TitleScreen(ScreenType.TitleScreen);
             pauseScreen = new PauseScreen(ScreenType.PauseScreen);
             gameScreen = new GameScreen(ScreenType.GameScreen);
-            gameScreen.LoadContent();
-            keyboard = new KeyboardComponent();
-            gamepad = new GamePadComponent(PlayerIndex.One);
-            mouse = new MouseComponent();
-            
+            gameScreen.LoadContent();                       
         }
 
         public override void Update(GameTime gameTime)
-        {
-            //TODO:    Update screens and keyboard
-            keyboard.Update();
-            gamepad.Update();
-            mouse.Update();
+        {            
+            InputManager.GamePad.Update();
+            InputManager.Keyboard.Update();
+            InputManager.Mouse.Update();
+
             camera.Update();
 
-            if (screenType == ScreenType.TitleScreen)
+            switch (screenType)
             {
-                titleScreen.UpdateEntries();
+                case ScreenType.TitleScreen: titleScreen.UpdateEntries();
+                    break;
+                case ScreenType.PauseScreen: pauseScreen.UpdateEntries();
+                    break;
+                case ScreenType.GameScreen: gameScreen.Update(gameTime);
+                    break;
             }
-            else if (screenType == ScreenType.PauseScreen)
-            {
-                pauseScreen.UpdateEntries();
-            }
-            else if (screenType == ScreenType.GameScreen)
-            {
-                gameScreen.Update(gameTime);
-            }
+
             if (isExiting)
             {
                 this.Game.Exit();
@@ -84,18 +73,17 @@ namespace MyPolarBear.GameScreens
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.TransformMatrix);
-            if (screenType == ScreenType.TitleScreen)
+
+            switch (screenType)
             {
-                titleScreen.DrawEntries(spriteBatch);
+                case ScreenType.TitleScreen: titleScreen.DrawEntries(spriteBatch);
+                    break;
+                case ScreenType.PauseScreen: pauseScreen.DrawEntries(spriteBatch);
+                    break;
+                case ScreenType.GameScreen: gameScreen.DrawGame(spriteBatch);
+                    break;
             }
-            else if (screenType == ScreenType.PauseScreen)
-            {
-                pauseScreen.DrawEntries(spriteBatch);
-            }
-            else if (screenType == ScreenType.GameScreen)
-            {
-                gameScreen.DrawGame(spriteBatch);
-            }
+
             spriteBatch.End();
 
             base.Draw(gameTime);

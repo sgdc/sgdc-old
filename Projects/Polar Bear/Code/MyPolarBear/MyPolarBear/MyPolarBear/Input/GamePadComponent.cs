@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace MyPolarBear.Input
 {
@@ -112,6 +109,21 @@ namespace MyPolarBear.Input
                     return CurrentState.Triggers.Right;
             }
             return 0;
+        }
+
+        public bool IsConnected()
+        {
+            return CurrentState.IsConnected;
+        }
+
+        public void StartVibration(float leftMotor, float rightMotor)
+        {
+            GamePad.SetVibration(PlayerIndex, leftMotor, rightMotor);
+        }
+
+        public void StopVibration()
+        {
+            GamePad.SetVibration(PlayerIndex, 0.0f, 0.0f);
         }
     }
 }

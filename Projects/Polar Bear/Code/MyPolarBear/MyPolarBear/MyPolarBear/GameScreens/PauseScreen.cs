@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using MyPolarBear;
+
+using MyPolarBear.Input;
 
 namespace MyPolarBear.GameScreens
 {
@@ -22,7 +20,7 @@ namespace MyPolarBear.GameScreens
 
         public override void SelectEntry()
         {
-            if (ScreenManager.gamepad.IsButtonReleased(Buttons.A) || ScreenManager.keyboard.IsKeyReleased(Keys.Enter))
+            if (InputManager.GamePad.IsButtonReleased(Buttons.A) || InputManager.Keyboard.IsKeyReleased(Keys.Enter))
             {
                 switch (Selection)
                 {

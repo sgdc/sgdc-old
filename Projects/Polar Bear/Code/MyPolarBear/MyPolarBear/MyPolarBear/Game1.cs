@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using MyPolarBear.Input;
 using MyPolarBear.GameObjects;
 using MyPolarBear.GameScreens;
+using MyPolarBear.Content;
 
 
 
@@ -25,9 +25,10 @@ namespace MyPolarBear
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+
         ScreenManager screenManager;
-        public static Dictionary<String, Texture2D> textures = new Dictionary<string, Texture2D>();
-        public static SpriteFont gameFont;
+        InputManager inputManager;
+        ContentManager contentManager;
 
         public Game1()
         {
@@ -38,6 +39,8 @@ namespace MyPolarBear
             Content.RootDirectory = "Content";
             
             screenManager = new ScreenManager(this);
+            inputManager = new InputManager();
+            contentManager = new ContentManager();
         }
 
         /// <summary>
@@ -61,42 +64,43 @@ namespace MyPolarBear
         protected override void LoadContent()
         {
             // Images
-            textures.Add("Images/IcePowerPolarBear", Content.Load<Texture2D>("Images/IcePowerPolarBear"));
-            textures.Add("Images/FirePowerPolarBear", Content.Load<Texture2D>("Images/FirePowerPolarBear"));
-            textures.Add("Images/GrassPowerPolarBear", Content.Load<Texture2D>("Images/GrassPowerPolarBear"));
-            textures.Add("Images/Heart", Content.Load<Texture2D>("Images/Heart"));
-            textures.Add("Images/IcyHeart", Content.Load<Texture2D>("Images/IcyHeart"));
-            textures.Add("Images/FieryHeart", Content.Load<Texture2D>("Images/FieryHeart"));
-            textures.Add("Images/GrassyHeart", Content.Load<Texture2D>("Images/GrassyHeart"));
-            textures.Add("Images/WorldMap", Content.Load<Texture2D>("Images/WorldMap"));
-            textures.Add("Images/Reticule", Content.Load<Texture2D>("Images/Reticule"));
-            textures.Add("Images/BasicTerrain", Content.Load<Texture2D>("Images/BasicTerrain"));
+            ContentManager.AddTexture("PolarBear", Content.Load<Texture2D>("Images/PolarBear"));
+            ContentManager.AddTexture("IcePowerPolarBear", Content.Load<Texture2D>("Images/IcePowerPolarBear"));
+            ContentManager.AddTexture("FirePowerPolarBear", Content.Load<Texture2D>("Images/FirePowerPolarBear"));
+            ContentManager.AddTexture("GrassPowerPolarBear", Content.Load<Texture2D>("Images/GrassPowerPolarBear"));
+            ContentManager.AddTexture("Heart", Content.Load<Texture2D>("Images/Heart"));
+            ContentManager.AddTexture("IcePowerHeart", Content.Load<Texture2D>("Images/IcyHeart"));
+            ContentManager.AddTexture("FirePowerHeart", Content.Load<Texture2D>("Images/FieryHeart"));
+            ContentManager.AddTexture("GrassPowerHeart", Content.Load<Texture2D>("Images/GrassyHeart"));
+            ContentManager.AddTexture("Reticule", Content.Load<Texture2D>("Images/Reticule"));
+            ContentManager.AddTexture("BasicTerrain", Content.Load<Texture2D>("Images/BasicTerrain"));
 
-            // Arctic
-            textures.Add("SpriteSheets/Arctic/icewaveBack", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveBack"));
-            textures.Add("SpriteSheets/Arctic/icewaveFront", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveFront"));
-            textures.Add("SpriteSheets/Arctic/icewaveRight", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveRight"));
-            textures.Add("SpriteSheets/Arctic/walkingBack", Content.Load<Texture2D>("SpriteSheets/Arctic/walkingBack"));
-            textures.Add("SpriteSheets/Arctic/walkingFront", Content.Load<Texture2D>("SpriteSheets/Arctic/walkingFront"));
-            textures.Add("SpriteSheets/Arctic/walkingRight", Content.Load<Texture2D>("SpriteSheets/Arctic/walkingRight"));
+            // Arctic SpriteSheets
+            ContentManager.AddTexture("IceWaveBack", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveBack"));
+            ContentManager.AddTexture("IceWaveFront", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveFront"));
+            ContentManager.AddTexture("IceWaveRight", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveRight"));
+            ContentManager.AddTexture("IceWalkingBack", Content.Load<Texture2D>("SpriteSheets/Arctic/walkingBack"));
+            ContentManager.AddTexture("IceWalkingFront", Content.Load<Texture2D>("SpriteSheets/Arctic/walkingFront"));
+            ContentManager.AddTexture("IceWalkingRight", Content.Load<Texture2D>("SpriteSheets/Arctic/walkingRight"));
 
-            // Nimbus
-            textures.Add("SpriteSheets/Nimbus/nimbusAttackRightt", Content.Load<Texture2D>("SpriteSheets/Nimbus/nimbusAttackRightt"));
+            // Nimbus SpriteSheets
+            ContentManager.AddTexture("NimbusAttackRight", Content.Load<Texture2D>("SpriteSheets/Nimbus/nimbusAttackRightt"));           
 
-            // Normal
-            textures.Add("SpriteSheets/Normal/shootheartRight", Content.Load<Texture2D>("SpriteSheets/Normal/shootheartRight"));
-            textures.Add("SpriteSheets/Normal/walkLeft3", Content.Load<Texture2D>("SpriteSheets/Normal/walkLeft3"));
-            textures.Add("SpriteSheets/Normal/walkRight2", Content.Load<Texture2D>("SpriteSheets/Normal/walkRight2"));
+            // Normal SpriteSheets
+            ContentManager.AddTexture("ShootHeartRight", Content.Load<Texture2D>("SpriteSheets/Normal/shootheartRight"));
+            ContentManager.AddTexture("WalkLeft", Content.Load<Texture2D>("SpriteSheets/Normal/walkLeft3"));
+            ContentManager.AddTexture("WalkRight", Content.Load<Texture2D>("SpriteSheets/Normal/walkRight2"));
 
-            // Pyrus
-            textures.Add("SpriteSheets/Pyrus/fireballBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballBack"));
-            textures.Add("SpriteSheets/Pyrus/fireballFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballFront"));
-            textures.Add("SpriteSheets/Pyrus/fireballRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballRight"));
-            textures.Add("SpriteSheets/Pyrus/walkFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkFront"));
-            textures.Add("SpriteSheets/Pyrus/walkingBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkingBack"));
-            textures.Add("SpriteSheets/Pyrus/walkRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkRight"));
+            // Pyrus SpriteSheets
+            ContentManager.AddTexture("FireBallBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballBack"));
+            ContentManager.AddTexture("FireBallFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballFront"));
+            ContentManager.AddTexture("FireBallRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballRight"));
+            ContentManager.AddTexture("FireWalkFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkFront"));
+            ContentManager.AddTexture("FireWalkingBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkingBack"));
+            ContentManager.AddTexture("FireWalkRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkRight"));
 
-            gameFont = Content.Load<SpriteFont>("Fonts/Calibri");
+            // Fonts
+            ContentManager.AddFont("Calibri", Content.Load<SpriteFont>("Fonts/Calibri"));
             
             base.LoadContent();
 

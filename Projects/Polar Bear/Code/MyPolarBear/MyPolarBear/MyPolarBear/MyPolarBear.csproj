@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="Content\ContentManager.cs" />
     <Compile Include="DrawKeeper.cs" />
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\EntityHelper.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="GameScreens\Screen.cs" />
     <Compile Include="GameScreens\ScreenManager.cs" />
     <Compile Include="Input\GamePadComponent.cs" />
+    <Compile Include="Input\InputManager.cs" />
     <Compile Include="Input\KeyboardComponent.cs" />
     <Compile Include="Input\MouseComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

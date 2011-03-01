@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using MyPolarBear.Content;
 
 namespace MyPolarBear.GameObjects
 {
@@ -34,7 +34,7 @@ namespace MyPolarBear.GameObjects
 
         public override void LoadContent()
         {
-            Texture = Game1.textures["SpriteSheets/Pyrus/walkRight"];
+            Texture = ContentManager.GetTexture("FireWalkRight");
 
             base.LoadContent();
         }

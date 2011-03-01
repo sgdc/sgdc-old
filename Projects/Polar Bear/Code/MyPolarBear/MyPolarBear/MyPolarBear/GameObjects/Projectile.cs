@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MyPolarBear.GameScreens;
 using Microsoft.Xna.Framework.Input;
+
+using MyPolarBear.GameScreens;
 using MyPolarBear.Input;
+using MyPolarBear.Content;
 
 namespace MyPolarBear.GameObjects
 {
@@ -44,16 +44,16 @@ namespace MyPolarBear.GameObjects
             switch (Type)
             {
                 case PolarBear.Power.Normal:
-                    Texture = Game1.textures["Images/Heart"];
+                    Texture = ContentManager.GetTexture("Heart");
                     break;
                 case PolarBear.Power.Ice:
-                    Texture = Game1.textures["Images/IcyHeart"];
+                    Texture = ContentManager.GetTexture("IcePowerHeart");
                     break;
                 case PolarBear.Power.Fire:
-                    Texture = Game1.textures["Images/FieryHeart"];
+                    Texture = ContentManager.GetTexture("FirePowerHeart");
                     break;
                 case PolarBear.Power.Grass:
-                    Texture = Game1.textures["Images/GrassyHeart"];
+                    Texture = ContentManager.GetTexture("GrassPowerHeart");
                     break;
             }
 
@@ -64,7 +64,7 @@ namespace MyPolarBear.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-            if (ScreenManager.gamepad.IsButtonPressed(Buttons.B) || !IsAlive)
+            if (InputManager.GamePad.IsButtonPressed(Buttons.B) || !IsAlive)
             {
                 UpdateKeeper.getInstance().removeEntity(this);
                 DrawKeeper.getInstance().removeEntity(this);
@@ -80,8 +80,8 @@ namespace MyPolarBear.GameObjects
 
             Position += Direction * Velocity;
 
-            if (ScreenManager.mouse.IsButtonReleased(MouseComponent.MouseButton.Right))
-                Position = ScreenManager.mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
+            if (InputManager.Mouse.IsButtonReleased(MouseComponent.MouseButton.Right))
+                Position = InputManager.Mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
 
             foreach (Entity eni in UpdateKeeper.getInstance().getEntities())
             {

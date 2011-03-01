@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 using MyPolarBear.GameScreens;
+using MyPolarBear.Content;
 
 namespace MyPolarBear
 {
@@ -48,7 +48,7 @@ namespace MyPolarBear
 
         public Vector2 Size
         {
-            get { return ScreenManager.spriteFont.MeasureString(String); } 
+            get { return ContentManager.GetFont("Calibri").MeasureString(String); } 
         }
 
         public void Update()
@@ -61,7 +61,7 @@ namespace MyPolarBear
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(ScreenManager.spriteFont, String, Position, Color);
+            spriteBatch.DrawString(ContentManager.GetFont("Calibri"), String, Position, Color);
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using MyPolarBear.Input;
 
 namespace MyPolarBear.GameScreens
 {  
@@ -71,14 +72,14 @@ namespace MyPolarBear.GameScreens
 
         public virtual void SelectEntry()
         {
-            if (ScreenManager.gamepad.IsButtonReleased(Buttons.DPadDown) || ScreenManager.keyboard.IsKeyReleased(Keys.Down))
+            if (InputManager.GamePad.IsButtonReleased(Buttons.DPadDown) || InputManager.Keyboard.IsKeyReleased(Keys.Down))
             {
                 if (Selection < Entries.Count - 1)
                     Selection++;
                 else
                     Selection = 1;
             }
-            else if (ScreenManager.gamepad.IsButtonReleased(Buttons.DPadUp) || ScreenManager.keyboard.IsKeyReleased(Keys.Up))
+            else if (InputManager.GamePad.IsButtonReleased(Buttons.DPadUp) || InputManager.Keyboard.IsKeyReleased(Keys.Up))
             {
                 if (Selection > 1)
                     Selection--;
