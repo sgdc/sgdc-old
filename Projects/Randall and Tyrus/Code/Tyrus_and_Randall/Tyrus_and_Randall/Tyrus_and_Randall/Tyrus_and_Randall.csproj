@@ -91,7 +91,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="SGDe">
-      <HintPath>..\..\..\..\..\SGDe\Code\SGDe\SGDe\_build\Release\bin\x86\SGDe.dll</HintPath>
+      <HintPath>..\..\..\..\..\SGDe\Code\SGDe\SGDe\_build\Debug\bin\x86\SGDe.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>

@@ -680,6 +680,21 @@ namespace SGDeContent.Processors
                         context.Logger.LogWarning(null, null, Messages.Entity_Custom_CantFindType);
                     }
                     entity.SpecialType = SGDEProcessor.GetInnerText(entityComponent).Trim();
+                    bool space = false;
+                    if (entity.SpecialType.IndexOf(',') >= 0)
+                    {
+                        //Full data type
+                        space = entity.SpecialType.Substring(0, entity.SpecialType.IndexOf(',')).IndexOf(' ') >= 0;
+                    }
+                    else
+                    {
+                        //Just data type
+                        space = entity.SpecialType.IndexOf(' ') >= 0;
+                    }
+                    if (space)
+                    {
+                        context.Logger.LogWarning(null, null, Messages.Entity_Custom_HasSpaces);
+                    }
                     type = Type.GetType(entity.SpecialType);
                     if (type != null)
                     {
@@ -720,6 +735,16 @@ namespace SGDeContent.Processors
                             for (int i = 0; i < customEntityComponent.ChildNodes.Count; i++)
                             {
                                 string typeS = ContentTagManager.GetXMLAtt("ENTITY_CUSTOMENTITY_CONSTRUCTOR_TYPE", version, customEntityComponent.ChildNodes[i]).Value;
+                                at = ContentTagManager.GetXMLAtt("ENTITY_CUSTOMENTITY_CONSTRUCTOR_USEDEF", version, customEntityComponent.ChildNodes[i]);
+                                if (at != null)
+                                {
+                                    if (bool.Parse(at.Value))
+                                    {
+                                        entity.Args.Add(null);
+                                        entity.ArgTypes.Enqueue(typeof(Attribute).AssemblyQualifiedName);
+                                        continue;
+                                    }
+                                }
                                 type = Type.GetType(typeS);
                                 string value = ContentTagManager.GetXMLAtt("ENTITY_CUSTOMENTITY_CONSTRUCTOR_VALUE", version, customEntityComponent.ChildNodes[i]).Value.Trim();
                                 if (typeof(string).Equals(type))

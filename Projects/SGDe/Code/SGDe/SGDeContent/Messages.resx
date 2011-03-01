@@ -276,4 +276,7 @@
   <data name="Utils_InvalidEnum" xml:space="preserve">
     <value>Can't parse {0} "{1}". Skipping.</value>
   </data>
+  <data name="Entity_Custom_HasSpaces" xml:space="preserve">
+    <value>Specific type information for an entity cannot have spaces. Please remove or SGDe will not function properly when loading entity.</value>
+  </data>
 </root>

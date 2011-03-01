@@ -183,6 +183,9 @@
   <data name="ENTITY_CUSTOMENTITY_CONSTRUCTOR_TYPE_1_0" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="ENTITY_CUSTOMENTITY_CONSTRUCTOR_USEDEF_1_1" xml:space="preserve">
+    <value>UseDefault</value>
+  </data>
   <data name="ENTITY_CUSTOMENTITY_CONSTRUCTOR_VALUE_1_0" xml:space="preserve">
     <value>Value</value>
   </data>

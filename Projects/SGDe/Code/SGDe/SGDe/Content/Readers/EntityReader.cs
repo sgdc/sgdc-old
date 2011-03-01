@@ -269,7 +269,7 @@ namespace SGDE.Content.Readers
 
         internal static ConstructorInfo FindClosestMatch(ConstructorInfo[] constructors, ref object[] args, Type[] types)
         {
-            //TODO: Later update so that types can be skipped
+            //Attribute is used as a "use default value" marker
             ConstructorInfo conInfo = null;
             if (args == null)
             {
@@ -305,11 +305,66 @@ namespace SGDE.Content.Readers
                         }
                     }
                 }
+                /* At completion, it was realized that it wouldn't be useful. Having just types might allow for the selection of a constructor but arguments need to be passed into the constructor
                 else
                 {
                     //Find constructor that matches types
-                    //TODO
+                    //Check argument types because they will be used to find the constructor
+                    bool good = true;
+                    for (int i = 0; i < args.Length; i++)
+                    {
+                        if (types[i] == null)
+                        {
+                            good = false;
+                            break;
+                        }
+                    }
+                    if (good)
+                    {
+                        foreach (ConstructorInfo con in constructors)
+                        {
+                            good = true;
+                            ParameterInfo[] paramaters = con.GetParameters();
+                            int typeIndex = 0;
+                            int aTypeIndex = 0;
+                            while (typeIndex < paramaters.Length)
+                            {
+                                if (aTypeIndex >= types.Length)
+                                {
+                                    break;
+                                }
+                                Type paramType = paramaters[typeIndex++].ParameterType;
+                                bool got = false;
+                                for (int i = aTypeIndex; i < types.Length; i++)
+                                {
+                                    if (paramType.IsAssignableFrom(types[i]))
+                                    {
+                                        got = true;
+                                        aTypeIndex++;
+                                        break;
+                                    }
+                                }
+                                if (!got)
+                                {
+                                    good = false;
+                                    break;
+                                }
+                            }
+                            if (good)
+                            {
+                                //Found it
+                                //Generate args
+                                args = new object[paramaters.Length];
+                                //TODO for another time
+
+                                //Return
+                                conInfo = con;
+                                break;
+                            }
+                        }
+                    }
                 }
+                */
             }
             else
             {
@@ -341,7 +396,7 @@ namespace SGDE.Content.Readers
                             //Check the argument type, if it is a mismatch then we might have an issue
                             if (args[i] != null)
                             {
-                                if (!types[i].Equals(args[i].GetType()))
+                                if (!types[i].Equals(typeof(Attribute)) && !types[i].Equals(args[i].GetType()))
                                 {
                                     good = false;
                                 }
@@ -361,7 +416,25 @@ namespace SGDE.Content.Readers
                                 for (int i = 0; i < args.Length; i++)
                                 {
                                     Type paramType = paramaters[i].ParameterType;
-                                    if (args[i] == null)
+                                    if (types[i].Equals(typeof(Attribute)))
+                                    {
+                                        if ((paramaters[i].Attributes & ParameterAttributes.HasDefault) == ParameterAttributes.HasDefault)
+                                        {
+                                            args[i] = paramaters[i].DefaultValue;
+                                        }
+                                        else
+                                        {
+                                            if (paramType.IsValueType)
+                                            {
+                                                args[i] = Activator.CreateInstance(paramType);
+                                            }
+                                            else
+                                            {
+                                                args[i] = null;
+                                            }
+                                        }
+                                    }
+                                    else if (args[i] == null)
                                     {
                                         if (paramType.IsValueType)
                                         {
@@ -369,7 +442,7 @@ namespace SGDE.Content.Readers
                                             good = false;
                                             break;
                                         }
-                                        else if(!types[i].Equals(typeof(void)))
+                                        else if (!types[i].Equals(typeof(void)))
                                         {
                                             //If the types weren't generalted and actually have a type then check it
                                             if (!paramType.IsAssignableFrom(types[i]))
@@ -395,6 +468,13 @@ namespace SGDE.Content.Readers
                                     break;
                                 }
                             }
+                            /* Also unnecessery, if arguments are passed. It is from EntityReader or EntityLoader (which gets it's args from EntityReader). The arg count is determined at compilation time. It is true that
+                             * the last elements might not be used but it would be unlikely unless someone really needs to have one, large-multi-arg-constructor-that-only-some-args-would-be-used-from, constructor.
+                            else
+                            {
+                                //TODO
+                            }
+                            */
                         }
                     }
                 }

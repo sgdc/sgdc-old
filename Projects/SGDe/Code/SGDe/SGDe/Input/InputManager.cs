@@ -375,18 +375,24 @@ namespace SGDE.Input
         /// </summary>
         InputType ConvertTo { get; }
 
-        //TODO
+        /// <summary>
+        /// Convert input from one format to another. The input converter will handle each input individually. For example, if InputFrom is GamePad and only controller 1, and 3 are used; only a GamePad input component 
+        /// for GamePad 1 and 3 will be passed in as input for 2 consecutive calls.
+        /// </summary>
+        /// <param name="handler">The conversion handler that is used to set the converted input.</param>
+        /// <param name="input">The input component that has the input before conversion.</param>
+        /// <returns><code>true</code> if the data was converted, <code>false</code> if otherwise.</returns>
+        bool Convert(InputConversionHandler handler, InputComponent input);
     }
 
     #endregion
 
-    public interface InputConvertionHandler
+    /// <summary>
+    /// Handles any conversion for input.
+    /// </summary>
+    public interface InputConversionHandler
     {
-        /* Context: Ex: Controller
-         * Value: Ex: Pressed
-         * overrideCurrent: Ex: true (if the current value is unpressed, then it is changed. This only happens if the input exists. If it doesn't exist then it simply creates it anyway and this is ignored)
-         */
-        bool AddSetting(object context, object value, bool overrideCurrent);
+        //TODO
     }
     
     /// <summary>

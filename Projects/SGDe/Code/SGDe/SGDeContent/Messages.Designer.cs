@@ -196,6 +196,15 @@ namespace SGDeContent {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Specific type information for an entity cannot have spaces. Please remove or SGDe will not function properly when loading entity..
+        /// </summary>
+        internal static string Entity_Custom_HasSpaces {
+            get {
+                return ResourceManager.GetString("Entity_Custom_HasSpaces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Custom Entity is not based off SGDE.Entity. Full support doesn&apos;t exist for extended types..
         /// </summary>
         internal static string Entity_Custom_NotBasedOffEntity {
