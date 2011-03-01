@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<SGDE Version="1.1">
+  
+  <Game>
+    <Maps>
+      <Map ID="0">
+        <Layout>Map1.sgde</Layout>
+      </Map>
+    </Maps>
+  </Game>
+
+  <Settings>
+    <MapList>
+      <Map InitialMap="true" ID="0" />
+    </MapList>
+  </Settings>
+  
+</SGDE>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<SGDE Version="1.1">
+  <Entity Name="Player">
+    <Node>
+      <Vector2 ID="Translation" X="0" Y="384" />
+    </Node>
+    <Sprite SID="0" />
+    <Physics Enabled="true" Collision="true">
+      <Velocity X="0" Y="0" />
+    </Physics>
+    <CustomEntity Base="SGDE.Entity, SGDe">Tyrus_and_Randall.Player, Tyrus_and_Randall</CustomEntity>
+  </Entity>
+</SGDE>

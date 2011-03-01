@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<SGDE Version="1.1">
+  
+  <SpriteSheets>
+
+    <SpriteSheet ID="0">
+      <Source>player.png</Source>
+    </SpriteSheet>
+
+    <SpriteSheet ID="1">
+      <Source>ground.png</Source>
+    </SpriteSheet>
+
+    <SpriteSheet ID="2">
+      <Source>food.png</Source>
+    </SpriteSheet>
+
+    <SpriteSheet ID="3">
+      <Source>enemy.png</Source>
+    </SpriteSheet>
+
+  </SpriteSheets>
+  
+</SGDE>
