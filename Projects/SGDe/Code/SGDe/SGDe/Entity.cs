@@ -19,7 +19,7 @@ namespace SGDE
     /// <summary>
     /// Base Class representative of any onscreen drawable that appears in a scene
     /// </summary>
-    public abstract partial class Entity : SceneNode
+    public abstract class Entity : SceneNode
     {
         /// <summary>Sprite which is drawn to represent the entity</summary>
         protected Sprite image;
@@ -143,22 +143,6 @@ namespace SGDE
 
             PhysicsPharaoh.GetInstance().AddCollisionUnit(unit);
         }
-
-        /*
-        public virtual void LoadContent(ContentManager theContentManager, String theAssetName)
-        {
-            //int radius;
-
-            image = theContentManager.Load<Sprite>(theAssetName);
-            AddChild(image);
-
-            //radius = Math.Max(image.GetWidth(), image.GetHeight()) / 2;
-            //mCollisionUnit = new CollisionUnit(this, image.GetCenter(), radius, null, false);
-            //AddChild(mCollisionUnit);
-
-            SetUpCollision();
-        }
-         */
 
         // call after image.LoadContent()
         protected virtual void SetUpCollision()

@@ -36,7 +36,9 @@ namespace SGDE.Content.Readers
                 }
                 for (int k = 0; k < lc; k++)
                 {
-                    manager.AddAnimation(input.ReadObject<SpriteManager.SpriteAnimation>(), -1);
+                    SpriteManager.SpriteAnimation ani = input.ReadObject<SpriteManager.SpriteAnimation>();
+                    manager.AddAnimation(ani, -1, input.ReadString());
+                    ContentUtil.ExtractDeveloperID(ani);
                 }
             }
             return manager;

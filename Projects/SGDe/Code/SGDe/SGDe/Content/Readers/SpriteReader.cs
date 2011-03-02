@@ -31,8 +31,8 @@ namespace SGDE.Content.Readers
                 sprite.OverrideAttributes = input.ReadObject<Sprite.SpriteAttributes>();
             }
             sprite.offsetOrigin = input.ReadBoolean();
-            int sid = input.ReadInt32();
-            ReadAnimation(ref sprite, sid, input);
+            sprite.id = input.ReadInt32();
+            ReadAnimation(ref sprite, sprite.id, input);
             if (input.ReadBoolean())
             {
                 sprite.animStart = input.ReadInt32(); //Begin
@@ -51,7 +51,7 @@ namespace SGDE.Content.Readers
                     sprite.animEnd = sprite.animation.frameCount;
                 }
             }
-            HandleSpecific(input, sid, sprite);
+            HandleSpecific(input, sprite.id, sprite);
             return sprite;
         }
 
@@ -67,13 +67,17 @@ namespace SGDE.Content.Readers
             bool localAnimation = input.ReadBoolean();
             int animationID = input.ReadInt32();
             List<SpriteManager.SpriteAnimation> animations = null;
+            List<string> names = null;
             if (input.ReadBoolean())
             {
                 int count = input.ReadInt32();
                 animations = new List<SpriteManager.SpriteAnimation>(count);
+                names = new List<string>(count);
                 for (int i = 0; i < count; i++)
                 {
-                    animations.Add(input.ReadRawObject<SpriteManager.SpriteAnimation>());
+                    SpriteManager.SpriteAnimation ani = input.ReadRawObject<SpriteManager.SpriteAnimation>();
+                    animations.Add(ani);
+                    names.Add(ContentUtil.ExtractDeveloperID(ani));
                 }
             }
             SpriteManager manager = SpriteManager.GetInstance();
@@ -85,7 +89,7 @@ namespace SGDE.Content.Readers
                     for (int i = 1; i <= animations.Count; i++)
                     {
                         SpriteManager.SpriteAnimation animation = animations[i - 1];
-                        int value = manager.AddAnimation(animation, sid);
+                        int value = manager.AddAnimation(animation, sid, names[i - 1]);
                         if (localAnimation && !gotAn && i == animationID)
                         {
                             gotAn = true;

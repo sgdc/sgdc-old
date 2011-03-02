@@ -18,6 +18,7 @@ namespace SGDE.Graphics
         internal SpriteAttributes OverrideAttributes { get { return this.overrideAtt; } set { this.overrideAtt = value; } }
         internal int frame, animStart, animEnd;
         internal bool offsetOrigin;
+        internal int id;
 
         /// <summary>
         /// The current SpriteAttributes that can override the Sprite's default attributes.
@@ -191,6 +192,81 @@ namespace SGDE.Graphics
         /// If this Sprite is visible.
         /// </summary>
         public bool Visible { get; set; }
+
+        /// <summary>
+        /// Set the animation for the Sprite. <b>IMPORTANT:</b> If the animation is successfully set then the FPS, current frame of animation, and animation region are reset to the default values of the animation.
+        /// </summary>
+        /// <param name="id">The ID of the animation. This is the ID used locally by the Sprite.</param>
+        /// <returns><code>true</code> if the animation was set, <code>false</code> if otherwise.</returns>
+        public bool SetAnimation(int id)
+        {
+            return SetAnimation(id, false);
+        }
+
+        /// <summary>
+        /// Set the animation for the Sprite. <b>IMPORTANT:</b> If the animation is successfully set then the FPS, current frame of animation, and animation region are reset to the default values of the animation.
+        /// </summary>
+        /// <param name="id">The ID of the animation. This is the ID used locally by the Sprite, if the ID could identify global animations then the ID can identify a global animation ID.</param>
+        /// <param name="checkGlobal">If global animation should be checked if Sprite specific animation is not found.</param>
+        /// <returns><code>true</code> if the animation was set, <code>false</code> if otherwise.</returns>
+        public bool SetAnimation(int id, bool checkGlobal)
+        {
+            return SetAnimation(id, checkGlobal, false);
+        }
+
+        /// <summary>
+        /// Set the animation for the Sprite. <b>IMPORTANT:</b> If the animation is successfully set then the FPS, current frame of animation, and animation region are reset to the default values of the animation.
+        /// </summary>
+        /// <param name="id">The ID of the animation. This is the ID used locally by the Sprite, if the ID could identify global animations then the ID can identify a global animation ID.</param>
+        /// <param name="checkGlobal">If global animation should be checked if Sprite specific animation is not found.</param>
+        /// <param name="global">If global animation should be checked before Sprite specific animation. If this is <code>true</code> than <paramref name="checkGlobal"/> is ignored.</param>
+        /// <returns><code>true</code> if the animation was set, <code>false</code> if otherwise.</returns>
+        public bool SetAnimation(int id, bool checkGlobal, bool global)
+        {
+            SpriteManager man = SpriteManager.GetInstance();
+            SpriteManager.SpriteAnimation ani;
+            if (global)
+            {
+                ani = man.GetFrames(-1, id);
+                if (!ani.IsValid)
+                {
+                    ani = man.GetFrames(this.id, id);
+                }
+            }
+            else
+            {
+                ani = man.GetFrames(this.id, id);
+                if (!ani.IsValid && checkGlobal)
+                {
+                    ani = man.GetFrames(-1, id);
+                }
+            }
+            SetAnimation(ani);
+            return ani.IsValid;
+        }
+
+        /// <summary>
+        /// Set the animation for the Sprite. <b>IMPORTANT:</b> If the animation is successfully set then the FPS, current frame of animation, and animation region are reset to the default values of the animation.
+        /// </summary>
+        /// <param name="gameElement">The Asset ID of the animation.</param>
+        /// <returns><code>true</code> if the animation was set, <code>false</code> if otherwise.</returns>
+        public bool SetAnimation(string gameElement)
+        {
+            SpriteManager.SpriteAnimation ani = SpriteManager.GetInstance().GetFrames(gameElement);
+            SetAnimation(ani);
+            return ani.IsValid;
+        }
+
+        private void SetAnimation(SpriteManager.SpriteAnimation ani)
+        {
+            if (ani.IsValid)
+            {
+                this.animation = ani;
+                this.FPS = ani.DefaultFPS;
+                this.curPos = this.animStart = this.frame = 0;
+                this.animEnd = ani.frameCount;
+            }
+        }
 
         internal void CopySpriteToIn(ref Sprite sp)
         {

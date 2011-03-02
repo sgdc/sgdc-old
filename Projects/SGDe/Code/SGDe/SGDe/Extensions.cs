@@ -20,5 +20,21 @@ namespace SGDE
             }
             return items.ToArray();
         }
+
+        public static K GetValue<K, V>(this Dictionary<K, V> lst, V value)
+        {
+            if (!lst.ContainsValue(value))
+            {
+                return default(K);
+            }
+            Dictionary<K, V>.ValueCollection values = lst.Values;
+            V[] vals = new V[values.Count];
+            values.CopyTo(vals, 0);
+            int index = Array.IndexOf(vals, value);
+            Dictionary<K, V>.KeyCollection keys = lst.Keys;
+            K[] kes = new K[keys.Count];
+            keys.CopyTo(kes, 0);
+            return kes[index];
+        }
     }
 }

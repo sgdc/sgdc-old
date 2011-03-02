@@ -57,6 +57,17 @@ namespace SGDE.Content
             DeveloperID(ref did, reader, obj);
         }
 
+        public static string ExtractDeveloperID(object obj)
+        {
+            if (did.ContainsValue(obj))
+            {
+                string val = did.GetValue(obj);
+                did.Remove(val);
+                return val;
+            }
+            return null;
+        }
+
         public static void FinishTempDID(ref Dictionary<string, object> devTypes)
         {
             if (did.Count > 0)

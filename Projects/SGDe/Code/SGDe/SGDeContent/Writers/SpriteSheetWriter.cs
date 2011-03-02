@@ -30,6 +30,14 @@ namespace SGDeContent.Writers
                 foreach (AnimationSet aset in set)
                 {
                     output.WriteObject(aset);
+                    if (aset.Did.ContainsKey(aset))
+                    {
+                        output.Write(aset.Did[aset]);
+                    }
+                    else
+                    {
+                        output.Write("");
+                    }
                 }
             }
         }

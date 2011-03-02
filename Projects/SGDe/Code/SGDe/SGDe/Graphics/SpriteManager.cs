@@ -66,8 +66,9 @@ namespace SGDE.Graphics
 
         private List<SpriteAnimation> animations;
         private Dictionary<int, int> animationMapping;
+        private Dictionary<string, int> dAnimMapping;
 
-        public int AddAnimation(SpriteAnimation animation, int sid)
+        public int AddAnimation(SpriteAnimation animation, int sid, string name)
         {
             if (!animation.IsValid)
             {
@@ -77,6 +78,7 @@ namespace SGDE.Graphics
             {
                 animations = new List<SpriteAnimation>();
                 animationMapping = new Dictionary<int, int>();
+                dAnimMapping = new Dictionary<string, int>();
             }
             animations.Add(animation);
             if (sid >= 0)
@@ -85,6 +87,10 @@ namespace SGDE.Graphics
                 {
                     animationMapping.Add(sid, animations.Count);
                 }
+            }
+            if (!string.IsNullOrEmpty(name))
+            {
+                dAnimMapping.Add(name, animations.Count);
             }
             return animations.Count;
         }
@@ -117,6 +123,16 @@ namespace SGDE.Graphics
                 return new SpriteAnimation();
             }
             return animations[id];
+        }
+
+        public SpriteAnimation GetFrames(string name)
+        {
+            int id = 0;
+            if (dAnimMapping.ContainsKey(name))
+            {
+                id = dAnimMapping[name];
+            }
+            return GetFrames(id);
         }
 
         public static void FrameAdjustment(ref int curFrame, int originFrame, int maxFrame, float fps, ref float current, GameTime gameTime, bool backwords)
