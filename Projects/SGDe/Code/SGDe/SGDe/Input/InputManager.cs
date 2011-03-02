@@ -392,7 +392,17 @@ namespace SGDE.Input
     /// </summary>
     public interface InputConversionHandler
     {
-        //TODO
+        /// <summary>
+        /// Specify the converted value for input.
+        /// </summary>
+        /// <param name="input">The converted input value; such as Keys, Buttons, TouchLocations, etc.</param>
+        /// <param name="context">Mainly for use by GamePad, the name of the component that input is for.</param>
+        /// <param name="replace">
+        /// If the value should replace the existing value. By default, only if the value is non-default in input is it set. For example a Key that is Unpressed will not be set, even if the current (or previously 
+        /// converted input) has it as pressed. If this is <code>true</code> then it will replace it.
+        /// </param>
+        /// <returns><code>true</code> if the value was set, <code>false</code> if otherwise.</returns>
+        bool SetValue(object input, object context, bool replace);
     }
     
     /// <summary>

@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 using SGDE.Graphics;
 using SGDE.Content.DataTypes;
 using SGDE.Physics;
-using SGDE.SceneManagement;
 using Microsoft.Xna.Framework.Input;
 using SGDE.Input;
 
@@ -172,7 +171,7 @@ namespace SGDE
         }
 
         /// <summary>
-        /// Draw the game. The order that draw operations occur in: <see cref="PreBeginSpriteBatch"/>, <see cref="BeginSpriteBatch"/>, <see cref="PreDraw"/>, draw game, <see cref="PostDraw"/>, <see cref="EndSpriteBatch"/>, <see cref="PostEndSpriteBatch"/>.
+        /// Draw the game. The order that draw operations occur in: <see cref="PreBeginSpriteBatch"/>, <see cref="BeginSpriteBatch"/>, <see cref="PreDraw"/>, draw game, <see cref="PostDraw"/>, <see cref="EndSpriteBatch"/>, <see cref="PostEndSpriteBatch"/>, <see cref="UIDraw"/>.
         /// </summary>
         protected override void Draw(GameTime gameTime)
         {
@@ -195,6 +194,12 @@ namespace SGDE
             EndSpriteBatch(gameTime);
 
             PostEndSpriteBatch(gameTime);
+
+            SpriteManager.spriteBat.Begin();
+
+            UIDraw(gameTime);
+
+            SpriteManager.spriteBat.End();
 
             base.Draw(gameTime);
         }
@@ -241,6 +246,13 @@ namespace SGDE
         /// The seventh operation in the draw pipeline.
         /// </summary>
         protected virtual void PostEndSpriteBatch(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// The edth operation in the draw pipeline. SpriteBatch.Begin is called before this function call and SpriteBatch.End is called afterwards. No scaling, rotation, or translation are done on this step.
+        /// </summary>
+        protected virtual void UIDraw(GameTime gameTime)
         {
         }
     }

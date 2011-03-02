@@ -14,7 +14,7 @@ namespace SGDeContent.Processors
         public static Animation Process(XmlElement input, double version, ContentProcessorContext context)
         {
             Animation animation = new Animation();
-            string innerText = SGDEProcessor.GetInnerText(input);
+            string innerText = SGDEProcessor.GetInnerText(input).Trim();
             if (ContentTagManager.TagMatches("ANIMATION_GLOBAL", innerText, version))
             {
                 animation.BuiltIn = false;

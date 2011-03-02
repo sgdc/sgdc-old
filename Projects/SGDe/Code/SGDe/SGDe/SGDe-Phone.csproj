@@ -91,6 +91,7 @@
     <Compile Include="Graphics\SVG\SVG.cs" />
     <Compile Include="Graphics\VectorSprite.cs" />
     <Compile Include="Input\GamePad.cs" />
+    <Compile Include="Input\InputConversionHandlers.cs" />
     <Compile Include="Input\InputManager.cs" />
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="Input\Mouse.cs" />
@@ -109,7 +110,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Entity.cs" />
     <Compile Include="Graphics\Sprite.cs" />
-    <Compile Include="SceneManagement\SceneManager.cs" />
     <Compile Include="SceneNode.cs" />
     <Compile Include="Camera.cs" />
   </ItemGroup>
