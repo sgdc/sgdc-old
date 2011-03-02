@@ -12,6 +12,10 @@ using SGDE.Input;
 
 namespace Tyrus_and_Randall
 {
+
+    //SGDE.Game.CurrentGame.SpriteBatch;
+
+
     class Player : Entity, InputHandler
     {
 
@@ -38,7 +42,7 @@ namespace Tyrus_and_Randall
         public override void  Update(GameTime gameTime)
         {
  	        base.Update(gameTime);
-            Game1.CurrentGame.CameraControl.Position = this.CameraBound();
+            SGDE.Game.CurrentGame.CameraControl.Position = this.CameraBound();
         }
 
         public void HandleInput(SGDE.Game game, InputComponent input)
@@ -46,7 +50,9 @@ namespace Tyrus_and_Randall
             SGDE.Input.Keyboard keyboard = (SGDE.Input.Keyboard)input;
 
             if (keyboard.IsKeyPressed(Keys.Left))
+            {
                 this.Translate(-5, 0);
+            }
             if (keyboard.IsKeyPressed(Keys.Right))
                 this.Translate(5, 0);
             if (keyboard.IsKeyPressed(Keys.Up))
@@ -123,6 +129,7 @@ namespace Tyrus_and_Randall
                     else if (((Entity)other.GetParent()).GetID() == 3)// 3 = food
                     {
                         totalFood++;
+                        Game1.foodText = "Food: " + totalFood;
                         ((Food)(other.GetParent())).Disable();
                     }
                 }
@@ -163,7 +170,9 @@ namespace Tyrus_and_Randall
             Rectangle screen = Game1.CurrentGame.Window.ClientBounds;
             Vector2 cam = this.GetTranslation();
             if (cam.X < screen.Width/2) cam.X = screen.Width/2;
-            if (cam.Y < screen.Height/2) cam.Y = screen.Height/2;
+            //if (cam.Y < screen.Height/2) cam.Y = screen.Height/2;
+            //if (cam.Y > screen.Height/2) cam.Y = screen.Height/2;
+            if (cam.Y != screen.Height/2) cam.Y = screen.Height/2;
             return cam;
         }
     }

@@ -24,8 +24,6 @@ namespace Tyrus_and_Randall
         {
             onGround = false;
             id = 4;
-
-            this.SetVelocity(-3f, 0f);
         }
 
         public Enemy(Vector2 position)
@@ -42,6 +40,10 @@ namespace Tyrus_and_Randall
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+            if (this.GetVelocity().X >= 0 && this.SpriteImage.Frame == 0)
+                this.SpriteImage.Frame = 1;
+            else if(this.GetVelocity().X < 0 && this.SpriteImage.Frame == 1)
+                this.SpriteImage.Frame = 0;
         }
 
         public override void CollisionChange()
@@ -70,7 +72,14 @@ namespace Tyrus_and_Randall
                         }
                         else if (!intersect.Equals(Vector2.Zero))
                         {
-                            if(((Entity)other.GetParent()).GetID() != 1)this.SetVelocity(-this.GetVelocity().X, this.GetVelocity().Y);
+                            if (((Entity)other.GetParent()).GetID() != 1)
+                            {
+                                this.SetVelocity(-this.GetVelocity().X, this.GetVelocity().Y);
+                                if (this.GetVelocity().X >= 0)
+                                    this.SpriteImage.Frame = 1;
+                                else
+                                    this.SpriteImage.Frame = 0;
+                            }
                             if (intersect.X <= 0)
                             {
                                 this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X - 0.01f, this.GetTranslation().Y));

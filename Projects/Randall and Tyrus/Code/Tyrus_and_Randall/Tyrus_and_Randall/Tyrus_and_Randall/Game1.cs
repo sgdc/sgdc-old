@@ -16,5 +16,30 @@ namespace Tyrus_and_Randall
     /// </summary>
     public class Game1 : SGDE.Game
     {
+        private static SpriteFont foodfont;
+        public static String foodText;
+
+        protected override void Initialize()
+        {
+            base.Initialize();
+            foodText = "Food: 0";
+        }
+
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+            foodfont = Content.Load<SpriteFont>("FoodFont");
+        }
+
+        protected override void UIDraw(GameTime gameTime)
+        {
+            base.UIDraw(gameTime);
+            this.SpriteBatch.DrawString(foodfont, foodText, Vector2.Zero, Color.Black);
+        }
+
+        public void SetFoodText(String s)
+        {
+            foodText = s;
+        }
     }
 }

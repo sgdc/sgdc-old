@@ -85,9 +85,6 @@
       <Entity ID="1">
         <Layout>Explicit<Node><Vector2 ID="Translation" X="768" Y="448" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="768" Y="416" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
       
       <Entity ID="1">
         <Layout>Explicit<Node><Vector2 ID="Translation" X="800" Y="448" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
@@ -105,7 +102,7 @@
         <Layout>Explicit<Node><Vector2 ID="Translation" X="928" Y="448" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
       <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="960" Y="416" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="960" Y="448" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
       <Entity ID="1">
         <Layout>Explicit<Node><Vector2 ID="Translation" X="992" Y="448" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
@@ -123,7 +120,7 @@
         <Layout>Explicit<Node><Vector2 ID="Translation" X="1120" Y="448" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
       <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="1152" Y="416" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="1152" Y="448" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
 
       <Entity ID="1">
@@ -140,6 +137,15 @@
       </Entity>
       <Entity ID="1">
         <Layout>Explicit<Node><Vector2 ID="Translation" X="544" Y="352" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
+      </Entity>
+      <Entity ID="1">
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="544" Y="384" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
+      </Entity>
+      <Entity ID="1">
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="544" Y="416" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
+      </Entity>
+      <Entity ID="1">
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="544" Y="448" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
 
 
@@ -168,14 +174,18 @@
 
 
       <Entity ID="3">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="704" Y="416" /></Node><Physics Enabled="true" Collision="true" Static="false"></Physics></Layout>
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="512" Y="416" /></Node><Physics Enabled="true" Collision="true" Static="false"><Velocity X="-3" Y="0" /></Physics></Layout>
+      </Entity>
+      <Entity ID="3">
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="192" Y="224" /></Node><Physics Enabled="true" Collision="true" Static="false"><Velocity X="3" Y="0" /></Physics>
+      </Layout>
       </Entity>
     </Layout>
 
     <Physics>
       <Pharaoh>
         <Cell Width="32" Height="32" />
-        <World Width="800" Height="480" />
+        <World Width="1184" Height="480" />
         <Gravity X="0" Y="20" />
       </Pharaoh>
     </Physics>
@@ -189,10 +199,14 @@
           <Node>
             <Vector2 ID="Translation" X="0" Y="384" />
           </Node>
-          <Sprite SID="0">
-            <Animation>Local<AnimationSet Default="true" FPS="2">
+          <Sprite SID="0" Region="-2">
+            <Animation ID="1">Local<AnimationSet AssetID="WalkRight" Default="true" FPS="4">
                 <Frame FrameCount="1" Frame="0,0,48,64" />
                 <Frame FrameCount="1" Frame="48,0,48,64" />
+              </AnimationSet>
+              <AnimationSet AssetID="WalkLeft" FPS="4">
+                <Frame FrameCount="1" Frame="96,0,48,64" />
+                <Frame FrameCount="1" Frame="144,0,48,64" />
               </AnimationSet>
             </Animation>
           </Sprite>
@@ -226,7 +240,15 @@
 
       <Entity ID="3">
         <Entity>
-          <Sprite SID="3" />
+          <Sprite SID="3" Region="-1">
+            <Animation ID="2">
+              Local
+              <AnimationSet Default="true">
+                <Frame FrameCount="1" Frame="0,0,32,32" />
+                <Frame FrameCount="1" Frame="32,0,32,32" />
+              </AnimationSet>
+            </Animation>
+          </Sprite>
           <Physics Enabled="true" Collision="true">
             <Velocity X="0" Y="0" />
           </Physics>
