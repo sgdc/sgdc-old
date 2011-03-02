@@ -96,42 +96,54 @@ namespace Tyrus_and_Randall
             {
                 foreach (CollisionUnit other in GetCollisionUnit().GetCollisions())
                 {
-                    if (other.IsSolid() && ((Entity)other.GetParent()).GetID() != 3 )// 3 = food
+                    if (other.IsSolid() )
                     {
                         Vector2 intersect = GetIntersectionRectangle(this.GetCollisionUnit(), other);
 
-                        if (Math.Abs(intersect.X) > Math.Abs(intersect.Y) && !intersect.Equals(Vector2.Zero))
-                        {
-                            this.SetVelocity(this.GetVelocity().X, 0.0f);
-                            if (intersect.Y <= 0)
-                            {
-                                this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y - 0.01f));
-                                onGround = true;
-                            }
-                            else
-                            {
-                                this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y + 0.01f));
-                            }
-                        }
-                        else if (!intersect.Equals(Vector2.Zero))
-                        {
-                            this.SetVelocity(0.0f, this.GetVelocity().Y);
-                            if (intersect.X <= 0)
-                            {
-                                this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X - 0.01f, this.GetTranslation().Y));
-                            }
-                            else
-                            {
-                                this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X + 0.01f, this.GetTranslation().Y));
-                            }
-                        }
-                    }
-                    else if (((Entity)other.GetParent()).GetID() == 3)// 3 = food
-                    {
-                        totalFood++;
-                        Game1.foodText = "Food: " + totalFood;
-                        ((Food)(other.GetParent())).Disable();
-                    }
+						switch (((Entity)other.GetParent()).GetID())
+						{
+							case 3:
+							{
+								totalFood++;
+								Game1.foodText = "Food: " + totalFood;
+								((Food)(other.GetParent())).Disable();
+
+								break;
+							}
+
+							default:
+							{
+								if (Math.Abs(intersect.X) > Math.Abs(intersect.Y) && !intersect.Equals(Vector2.Zero))
+								{
+									if (intersect.Y <= 0)
+									{
+										this.SetVelocity(this.GetVelocity().X, 0.0f);
+										this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y - 0.01f));
+										onGround = true;
+									}
+									else
+									{
+										this.SetVelocity(this.GetVelocity().X, Math.Max(this.GetVelocity().Y, 0));
+										this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y + 0.01f));
+									}
+								}
+								else if (!intersect.Equals(Vector2.Zero))
+								{
+									this.SetVelocity(0.0f, this.GetVelocity().Y);
+									if (intersect.X <= 0)
+									{
+										this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X - 0.01f, this.GetTranslation().Y));
+									}
+									else
+									{
+										this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X + 0.01f, this.GetTranslation().Y));
+									}
+								}
+
+								break;
+							}
+						}
+					}
                 }
 
             }

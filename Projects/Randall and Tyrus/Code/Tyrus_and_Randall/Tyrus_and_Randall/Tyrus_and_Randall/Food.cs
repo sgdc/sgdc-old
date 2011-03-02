@@ -32,7 +32,7 @@ namespace Tyrus_and_Randall
 
             //this.mCollisionUnit.SetSolid(false);
 
-            id = 3;
+			id = 3;
         }
 
         public void Disable()
