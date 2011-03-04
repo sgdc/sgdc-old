@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MyPolarBear.Content;
 
 namespace MyPolarBear
 {
@@ -80,11 +81,13 @@ namespace MyPolarBear
         public Vector2 delta;
         public Vector2 bounciness;
         //public int aniFrame;
+        protected Animator mAnimator;
 
         public Entity(Vector2 position)
         { 
             Position = position;
             Scale = 1.0f;
+            mAnimator = new Animator();
         }
 
         public virtual void Initialize() { }

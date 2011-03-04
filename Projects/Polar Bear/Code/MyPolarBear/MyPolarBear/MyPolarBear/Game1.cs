@@ -34,8 +34,8 @@ namespace MyPolarBear
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1024;
-            graphics.PreferredBackBufferHeight = 1300;
-            graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferHeight = 1024;
+            //graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             
             screenManager = new ScreenManager(this);
@@ -95,9 +95,9 @@ namespace MyPolarBear
             ContentManager.AddTexture("FireBallBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballBack"));
             ContentManager.AddTexture("FireBallFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballFront"));
             ContentManager.AddTexture("FireBallRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballRight"));
-            ContentManager.AddTexture("FireWalkFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkFront"));
+            ContentManager.AddTexture("FireWalkingFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkFront"));
             ContentManager.AddTexture("FireWalkingBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkingBack"));
-            ContentManager.AddTexture("FireWalkRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkRight"));
+            ContentManager.AddTexture("FireWalkingRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkRight"));
 
             // Fonts
             ContentManager.AddFont("Calibri", Content.Load<SpriteFont>("Fonts/Calibri"));
