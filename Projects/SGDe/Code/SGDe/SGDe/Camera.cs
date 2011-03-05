@@ -13,19 +13,150 @@ namespace SGDE
     public sealed class Camera
     {
         private Vector2 _position;
+        private Vector2 _rawPosition;
         private float _rotation;
         private float _scale;
         internal Matrix _transformMatrix;
         private Vector2 _origin;
         private Vector2 _screenCenter;
+        private Vector4 _region;
 
         /// <summary>
-        /// Get or set the position of the camera.
+        /// Get or set the position of the camera, located at the center of the screen.
         /// </summary>
         public Vector2 Position
         {
-            get { return _position; }
-            set { _position = value; }
+            get { return _rawPosition; }
+            set
+            {
+                if (value != _rawPosition)
+                {
+                    _rawPosition = value;
+                    UpdatePosition();
+                }
+            }
+        }
+
+        private void UpdatePosition()
+        {
+            if (this._region.X == float.PositiveInfinity && this._region.Y == float.PositiveInfinity && this._region.Z == float.NegativeInfinity && this._region.W == float.NegativeInfinity)
+            {
+                //Free movement, do whatever
+                _position = _rawPosition;
+            }
+            else
+            {
+                if (this._region.X == float.PositiveInfinity && this._region.Z == float.NegativeInfinity)
+                {
+                    //Free horizontal movement
+                    _position.X = _rawPosition.X;
+                }
+                else
+                {
+                    if ((this._region.X != float.PositiveInfinity) && (_rawPosition.X + _screenCenter.X > this._region.X))
+                    {
+                        _position.X = this._region.X - _screenCenter.X;
+                    }
+                    else
+                    {
+                        _position.X = _rawPosition.X;
+                    }
+                    if ((this._region.Z != float.NegativeInfinity) && (_position.X - _screenCenter.X < this._region.Z))
+                    {
+                        _position.X = this._region.Z + _screenCenter.X;
+                    }
+                }
+                if (this._region.Y == float.PositiveInfinity && this._region.W == float.NegativeInfinity)
+                {
+                    //Free vertical movement
+                    _position.Y = _rawPosition.Y;
+                }
+                else
+                {
+                    if ((this._region.Y != float.PositiveInfinity) && (_rawPosition.Y + _screenCenter.Y > this._region.Y))
+                    {
+                        _position.Y = this._region.Y - _screenCenter.Y;
+                    }
+                    else
+                    {
+                        _position.Y = _rawPosition.Y;
+                    }
+                    if ((this._region.W != float.NegativeInfinity) && (_position.Y - _screenCenter.Y < this._region.W))
+                    {
+                        _position.Y = this._region.W + _screenCenter.Y;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get or set the horizontal bounds on the XY plane. The origin point is the upper-left corner of the game window. X is positive, Y is negative. Infinity is supported, NaN values will be ignored.
+        /// </summary>
+        public Vector2 HorizontalBounds
+        {
+            get
+            {
+                return new Vector2(this._region.X, this._region.Z);
+            }
+            set
+            {
+                bool change = false;
+                if (!float.IsNaN(value.X))
+                {
+                    if (this._region.X != value.X)
+                    {
+                        change = true;
+                    }
+                    this._region.X = value.X;
+                }
+                if (!float.IsNaN(value.Y))
+                {
+                    if (this._region.Z != value.Y)
+                    {
+                        change = true;
+                    }
+                    this._region.Z = value.Y;
+                }
+                if (change)
+                {
+                    UpdatePosition();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get or set the vertical bounds on the XY plane. The origin point is the upper-left corner of the game window. X is positive, Y is negative. Infinity is supported, NaN values will be ignored.
+        /// </summary>
+        public Vector2 VerticalBounds
+        {
+            get
+            {
+                return new Vector2(this._region.Y, this._region.W);
+            }
+            set
+            {
+                bool change = false;
+                if (!float.IsNaN(value.X))
+                {
+                    if (this._region.Y != value.X)
+                    {
+                        change = true;
+                    }
+                    this._region.Y = value.X;
+                }
+                if (!float.IsNaN(value.Y))
+                {
+                    if (this._region.W != value.Y)
+                    {
+                        change = true;
+                    }
+                    this._region.W = value.Y;
+                }
+                if (change)
+                {
+                    UpdatePosition();
+                }
+            }
         }
 
         /// <summary>
@@ -59,8 +190,12 @@ namespace SGDE
             _scale = 1;
             _rotation = 0;
             _transformMatrix = Matrix.Identity;
-            _screenCenter = new Vector2(viewport.Width / 2, viewport.Height / 2);
-            _position = new Vector2(_screenCenter.X, _screenCenter.Y);
+            _screenCenter = new Vector2(viewport.Width / 2f, viewport.Height / 2f);
+            _rawPosition = new Vector2(_screenCenter.X, _screenCenter.Y);
+            _region = new Vector4(float.PositiveInfinity); //X=Pos-X, Y=Pos-Y, Z=Neg-X, W=Neg-Y
+            _region.Z = -_region.Z;
+            _region.W = -_region.W;
+            UpdatePosition();
         }
 
         internal void Update(GameTime gameTime)

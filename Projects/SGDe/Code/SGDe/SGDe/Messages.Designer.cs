@@ -106,6 +106,15 @@ namespace SGDE {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unknown &quot;ConvertTo&quot; input type: {0}.
+        /// </summary>
+        internal static string InputManager_UnkConvertTo {
+            get {
+                return ResourceManager.GetString("InputManager_UnkConvertTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SceneNode cannot be loaded independent of another type..
         /// </summary>
         internal static string NodeReader_SceneNodeAbstract {

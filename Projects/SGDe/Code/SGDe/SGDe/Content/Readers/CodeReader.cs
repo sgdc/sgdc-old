@@ -12,7 +12,7 @@ namespace SGDE.Content.Readers
     /// <summary>
     /// Read and process a Code class
     /// </summary>
-    public class CodeReader : ContentTypeReader<SGDE.Content.Code.Code>
+    internal class CodeReader : ContentTypeReader<SGDE.Content.Code.Code>
     {
         /// <summary>
         /// Read a Code.

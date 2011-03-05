@@ -7,10 +7,14 @@ using SGDE.Physics;
 namespace SGDE.Content.DataTypes
 {
     /// <summary>
-    /// Used internally
+    /// Container for all game content.
     /// </summary>
-    public class GameContent
+    public sealed class GameContent
     {
+        internal GameContent()
+        {
+        }
+
         private int levelIndex, cLevel;
         /// <summary>
         /// Get the current level of the Game.
@@ -59,7 +63,7 @@ namespace SGDE.Content.DataTypes
         /// <summary>
         /// Get the Entities for the specified map.
         /// </summary>
-        public List<Entity> Entities
+        internal List<Entity> Entities
         {
             get
             {
@@ -116,7 +120,7 @@ namespace SGDE.Content.DataTypes
         /// Setup one-time game settings.
         /// </summary>
         /// <param name="game">The Game that will be set.</param>
-        public void Setup(ref Game game)
+        internal void Setup(ref Game game)
         {
             game.graphics.PreferredBackBufferWidth = this.width;
             game.graphics.PreferredBackBufferHeight = this.height;
@@ -148,7 +152,7 @@ namespace SGDE.Content.DataTypes
         /// <typeparam name="T">The type of content to load.</typeparam>
         /// <param name="did">The developer ID of the game content.</param>
         /// <returns>The game content, if it exists, or the default value of the requested type.</returns>
-        public T GetMapContent<T>(string did)
+        internal T GetMapContent<T>(string did)
         {
             return this.maps[cLevel].GetElement<T>(did);
         }
@@ -157,7 +161,7 @@ namespace SGDE.Content.DataTypes
         /// Process all Code elements.
         /// </summary>
         /// <param name="game">The Game to process the Code elements on.</param>
-        public void Process(ref Game game)
+        internal void Process(ref Game game)
         {
             //TODO
         }

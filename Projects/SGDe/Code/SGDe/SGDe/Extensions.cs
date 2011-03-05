@@ -2,18 +2,30 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+#if !WINDOWS
+using System.Reflection;
+#endif
 
 namespace SGDE
 {
     internal static class Extensions
     {
+        public static T[] GetEnumValues<T>(this Enum en)
+        {
+#if !WINDOWS
+            return (T[])EnumGetValues(typeof(T));
+#else
+            return (T[])Enum.GetValues(typeof(T));
+#endif
+        }
+
         public static T[] SeperatedFlags<T>(this Enum en)
         {
             List<T> items = new List<T>();
-            T[] flags = (T[])Enum.GetValues(typeof(T));
+            T[] flags = en.GetEnumValues<T>();
             for (int i = 0; i < flags.Length; i++)
             {
-                if (((Enum)((object)en)).HasFlag((Enum)((object)flags[i])))
+                if (en.HasFlag((Enum)((object)flags[i])))
                 {
                     items.Add(flags[i]);
                 }
@@ -36,5 +48,36 @@ namespace SGDE
             keys.CopyTo(kes, 0);
             return kes[index];
         }
+
+#if !WINDOWS
+        public static Array EnumGetValues(Type enumType)
+        {
+            if (enumType == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (!enumType.IsEnum)
+            {
+                throw new ArgumentException();
+            }
+            FieldInfo[] info = enumType.GetFields(BindingFlags.Static | BindingFlags.Public);
+            Enum[] values = new Enum[info.Length];
+            for (int i = 0; i < values.Length; ++i)
+            {
+                values[i] = (Enum)info[i].GetValue(null);
+            }
+            return values;
+        }
+
+        public static bool HasFlag(this Enum en, Enum flag)
+        {
+            if (en.GetType() != flag.GetType())
+            {
+                throw new ArgumentException();
+            }
+            ulong num = Convert.ToUInt64(flag);
+            return ((Convert.ToUInt64(en) & num) == num);
+        }
+#endif
     }
 }

@@ -13,7 +13,7 @@ namespace SGDE.Content.Readers
     /// <summary>
     /// Read and process a Entity class
     /// </summary>
-    public class EntityReader : ContentTypeReader<Entity>
+    internal class EntityReader : ContentTypeReader<Entity>
     {
         /// <summary>
         /// Read a Entity.

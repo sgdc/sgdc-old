@@ -11,7 +11,7 @@ namespace SGDE.Content.Readers
     /// <summary>
     /// Read and process a SceneNode class
     /// </summary>
-    public class NodeReader : ContentTypeReader<SceneNode>
+    internal class NodeReader : ContentTypeReader<SceneNode>
     {
         /// <summary>
         /// Read a SceneNode.

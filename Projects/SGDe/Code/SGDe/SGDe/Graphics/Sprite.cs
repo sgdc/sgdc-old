@@ -268,6 +268,42 @@ namespace SGDE.Graphics
             }
         }
 
+        /// <summary>
+        /// Get or set the animation start region. Minumum value is 0, maximum value is <see cref="AnimationRegionEnd"/>. If the value is not within that range then it is ignored.
+        /// </summary>
+        public int AnimationRegionStart
+        {
+            get
+            {
+                return this.animStart;
+            }
+            set
+            {
+                if (value >= 0 && value < this.animEnd)
+                {
+                    this.animStart = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get or set the animation end region. Minumum value is <see cref="AnimationRegionStart"/>, maximum value is the number of frames in the animation. If the value is not within that range then it is ignored.
+        /// </summary>
+        public int AnimationRegionEnd
+        {
+            get
+            {
+                return this.animEnd;
+            }
+            set
+            {
+                if (value >= this.animStart && value < this.animation.frameCount)
+                {
+                    this.animEnd = value;
+                }
+            }
+        }
+
         internal void CopySpriteToIn(ref Sprite sp)
         {
             sp.Visible = this.Visible;

@@ -63,11 +63,7 @@ namespace SGDE.Input
         /// <returns>The current, native, input state of the Mouse.</returns>
         public MouseState GetCurrentState()
         {
-#if !XBOX
             return this.manager.c_mouse_state;
-#else
-            return default(MouseState);
-#endif
         }
 
         /// <summary>
@@ -76,11 +72,7 @@ namespace SGDE.Input
         /// <returns>The past, native, input state of the Mouse.</returns>
         public MouseState GetPastState()
         {
-#if !XBOX
             return this.manager.o_mouse_state;
-#else
-            return default(MouseState);
-#endif
         }
 
         /// <summary>
@@ -122,22 +114,16 @@ namespace SGDE.Input
 
         private Vector2 GetPosition(bool cur)
         {
-#if !XBOX
             MouseState state = cur ? this.manager.c_mouse_state : this.manager.o_mouse_state;
             return new Vector2(state.X, state.Y);
-#else
-            return Vector2.Zero;
-#endif
         }
 
         private void SetPosition(Vector2 value)
         {
-#if !XBOX
             if (!((float.IsInfinity(value.X) || float.IsNaN(value.X)) || (float.IsInfinity(value.Y) || float.IsNaN(value.Y))))
             {
                 Microsoft.Xna.Framework.Input.Mouse.SetPosition((int)Math.Floor(value.X), (int)Math.Floor(value.Y));
             }
-#endif
         }
 
         /// <summary>
@@ -175,12 +161,8 @@ namespace SGDE.Input
 
         private int GetScroll(bool cur)
         {
-#if !XBOX
             MouseState state = cur ? this.manager.c_mouse_state : this.manager.o_mouse_state;
             return state.ScrollWheelValue;
-#else
-            return 0;
-#endif
         }
 
         /// <summary>
@@ -190,11 +172,7 @@ namespace SGDE.Input
         /// <returns><code>true</code> if the button was pressed, <code>false</code> if otherwise.</returns>
         public bool IsButtonPressed(MouseButton but)
         {
-#if !XBOX
             return IsDown(this.manager.c_mouse_state, but);
-#else
-            return false;
-#endif
         }
 
         /// <summary>
@@ -204,11 +182,7 @@ namespace SGDE.Input
         /// <returns><code>true</code> if the button was pressed, <code>false</code> if otherwise.</returns>
         public bool IsButtonClicked(MouseButton but)
         {
-#if !XBOX
             return IsDown(this.manager.c_mouse_state, but) && !IsDown(this.manager.o_mouse_state, but);
-#else
-            return false;
-#endif
         }
 
         private bool IsDown(MouseState state, MouseButton but)

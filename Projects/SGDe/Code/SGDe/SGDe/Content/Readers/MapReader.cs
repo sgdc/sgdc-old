@@ -13,7 +13,7 @@ namespace SGDE.Content.Readers
     /// <summary>
     /// Read and process a MapContent class
     /// </summary>
-    public class MapReader : ContentTypeReader<MapContent>
+    internal class MapReader : ContentTypeReader<MapContent>
     {
         /// <summary>
         /// Read a MapContent.

@@ -22,6 +22,8 @@ namespace Tyrus_and_Randall
         protected override void Initialize()
         {
             base.Initialize();
+            this.CameraControl.HorizontalBounds = new Vector2(float.PositiveInfinity, 0);
+            this.CameraControl.VerticalBounds = new Vector2(this.Window.ClientBounds.Height, 0);
             foodText = "Food: 0";
         }
 
@@ -29,6 +31,11 @@ namespace Tyrus_and_Randall
         {
             base.LoadContent();
             foodfont = Content.Load<SpriteFont>("FoodFont");
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
         }
 
         protected override void UIDraw(GameTime gameTime)

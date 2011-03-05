@@ -35,11 +35,7 @@ namespace SGDE.Input
         /// <returns>The current, native, input state of the Mouse.</returns>
         public TouchCollection GetCurrentState()
         {
-#if WINDOWS_PHONE
             return this.manager.c_touch_state;
-#else
-            return default(TouchCollection);
-#endif
         }
 
         /// <summary>
@@ -48,11 +44,7 @@ namespace SGDE.Input
         /// <returns>The past, native, input state of the Mouse.</returns>
         public TouchCollection GetPastState()
         {
-#if WINDOWS_PHONE
             return this.manager.o_touch_state;
-#else
-            return default(TouchCollection);
-#endif
         }
 
         /// <summary>
@@ -62,11 +54,7 @@ namespace SGDE.Input
         {
             get
             {
-#if WINDOWS_PHONE
                 return this.manager.c_touch_state.IsConnected;
-#else
-                return false;
-#endif
             }
         }
 
@@ -119,11 +107,7 @@ namespace SGDE.Input
         {
             get
             {
-#if WINDOWS_PHONE
                 return this.manager.c_touch_state.Count;
-#else
-                return 0;
-#endif
             }
         }
 
@@ -133,11 +117,7 @@ namespace SGDE.Input
         /// <returns>The current touch locations.</returns>
         public TouchLocation[] GetTouchLocations()
         {
-#if WINDOWS_PHONE
             return this.manager.c_touch_state.ToArray();
-#else
-            return new TouchLocation[0];
-#endif
         }
 
         /// <summary>
@@ -146,11 +126,7 @@ namespace SGDE.Input
         /// <returns>The past touch locations.</returns>
         public TouchLocation[] GetPastTouchLocations()
         {
-#if WINDOWS_PHONE
             return this.manager.o_touch_state.ToArray();
-#else
-            return new TouchLocation[0];
-#endif
         }
 
         /// <summary>
@@ -159,7 +135,6 @@ namespace SGDE.Input
         /// <returns>The difference between touch locations.</returns>
         public TouchLocation[] GetTouchLocationsDIff()
         {
-#if WINDOWS_PHONE
             List<TouchLocation> location = new List<TouchLocation>();
             TouchCollection.Enumerator en = this.manager.c_touch_state.GetEnumerator();
             while (en.MoveNext())
@@ -172,9 +147,6 @@ namespace SGDE.Input
                 }
             }
             return location.ToArray();
-#else
-            return new TouchLocation[0];
-#endif
         }
 
         /// <summary>
@@ -184,13 +156,11 @@ namespace SGDE.Input
         /// <returns>The touch location, if it exists.</returns>
         public TouchLocation GetLocationByID(int id)
         {
-#if WINDOWS_PHONE
             TouchLocation loc;
             if (this.manager.c_touch_state.FindById(id, out loc))
             {
                 return loc;
             }
-#endif
             return default(TouchLocation);
         }
 
@@ -201,13 +171,11 @@ namespace SGDE.Input
         /// <returns>The past touch location, if it exists.</returns>
         public TouchLocation GetPastLocationByID(int id)
         {
-#if WINDOWS_PHONE
             TouchLocation loc;
             if (this.manager.o_touch_state.FindById(id, out loc))
             {
                 return loc;
             }
-#endif
             return default(TouchLocation);
         }
 
@@ -218,7 +186,6 @@ namespace SGDE.Input
         /// <returns>The touch location difference, if it exists. If it exists the TouchState will be Pressed regardless of it's actual state or difference in state.</returns>
         public TouchLocation GetDiffLocationByID(int id)
         {
-#if WINDOWS_PHONE
             TouchLocation cur;
             if (this.manager.c_touch_state.FindById(id, out cur))
             {
@@ -228,7 +195,6 @@ namespace SGDE.Input
                     return new TouchLocation(id, TouchLocationState.Pressed, cur.Position - past.Position);
                 }
             }
-#endif
             return default(TouchLocation);
         }
     }

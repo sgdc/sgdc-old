@@ -42,7 +42,7 @@ namespace Tyrus_and_Randall
         public override void  Update(GameTime gameTime)
         {
  	        base.Update(gameTime);
-            SGDE.Game.CurrentGame.CameraControl.Position = this.CameraBound();
+            SGDE.Game.CurrentGame.CameraControl.Position = this.GetTranslation();
         }
 
         public void HandleInput(SGDE.Game game, InputComponent input)
@@ -81,7 +81,8 @@ namespace Tyrus_and_Randall
         {
             get { return false; }
         }
-       protected override void SetUpCollision()
+        
+        protected override void SetUpCollision()
         {
             SetCollisionUnit(new CollisionUnit(this, image.GetTranslation(), image.GetTranslation() + new Vector2(image.Width, image.Height), CollisionUnit.CollisionType.COLLISION_BOX, null, false));
             this.mCollisionUnit.SetSolid(true);

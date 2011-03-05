@@ -2,7 +2,7 @@ Hud
 - health
 - earth health
 - powers
-- inimap?
+- Minimap?
 
 Level
 - trees

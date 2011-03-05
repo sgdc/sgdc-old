@@ -19,29 +19,27 @@ namespace SGDE.Input
 
         private List<InputHandler> handlers;
         private List<InputConverter> converters;
-        private List<InputComponent> components;
+        private List<InputConversionHandlerInternal> conversionHandlers;
+        internal List<InputComponent> components;
 
         //Keyboard
         internal KeyboardState c_key_state, o_key_state;
-        private int keyIndex;
+        private int keyIndex, keyConvertIndex;
 
-#if WINDOWS_PHONE
         //Touchscreen
         internal TouchCollection c_touch_state, o_touch_state;
-        private int touchIndex;
-#else
+        private int touchIndex, touchConvertIndex;
+
         //Gamepad controller
         internal GamePadState[] c_pad_states, o_pad_states;
         internal GamePadDeadZone[] pad_zone;
         private bool[] pad_loaded;
-        private int padIndex;
-#endif
+        private int padConvertIndex;
+        internal int padIndex;
 
-#if !XBOX
         //Mouse
         internal MouseState c_mouse_state, o_mouse_state;
-        private int mouseIndex;
-#endif
+        private int mouseIndex, mouseConvertIndex;
 
 #if WINDOWS
         //TODO Kinect ;)
@@ -90,77 +88,103 @@ namespace SGDE.Input
                 {
                     handlers = new List<InputHandler>();
                 }
-                handlers.Add(handler);
-                if ((handler.Handles & this.handles) != handler.Handles)
+                if (!handlers.Contains(handler))
                 {
-                    if (components == null)
+                    handlers.Add(handler);
+                    if ((handler.Handles & this.handles) != handler.Handles)
                     {
-                        components = new List<InputComponent>(4);
-                    }
+                        if (components == null)
+                        {
+                            components = new List<InputComponent>(4);
+                        }
 
-                    //Add new handlers
+                        //Add new handlers
 #if WINDOWS_PHONE
-                    if (((handler.Handles & InputType.Touchscreen) == InputType.Touchscreen) && ((this.handles & InputType.Touchscreen) != InputType.Touchscreen))
-                    {
-                        this.handles |= InputType.Touchscreen;
-                        touchIndex = components.Count;
-                        components.Add(new Touchscreen(this));
-                        o_touch_state = c_touch_state = TouchPanel.GetState();
-                    }
+                        if (((handler.Handles & InputType.Touchscreen) == InputType.Touchscreen) && ((this.handles & InputType.Touchscreen) != InputType.Touchscreen))
+                        {
+                            AddTouchSupport();
+                        }
 #else
-                    if (((handler.Handles & InputType.GamePad) == InputType.GamePad) && ((this.handles & InputType.GamePad) != InputType.GamePad))
-                    {
-                        this.handles |= InputType.GamePad;
-                        padIndex = components.Count;
-                        components.Add(new GamePad(this));
-                        c_pad_states = new GamePadState[(int)PlayerIndex.Four + 1];
-                        o_pad_states = new GamePadState[c_pad_states.Length];
-                        pad_loaded = new bool[c_pad_states.Length];
-                        pad_zone = new GamePadDeadZone[c_pad_states.Length];
-                    }
+                        if (((handler.Handles & InputType.GamePad) == InputType.GamePad) && ((this.handles & InputType.GamePad) != InputType.GamePad))
+                        {
+                            AddGamePadSupport();
+                        }
 #endif
 #if !XBOX
-                    if (((handler.Handles & InputType.Mouse) == InputType.Mouse) && ((this.handles & InputType.Mouse) != InputType.Mouse))
-                    {
-                        this.handles |= InputType.Mouse;
-                        mouseIndex = components.Count;
-                        components.Add(new Mouse(this));
-                        o_mouse_state = c_mouse_state = Microsoft.Xna.Framework.Input.Mouse.GetState();
-                    }
+                        if (((handler.Handles & InputType.Mouse) == InputType.Mouse) && ((this.handles & InputType.Mouse) != InputType.Mouse))
+                        {
+                            AddMouseSupport();
+                        }
 #endif
 #if WINDOWS
-                    //TODO Kinect ;)
+                        //TODO Kinect ;)
 #endif
-                    if (((handler.Handles & InputType.Keyboard) == InputType.Keyboard) && ((this.handles & InputType.Keyboard) != InputType.Keyboard))
-                    {
-                        this.handles |= InputType.Keyboard;
-                        keyIndex = components.Count;
-                        components.Add(new Keyboard(this));
-                        o_key_state = c_key_state = Microsoft.Xna.Framework.Input.Keyboard.GetState();
-                    }
-                }
-#if !WINDOWS_PHONE
-                if ((handler.Handles & InputType.GamePad) == InputType.GamePad)
-                {
-                    if (handler.IndexSpecific)
-                    {
-                        int index = (int)handler.Index;
-                        if (!pad_loaded[index])
+                        if (((handler.Handles & InputType.Keyboard) == InputType.Keyboard) && ((this.handles & InputType.Keyboard) != InputType.Keyboard))
                         {
-                            pad_zone[index] = GamePadDeadZone.IndependentAxes;
-                            c_pad_states[index] = o_pad_states[index] = Microsoft.Xna.Framework.Input.GamePad.GetState(handler.Index);
-                            pad_loaded[index] = true;
+                            AddKeyboardSupport();
                         }
                     }
-                    else if (!pad_loaded[0])
+#if !WINDOWS_PHONE
+                    if ((handler.Handles & InputType.GamePad) == InputType.GamePad)
                     {
-                        pad_zone[0] = GamePadDeadZone.IndependentAxes;
-                        c_pad_states[0] = o_pad_states[0] = Microsoft.Xna.Framework.Input.GamePad.GetState(PlayerIndex.One);
-                        pad_loaded[0] = true;
+                        if (handler.IndexSpecific)
+                        {
+                            InitializeGamePad(handler.Index);
+                        }
+                        else if (!pad_loaded[0])
+                        {
+                            InitializeGamePad(PlayerIndex.One);
+                        }
                     }
-                }
 #endif
+                }
             }
+        }
+
+        private void AddTouchSupport()
+        {
+            this.handles |= InputType.Touchscreen;
+            touchIndex = components.Count;
+            components.Add(new Touchscreen(this));
+            o_touch_state = c_touch_state = TouchPanel.GetState();
+        }
+
+        private void AddGamePadSupport()
+        {
+            this.handles |= InputType.GamePad;
+            padIndex = components.Count;
+            components.Add(new GamePad(this));
+            c_pad_states = new GamePadState[(int)PlayerIndex.Four + 1];
+            o_pad_states = new GamePadState[c_pad_states.Length];
+            pad_loaded = new bool[c_pad_states.Length];
+            pad_zone = new GamePadDeadZone[c_pad_states.Length];
+        }
+
+        private void InitializeGamePad(PlayerIndex index)
+        {
+            int i = (int)index;
+            if (!pad_loaded[i])
+            {
+                pad_zone[i] = GamePadDeadZone.IndependentAxes;
+                c_pad_states[i] = o_pad_states[i] = Microsoft.Xna.Framework.Input.GamePad.GetState(index);
+                pad_loaded[i] = true;
+            }
+        }
+
+        private void AddMouseSupport()
+        {
+            this.handles |= InputType.Mouse;
+            mouseIndex = components.Count;
+            components.Add(new Mouse(this));
+            o_mouse_state = c_mouse_state = Microsoft.Xna.Framework.Input.Mouse.GetState();
+        }
+
+        private void AddKeyboardSupport()
+        {
+            this.handles |= InputType.Keyboard;
+            keyIndex = components.Count;
+            components.Add(new Keyboard(this));
+            o_key_state = c_key_state = Microsoft.Xna.Framework.Input.Keyboard.GetState();
         }
 
         /// <summary>
@@ -177,13 +201,84 @@ namespace SGDE.Input
                 {
                     return false;
                 }
+                if (converter.ConvertTo == converter.ConvertFrom)
+                {
+                    return false;
+                }
                 //Add converter
                 if (converters == null)
                 {
                     converters = new List<InputConverter>();
+                    conversionHandlers = new List<InputConversionHandlerInternal>();
                 }
-                converters.Add(converter);
-                return true;
+                if (!converters.Contains(converter))
+                {
+                    converters.Add(converter);
+
+                    //Handle the convert to's
+                    switch (converter.ConvertTo)
+                    {
+                        case InputType.Touchscreen:
+                            int count = (touchConvertIndex & 0x7FFFFFF8) >> 3;
+                            if (count == 0 && touchConvertIndex == 0)
+                            {
+                                touchConvertIndex = conversionHandlers.Count;
+                                conversionHandlers.Add(new TouchConversionHandler(this));
+                                if ((this.handles & InputType.Touchscreen) != InputType.Touchscreen)
+                                {
+                                    AddTouchSupport();
+                                }
+                            }
+                            touchConvertIndex = (touchConvertIndex & 0x7) | ((count + 1) << 3);
+                            break;
+                        case InputType.GamePad:
+                            count = (padConvertIndex & 0x7FFFFFF8) >> 3;
+                            if (count == 0 && padConvertIndex == 0)
+                            {
+                                padConvertIndex = conversionHandlers.Count;
+                                conversionHandlers.Add(new GamePadConversionHandler(this));
+                                if ((this.handles & InputType.GamePad) != InputType.GamePad)
+                                {
+                                    AddGamePadSupport();
+                                    InitializeGamePad(PlayerIndex.One);
+                                    InitializeGamePad(PlayerIndex.Two);
+                                    InitializeGamePad(PlayerIndex.Three);
+                                    InitializeGamePad(PlayerIndex.Four);
+                                }
+                            }
+                            padConvertIndex = (padConvertIndex & 0x7) | ((count + 1) << 3);
+                            break;
+                        case InputType.Mouse:
+                            count = (mouseConvertIndex & 0x7FFFFFF8) >> 3;
+                            if (count == 0 && mouseConvertIndex == 0)
+                            {
+                                mouseConvertIndex = conversionHandlers.Count;
+                                conversionHandlers.Add(new MouseConversionHandler(this));
+                                if ((this.handles & InputType.Mouse) != InputType.Mouse)
+                                {
+                                    AddMouseSupport();
+                                }
+                            }
+                            mouseConvertIndex = (mouseConvertIndex & 0x7) | ((count + 1) << 3);
+                            break;
+                        case InputType.Keyboard:
+                            count = (keyConvertIndex & 0x7FFFFFF8) >> 3;
+                            if (count == 0 && keyConvertIndex == 0)
+                            {
+                                keyConvertIndex = conversionHandlers.Count;
+                                conversionHandlers.Add(new KeyConversionHandler(this));
+                                if ((this.handles & InputType.Keyboard) != InputType.Keyboard)
+                                {
+                                    AddKeyboardSupport();
+                                }
+                            }
+                            keyConvertIndex = (keyConvertIndex & 0x7) | ((count + 1) << 3);
+                            break;
+                        default:
+                            throw new ArgumentException(string.Format(Messages.InputManager_UnkConvertTo, converter.ConvertTo));
+                    }
+                    return true;
+                }
             }
             return false;
         }
@@ -199,7 +294,43 @@ namespace SGDE.Input
             {
                 if (converters != null)
                 {
-                    return converters.Remove(converter);
+                    if (converters.Contains(converter))
+                    {
+                        switch (converter.ConvertTo)
+                        {
+                            case InputType.Touchscreen:
+                                int count = (touchConvertIndex & 0x7FFFFFF8) >> 3;
+                                if (count > 0)
+                                {
+                                    touchConvertIndex = (touchConvertIndex & 0x7) | ((count - 1) << 3);
+                                }
+                                break;
+                            case InputType.GamePad:
+                                count = (padConvertIndex & 0x7FFFFFF8) >> 3;
+                                if (count > 0)
+                                {
+                                    padConvertIndex = (padConvertIndex & 0x7) | ((count - 1) << 3);
+                                }
+                                break;
+                            case InputType.Mouse:
+                                count = (mouseConvertIndex & 0x7FFFFFF8) >> 3;
+                                if (count > 0)
+                                {
+                                    mouseConvertIndex = (mouseConvertIndex & 0x7) | ((count - 1) << 3);
+                                }
+                                break;
+                            case InputType.Keyboard:
+                                count = (keyConvertIndex & 0x7FFFFFF8) >> 3;
+                                if (count > 0)
+                                {
+                                    keyConvertIndex = (keyConvertIndex & 0x7) | ((count - 1) << 3);
+                                }
+                                break;
+                            default:
+                                throw new ArgumentException(string.Format(Messages.InputManager_UnkConvertTo, converter.ConvertTo));
+                        }
+                        return converters.Remove(converter);
+                    }
                 }
             }
             return false;
@@ -209,14 +340,12 @@ namespace SGDE.Input
         {
             if (this.handles != 0)
             {
-                //Handle conversions
-                //TODO
-
                 //Handle input
-#if WINDOWS_PHONE
                 if ((this.handles & InputType.Touchscreen) == InputType.Touchscreen)
                 {
                     c_touch_state = TouchPanel.GetState();
+
+                    InputConversion(InputType.Touchscreen);
 
                     foreach (InputHandler handler in this.handlers)
                     {
@@ -231,7 +360,7 @@ namespace SGDE.Input
 
                     o_touch_state = c_touch_state;
                 }
-#else
+
                 if ((this.handles & InputType.GamePad) == InputType.GamePad)
                 {
                     HandleGameInput(PlayerIndex.One, game);
@@ -239,11 +368,12 @@ namespace SGDE.Input
                     HandleGameInput(PlayerIndex.Three, game);
                     HandleGameInput(PlayerIndex.Four, game);
                 }
-#endif
-#if !XBOX
+
                 if ((this.handles & InputType.Mouse) == InputType.Mouse)
                 {
                     c_mouse_state = Microsoft.Xna.Framework.Input.Mouse.GetState();
+
+                    InputConversion(InputType.Mouse);
 
                     foreach (InputHandler handler in this.handlers)
                     {
@@ -258,13 +388,16 @@ namespace SGDE.Input
 
                     o_mouse_state = c_mouse_state;
                 }
-#endif
+
 #if WINDOWS
                 //TODO Kinect ;)
 #endif
+
                 if ((this.handles & InputType.Keyboard) == InputType.Keyboard)
                 {
                     c_key_state = Microsoft.Xna.Framework.Input.Keyboard.GetState();
+
+                    InputConversion(InputType.Keyboard);
 
                     foreach (InputHandler handler in this.handlers)
                     {
@@ -282,7 +415,6 @@ namespace SGDE.Input
             }
         }
 
-#if !WINDOWS_PHONE
         private void HandleGameInput(PlayerIndex index, Game game)
         {
             int ind = (int)index;
@@ -292,6 +424,8 @@ namespace SGDE.Input
                 c_pad_states[ind] = Microsoft.Xna.Framework.Input.GamePad.GetState(index, pad_zone[ind]);
 
                 ((GamePad)this.components[this.padIndex]).index = index;
+
+                InputConversion(InputType.GamePad);
 
                 foreach (InputHandler handler in this.handlers)
                 {
@@ -317,7 +451,64 @@ namespace SGDE.Input
                 o_pad_states[ind] = c_pad_states[ind];
             }
         }
-#endif
+
+        private void InputConversion(InputType type)
+        {
+            int c;
+            switch (type)
+            {
+                case InputType.Touchscreen:
+                    c = this.touchConvertIndex;
+                    break;
+                case InputType.GamePad:
+                    c = this.padConvertIndex;
+                    break;
+                case InputType.Mouse:
+                    c = this.mouseConvertIndex;
+                    break;
+                case InputType.Keyboard:
+                    c = this.keyConvertIndex;
+                    break;
+                default:
+                    return;
+            }
+            if (((c & 0x7FFFFFF8) >> 3) == 0)
+            {
+                return;
+            }
+            InputConversionHandlerInternal conHand = this.conversionHandlers[c & 0x7];
+            foreach (InputConverter con in this.converters)
+            {
+                if (con.ConvertTo == type)
+                {
+                    if ((this.handles & con.ConvertFrom) != con.ConvertFrom)
+                    {
+                        continue;
+                    }
+                    int i;
+                    switch (con.ConvertFrom)
+                    {
+                        case InputType.Touchscreen:
+                            i = this.touchIndex;
+                            break;
+                        case InputType.GamePad:
+                            i = this.padIndex;
+                            break;
+                        case InputType.Mouse:
+                            i = this.mouseIndex;
+                            break;
+                        case InputType.Keyboard:
+                            i = this.keyIndex;
+                            break;
+                        default:
+                            continue;
+                    }
+
+                    conHand.Commit(con.Convert(conHand, this.components[i]));
+                }
+            }
+            conHand.Process();
+        }
     }
 
     #endregion
@@ -387,6 +578,8 @@ namespace SGDE.Input
 
     #endregion
 
+    #region InputConversionHandler
+
     /// <summary>
     /// Handles any conversion for input.
     /// </summary>
@@ -402,9 +595,61 @@ namespace SGDE.Input
         /// converted input) has it as pressed. If this is <code>true</code> then it will replace it.
         /// </param>
         /// <returns><code>true</code> if the value was set, <code>false</code> if otherwise.</returns>
+        /// <example>
+        /// //Basic demonstration with conversion to GamePad input
+        /// handler.SetValue(new Vector2(x, y), GamePadComponent.RightStick, false);    //Set the position of the Right stick
+        /// handler.SetValue(0.994f, GamePadComponent.RightTrigger, false);             //Set the value for Right trigger
+        /// handler.SetValue(GamePadComponent.LeftStick, null, false);                  //Set that left stick was clicked
+        /// handler.SetValue(GamePadComponent.A, null, false);                          //Set that 'A' was clicked
+        /// 
+        /// //Basic demonstration with mouse
+        /// handler.SetValue(120, "x", false);                                          //Set the x value of the mouse position
+        /// handler.SetValue(MouseButton.LeftButton, null, false);                      //Set the left mouse button
+        /// </example>
         bool SetValue(object input, object context, bool replace);
     }
-    
+
+    /// <summary>
+    /// Internal conversion handler
+    /// </summary>
+    internal abstract class InputConversionHandlerInternal : InputConversionHandler
+    {
+        public abstract bool SetValue(object input, object context, bool replace);
+
+        /// <summary>
+        /// Process all the converted results and commit them to the input system.
+        /// </summary>
+        public abstract void Process();
+
+        /// <summary>
+        /// Commit the last converted input to the total commit values.
+        /// </summary>
+        /// <param name="commit"><code>true</code> if the conversion should be commited, <code>false</code> if otherwise.</param>
+        public abstract void Commit(bool commit);
+
+        protected void SetValue<T>(T? oT, ref T? v) where T : struct
+        {
+            if (oT.HasValue)
+            {
+                v = oT;
+            }
+        }
+
+        protected void SetValue<T>(T? thisT, T oT, out T v) where T : struct
+        {
+            if (thisT.HasValue)
+            {
+                v = thisT.Value;
+            }
+            else
+            {
+                v = oT;
+            }
+        }
+    }
+
+    #endregion
+
     /// <summary>
     /// An input component from InputType.
     /// </summary>

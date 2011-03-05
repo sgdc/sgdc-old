@@ -9,7 +9,7 @@ namespace SGDE.Content.DataTypes
     /// <summary>
     /// Used internally.
     /// </summary>
-    public class MapContent
+    internal class MapContent
     {
         internal List<EntityBuilder> builders;
 

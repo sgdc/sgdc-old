@@ -77,6 +77,28 @@ namespace SGDE
         }
 
         /// <summary>
+        /// Get this game's content, such as levels and Entities.
+        /// </summary>
+        public GameContent GameContent
+        {
+            get
+            {
+                return this.gameContent;
+            }
+        }
+
+        /// <summary>
+        /// Get this Game's InputManager.
+        /// </summary>
+        public InputManager InputManager
+        {
+            get
+            {
+                return this.imanager;
+            }
+        }
+
+        /// <summary>
         /// Get the camera control for this Game.
         /// </summary>
         public Camera CameraControl

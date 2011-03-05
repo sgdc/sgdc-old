@@ -12,7 +12,7 @@ namespace SGDE.Content.Readers
     /// <summary>
     /// Read and process a GameContent class
     /// </summary>
-    public class GameReader : ContentTypeReader<GameContent>
+    internal class GameReader : ContentTypeReader<GameContent>
     {
         /// <summary>
         /// Read a GameContent.

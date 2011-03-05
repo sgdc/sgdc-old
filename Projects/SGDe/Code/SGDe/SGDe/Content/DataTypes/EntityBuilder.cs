@@ -9,7 +9,7 @@ namespace SGDE.Content.DataTypes
     /// <summary>
     /// Used Internally
     /// </summary>
-    public class EntityBuilder
+    internal class EntityBuilder
     {
         private Entity BaseEntity;
         private Dictionary<string, object> physics;
