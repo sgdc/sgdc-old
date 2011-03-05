@@ -1,0 +1,30 @@
+Hud
+- health
+- earth health
+- powers
+- inimap?
+
+Level
+- trees
+- plantable areas
+- enemies
+- boss
+- water
+- tigers
+
+attacks
+- love
+- ice
+- fire
+
+AI
+- attack
+- run away
+- follow
+- learn and do
+
+Planting
+- seed collecting
+- seed planting
+- water gathering
+- sapling planting
