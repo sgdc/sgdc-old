@@ -20,6 +20,22 @@
       <Source>enemy.png</Source>
     </SpriteSheet>
 
+    <SpriteSheet ID="4">
+      <Source>hutinside.png</Source>
+    </SpriteSheet>
+
+    <SpriteSheet ID="5">
+      <Source>hutbottom.png</Source>
+    </SpriteSheet>
+
+    <SpriteSheet ID="6">
+      <Source>huttop.png</Source>
+    </SpriteSheet>
+
+    <SpriteSheet ID="7">
+      <Source>invisible.png</Source>
+    </SpriteSheet>
+
   </SpriteSheets>
   
 </SGDE>

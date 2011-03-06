@@ -110,6 +110,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HutTop.cs" />
+    <Compile Include="HutBottom.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="Food.cs" />
     <Compile Include="Ground.cs" />

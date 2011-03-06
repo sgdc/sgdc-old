@@ -12,15 +12,13 @@ using SGDE.Input;
 
 namespace Tyrus_and_Randall
 {
-
-    //SGDE.Game.CurrentGame.SpriteBatch;
-
-
     class Player : Entity, InputHandler
     {
 
         private Boolean onGround;
         private int totalFood;
+        public enum PlayerDirection { Right, Left, StandingRight, StandingLeft };
+        private PlayerDirection dir;
 
         public Player() : this(0, 0) { }
 
@@ -52,17 +50,46 @@ namespace Tyrus_and_Randall
             if (keyboard.IsKeyPressed(Keys.Left))
             {
                 this.Translate(-5, 0);
+                if (dir != PlayerDirection.Left)
+                {
+                    this.SpriteImage.SetAnimation("WalkLeft");
+                    dir = PlayerDirection.Left;
+                }
             }
-            if (keyboard.IsKeyPressed(Keys.Right))
+            else if (keyboard.IsKeyPressed(Keys.Right))
+            {
                 this.Translate(5, 0);
+                if (dir != PlayerDirection.Right)
+                {
+                    this.SpriteImage.SetAnimation("WalkRight");
+                    dir = PlayerDirection.Right;
+                }
+            }
+            else
+            {
+                this.SetVelocity(0,this.GetVelocity().Y);
+                switch (dir)
+                {
+                    case PlayerDirection.Right:
+                        this.SpriteImage.SetAnimation("StandRight");
+                        dir = PlayerDirection.StandingRight;
+                        break;
+                    case PlayerDirection.Left:
+                        this.SpriteImage.SetAnimation("StandLeft");
+                        dir = PlayerDirection.StandingLeft;
+                        break;
+                }
+            }
+
             if (keyboard.IsKeyPressed(Keys.Up))
             {
                 if (onGround && this.GetCollisionUnit().HasCollisions())
                 {
-                    this.SetVelocity(this.GetVelocity().X, -8.0f);
+                    this.SetVelocity(this.GetVelocity().X, -10.0f);
                     onGround = false;
                 }
             }
+
             if (keyboard.IsKeyPressed(Keys.Escape))
                 game.Exit();
         }
@@ -97,54 +124,60 @@ namespace Tyrus_and_Randall
             {
                 foreach (CollisionUnit other in GetCollisionUnit().GetCollisions())
                 {
-                    if (other.IsSolid() )
+                    if (other.IsSolid())
                     {
                         Vector2 intersect = GetIntersectionRectangle(this.GetCollisionUnit(), other);
 
-						switch (((Entity)other.GetParent()).GetID())
-						{
-							case 3:
-							{
-								totalFood++;
-								Game1.foodText = "Food: " + totalFood;
-								((Food)(other.GetParent())).Disable();
+                        switch (((Entity)other.GetParent()).GetID())
+                        {
+                            case 3:
+                                {
+                                    if (((Food)other.GetParent()).IsEnabled())
+                                    {
+                                        totalFood++;
+                                        Game1.foodText = "Food: " + totalFood;
+                                        ((Food)(other.GetParent())).Disable();
+                                    }
 
-								break;
-							}
+                                    break;
+                                }
+                            default:
+                                {
+                                    if (Math.Abs(intersect.X) > Math.Abs(intersect.Y) && !intersect.Equals(Vector2.Zero))
+                                    {
+                                        if (intersect.Y <= 0)
+                                        {
+                                            this.SetVelocity(this.GetVelocity().X, 0.0f);
+                                            this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y - 0.01f));
+                                            onGround = true;
+                                        }
+                                        else
+                                        {
+                                            this.SetVelocity(this.GetVelocity().X, Math.Max(this.GetVelocity().Y, 0));
+                                            this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y + 0.01f));
+                                        }
+                                    }
+                                    else if (!intersect.Equals(Vector2.Zero))
+                                    {
+                                        this.SetVelocity(0.0f, this.GetVelocity().Y);
+                                        if (intersect.X <= 0)
+                                        {
+                                            this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X - 0.01f, this.GetTranslation().Y));
+                                        }
+                                        else
+                                        {
+                                            this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X + 0.01f, this.GetTranslation().Y));
+                                        }
+                                    }
 
-							default:
-							{
-								if (Math.Abs(intersect.X) > Math.Abs(intersect.Y) && !intersect.Equals(Vector2.Zero))
-								{
-									if (intersect.Y <= 0)
-									{
-										this.SetVelocity(this.GetVelocity().X, 0.0f);
-										this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y - 0.01f));
-										onGround = true;
-									}
-									else
-									{
-										this.SetVelocity(this.GetVelocity().X, Math.Max(this.GetVelocity().Y, 0));
-										this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y + 0.01f));
-									}
-								}
-								else if (!intersect.Equals(Vector2.Zero))
-								{
-									this.SetVelocity(0.0f, this.GetVelocity().Y);
-									if (intersect.X <= 0)
-									{
-										this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X - 0.01f, this.GetTranslation().Y));
-									}
-									else
-									{
-										this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X + 0.01f, this.GetTranslation().Y));
-									}
-								}
+                                    break;
+                                }
+                        }
+                    }
+                    else
+                    {
 
-								break;
-							}
-						}
-					}
+                    }
                 }
 
             }

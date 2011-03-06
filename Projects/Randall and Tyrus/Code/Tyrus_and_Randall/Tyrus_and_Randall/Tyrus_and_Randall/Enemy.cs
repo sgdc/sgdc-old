@@ -13,6 +13,8 @@ namespace Tyrus_and_Randall
     class Enemy : Entity
     {
         private Boolean onGround;
+        private enum EnemyDirection { Right, Left, StandingRight, StandingLeft };
+        private EnemyDirection dir;
 
         public Enemy()
             : this(0, 0)
@@ -24,6 +26,7 @@ namespace Tyrus_and_Randall
         {
             onGround = false;
             id = 4;
+            dir = EnemyDirection.StandingRight;
         }
 
         public Enemy(Vector2 position)
@@ -40,10 +43,29 @@ namespace Tyrus_and_Randall
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if (this.GetVelocity().X >= 0 && this.SpriteImage.Frame == 0)
-                this.SpriteImage.Frame = 1;
-            else if(this.GetVelocity().X < 0 && this.SpriteImage.Frame == 1)
-                this.SpriteImage.Frame = 0;
+            if (this.GetVelocity().X > 0)
+            {
+                if(dir != EnemyDirection.Right)
+                {
+                    dir = EnemyDirection.Right;
+                    this.SpriteImage.SetAnimation("EnemyWalkRight");
+                }
+            }
+            else if (this.GetVelocity().X < 0)
+            {
+                if (dir != EnemyDirection.Left)
+                {
+                    dir = EnemyDirection.Left;
+                    this.SpriteImage.SetAnimation("EnemyWalkLeft");
+                }
+            }
+            else
+            {
+                if (dir == EnemyDirection.Right)
+                    dir = EnemyDirection.StandingRight;
+                else if (dir == EnemyDirection.Left)
+                    dir = EnemyDirection.StandingLeft;
+            }
         }
 
         public override void CollisionChange()
@@ -75,10 +97,6 @@ namespace Tyrus_and_Randall
                             if (((Entity)other.GetParent()).GetID() != 1)
                             {
                                 this.SetVelocity(-this.GetVelocity().X, this.GetVelocity().Y);
-                                if (this.GetVelocity().X >= 0)
-                                    this.SpriteImage.Frame = 1;
-                                else
-                                    this.SpriteImage.Frame = 0;
                             }
                             if (intersect.X <= 0)
                             {

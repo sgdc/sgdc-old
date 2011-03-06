@@ -15,6 +15,7 @@ namespace Tyrus_and_Randall
     {
         public enum FOOD { STAR }
         private byte food;
+        private Boolean enabled;
 
         public Food()
             : this(0.0f, 0.0f)
@@ -29,6 +30,7 @@ namespace Tyrus_and_Randall
             Random randy = new Random();
             food = (byte)randy.Next(0);
             SetTranslation(new Vector2(x, y));
+            enabled = true;
 
             //this.mCollisionUnit.SetSolid(false);
 
@@ -37,11 +39,19 @@ namespace Tyrus_and_Randall
 
         public void Disable()
         {
-            // TERRIBLE FIX!!!!
-            // CHANGE
+            this.SpriteImage.Visible = false;
+            enabled = false;
+        }
 
-            //Vector2 temp = new Vector2(-this.GetCollisionUnit().GetLowerRight().X, -this.GetCollisionUnit().GetLowerRight().Y);
-            this.SetTranslation(new Vector2(-32f, -32f));
+        public void Enable()
+        {
+            this.SpriteImage.Visible = true;
+            enabled = true;
+        }
+
+        public Boolean IsEnabled()
+        {
+            return enabled;
         }
     }
 }
