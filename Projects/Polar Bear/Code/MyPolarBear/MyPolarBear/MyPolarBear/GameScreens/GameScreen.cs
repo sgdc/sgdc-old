@@ -83,11 +83,6 @@ namespace MyPolarBear.GameScreens
             if (InputManager.GamePad.GetTriggerState(GamePadComponent.Trigger.Right) != 0)
                 ScreenManager.camera.Zoom(0.01f);
 
-            if (InputManager.Keyboard.IsKeyPressed(Keys.A))
-                ScreenManager.camera.Zoom(-0.01f);
-            if (InputManager.Keyboard.IsKeyPressed(Keys.S))
-                ScreenManager.camera.Zoom(0.01f);
-
             reticule.Position = InputManager.Mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
 
             lovedEnemies = 0;
@@ -107,18 +102,14 @@ namespace MyPolarBear.GameScreens
 
         public override void DrawGame(SpriteBatch spriteBatch)
         {          
-            //spriteBatch.Draw(Game1.GetTextureAt(8), Vector2.Zero, Color.White);
-            //spriteBatch.Draw(Game1.GetTextureAt(8), Vector2.Zero, null, Color.White, 0.0f, new Vector2(Game1.GetTextureAt(8).Width / 2, Game1.GetTextureAt(8).Height / 2), 5.0f, SpriteEffects.None, 0.0f);
-            //spriteBatch.Draw(Game1.textures["Images/WorldMap"], Vector2.Zero, Color.White);
-            //spriteBatch.Draw(Game1.textures["Images/BasicTerrain"], Vector2.Zero, Color.White);
             spriteBatch.Draw(ContentManager.GetTexture("BasicTerrain"), new Rectangle(0, 0, WORLDWIDTH, WORLDHEIGHT), Color.White);
 
             reticule.Draw(spriteBatch);
 
             DrawKeeper.getInstance().drawAll(spriteBatch);
 
-            spriteBatch.DrawString(ContentManager.GetFont("Calibri"), lovedEnemies.ToString() + "/" + maxEnemies.ToString(),
-                                   ScreenManager.camera.TopLeft, Color.Yellow);
+            //spriteBatch.DrawString(ContentManager.GetFont("Calibri"), lovedEnemies.ToString() + "/" + maxEnemies.ToString(),
+              //                     ScreenManager.camera.TopLeft, Color.Yellow);
 
             base.DrawGame(spriteBatch);
         }        

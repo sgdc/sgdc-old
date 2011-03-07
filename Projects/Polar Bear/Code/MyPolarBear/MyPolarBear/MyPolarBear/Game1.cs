@@ -13,9 +13,6 @@ using MyPolarBear.GameObjects;
 using MyPolarBear.GameScreens;
 using MyPolarBear.Content;
 
-
-
-
 namespace MyPolarBear
 {
     /// <summary>
@@ -33,8 +30,8 @@ namespace MyPolarBear
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1024;
-            graphics.PreferredBackBufferHeight = 1024;
+            graphics.PreferredBackBufferWidth = ScreenManager.SCREENWIDTH;
+            graphics.PreferredBackBufferHeight = ScreenManager.SCREENHEIGHT;
             //graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             
@@ -64,16 +61,20 @@ namespace MyPolarBear
         protected override void LoadContent()
         {
             // Images
-            ContentManager.AddTexture("PolarBear", Content.Load<Texture2D>("Images/PolarBear"));
-            ContentManager.AddTexture("IcePowerPolarBear", Content.Load<Texture2D>("Images/IcePowerPolarBear"));
-            ContentManager.AddTexture("FirePowerPolarBear", Content.Load<Texture2D>("Images/FirePowerPolarBear"));
-            ContentManager.AddTexture("GrassPowerPolarBear", Content.Load<Texture2D>("Images/GrassPowerPolarBear"));
+            //ContentManager.AddTexture("PolarBear", Content.Load<Texture2D>("Images/PolarBear"));
+            //ContentManager.AddTexture("IcePowerPolarBear", Content.Load<Texture2D>("Images/IcePowerPolarBear"));
+            //ContentManager.AddTexture("FirePowerPolarBear", Content.Load<Texture2D>("Images/FirePowerPolarBear"));
+            //ContentManager.AddTexture("LightningPowerPolarBear", Content.Load<Texture2D>("Images/LightningPowerPolarBear"));
             ContentManager.AddTexture("Heart", Content.Load<Texture2D>("Images/Heart"));
             ContentManager.AddTexture("IcePowerHeart", Content.Load<Texture2D>("Images/IcyHeart"));
             ContentManager.AddTexture("FirePowerHeart", Content.Load<Texture2D>("Images/FieryHeart"));
-            ContentManager.AddTexture("GrassPowerHeart", Content.Load<Texture2D>("Images/GrassyHeart"));
+            ContentManager.AddTexture("LightningPowerHeart", Content.Load<Texture2D>("Images/LightningHeart"));
             ContentManager.AddTexture("Reticule", Content.Load<Texture2D>("Images/Reticule"));
             ContentManager.AddTexture("BasicTerrain", Content.Load<Texture2D>("Images/BasicTerrain"));
+            ContentManager.AddTexture("Meter", Content.Load<Texture2D>("Images/Meter"));
+            ContentManager.AddTexture("FullHeart", Content.Load<Texture2D>("Images/FullHeart"));
+            ContentManager.AddTexture("EmptyHeart", Content.Load<Texture2D>("Images/EmptyHeart"));
+            ContentManager.AddTexture("PowerSelector", Content.Load<Texture2D>("Images/PowerSelector"));
 
             // Arctic SpriteSheets
             ContentManager.AddTexture("IceWaveBack", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveBack"));

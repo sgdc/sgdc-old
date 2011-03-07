@@ -64,19 +64,29 @@ namespace MyPolarBear
             set { _isFocused = value; }
         }
 
-        public Vector2 TopLeft;
+        private Vector2 _topLeft;
+        public Vector2 TopLeft
+        {
+            get { return _topLeft; }
+            set { _topLeft = value; }       
+        }
 
-        public GraphicsDevice _graphics;
+        private GraphicsDevice _graphicsDevice;
+        public GraphicsDevice GraphicsDevice
+        {
+            get { return _graphicsDevice; }
+            set { _graphicsDevice = value; }
+        }
 
-        public Camera(GraphicsDevice graphics, bool isFocused)
+        public Camera(GraphicsDevice graphicsDevice, bool isFocused)
         {
             Scale = 1;
             Rotation = 0;
-            ScreenCenter = new Vector2(graphics.Viewport.Width / 2, graphics.Viewport.Height / 2);
+            ScreenCenter = new Vector2(graphicsDevice.Viewport.Width / 2, graphicsDevice.Viewport.Height / 2);
             TopLeft = Vector2.Zero;
             Position = new Vector2(ScreenCenter.X, ScreenCenter.Y);
             TransformMatrix = Matrix.Identity;
-            _graphics = graphics;
+            GraphicsDevice = graphicsDevice;
             IsFocused = isFocused;            
         }
 
@@ -89,8 +99,7 @@ namespace MyPolarBear
                               Matrix.CreateTranslation(Origin.X, Origin.Y, 0) *
                               Matrix.CreateScale(Scale);
 
-            TopLeft.X = Position.X - _graphics.Viewport.Width / 2;
-            TopLeft.Y = Position.Y - _graphics.Viewport.Height / 2;
+            TopLeft = new Vector2(Position.X - GraphicsDevice.Viewport.Width / 2, Position.Y - GraphicsDevice.Viewport.Height / 2);
         }
 
         public void FollowEntity()

@@ -12,8 +12,9 @@ namespace MyPolarBear.GameScreens
     {
         TitleScreen,
         PauseScreen,
-        GameScreen
-    }
+        GameScreen,
+        HeadsUpDisplay
+    }  
 
     class ScreenManager : DrawableGameComponent
     {        
@@ -21,12 +22,16 @@ namespace MyPolarBear.GameScreens
 
         public static Camera camera;
 
+        public static int SCREENWIDTH = 1280;
+        public static int SCREENHEIGHT = 720;
+
         public static bool isExiting = false;
         public static bool isPaused = false;
 
         TitleScreen titleScreen;
         PauseScreen pauseScreen;
         GameScreen gameScreen;
+        HUDScreen HUDScreen;
         
         SpriteBatch spriteBatch;
 
@@ -42,7 +47,8 @@ namespace MyPolarBear.GameScreens
             titleScreen = new TitleScreen(ScreenType.TitleScreen);
             pauseScreen = new PauseScreen(ScreenType.PauseScreen);
             gameScreen = new GameScreen(ScreenType.GameScreen);
-            gameScreen.LoadContent();                       
+            gameScreen.LoadContent();
+            HUDScreen = new HUDScreen(ScreenType.HeadsUpDisplay);
         }
 
         public override void Update(GameTime gameTime)
@@ -72,18 +78,19 @@ namespace MyPolarBear.GameScreens
         }
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera.TransformMatrix);
 
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, camera.TransformMatrix);
             switch (screenType)
             {
                 case ScreenType.TitleScreen: titleScreen.DrawEntries(spriteBatch);
                     break;
                 case ScreenType.PauseScreen: pauseScreen.DrawEntries(spriteBatch);
                     break;
-                case ScreenType.GameScreen: gameScreen.DrawGame(spriteBatch);
+                case ScreenType.GameScreen: 
+                    gameScreen.DrawGame(spriteBatch);
+                    HUDScreen.DrawDisplay(spriteBatch);
                     break;
             }
-
             spriteBatch.End();
 
             base.Draw(gameTime);

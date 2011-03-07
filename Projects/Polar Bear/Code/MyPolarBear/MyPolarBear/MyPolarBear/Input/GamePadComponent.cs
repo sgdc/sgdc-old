@@ -116,9 +116,9 @@ namespace MyPolarBear.Input
             return CurrentState.IsConnected;
         }
 
-        public void StartVibration(float leftMotor, float rightMotor)
+        public void StartVibration()
         {
-            GamePad.SetVibration(PlayerIndex, leftMotor, rightMotor);
+            GamePad.SetVibration(PlayerIndex, 0.5f, 0.5f);
         }
 
         public void StopVibration()

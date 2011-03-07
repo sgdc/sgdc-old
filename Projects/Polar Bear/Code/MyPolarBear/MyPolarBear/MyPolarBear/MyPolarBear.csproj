@@ -118,6 +118,7 @@
     <Compile Include="GameObjects\PolarBear.cs" />
     <Compile Include="GameObjects\Projectile.cs" />
     <Compile Include="GameScreens\GameScreen.cs" />
+    <Compile Include="GameScreens\HUDScreen.cs" />
     <Compile Include="GameScreens\TitleScreen.cs" />
     <Compile Include="GameScreens\PauseScreen.cs" />
     <Compile Include="GameScreens\Screen.cs" />

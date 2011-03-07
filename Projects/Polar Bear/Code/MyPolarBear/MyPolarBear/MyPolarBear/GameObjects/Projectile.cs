@@ -52,8 +52,8 @@ namespace MyPolarBear.GameObjects
                 case PolarBear.Power.Fire:
                     Texture = ContentManager.GetTexture("FirePowerHeart");
                     break;
-                case PolarBear.Power.Grass:
-                    Texture = ContentManager.GetTexture("GrassPowerHeart");
+                case PolarBear.Power.Lighting:
+                    Texture = ContentManager.GetTexture("LightningPowerHeart");
                     break;
             }
 
@@ -95,8 +95,7 @@ namespace MyPolarBear.GameObjects
                 //        hitEntity(eni);
                 //    }
 
-                //}
-
+                //}                
                 if (CollisionBox.Intersects(eni.CollisionBox))
                 {
                     hitEntity(eni);
