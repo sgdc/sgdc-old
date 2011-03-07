@@ -41,7 +41,7 @@ namespace Tyrus_and_Randall
         protected override void UIDraw(GameTime gameTime)
         {
             base.UIDraw(gameTime);
-            this.SpriteBatch.DrawString(foodfont, foodText, Vector2.Zero, Color.Black);
+            this.Graphics2D.DrawString(foodfont, foodText, Vector2.Zero, Color.Black);
         }
 
         public void SetFoodText(String s)

@@ -20,6 +20,9 @@ namespace SGDE
         private Vector2 _origin;
         private Vector2 _screenCenter;
         private Vector4 _region;
+#if XBOX
+        private Vector2 _safeOrigin; //On a television the screen might extend off the actual screen. Use this to adjust the region so it will always be visible
+#endif
 
         /// <summary>
         /// Get or set the position of the camera, located at the center of the screen.
@@ -53,17 +56,35 @@ namespace SGDE
                 }
                 else
                 {
-                    if ((this._region.X != float.PositiveInfinity) && (_rawPosition.X + _screenCenter.X > this._region.X))
+                    if ((this._region.X != float.PositiveInfinity) && 
+#if XBOX
+                        (_rawPosition.X + _screenCenter.X + this._safeOrigin.X > this._region.X))
+#else
+                        (_rawPosition.X + _screenCenter.X > this._region.X))
+#endif
                     {
+#if XBOX
+                        _position.X = this._region.X - (_screenCenter.X + this._safeOrigin.X);
+#else
                         _position.X = this._region.X - _screenCenter.X;
+#endif
                     }
                     else
                     {
                         _position.X = _rawPosition.X;
                     }
-                    if ((this._region.Z != float.NegativeInfinity) && (_position.X - _screenCenter.X < this._region.Z))
+                    if ((this._region.Z != float.NegativeInfinity) && 
+#if XBOX
+                        (_position.X - _screenCenter.X - this._safeOrigin.X < this._region.Z))
+#else
+                        (_position.X - _screenCenter.X < this._region.Z))
+#endif
                     {
+#if XBOX
+                        _position.X = this._region.Z + _screenCenter.X + this._safeOrigin.X;
+#else
                         _position.X = this._region.Z + _screenCenter.X;
+#endif
                     }
                 }
                 if (this._region.Y == float.PositiveInfinity && this._region.W == float.NegativeInfinity)
@@ -73,17 +94,35 @@ namespace SGDE
                 }
                 else
                 {
-                    if ((this._region.Y != float.PositiveInfinity) && (_rawPosition.Y + _screenCenter.Y > this._region.Y))
+                    if ((this._region.Y != float.PositiveInfinity) && 
+#if XBOX
+                        (_rawPosition.Y + _screenCenter.Y + this._safeOrigin.Y > this._region.Y))
+#else
+                        (_rawPosition.Y + _screenCenter.Y > this._region.Y))
+#endif
                     {
+#if XBOX
+                        _position.Y = this._region.Y - (_screenCenter.Y + this._safeOrigin.Y);
+#else
                         _position.Y = this._region.Y - _screenCenter.Y;
+#endif
                     }
                     else
                     {
                         _position.Y = _rawPosition.Y;
                     }
-                    if ((this._region.W != float.NegativeInfinity) && (_position.Y - _screenCenter.Y < this._region.W))
+                    if ((this._region.W != float.NegativeInfinity) && 
+#if XBOX
+                        (_position.Y - _screenCenter.Y - this._safeOrigin.Y < this._region.W))
+#else
+                        (_position.Y - _screenCenter.Y < this._region.W))
+#endif
                     {
+#if XBOX
+                        _position.Y = this._region.W + _screenCenter.Y + this._safeOrigin.Y;
+#else
                         _position.Y = this._region.W + _screenCenter.Y;
+#endif
                     }
                 }
             }
@@ -191,6 +230,9 @@ namespace SGDE
             _rotation = 0;
             _transformMatrix = Matrix.Identity;
             _screenCenter = new Vector2(viewport.Width / 2f, viewport.Height / 2f);
+#if XBOX
+            _safeOrigin = new Vector2(viewport.X, viewport.Y);
+#endif
             _rawPosition = new Vector2(_screenCenter.X, _screenCenter.Y);
             _region = new Vector4(float.PositiveInfinity); //X=Pos-X, Y=Pos-Y, Z=Neg-X, W=Neg-Y
             _region.Z = -_region.Z;

@@ -129,6 +129,31 @@ namespace SGDeContent.Processors
                                         game.MapOrderName.Add(null);
                                     }
                                     index++;
+                                    Microsoft.Xna.Framework.Vector2? camera = null;
+                                    foreach (XmlElement mapSet in map)
+                                    {
+                                        if (ContentTagManager.TagMatches("GAME_SETTINGS_MAPLIST_MAP_CAMERA", mapSet.Name, input.Version))
+                                        {
+                                            at = ContentTagManager.GetXMLAtt("GENERAL_X", input.Version, mapSet);
+                                            if (at != null)
+                                            {
+                                                camera = new Microsoft.Xna.Framework.Vector2(float.Parse(at.Value), 0);
+                                            }
+                                            at = ContentTagManager.GetXMLAtt("GENERAL_Y", input.Version, mapSet);
+                                            if (at != null)
+                                            {
+                                                if (camera.HasValue)
+                                                {
+                                                    camera = new Microsoft.Xna.Framework.Vector2(camera.Value.X, float.Parse(at.Value));
+                                                }
+                                                else
+                                                {
+                                                    camera = new Microsoft.Xna.Framework.Vector2(0, float.Parse(at.Value));
+                                                }
+                                            }
+                                        }
+                                    }
+                                    game.MapCameraStart.Add(camera);
                                 }
                             }
 

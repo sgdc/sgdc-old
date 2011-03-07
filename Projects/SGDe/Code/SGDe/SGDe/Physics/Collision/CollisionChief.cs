@@ -33,6 +33,10 @@ namespace SGDE.Physics.Collision
 
         private void UpdateCollisions()
         {
+            if (mUnitsToUpdate == null)
+            {
+                return;
+            }
             Vector2 circleCenter;
             int circleRadius;
             Point topLeftCell;
@@ -103,12 +107,15 @@ namespace SGDE.Physics.Collision
         // notify entities of collision change
         private void NotifyEntities()
         {
-            foreach (Entity ent in mEntitiesToNotify)
+            if (mEntitiesToNotify != null)
             {
-                ent.CollisionChange();
-            }
+                foreach (Entity ent in mEntitiesToNotify)
+                {
+                    ent.CollisionChange();
+                }
 
-            mEntitiesToNotify.Clear();
+                mEntitiesToNotify.Clear();
+            }
         }
 
         public void UpdateUnit(CollisionUnit unit)

@@ -45,18 +45,17 @@ namespace SGDeContent.DataTypes
             if (process)
             {
                 //Need to sort the entities. This way it provides easy validation when loading in game.
+                List<int> ids = new List<int>();
+                List<object> tent = new List<object>();
                 for (int i = 0; i < EntityID.Count; i++)
                 {
-                    if (EntityID[i] != i)
-                    {
-                        int index = EntityID.IndexOf(i);
-                        object entity = Entities[index];
-                        Entities.RemoveAt(index);
-                        Entities.Insert(index, entity);
-                        EntityID.RemoveAt(i);
-                        EntityID.Insert(i, i);
-                    }
+                    ids.Add(i);
+                    tent.Add(Entities[EntityID.IndexOf(i)]);
                 }
+                EntityID.Clear();
+                EntityID.AddRange(ids);
+                Entities.Clear();
+                Entities.AddRange(tent);
             }
 
             process = false;

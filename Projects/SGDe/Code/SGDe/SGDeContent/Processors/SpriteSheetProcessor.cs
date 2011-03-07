@@ -117,18 +117,17 @@ namespace SGDeContent.Processors
                             if (process)
                             {
                                 //Need to sort the textures.
+                                List<int> ids = new List<int>();
+                                List<object> texs = new List<object>();
                                 for (int i = 0; i < map.TextureIDs.Count; i++)
                                 {
-                                    if (map.TextureIDs[i] != i)
-                                    {
-                                        int index = map.TextureIDs.IndexOf(i);
-                                        object entity = map.Textures[index];
-                                        map.Textures.RemoveAt(index);
-                                        map.Textures.Insert(index, entity);
-                                        map.TextureIDs.RemoveAt(i);
-                                        map.TextureIDs.Insert(i, i);
-                                    }
+                                    ids.Add(i);
+                                    texs.Add(map.Textures[map.TextureIDs.IndexOf(i)]);
                                 }
+                                map.TextureIDs.Clear();
+                                map.TextureIDs.AddRange(ids);
+                                map.Textures.Clear();
+                                map.Textures.AddRange(texs);
                             }
 
                             #endregion

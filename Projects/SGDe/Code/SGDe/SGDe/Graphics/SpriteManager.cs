@@ -12,7 +12,7 @@ namespace SGDE.Graphics
     {
         #region Static
 
-        internal static SpriteBatch spriteBat;
+        internal static Graphics2D gfx;
         internal static SpriteManager spManager;
 
         public static SpriteManager GetInstance()

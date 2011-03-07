@@ -65,7 +65,6 @@
     <Compile Include="DataTypes\Game.cs" />
     <Compile Include="DataTypes\Map.cs" />
     <Compile Include="DataTypes\Node.cs" />
-    <Compile Include="DataTypes\ProcessedContent.cs" />
     <Compile Include="DataTypes\SpriteSheet.cs" />
     <Compile Include="Attributes.cs" />
     <Compile Include="DataTypes\Sprites\BitmapSprite.cs" />

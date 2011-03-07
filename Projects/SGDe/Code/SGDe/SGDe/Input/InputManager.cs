@@ -75,14 +75,18 @@ namespace SGDE.Input
             return false;
         }
 
-        internal void AddNewHandler(InputHandler handler)
+        /// <summary>
+        /// Add a new input handler.
+        /// </summary>
+        /// <param name="handler">The input handler to add.</param>
+        public bool AddNewHandler(InputHandler handler)
         {
             if (handler != null)
             {
                 if (Ignore(handler))
                 {
                     //Don't add unneccessery handlers
-                    return;
+                    return false;
                 }
                 if (handlers == null)
                 {
@@ -137,8 +141,30 @@ namespace SGDE.Input
                         }
                     }
 #endif
+                    return true;
                 }
             }
+            return false;
+        }
+
+        /// <summary>
+        /// Remove a input handler.
+        /// </summary>
+        /// <param name="handler">The input handler to remove.</param>
+        /// <returns><code>true</code> if the handler was removed, <code>false</code> if otherwise.</returns>
+        public bool RemoveHandler(InputHandler handler)
+        {
+            if (handler != null)
+            {
+                if (handlers != null)
+                {
+                    if (handlers.Contains(handler))
+                    {
+                        return handlers.Remove(handler);
+                    }
+                }
+            }
+            return false;
         }
 
         private void AddTouchSupport()

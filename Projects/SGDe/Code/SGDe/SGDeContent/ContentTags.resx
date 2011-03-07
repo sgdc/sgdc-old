@@ -318,6 +318,9 @@
   <data name="GAME_SETTINGS_MAPLIST_MAP_1_0" xml:space="preserve">
     <value>Map</value>
   </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_CAMERA_1_1" xml:space="preserve">
+    <value>Camera</value>
+  </data>
   <data name="GAME_SETTINGS_MAPLIST_MAP_INITIALMAP_1_0" xml:space="preserve">
     <value>InitialMap</value>
   </data>

@@ -74,7 +74,7 @@ namespace SGDE.Graphics
             }
             //Draw...
             Vector2 pos = GetTranslation() + (this.offsetOrigin && origin.HasValue ? -origin.Value : Vector2.Zero);
-            SpriteManager.spriteBat.Draw(baseTexture,
+            SpriteManager.gfx.Draw(baseTexture,
                 pos,
                 animation.Frame(frame),
                 tint.HasValue && OverrideAnimation(SpriteAttributes.Tint, null) ? tint.Value : this.Tint,

@@ -73,7 +73,7 @@ namespace TestDemo
 
         protected override void PostDraw(GameTime gameTime)
         {
-            redBall.DrawHitSpot(this.SpriteBatch, mHitTexture);
+            redBall.DrawHitSpot(this.Graphics2D, mHitTexture);
         }
     }
 }

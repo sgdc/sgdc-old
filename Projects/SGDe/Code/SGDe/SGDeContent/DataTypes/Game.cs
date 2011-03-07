@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content.Pipeline;
+using Microsoft.Xna.Framework;
 
 namespace SGDeContent.DataTypes
 {
@@ -11,6 +12,7 @@ namespace SGDeContent.DataTypes
         //Resources
         public List<int> MapIDs;
         public List<object> Maps;
+        public List<Vector2?> MapCameraStart;
 
         //Settings
         public int FirstRun;
@@ -22,7 +24,7 @@ namespace SGDeContent.DataTypes
         public int Width, Height;
         public bool Fullscreen, VSync, WindowResize, Multisample, MouseVisible;
         public bool? FixedTime;
-        public Microsoft.Xna.Framework.DisplayOrientation Orientation;
+        public DisplayOrientation Orientation;
         public string Title;
         public TimeSpan FrameTime;
 
@@ -30,6 +32,7 @@ namespace SGDeContent.DataTypes
         {
             this.Maps = new List<object>();
             this.MapIDs = new List<int>();
+            this.MapCameraStart = new List<Vector2?>();
             this.MapOrderId = new List<int>();
             this.MapOrderName = new List<string>();
 
@@ -53,18 +56,22 @@ namespace SGDeContent.DataTypes
             if (sort)
             {
                 //Need to sort the maps. This way it provides easy validation when loading in game.
+                List<int> ids = new List<int>();
+                List<object> tmaps = new List<object>();
+                List<Vector2?> tmapCameraStart = new List<Vector2?>();
                 for (int i = 0; i < MapIDs.Count; i++)
                 {
-                    if (MapIDs[i] != i)
-                    {
-                        int index = MapIDs.IndexOf(i);
-                        object map = Maps[index];
-                        Maps.RemoveAt(index);
-                        Maps.Insert(index, map);
-                        MapIDs.RemoveAt(i);
-                        MapIDs.Insert(i, i);
-                    }
+                    int index = MapIDs.IndexOf(i);
+                    ids.Add(i);
+                    tmaps.Add(Maps[index]);
+                    tmapCameraStart.Add(MapCameraStart[index]);
                 }
+                MapIDs.Clear();
+                MapIDs.AddRange(ids);
+                Maps.Clear();
+                Maps.AddRange(tmaps);
+                MapCameraStart.Clear();
+                MapCameraStart.AddRange(tmapCameraStart);
             }
         }
     }

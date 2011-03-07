@@ -35,17 +35,25 @@ namespace SGDE
         internal GameContent gameContent;
         internal Camera camera;
 
-        private bool loaded;
+        private bool loaded, useContent;
         private string gameContentName;
 
         internal InputManager imanager;
 
         #endregion
 
+        #region Properties
+
         /// <summary>
         /// Get the current SpriteBatch.
         /// </summary>
-        public SpriteBatch SpriteBatch { get { return SpriteManager.spriteBat; } }
+        [Obsolete("Use Graphics2D instead")]
+        public SpriteBatch SpriteBatch { get { return SpriteManager.gfx; } }
+
+        /// <summary>
+        /// Get the current Graphics2D system.
+        /// </summary>
+        public Graphics2D Graphics2D { get { return SpriteManager.gfx; } }
 
         /// <summary>
         /// Get or set the name of the game content that will be loaded. If this value is set after the <see cref="Initialize()"/> function has executed it will be ignored. If the value is null, empty, or made 
@@ -110,6 +118,29 @@ namespace SGDE
         }
 
         /// <summary>
+        /// Get or set it the content system should be used.
+        /// </summary>
+        protected bool UseContentSystem
+        {
+            get
+            {
+                return this.useContent;
+            }
+            set
+            {
+                if (this.loaded)
+                {
+                    return;
+                }
+                this.useContent = value;
+            }
+        }
+
+        #endregion
+
+        #region Initialization
+
+        /// <summary>
         /// Create a new Game.
         /// </summary>
         protected Game()
@@ -120,6 +151,7 @@ namespace SGDE
             }
             cGame = this;
             loaded = false;
+            useContent = true;
             gameContentName = "Game";
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -139,6 +171,10 @@ namespace SGDE
             loaded = true;
         }
 
+        #endregion
+
+        #region Content
+
         /// <summary>
         /// Load game content. If overriden, call this functions before attempting to load any other content.
         /// </summary>
@@ -147,17 +183,22 @@ namespace SGDE
             base.LoadContent();
 
             //Sprite.SpriteBatch = new SpriteBatch(GraphicsDevice);
-            SpriteManager.spriteBat = new SpriteBatch(GraphicsDevice);
+            SpriteManager.gfx = new Graphics.Graphics2D(this);
 
-            gameContent = Content.Load<GameContent>(gameContentName);
-            Game t = this;
-            gameContent.Setup(ref t);
+            if (useContent)
+            {
+                gameContent = Content.Load<GameContent>(gameContentName);
+                gameContent.Setup(this);
+            }
             camera = new Camera(GraphicsDevice.Viewport);
-            gameContent.Process(ref t);
+            if (useContent)
+            {
+                gameContent.Process(this);
+            }
         }
 
         /// <summary>
-        /// Get loaded content from this Game.
+        /// Get loaded content from this Game. Can only be used if content system is used.
         /// </summary>
         /// <typeparam name="T">The data type that is expected to be returned.</typeparam>
         /// <param name="gameElement">The developer-defined name for a component.</param>
@@ -166,6 +207,10 @@ namespace SGDE
         {
             return gameContent.GetMapContent<T>(gameElement);
         }
+
+        #endregion
+
+        #region Update
 
         /// <summary>
         /// Update the game.
@@ -177,20 +222,27 @@ namespace SGDE
             {
                 pharaoh.Update(gameTime);
             }
-            lock (gameContent)
+            if (useContent)
             {
-                foreach (Entity entity in gameContent.Entities)
+                lock (gameContent)
                 {
-                    if (entity.Enabled)
+                    foreach (Entity entity in gameContent.Entities)
                     {
-                        entity.Update(gameTime);
+                        if (entity.Enabled)
+                        {
+                            entity.Update(gameTime);
+                        }
                     }
                 }
-                imanager.Update(this, gameTime);
             }
+            imanager.Update(this, gameTime);
             camera.Update(gameTime);
             base.Update(gameTime);
         }
+
+        #endregion
+
+        #region Drawing
 
         /// <summary>
         /// Draw the game. The order that draw operations occur in: <see cref="PreBeginSpriteBatch"/>, <see cref="BeginSpriteBatch"/>, <see cref="PreDraw"/>, draw game, <see cref="PostDraw"/>, <see cref="EndSpriteBatch"/>, <see cref="PostEndSpriteBatch"/>, <see cref="UIDraw"/>.
@@ -203,12 +255,19 @@ namespace SGDE
 
             PreDraw(gameTime);
 
-            lock (gameContent)
+            if (useContent)
             {
-                foreach (Entity entity in gameContent.Entities)
+                lock (gameContent)
                 {
-                    entity.Draw(gameTime);
+                    foreach (Entity entity in gameContent.Entities)
+                    {
+                        entity.Draw(gameTime);
+                    }
                 }
+            }
+            else
+            {
+                AltDraw(gameTime);
             }
 
             PostDraw(gameTime);
@@ -217,17 +276,17 @@ namespace SGDE
 
             PostEndSpriteBatch(gameTime);
 
-            SpriteManager.spriteBat.Begin();
+            SpriteManager.gfx.Begin();
 
             UIDraw(gameTime);
 
-            SpriteManager.spriteBat.End();
+            SpriteManager.gfx.End();
 
             base.Draw(gameTime);
         }
 
         /// <summary>
-        /// The first operation in the draw pipeline.
+        /// The first operation in the draw pipeline. Default action is the clear the screen to Cornflower blue.
         /// </summary>
         protected virtual void PreBeginSpriteBatch(GameTime gameTime)
         {
@@ -239,13 +298,20 @@ namespace SGDE
         /// </summary>
         protected virtual void BeginSpriteBatch(GameTime gameTime)
         {
-            SpriteManager.spriteBat.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera._transformMatrix);
+            SpriteManager.gfx.Begin(SpriteSortMode.Deferred, null, null, null, null, null, camera._transformMatrix);
         }
 
         /// <summary>
         /// The third operation in the draw pipeline.
         /// </summary>
         protected virtual void PreDraw(GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// This is the draw function called when the content system isn't used.
+        /// </summary>
+        protected virtual void AltDraw(GameTime gameTime)
         {
         }
 
@@ -261,7 +327,7 @@ namespace SGDE
         /// </summary>
         protected virtual void EndSpriteBatch(GameTime gameTime)
         {
-            SpriteManager.spriteBat.End();
+            SpriteManager.gfx.End();
         }
 
         /// <summary>
@@ -277,5 +343,7 @@ namespace SGDE
         protected virtual void UIDraw(GameTime gameTime)
         {
         }
+
+        #endregion
     }
 }

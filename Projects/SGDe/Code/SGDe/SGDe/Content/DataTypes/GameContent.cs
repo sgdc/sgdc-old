@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SGDE.Physics;
+using Microsoft.Xna.Framework;
 
 namespace SGDE.Content.DataTypes
 {
@@ -35,13 +36,14 @@ namespace SGDE.Content.DataTypes
         internal List<MapContent> maps;
         internal List<int> mapOrder;
         internal List<string> mapName;
+        internal List<Vector2?> camPos;
 
         internal int width, height;
         internal bool fullScreen, vsync, multisample;
         internal bool? fixedTime;
         internal TimeSpan frameTime;
 #if WINDOWS_PHONE
-        internal Microsoft.Xna.Framework.DisplayOrientation orientation;
+        internal DisplayOrientation orientation;
 #elif WINDOWS
         internal bool resizeable, mouseVisible;
 #endif
@@ -97,6 +99,7 @@ namespace SGDE.Content.DataTypes
             {
                 CurrentLevel = level;
             }
+            SetCameraPosition(Game.CurrentGame);
         }
 
         /// <summary>
@@ -113,14 +116,24 @@ namespace SGDE.Content.DataTypes
             {
                 CurrentLevel++;
             }
+            SetCameraPosition(Game.CurrentGame);
             return true;
+        }
+
+        private void SetCameraPosition(Game game)
+        {
+            Vector2? cam = camPos[levelIndex];
+            if (cam.HasValue)
+            {
+                game.camera.Position = cam.Value;
+            }
         }
 
         /// <summary>
         /// Setup one-time game settings.
         /// </summary>
         /// <param name="game">The Game that will be set.</param>
-        internal void Setup(ref Game game)
+        internal void Setup(Game game)
         {
             game.graphics.PreferredBackBufferWidth = this.width;
             game.graphics.PreferredBackBufferHeight = this.height;
@@ -161,8 +174,9 @@ namespace SGDE.Content.DataTypes
         /// Process all Code elements.
         /// </summary>
         /// <param name="game">The Game to process the Code elements on.</param>
-        internal void Process(ref Game game)
+        internal void Process(Game game)
         {
+            SetCameraPosition(game);
             //TODO
         }
     }

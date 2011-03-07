@@ -18,7 +18,7 @@ namespace SGDeContent
             XmlDocument doc = new XmlDocument();
             doc.Load(iSt);
             iSt.Close();
-            return new Content(doc, ContentTypes.SVG, double.Parse(doc.DocumentElement.Attributes["version"].Value));
+            return SGDeContent.Processors.Utils.SetContentItems(filename, new Content(doc, ContentTypes.SVG, double.Parse(doc.DocumentElement.Attributes["version"].Value)));
         }
     }
 }

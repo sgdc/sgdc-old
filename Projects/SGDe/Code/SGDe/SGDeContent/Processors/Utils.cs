@@ -31,6 +31,13 @@ namespace SGDeContent.Processors
             return evalue;
         }
 
+        public static T SetContentItems<T>(string filename, T content) where T : ContentItem
+        {
+            content.Identity = new ContentIdentity(filename);
+            content.Name = Path.GetFileNameWithoutExtension(filename);
+            return content;
+        }
+
         public static ExternalReference<ProcessedContent> CompileExternal(string file, ContentProcessorContext context)
         {
             return CompileExternal<Content, ProcessedContent, ProcessedContent, SGDEImport, SGDEProcessor>(file, context);

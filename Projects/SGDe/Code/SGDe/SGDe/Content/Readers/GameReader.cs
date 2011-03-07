@@ -98,6 +98,7 @@ namespace SGDE.Content.Readers
             count = input.ReadInt32();
             content.mapOrder = new List<int>(count);
             content.mapName = new List<string>(count);
+            content.camPos = new List<Vector2?>(count);
             for (int i = 0; i < count; i++)
             {
                 content.mapOrder.Add(input.ReadInt32());
@@ -109,6 +110,7 @@ namespace SGDE.Content.Readers
                 {
                     content.mapName.Add(null);
                 }
+                content.camPos.Add(input.ReadObject<Vector2?>());
             }
             content.CurrentLevel = input.ReadInt32();
             return content;

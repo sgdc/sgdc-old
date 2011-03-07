@@ -15,7 +15,7 @@ namespace SGDE.Graphics
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            GraphicsDevice gd = SpriteManager.spriteBat.GraphicsDevice;
+            GraphicsDevice gd = SpriteManager.gfx.GraphicsDevice;
             //TODO
         }
 

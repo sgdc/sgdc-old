@@ -78,7 +78,7 @@ namespace SGDE.Physics
 
         public void DrawCollisionGrid(Texture2D gridTexture)
         {
-            CollisionChief.GetInstance().DrawCollisionGrid(SGDE.Graphics.SpriteManager.spriteBat, gridTexture);
+            CollisionChief.GetInstance().DrawCollisionGrid(SGDE.Graphics.SpriteManager.gfx, gridTexture);
         }
 
         public void SetGravity(Vector2 gravity)
@@ -106,9 +106,12 @@ namespace SGDE.Physics
 
         public void Update(GameTime gameTime)
         {
-            foreach (PhysicsBaby physBaby in mDynamicBabies)
+            if (mDynamicBabies != null)
             {
-                physBaby.Update(gameTime);
+                foreach (PhysicsBaby physBaby in mDynamicBabies)
+                {
+                    physBaby.Update(gameTime);
+                }
             }
 
             CollisionChief.GetInstance().Update();

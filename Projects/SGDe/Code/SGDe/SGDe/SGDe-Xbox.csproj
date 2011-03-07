@@ -74,6 +74,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="Graphics\BitmapSprite.cs" />
+    <Compile Include="Graphics\Graphics2D.cs" />
     <Compile Include="Graphics\SpriteManager.cs" />
     <Compile Include="Graphics\SVG\SVG.cs" />
     <Compile Include="Graphics\VectorSprite.cs" />

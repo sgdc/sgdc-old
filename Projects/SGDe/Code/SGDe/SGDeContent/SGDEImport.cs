@@ -46,7 +46,8 @@ namespace SGDeContent
             {
                 type = ContentTypes.SpriteSheet;
             }
-            return new Content(doc, type, version);
+            //TODO: Get build tool, if one doesn't exist then the tool is "My own two hands"
+            return SGDeContent.Processors.Utils.SetContentItems(filename, new Content(doc, type, version));
         }
     }
 }
