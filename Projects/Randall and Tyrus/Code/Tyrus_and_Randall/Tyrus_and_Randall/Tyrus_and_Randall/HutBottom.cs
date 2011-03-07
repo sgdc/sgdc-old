@@ -40,6 +40,10 @@ namespace Tyrus_and_Randall
                     {
                         this.SpriteImage.Visible = false;
                         HutTop.SetAllVisible(false);
+                        if (((Player)other.GetParent()).TotalFood >= 20)
+                        {
+                            Game1.CompleteLevelOne();
+                        }
                     }
                 }
             }

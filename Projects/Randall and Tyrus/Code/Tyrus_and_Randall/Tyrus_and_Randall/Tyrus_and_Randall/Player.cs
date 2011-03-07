@@ -225,10 +225,10 @@ namespace Tyrus_and_Randall
                                 }
                         }
                     }
-                    else
-                    {
+                    //else
+                    //{
 
-                    }
+                    //}
                 }
 
             }
@@ -272,5 +272,18 @@ namespace Tyrus_and_Randall
             if (cam.Y != screen.Height/2) cam.Y = screen.Height/2;
             return cam;
         }
+
+        public int TotalFood
+        {
+            get
+            {
+                return totalFood;
+            }
+            set
+            {
+                totalFood = value;
+            }
+        }
+
     }
 }
