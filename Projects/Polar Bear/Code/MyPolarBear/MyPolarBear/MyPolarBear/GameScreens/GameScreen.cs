@@ -9,6 +9,7 @@ using MyPolarBear.Input;
 using MyPolarBear.Content;
 using MyPolarBear.GameObjects;
 using MyPolarBear.GameScreens;
+using System.IO;
 
 namespace MyPolarBear.GameScreens
 {
@@ -63,6 +64,8 @@ namespace MyPolarBear.GameScreens
             }
             
             ScreenManager.camera.FocusEntity = polarBear;
+
+            LoadLevel();
         }
 
 
@@ -102,7 +105,11 @@ namespace MyPolarBear.GameScreens
 
         public override void DrawGame(SpriteBatch spriteBatch)
         {          
-            spriteBatch.Draw(ContentManager.GetTexture("BasicTerrain"), new Rectangle(0, 0, WORLDWIDTH, WORLDHEIGHT), Color.White);
+            //spriteBatch.Draw(ContentManager.GetTexture("BasicTerrain"), new Rectangle(0, 0, WORLDWIDTH, WORLDHEIGHT), Color.White);
+            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-2042, -2042, 2042, 2042), Color.White);
+            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, -2042, 2042, 2042), Color.White);
+            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, 0, 2042, 2042), Color.White);
+            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-2042, 0, 2042, 2042), Color.White);
 
             reticule.Draw(spriteBatch);
 
@@ -112,7 +119,40 @@ namespace MyPolarBear.GameScreens
               //                     ScreenManager.camera.TopLeft, Color.Yellow);
 
             base.DrawGame(spriteBatch);
-        }        
+        }
+
+        private void LoadLevel()
+        {
+            if (!File.Exists("../../../../level.txt"))
+            {
+                return;
+            }
+
+            StreamReader fileReader = new StreamReader("../../../../level.txt");
+            string fileLine = fileReader.ReadLine();
+            LevelElement ele;
+            int x;
+            int y;
+            string type;
+            Texture2D tex = null;
+
+            while (fileLine != null)
+            {
+                type = fileLine;
+                fileLine = fileReader.ReadLine();
+                x = Convert.ToInt32(fileLine);
+                fileLine = fileReader.ReadLine();
+                y = Convert.ToInt32(fileLine);
+                tex = ContentManager.GetTexture(type);
+
+                ele = new LevelElement(new Vector2(x, y), type, tex);
+
+                UpdateKeeper.getInstance().addLevelElement(ele);
+                DrawKeeper.getInstance().addLevelElement(ele);
+
+                fileLine = fileReader.ReadLine();
+            }
+        }
     }
 }
 

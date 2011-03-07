@@ -38,7 +38,7 @@ namespace MyPolarBear.GameObjects
         {
             power = Power.Ice;
             //mAnimator = new Animator();
-            Scale = 2;
+            Scale = 1;
             mScale = new Vector2(Scale, Scale);
             MaxHealth = 100;
             CurHealth = 75;
@@ -73,6 +73,8 @@ namespace MyPolarBear.GameObjects
 
             ani = new Animation(ContentManager.GetTexture("FireWalkingBack"), 5, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("FireWalkBack", ani);
+
+            mAnimator.PlayAnimation("IceWalkFront", false);
 
             base.LoadContent();
         }

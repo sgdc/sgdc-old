@@ -75,6 +75,7 @@ namespace MyPolarBear
             ContentManager.AddTexture("FullHeart", Content.Load<Texture2D>("Images/FullHeart"));
             ContentManager.AddTexture("EmptyHeart", Content.Load<Texture2D>("Images/EmptyHeart"));
             ContentManager.AddTexture("PowerSelector", Content.Load<Texture2D>("Images/PowerSelector"));
+            ContentManager.AddTexture("Background", Content.Load<Texture2D>("Images/Background"));
 
             // Arctic SpriteSheets
             ContentManager.AddTexture("IceWaveBack", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveBack"));
@@ -99,6 +100,23 @@ namespace MyPolarBear
             ContentManager.AddTexture("FireWalkingFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkFront"));
             ContentManager.AddTexture("FireWalkingBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkingBack"));
             ContentManager.AddTexture("FireWalkingRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkRight"));
+
+            // Level elements
+            ContentManager.AddTexture("Boulder", Content.Load<Texture2D>("LevelElements/boulder"));
+            ContentManager.AddTexture("HardRock", Content.Load<Texture2D>("LevelElements/hardRock"));
+            ContentManager.AddTexture("Lake", Content.Load<Texture2D>("LevelElements/lake"));
+            ContentManager.AddTexture("SoftGround", Content.Load<Texture2D>("LevelElements/softGround"));
+            ContentManager.AddTexture("Tree", Content.Load<Texture2D>("LevelElements/tree"));
+            ContentManager.AddTexture("Tree2", Content.Load<Texture2D>("LevelElements/tree2"));
+            ContentManager.AddTexture("Water", Content.Load<Texture2D>("LevelElements/water"));
+            ContentManager.AddTexture("WaterSandBottom", Content.Load<Texture2D>("LevelElements/waterSandBottom"));
+            ContentManager.AddTexture("WaterSandBottomLeft", Content.Load<Texture2D>("LevelElements/WaterSandBottomLeft"));
+            ContentManager.AddTexture("WaterSandBottomRight", Content.Load<Texture2D>("LevelElements/WaterSandBottomRight"));
+            ContentManager.AddTexture("WaterSandLeft", Content.Load<Texture2D>("LevelElements/WaterSandLeft"));
+            ContentManager.AddTexture("WaterSandRight", Content.Load<Texture2D>("LevelElements/WaterSandRight"));
+            ContentManager.AddTexture("WaterSandTop", Content.Load<Texture2D>("LevelElements/WaterSandTop"));
+            ContentManager.AddTexture("WaterSandTopLeft", Content.Load<Texture2D>("LevelElements/WaterSandTopLeft"));
+            ContentManager.AddTexture("WaterSandTopRight", Content.Load<Texture2D>("LevelElements/WaterSandTopRight"));
 
             // Fonts
             ContentManager.AddFont("Calibri", Content.Load<SpriteFont>("Fonts/Calibri"));
