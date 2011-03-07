@@ -17,15 +17,19 @@ namespace MyPolarBear.GameObjects
             Normal,
             Ice,
             Fire,
-            Grass
+            Lighting
         }
 
-        public Power power;
-        public int aniFrame;
-        public bool isFiring;
+        public static Power power;
+        public static int MaxHealth;
+        public static int CurHealth;
+        public static int MaxHitPoints;
+        public static int CurHitPoints;
+
+
 
         private int timeProjectileFired;
-        //private Animator mAnimator;
+
         private Vector2 mScale;
 
 
@@ -36,6 +40,10 @@ namespace MyPolarBear.GameObjects
             //mAnimator = new Animator();
             Scale = 2;
             mScale = new Vector2(Scale, Scale);
+            MaxHealth = 100;
+            CurHealth = 75;
+            MaxHitPoints = 5;
+            CurHitPoints = 3;
         }
 
         public override void LoadContent()
@@ -43,56 +51,115 @@ namespace MyPolarBear.GameObjects
             //Texture = ContentManager.GetTexture("IceWalkingRight");
 
             Animation ani = new Animation(ContentManager.GetTexture("IceWalkingRight"), 5, 8, 0, true, SpriteEffects.None);
-            mAnimator.Animations.Add("walkRight", ani);
+            mAnimator.Animations.Add("IceWalkRight", ani);
 
             ani = new Animation(ContentManager.GetTexture("IceWalkingRight"), 5, 8, 0, true, SpriteEffects.FlipHorizontally);
-            mAnimator.Animations.Add("walkLeft", ani);
+            mAnimator.Animations.Add("IceWalkLeft", ani);
 
             ani = new Animation(ContentManager.GetTexture("IceWalkingFront"), 4, 8, 0, true, SpriteEffects.None);
-            mAnimator.Animations.Add("walkFront", ani);
+            mAnimator.Animations.Add("IceWalkFront", ani);
 
             ani = new Animation(ContentManager.GetTexture("IceWalkingBack"), 4, 8, 0, true, SpriteEffects.None);
-            mAnimator.Animations.Add("walkBack", ani);
+            mAnimator.Animations.Add("IceWalkBack", ani);
+
+            ani = new Animation(ContentManager.GetTexture("FireWalkingRight"), 4, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("FireWalkRight", ani);
+
+            ani = new Animation(ContentManager.GetTexture("FireWalkingRight"), 4, 8, 0, true, SpriteEffects.FlipHorizontally);
+            mAnimator.Animations.Add("FireWalkLeft", ani);
+
+            ani = new Animation(ContentManager.GetTexture("FireWalkingFront"), 5, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("FireWalkFront", ani);
+
+            ani = new Animation(ContentManager.GetTexture("FireWalkingBack"), 5, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("FireWalkBack", ani);
 
             base.LoadContent();
         }
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.Keyboard.IsKeyPressed(Keys.Left))
+            
+            if (InputManager.Keyboard.IsKeyPressed(Keys.A) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickLeft))
             {
                 Translate(new Vector2(-5.0f, 0.0f));
-                mAnimator.PlayAnimation("walkLeft", false);
+                switch (power)
+                {
+                    case Power.Normal:
+                        break;
+                    case Power.Ice:
+                        mAnimator.PlayAnimation("IceWalkLeft", false); break;
+                    case Power.Fire:
+                        mAnimator.PlayAnimation("FireWalkLeft", false); break;
+                    case Power.Lighting:
+                        break;
+                }
             }
-            if (InputManager.Keyboard.IsKeyPressed(Keys.Right))
+            if (InputManager.Keyboard.IsKeyPressed(Keys.D) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickRight))
             {
                 Translate(new Vector2(5.0f, 0.0f));
-                mAnimator.PlayAnimation("walkRight", false);
+                switch (power)
+                {
+                    case Power.Normal:
+                        break;
+                    case Power.Ice:
+                        mAnimator.PlayAnimation("IceWalkRight", false); break;
+                    case Power.Fire:
+                        mAnimator.PlayAnimation("FireWalkRight", false); break;
+                    case Power.Lighting:
+                        break;
+                }               
             }
-            if (InputManager.Keyboard.IsKeyPressed(Keys.Up))
+            if (InputManager.Keyboard.IsKeyPressed(Keys.W) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickUp))
             {
                 Translate(new Vector2(0.0f, -5.0f));
-                mAnimator.PlayAnimation("walkBack", false);
+                switch (power)
+                {
+                    case Power.Normal:
+                        break;
+                    case Power.Ice:
+                        mAnimator.PlayAnimation("IceWalkBack", false); break;
+                    case Power.Fire:
+                        mAnimator.PlayAnimation("FireWalkBack", false); break;
+                    case Power.Lighting:
+                        break;
+                }                
             }
-            if (InputManager.Keyboard.IsKeyPressed(Keys.Down))
+            if (InputManager.Keyboard.IsKeyPressed(Keys.S) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickDown))
             {
                 Translate(new Vector2(0.0f, 5.0f));
-                mAnimator.PlayAnimation("walkFront", false);
+                switch (power)
+                {
+                    case Power.Normal:
+                        break;
+                    case Power.Ice:
+                        mAnimator.PlayAnimation("IceWalkFront", false); break;
+                    case Power.Fire:
+                        mAnimator.PlayAnimation("FireWalkFront", false); break;
+                    case Power.Lighting:
+                        break;
+                }
             }
+
+            if (InputManager.GamePad.IsButtonReleased(Buttons.DPadUp))
+                power = Power.Normal;
+            if (InputManager.GamePad.IsButtonReleased(Buttons.DPadLeft))
+                power = Power.Ice;
+            if (InputManager.GamePad.IsButtonReleased(Buttons.DPadRight))
+                power = Power.Fire;            
+
             if (InputManager.Keyboard.IsKeyReleased(Keys.Space))
                 SwitchPowers();
 
-            if (InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Left) != Vector2.Zero)
-                Translate(InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Left) * 5);
+            //if (InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Left) != Vector2.Zero)
+              //  Translate(InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Left) * 5);
 
             if (InputManager.GamePad.IsButtonReleased(Buttons.RightShoulder))
                 SwitchPowers();
 
             if (InputManager.Mouse.IsButtonReleased(MouseComponent.MouseButton.Left))
             {
-                Projectile projectile = ShootProjectile(InputManager.Mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter);
-
-                //projectile.LoadContent(Game1.GetTextureAt(4), 0.25f);
+                Projectile projectile = ShootProjectile(InputManager.Mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter);                
                 projectile.LoadContent();
                 projectile.IsAlive = true;
                 UpdateKeeper.getInstance().addEntity(projectile);
@@ -104,20 +171,18 @@ namespace MyPolarBear.GameObjects
                 Projectile projectile = ShootProjectile(InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Right));
                 if (gameTime.TotalGameTime.TotalMilliseconds - timeProjectileFired >= 500)
                 {
-                    //projectile.LoadContent(Game1.GetTextureAt(4), 0.25f);
+                    InputManager.GamePad.StartVibration();
                     projectile.LoadContent();
                     UpdateKeeper.getInstance().addEntity(projectile);
                     DrawKeeper.getInstance().addEntity(projectile);
                     projectile.IsAlive = true;
                     timeProjectileFired = (int)gameTime.TotalGameTime.TotalMilliseconds;
-                    InputManager.GamePad.StartVibration(1.0f, 0.0f);
                 }
             }
-
-            if (InputManager.Keyboard.IsKeyPressed(Keys.R))
+            else
             {
-                FireIce();
-            }
+                InputManager.GamePad.StopVibration();
+            }             
 
             base.Update(gameTime);
         }
@@ -130,9 +195,9 @@ namespace MyPolarBear.GameObjects
                     break;
                 case Power.Ice: power = Power.Fire;
                     break;
-                case Power.Fire: power = Power.Grass;
+                case Power.Fire: power = Power.Lighting;
                     break;
-                case Power.Grass: power = Power.Normal;
+                case Power.Lighting: power = Power.Normal;
                     break;
             }
         }
@@ -140,12 +205,6 @@ namespace MyPolarBear.GameObjects
         public Projectile ShootProjectile(Vector2 direction)
         {
             return new Projectile(Position, 10.0f, direction, power);
-        }
-
-        public void FireIce()
-        {
-            aniFrame = 0;
-            isFiring = true;
         }
 
         public override void Draw(SpriteBatch spriteBatch)
