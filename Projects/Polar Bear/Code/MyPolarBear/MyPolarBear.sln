@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPolarBear", "MyPolarBear\MyPolarBear\MyPolarBear.csproj", "{F901901C-3077-4B87-91D2-5197FFF114FF}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "MyPolarBearContent", "MyPolarBear\MyPolarBearContent\MyPolarBearContent.contentproj", "{AED7A8F5-D51F-4820-90F0-6D8BA9889136}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPolarBearContent", "MyPolarBear\MyPolarBearContent\MyPolarBearContent.contentproj", "{AED7A8F5-D51F-4820-90F0-6D8BA9889136}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
