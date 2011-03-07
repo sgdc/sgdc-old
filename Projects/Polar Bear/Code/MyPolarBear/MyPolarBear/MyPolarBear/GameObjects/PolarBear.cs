@@ -26,7 +26,7 @@ namespace MyPolarBear.GameObjects
         public static int MaxHitPoints;
         public static int CurHitPoints;
 
-
+        public bool bMoving;
 
         private int timeProjectileFired;
 
@@ -74,17 +74,24 @@ namespace MyPolarBear.GameObjects
             ani = new Animation(ContentManager.GetTexture("FireWalkingBack"), 5, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("FireWalkBack", ani);
 
+            bMoving = false;
             mAnimator.PlayAnimation("IceWalkFront", false);
 
             base.LoadContent();
+
+            CollisionBox = new Rectangle(CollisionBox.X, CollisionBox.Y, 25, 25);
         }
 
         public override void Update(GameTime gameTime)
         {
+            bMoving = false;
             
             if (InputManager.Keyboard.IsKeyPressed(Keys.A) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickLeft))
             {
-                Translate(new Vector2(-5.0f, 0.0f));
+                //Translate(new Vector2(-5.0f, 0.0f));
+                Velocity = new Vector2(-5, 0);
+                bMoving = true;
+
                 switch (power)
                 {
                     case Power.Normal:
@@ -99,7 +106,10 @@ namespace MyPolarBear.GameObjects
             }
             if (InputManager.Keyboard.IsKeyPressed(Keys.D) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickRight))
             {
-                Translate(new Vector2(5.0f, 0.0f));
+                //Translate(new Vector2(5.0f, 0.0f));
+                Velocity = new Vector2(5, 0);
+                bMoving = true;
+
                 switch (power)
                 {
                     case Power.Normal:
@@ -114,7 +124,10 @@ namespace MyPolarBear.GameObjects
             }
             if (InputManager.Keyboard.IsKeyPressed(Keys.W) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickUp))
             {
-                Translate(new Vector2(0.0f, -5.0f));
+                //Translate(new Vector2(0.0f, -5.0f));
+                Velocity = new Vector2(0, -5);
+                bMoving = true;
+
                 switch (power)
                 {
                     case Power.Normal:
@@ -129,7 +142,10 @@ namespace MyPolarBear.GameObjects
             }
             if (InputManager.Keyboard.IsKeyPressed(Keys.S) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickDown))
             {
-                Translate(new Vector2(0.0f, 5.0f));
+                //Translate(new Vector2(0.0f, 5.0f));
+                Velocity = new Vector2(0, 5);
+                bMoving = true;
+
                 switch (power)
                 {
                     case Power.Normal:
@@ -141,6 +157,11 @@ namespace MyPolarBear.GameObjects
                     case Power.Lighting:
                         break;
                 }
+            }
+
+            if (!bMoving)
+            {
+                Velocity = new Vector2(0, 0);
             }
 
             if (InputManager.GamePad.IsButtonReleased(Buttons.DPadUp))
@@ -184,7 +205,50 @@ namespace MyPolarBear.GameObjects
             else
             {
                 InputManager.GamePad.StopVibration();
-            }             
+            }
+
+            // collide with level elements
+            Rectangle travelRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
+
+            foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
+            {
+                //if (CollisionBox.Intersects(ele.CollisionRect))
+                if (travelRect.Intersects(ele.CollisionRect))
+                {
+                    //if (Velocity.X > 0 && ele.CollisionRect.Left + 6 > CollisionBox.Right)
+                    //{
+                    //    Velocity = Vector2.Zero;
+                    //    Position += new Vector2(CollisionBox.Right - (ele.CollisionRect.Left + 5), 0);
+                    //}
+
+                    //if (Velocity.X < 0 && ele.CollisionRect.Right - 6 < CollisionBox.Left)
+                    //{
+                    //    Velocity = Vector2.Zero;
+                    //    Position += new Vector2(5, 0);
+                    //}
+
+                    //if (Velocity.Y > 0 && ele.CollisionRect.Top + 6 > CollisionBox.Bottom)
+                    //{
+                    //    Velocity = Vector2.Zero;
+                    //    Position += new Vector2(0, -5);
+                    //}
+
+                    //if (Velocity.Y < 0 && ele.CollisionRect.Bottom - 6 < CollisionBox.Top)
+                    //{
+                    //    Velocity = Vector2.Zero;
+                    //    Position += new Vector2(0, 5);
+                    //}
+
+                    //if (Velocity.X > 0 && CollisionBox.Right + Velocity.X > ele.CollisionRect.Left)
+                    //{
+                        Velocity = Vector2.Zero;
+                    //}
+                }
+            }
+
+            Position += Velocity;
+            //CollisionBox = new Rectangle((int)Position.X, (int)Position.Y, , CollisionBox.Height);
+
 
             base.Update(gameTime);
         }
@@ -233,6 +297,7 @@ namespace MyPolarBear.GameObjects
             mScale.X = Scale;
             mScale.Y = Scale;
 
+            //spriteBatch.Draw(ContentManager.GetTexture("HardRock"), CollisionBox, Color.White);
             mAnimator.Draw(spriteBatch, Position, mScale, Color.White, Rotation, Origin, 0);
         }
     }

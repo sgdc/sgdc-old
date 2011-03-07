@@ -21,7 +21,7 @@ namespace MyPolarBear
             Type = type;
             Tex = tex;
 
-            CollisionRect = new Rectangle((int)position.X, (int)position.Y, tex.Width, tex.Height);
+            CollisionRect = new Rectangle((int)position.X, (int)position.Y, tex.Width, (int)(tex.Height * (3.0 / 4.0)));
 
             //if (type.Equals("Lake"))
             //{
