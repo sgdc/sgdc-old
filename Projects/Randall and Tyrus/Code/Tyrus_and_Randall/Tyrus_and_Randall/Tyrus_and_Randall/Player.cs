@@ -19,6 +19,10 @@ namespace Tyrus_and_Randall
         private int totalFood;
         public enum PlayerDirection { Right, Left, StandingRight, StandingLeft };
         private PlayerDirection dir;
+        private Boolean knockBack;
+        private double knockBackTimer;
+        private const double knockBackMax = 3000;
+        private const uint levelOneFood = 20; 
 
         public Player() : this(0, 0) { }
 
@@ -30,6 +34,8 @@ namespace Tyrus_and_Randall
             onGround = false;
             id = 1;
             totalFood = 0;
+            knockBackTimer = 0;
+            knockBack = false;
         }
 
         public override void Initialize()
@@ -41,6 +47,17 @@ namespace Tyrus_and_Randall
         {
  	        base.Update(gameTime);
             SGDE.Game.CurrentGame.CameraControl.Position = this.GetTranslation();
+
+            if (knockBack)
+            {
+                knockBackTimer += gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (knockBackTimer > knockBackMax)
+                {
+                    knockBackTimer = 0;
+                    knockBack = false;
+                }
+            }
+
         }
 
         public void HandleInput(SGDE.Game game, InputComponent input)
@@ -52,7 +69,10 @@ namespace Tyrus_and_Randall
                 this.Translate(-5, 0);
                 if (dir != PlayerDirection.Left)
                 {
-                    this.SpriteImage.SetAnimation("WalkLeft");
+                    if (!knockBack)
+                        this.SpriteImage.SetAnimation("WalkLeft");
+                    else
+                        this.SpriteImage.SetAnimation("KnockBackLeft");
                     dir = PlayerDirection.Left;
                 }
             }
@@ -61,7 +81,10 @@ namespace Tyrus_and_Randall
                 this.Translate(5, 0);
                 if (dir != PlayerDirection.Right)
                 {
-                    this.SpriteImage.SetAnimation("WalkRight");
+                    if(!knockBack)
+                        this.SpriteImage.SetAnimation("WalkRight");
+                    else
+                        this.SpriteImage.SetAnimation("KnockBackRight");
                     dir = PlayerDirection.Right;
                 }
             }
@@ -71,11 +94,17 @@ namespace Tyrus_and_Randall
                 switch (dir)
                 {
                     case PlayerDirection.Right:
-                        this.SpriteImage.SetAnimation("StandRight");
+                        if (!knockBack)
+                            this.SpriteImage.SetAnimation("StandRight");
+                        else
+                            this.SpriteImage.SetAnimation("KnockBackRight");
                         dir = PlayerDirection.StandingRight;
                         break;
                     case PlayerDirection.Left:
-                        this.SpriteImage.SetAnimation("StandLeft");
+                        if (!knockBack)
+                            this.SpriteImage.SetAnimation("StandLeft");
+                        else
+                            this.SpriteImage.SetAnimation("KnockBackLeft");
                         dir = PlayerDirection.StandingLeft;
                         break;
                 }
@@ -135,10 +164,32 @@ namespace Tyrus_and_Randall
                                     if (((Food)other.GetParent()).IsEnabled())
                                     {
                                         totalFood++;
-                                        Game1.foodText = "Food: " + totalFood;
+                                        Game1.foodText = "Food: " + totalFood + " / " + levelOneFood;
                                         ((Food)(other.GetParent())).Disable();
                                     }
 
+                                    break;
+                                }
+                            case 4:
+                                {
+                                    if(!knockBack)
+                                    {
+                                        if(totalFood > 0)
+                                            totalFood--;
+                                        Game1.foodText = "Food: " + totalFood + " / " + levelOneFood;
+                                        knockBack = true;
+                                        switch (dir)
+                                        {
+                                            case PlayerDirection.StandingLeft:
+                                            case PlayerDirection.Left:
+                                                SpriteImage.SetAnimation("KnockBackLeft");
+                                                break;
+                                            case PlayerDirection.StandingRight:
+                                            case PlayerDirection.Right:
+                                                SpriteImage.SetAnimation("KnockBackRight");
+                                                break;
+                                        }
+                                    }
                                     break;
                                 }
                             default:
@@ -147,7 +198,7 @@ namespace Tyrus_and_Randall
                                     {
                                         if (intersect.Y <= 0)
                                         {
-                                            this.SetVelocity(this.GetVelocity().X, 0.0f);
+                                            this.SetVelocity(this.GetVelocity().X, Math.Min(this.GetVelocity().Y, 0));
                                             this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y - 0.01f));
                                             onGround = true;
                                         }
