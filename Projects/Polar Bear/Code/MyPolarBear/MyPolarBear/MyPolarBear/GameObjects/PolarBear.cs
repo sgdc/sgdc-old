@@ -26,7 +26,12 @@ namespace MyPolarBear.GameObjects
         public static int MaxHitPoints;
         public static int CurHitPoints;
 
+<<<<<<< .mine
+        public bool IsColliding = false;
+=======
         public bool bMoving;
+>>>>>>> .r148
+
 
         private int timeProjectileFired;
 
@@ -88,10 +93,16 @@ namespace MyPolarBear.GameObjects
             
             if (InputManager.Keyboard.IsKeyPressed(Keys.A) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickLeft))
             {
+<<<<<<< .mine
+                //Velocity = new Vector2(-5.0f, 0.0f);
+                if (!IsColliding)
+                    Translate(new Vector2(-5.0f, 0.0f));
+=======
                 //Translate(new Vector2(-5.0f, 0.0f));
                 Velocity = new Vector2(-5, 0);
                 bMoving = true;
 
+>>>>>>> .r148
                 switch (power)
                 {
                     case Power.Normal:
@@ -106,10 +117,16 @@ namespace MyPolarBear.GameObjects
             }
             if (InputManager.Keyboard.IsKeyPressed(Keys.D) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickRight))
             {
+<<<<<<< .mine
+                //Velocity = new Vector2(5.0f, 0.0f);
+                if (!IsColliding)
+                    Translate(new Vector2(5.0f, 0.0f));
+=======
                 //Translate(new Vector2(5.0f, 0.0f));
                 Velocity = new Vector2(5, 0);
                 bMoving = true;
 
+>>>>>>> .r148
                 switch (power)
                 {
                     case Power.Normal:
@@ -124,10 +141,16 @@ namespace MyPolarBear.GameObjects
             }
             if (InputManager.Keyboard.IsKeyPressed(Keys.W) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickUp))
             {
+<<<<<<< .mine
+                //Velocity = new Vector2(0.0f, -5.0f);
+                if (!IsColliding)
+                    Translate(new Vector2(0.0f, -5.0f));
+=======
                 //Translate(new Vector2(0.0f, -5.0f));
                 Velocity = new Vector2(0, -5);
                 bMoving = true;
 
+>>>>>>> .r148
                 switch (power)
                 {
                     case Power.Normal:
@@ -142,10 +165,16 @@ namespace MyPolarBear.GameObjects
             }
             if (InputManager.Keyboard.IsKeyPressed(Keys.S) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickDown))
             {
+<<<<<<< .mine
+                //Velocity = new Vector2(0.0f, 5.0f);
+                if (!IsColliding)
+                    Translate(new Vector2(0.0f, 5.0f));
+=======
                 //Translate(new Vector2(0.0f, 5.0f));
                 Velocity = new Vector2(0, 5);
                 bMoving = true;
 
+>>>>>>> .r148
                 switch (power)
                 {
                     case Power.Normal:
@@ -157,7 +186,7 @@ namespace MyPolarBear.GameObjects
                     case Power.Lighting:
                         break;
                 }
-            }
+            } 
 
             if (!bMoving)
             {

@@ -24,6 +24,8 @@ namespace MyPolarBear.GameScreens
         
         PolarBear polarBear;
 
+        Boss forestBoss;
+
         const int maxEnemies = 50;
         private int lovedEnemies = 0;
 
@@ -44,9 +46,14 @@ namespace MyPolarBear.GameScreens
             
             polarBear = new PolarBear(new Vector2(400, 400));
             //polarBear.LoadContent(Game1.GetTextureAt(0), 1.0f);
+
+            forestBoss = new Boss(new Vector2(500, -1800));
+            forestBoss.LoadContent();
             polarBear.LoadContent();
             UpdateKeeper.getInstance().addEntity(polarBear);
             DrawKeeper.getInstance().addEntity(polarBear);
+            UpdateKeeper.getInstance().addEntity(forestBoss);
+            DrawKeeper.getInstance().addEntity(forestBoss);
 
             reticule = new Entity(Vector2.Zero);
             //reticule.LoadContent(Game1.GetTextureAt(9), 0.5f);
@@ -85,6 +92,11 @@ namespace MyPolarBear.GameScreens
                 ScreenManager.camera.Zoom(-0.01f);
             if (InputManager.GamePad.GetTriggerState(GamePadComponent.Trigger.Right) != 0)
                 ScreenManager.camera.Zoom(0.01f);
+                       
+            if (Math.Abs(forestBoss.Position.Y - polarBear.Position.Y) < 300)
+            {
+                forestBoss.ChaseEntity(polarBear);
+            }
 
             reticule.Position = InputManager.Mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
 
@@ -100,6 +112,18 @@ namespace MyPolarBear.GameScreens
                 }
             }
 
+            foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
+            {
+                if (polarBear.CollisionBox.Intersects(element.CollisionRect))
+                {
+                    //check collisions here                    
+                    polarBear.IsColliding = true;                    
+                }
+                else
+                    polarBear.IsColliding = false;
+                
+            }
+
             UpdateKeeper.getInstance().updateAll(gameTime);
         }       
 
@@ -112,6 +136,8 @@ namespace MyPolarBear.GameScreens
             spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-2042, 0, 2042, 2042), Color.White);
 
             reticule.Draw(spriteBatch);
+
+            forestBoss.Draw(spriteBatch);
 
             DrawKeeper.getInstance().drawAll(spriteBatch);
 

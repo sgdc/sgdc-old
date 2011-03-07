@@ -84,18 +84,7 @@ namespace MyPolarBear.GameObjects
                 Position = InputManager.Mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
 
             foreach (Entity eni in UpdateKeeper.getInstance().getEntities())
-            {
-                //if (eni is Enemy && CollisionBox.Intersects(eni.CollisionBox))
-                //{
-                //    if (!attached)
-                //    {
-                //        //Position = eni.Position;
-                //        //((Enemy)eni).alive = false;
-                //        //attached = true;
-                //        hitEntity(eni);
-                //    }
-
-                //}                
+            {               
                 if (CollisionBox.Intersects(eni.CollisionBox))
                 {
                     hitEntity(eni);
@@ -109,7 +98,12 @@ namespace MyPolarBear.GameObjects
         {
             if (eni is Enemy)
             {
-                ((Enemy)eni).bFollowBear = true;
+                if (PolarBear.power == PolarBear.Power.Normal)
+                    ((Enemy)eni).bFollowBear = true;
+                IsAlive = false;
+            }
+            else if (eni is Boss)
+            {
                 IsAlive = false;
             }
         }
