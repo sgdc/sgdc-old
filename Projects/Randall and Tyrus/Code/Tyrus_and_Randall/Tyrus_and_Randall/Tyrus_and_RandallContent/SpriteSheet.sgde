@@ -36,6 +36,10 @@
       <Source>invisible.png</Source>
     </SpriteSheet>
 
+    <SpriteSheet ID="8">
+      <Source>introandwin.png</Source>
+    </SpriteSheet>
+
   </SpriteSheets>
   
 </SGDE>

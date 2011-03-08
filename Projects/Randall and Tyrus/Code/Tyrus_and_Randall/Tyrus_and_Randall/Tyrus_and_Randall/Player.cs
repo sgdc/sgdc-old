@@ -46,6 +46,17 @@ namespace Tyrus_and_Randall
         public override void  Update(GameTime gameTime)
         {
  	        base.Update(gameTime);
+
+            if (GetTranslation().Y > 480)
+            {
+                SetTranslation(new Vector2(288, 384));
+                this.knockBack = true;
+
+                if (totalFood > 0)
+                    totalFood -= 2;
+                Game1.foodText = "Food: " + totalFood + " / " + levelOneFood;
+            }
+
             SGDE.Game.CurrentGame.CameraControl.Position = this.GetTranslation();
 
             if (knockBack)

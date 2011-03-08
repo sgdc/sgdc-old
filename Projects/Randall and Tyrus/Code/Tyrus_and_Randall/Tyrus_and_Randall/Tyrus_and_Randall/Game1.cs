@@ -53,6 +53,7 @@ namespace Tyrus_and_Randall
 
         public static void CompleteLevelOne()
         {
+            levelonecomplete = true;
         }
     }
 }
