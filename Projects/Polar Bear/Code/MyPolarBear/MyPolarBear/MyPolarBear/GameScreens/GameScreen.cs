@@ -47,7 +47,7 @@ namespace MyPolarBear.GameScreens
             polarBear = new PolarBear(new Vector2(400, 400));
             //polarBear.LoadContent(Game1.GetTextureAt(0), 1.0f);
 
-            forestBoss = new Boss(new Vector2(500, -1800));
+            forestBoss = new Boss(new Vector2(0, -1800));
             forestBoss.LoadContent();
             polarBear.LoadContent();
             UpdateKeeper.getInstance().addEntity(polarBear);
@@ -96,6 +96,7 @@ namespace MyPolarBear.GameScreens
             if (Math.Abs(forestBoss.Position.Y - polarBear.Position.Y) < 300)
             {
                 forestBoss.ChaseEntity(polarBear);
+                forestBoss.HitEntity(polarBear);
             }
 
             reticule.Position = InputManager.Mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
@@ -149,12 +150,12 @@ namespace MyPolarBear.GameScreens
 
         private void LoadLevel()
         {
-            if (!File.Exists("../../../../level.txt"))
+            if (!File.Exists("../../../../levelforest.txt"))
             {
                 return;
             }
 
-            StreamReader fileReader = new StreamReader("../../../../level.txt");
+            StreamReader fileReader = new StreamReader("../../../../levelforest.txt");
             string fileLine = fileReader.ReadLine();
             LevelElement ele;
             int x;

@@ -22,6 +22,7 @@ namespace MyPolarBear.GameObjects
         public override void LoadContent()
         {
             Texture = ContentManager.GetTexture("ForestBoss");
+            Scale = 2;
 
             base.LoadContent();
         }
@@ -37,7 +38,17 @@ namespace MyPolarBear.GameObjects
                         if (CollisionBox.Intersects(entity.CollisionBox))
                         {
                             if (PolarBear.power == PolarBear.Power.Fire)
-                                Health -= 1;
+                            {
+                                Scale -= 0.01f;
+                                Health -= 1;                                
+                            }
+                            else if (PolarBear.power == PolarBear.Power.Normal)
+                            {
+                                PolarBear.CurHitPoints += 1;
+                                PolarBear.CurHealth += 10;
+                            }
+                            else
+                                Scale += 0.01f;
                         }
                     }
                 }
@@ -63,7 +74,19 @@ namespace MyPolarBear.GameObjects
             {
                 Vector2 direction = entity.Position - Position;
                 direction.Normalize();
-                Position += direction;
+                Position += direction * 2;
+            }
+        }
+
+        public void HitEntity(Entity entity)
+        {
+            if (IsAlive)
+            {
+                if (CollisionBox.Intersects(entity.CollisionBox))
+                {
+                    PolarBear.CurHealth -= 10;
+                    PolarBear.CurHitPoints -= 1;
+                }
             }
         }
 
