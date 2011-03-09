@@ -57,7 +57,7 @@ namespace MyPolarBear.GameObjects
                     break;
             }
 
-            Scale = 0.25f;
+            Scale = 0.1f;
 
             base.LoadContent();
         }

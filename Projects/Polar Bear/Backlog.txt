@@ -1,3 +1,6 @@
+================================================================================
+3/4/2011 9:20:13 PM - Brent Cox
+
 Hud
 - health
 - earth health
@@ -28,3 +31,74 @@ Planting
 - seed planting
 - water gathering
 - sapling planting
+================================================================================
+3/8/2011 11:51:41 PM - Alberto Almonte
+
+Level Content:
+- chopped down tree trunks
+- ground texture to replace background grass texture
+- add in grassy areas
+- sand texture 
+- add in the river, blocked off at a point
+- smaller trees or bushes for seed collecting
+- improve level overall (not so much open space)
+- separate area for boss fight, filled with tree trunks
+
+HUD:
+- display number of seeds collected
+- display amount of water collected
+- display how many followers (3 or 4 max?)
+- display how many saved animals
+- active green environment meter
+- active health system
+
+Enemies:
+- wooden bears, defeated with fire, attack player, become regular bears once defeated
+- black/grizzly/koala/panda bears, become followers with love (or bear hug), evade player (only black bears in demo)
+- scattered throughout level
+- travel in packs
+
+Player:
+- powers available: normal, ice, fire
+- can remove river blockage
+- can collect seeds
+- can collect water
+- can plant trees
+- can gain followers
+- can save lost animals
+- maximize environment meter
+- defeat tree-cutting boss 
+
+Boss:
+- cuts down trees it collides with
+- can damage player
+- defeated with fire, strengthened by ice
+- shoots tree trunks at player
+
+Animals:
+- hidden throughout the forest
+- only 1 at a time can follow
+- reunite with another missing animal of the same species
+- special powerup after saving all animals (only tigers in demo)
+
+Graphics: (* = needed, urgent!!!)
+- normal polar bear spritesheet: moveRight*, idleRight*, moveUp*, idleUp*, moveDown*, idleDown*
+- ice polar bear spritesheet: moveRight, idleRight*, moveUp, idleUp*, moveDown, idleDown*
+- fire polar bear spritesheet: moveRight, idleRight*, moveUp, idleUp*, moveDown, idleDown*
+- boss spritesheet: alive*, dead*
+- tiger spritesheet: idle
+- wooden bear spritesheet: moveRight*, idleRight*, moveUp*, idleUp*, moveDown*, idleDown*
+- black bear spritesheet: moveRight*, idleRight*, moveUp*, idleUp*, moveDown*, idleDown* 
+- ice attack, icewave, texture* (to replace icy heart)
+- fire attack, fireball, texture* (to replace fiery heart)
+
+Level Editor:
+- add new texture elements
+- allow user to delete unwanted elements
+- zoom in and out???
+
+Other:
+- clamp camera to world size
+- pretty title screen background
+- ***GAME TITLE!!!***
+================================================================================

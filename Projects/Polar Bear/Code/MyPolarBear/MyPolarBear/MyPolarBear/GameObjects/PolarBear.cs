@@ -89,12 +89,7 @@ namespace MyPolarBear.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-            bMoving = false;
-
-            MathHelper.Clamp((float)CurHitPoints, 0, 5);
-            MathHelper.Clamp((float)CurHealth, 0, 100);
-            MathHelper.Clamp((float)MaxHitPoints, 0, 5);
-            MathHelper.Clamp((float)MaxHealth, 0, 100);
+            bMoving = false;            
             
             if (InputManager.Keyboard.IsKeyPressed(Keys.A) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickLeft))
             {
@@ -297,6 +292,9 @@ namespace MyPolarBear.GameObjects
                 }
             }
 
+            CurHitPoints = (int)MathHelper.Clamp((float)PolarBear.CurHitPoints, 0, 5);
+            CurHealth = (int)MathHelper.Clamp((float)PolarBear.CurHealth, 0, 100);
+
             Position += Velocity;
             //CollisionBox = new Rectangle((int)Position.X, (int)Position.Y, , CollisionBox.Height);
 
@@ -312,7 +310,7 @@ namespace MyPolarBear.GameObjects
                     break;
                 case Power.Ice: power = Power.Fire;
                     break;
-                case Power.Fire: power = Power.Lighting;
+                case Power.Fire: power = Power.Normal;
                     break;
                 case Power.Lighting: power = Power.Normal;
                     break;

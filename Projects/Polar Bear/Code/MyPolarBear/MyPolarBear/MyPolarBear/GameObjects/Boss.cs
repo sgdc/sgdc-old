@@ -44,8 +44,9 @@ namespace MyPolarBear.GameObjects
                             }
                             else if (PolarBear.power == PolarBear.Power.Normal)
                             {
-                                PolarBear.CurHitPoints += 1;
-                                PolarBear.CurHealth += 10;
+                                if (PolarBear.CurHitPoints < PolarBear.MaxHitPoints)
+                                    PolarBear.CurHitPoints += 1;
+                                
                             }
                             else
                                 Scale += 0.01f;
@@ -56,7 +57,7 @@ namespace MyPolarBear.GameObjects
                 if (Health == 0)
                     IsAlive = false;
 
-                MathHelper.Clamp((float)Health, 0.0f, 100.0f);
+                Health = (int)MathHelper.Clamp((float)Health, 0.0f, 100.0f);
             }
             
             base.Update(gameTime);

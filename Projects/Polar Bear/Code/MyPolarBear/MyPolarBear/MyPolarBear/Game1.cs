@@ -74,7 +74,9 @@ namespace MyPolarBear
             ContentManager.AddTexture("Meter", Content.Load<Texture2D>("Images/Meter"));
             ContentManager.AddTexture("FullHeart", Content.Load<Texture2D>("Images/FullHeart"));
             ContentManager.AddTexture("EmptyHeart", Content.Load<Texture2D>("Images/EmptyHeart"));
-            ContentManager.AddTexture("PowerSelector", Content.Load<Texture2D>("Images/PowerSelector"));
+            ContentManager.AddTexture("NormalSelected", Content.Load<Texture2D>("Images/NormalSelected"));
+            ContentManager.AddTexture("IceSelected", Content.Load<Texture2D>("Images/IceSelected"));
+            ContentManager.AddTexture("FireSelected", Content.Load<Texture2D>("Images/FireSelected"));
             ContentManager.AddTexture("Background", Content.Load<Texture2D>("Images/Background"));
             ContentManager.AddTexture("ForestBoss", Content.Load<Texture2D>("Images/ForestBoss"));
 

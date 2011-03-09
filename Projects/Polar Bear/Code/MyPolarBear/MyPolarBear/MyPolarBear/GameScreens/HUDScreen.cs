@@ -15,7 +15,7 @@ namespace MyPolarBear.GameScreens
         public Texture2D meter;
         public Texture2D fullHeart;
         public Texture2D emptyHeart;
-        public Texture2D powerSelector;
+        public Texture2D powerSelected;
         
         public int currentHealth = 50;        
 
@@ -25,7 +25,7 @@ namespace MyPolarBear.GameScreens
             meter = ContentManager.GetTexture("Meter");
             fullHeart = ContentManager.GetTexture("FullHeart");
             emptyHeart = ContentManager.GetTexture("EmptyHeart");
-            powerSelector = ContentManager.GetTexture("PowerSelector");
+            powerSelected = ContentManager.GetTexture("NormalSelected");
         }
 
         public void DrawMeter(SpriteBatch spriteBatch)
@@ -60,7 +60,17 @@ namespace MyPolarBear.GameScreens
         {
             Vector2 Origin = ScreenManager.camera.TopLeft;
 
-            spriteBatch.Draw(powerSelector, new Vector2(Origin.X + 50, Origin.Y + 500), Color.White);           
+            switch (PolarBear.power)
+            {
+                case PolarBear.Power.Normal:
+                    powerSelected = ContentManager.GetTexture("NormalSelected"); break;
+                case PolarBear.Power.Ice:
+                    powerSelected = ContentManager.GetTexture("IceSelected"); break;
+                case PolarBear.Power.Fire:
+                    powerSelected = ContentManager.GetTexture("FireSelected"); break;
+            }
+
+            spriteBatch.Draw(powerSelected, new Vector2(Origin.X + 50, Origin.Y + 500), Color.White);           
             
         }
 

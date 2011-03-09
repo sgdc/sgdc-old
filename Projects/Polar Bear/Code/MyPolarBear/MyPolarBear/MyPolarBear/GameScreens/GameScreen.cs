@@ -135,8 +135,7 @@ namespace MyPolarBear.GameScreens
             spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, -2042, 2042, 2042), Color.White);
             spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, 0, 2042, 2042), Color.White);
             spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-2042, 0, 2042, 2042), Color.White);
-
-            reticule.Draw(spriteBatch);
+            
 
             forestBoss.Draw(spriteBatch);
 
@@ -144,6 +143,8 @@ namespace MyPolarBear.GameScreens
 
             //spriteBatch.DrawString(ContentManager.GetFont("Calibri"), lovedEnemies.ToString() + "/" + maxEnemies.ToString(),
               //                     ScreenManager.camera.TopLeft, Color.Yellow);
+
+            reticule.Draw(spriteBatch);
 
             base.DrawGame(spriteBatch);
         }
