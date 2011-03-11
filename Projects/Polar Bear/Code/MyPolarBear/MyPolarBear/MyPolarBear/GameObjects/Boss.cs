@@ -10,8 +10,8 @@ namespace MyPolarBear.GameObjects
     class Boss : Entity
     {
 
-        public int Health = 100;
-        public bool IsAlive = true;
+        public static int Health = 100;
+        public bool IsAlive = true;        
 
         public Boss(Vector2 position)
             : base(position)
@@ -30,7 +30,7 @@ namespace MyPolarBear.GameObjects
         public override void Update(GameTime gameTime)
         {
             if (IsAlive)
-            {
+            {                
                 foreach (Entity entity in UpdateKeeper.getInstance().getEntities())
                 {
                     if (entity is Projectile)
@@ -46,13 +46,16 @@ namespace MyPolarBear.GameObjects
                             {
                                 if (PolarBear.CurHitPoints < PolarBear.MaxHitPoints)
                                     PolarBear.CurHitPoints += 1;
-                                
+
                             }
                             else
+                            {
                                 Scale += 0.01f;
+                                Health += 1;
+                            }
                         }
                     }
-                }
+                }                
 
                 if (Health == 0)
                 {
@@ -61,7 +64,7 @@ namespace MyPolarBear.GameObjects
                     DrawKeeper.getInstance().removeEntity(this);
                 }
 
-                Health = (int)MathHelper.Clamp((float)Health, 0.0f, 100.0f);
+                Health = (int)MathHelper.Clamp((float)Health, 0.0f, 100.0f);                
             }
             
             base.Update(gameTime);
@@ -70,7 +73,10 @@ namespace MyPolarBear.GameObjects
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (IsAlive)
+            {
+                spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "HP: " + Boss.Health.ToString(), new Vector2(Position.X - 100.0f, Position.Y - 125.0f), Color.Yellow);
                 base.Draw(spriteBatch);
+            }
         }
 
         public void ChaseEntity(Entity entity)
@@ -80,26 +86,13 @@ namespace MyPolarBear.GameObjects
                 Vector2 direction = entity.Position - Position;
                 direction.Normalize();
                 Position += direction * 2;
-            }
-        }
 
-        public void HitEntity(Entity entity)
-        {
-            if (IsAlive)
-            {
                 if (CollisionBox.Intersects(entity.CollisionBox))
                 {
-                    PolarBear.CurHealth -= 10;
+                    PolarBear.CurWorldHealth -= 10;
                     PolarBear.CurHitPoints -= 1;
                 }
             }
         }
-
-
-
-
-
-
-
     }
 }

@@ -24,9 +24,7 @@ namespace MyPolarBear.GameObjects
         {
             get { return _isAlive; }
             set { _isAlive = value; }
-        }
-
-        public bool attached;
+        }        
 
         public Projectile(Vector2 position, float speed, Vector2 direction, PolarBear.Power type) 
             : base(position)
@@ -35,8 +33,7 @@ namespace MyPolarBear.GameObjects
             Velocity = new Vector2(speed);
             Direction = Vector2.Normalize(direction);            
             Type = type;
-            IsAlive = true;
-            attached = false;
+            IsAlive = true;            
         }
 
         public override void LoadContent()
@@ -64,7 +61,7 @@ namespace MyPolarBear.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-            if (InputManager.GamePad.IsButtonPressed(Buttons.B) || !IsAlive)
+            if (!IsAlive)
             {
                 UpdateKeeper.getInstance().removeEntity(this);
                 DrawKeeper.getInstance().removeEntity(this);
@@ -76,29 +73,42 @@ namespace MyPolarBear.GameObjects
             if (InputManager.Mouse.IsButtonReleased(MouseComponent.MouseButton.Right))
                 Position = InputManager.Mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
 
-            foreach (Entity eni in UpdateKeeper.getInstance().getEntities())
+            foreach (Entity entity in UpdateKeeper.getInstance().getEntities())
             {               
-                if (CollisionBox.Intersects(eni.CollisionBox))
+                if (CollisionBox.Intersects(entity.CollisionBox))
                 {
-                    hitEntity(eni);
+                    hitEntity(entity);
                 }
             }
+
+            foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
+            {
+                if (CollisionBox.Intersects(element.CollisionRect))
+                {
+                    IsAlive = false;
+                }
+            }
+
+            if (Position.X > GameScreen.WORLDWIDTH || Position.X < -GameScreen.WORLDWIDTH)
+                IsAlive = false;
+            if (Position.Y > GameScreen.WORLDHEIGHT || Position.Y < -GameScreen.WORLDHEIGHT)
+                IsAlive = false;
 
             base.Update(gameTime);
         }
 
-        private void hitEntity(Entity eni)
+        private void hitEntity(Entity entity)
         {
-            if (eni is Enemy)
+            if (entity is Enemy)
             {
                 if (PolarBear.power == PolarBear.Power.Normal)
-                    ((Enemy)eni).bFollowBear = true;
+                    ((Enemy)entity).bFollowBear = true;
                 IsAlive = false;
             }
-            else if (eni is Boss)
-            {
+            else if (entity is Boss)
+            {                
                 IsAlive = false;
-            }
+            }            
         }
 
         public override void Draw(SpriteBatch spriteBatch)

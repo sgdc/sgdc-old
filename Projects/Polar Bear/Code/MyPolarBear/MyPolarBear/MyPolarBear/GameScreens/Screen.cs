@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using MyPolarBear.Input;
+using System.IO;
+using MyPolarBear.Content;
 
 namespace MyPolarBear.GameScreens
 {  
@@ -90,8 +92,6 @@ namespace MyPolarBear.GameScreens
 
         public void DrawEntries(SpriteBatch spriteBatch)
         {
-            ScreenManager.camera.ShowMenu();
-
             foreach (Text entry in Entries)
                 entry.Draw(spriteBatch);           
         }
@@ -99,6 +99,39 @@ namespace MyPolarBear.GameScreens
         public virtual void DrawGame(SpriteBatch spriteBatch)
         {
             ScreenManager.camera.FollowEntity();
+        }
+
+        public void LoadLevel(string level)
+        {
+            if (!File.Exists("../../../../" + level + ".txt"))
+            {
+                return;
+            }
+
+            StreamReader fileReader = new StreamReader("../../../../" + level + ".txt");
+            string fileLine = fileReader.ReadLine();
+            LevelElement ele;
+            int x;
+            int y;
+            string type;
+            Texture2D tex = null;
+
+            while (fileLine != null)
+            {
+                type = fileLine;
+                fileLine = fileReader.ReadLine();
+                x = Convert.ToInt32(fileLine);
+                fileLine = fileReader.ReadLine();
+                y = Convert.ToInt32(fileLine);
+                tex = ContentManager.GetTexture(type);
+
+                ele = new LevelElement(new Vector2(x, y), type, tex);
+
+                UpdateKeeper.getInstance().addLevelElement(ele);
+                DrawKeeper.getInstance().addLevelElement(ele);
+
+                fileLine = fileReader.ReadLine();
+            }
         }
     }
 }

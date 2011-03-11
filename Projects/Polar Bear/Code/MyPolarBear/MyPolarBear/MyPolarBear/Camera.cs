@@ -121,11 +121,6 @@ namespace MyPolarBear
                 
         }
 
-        public void ShowMenu()
-        {
-            Position = Vector2.Zero;
-        }
-
         public void Translate(Vector2 amount)
         {
             Position += amount;

@@ -26,6 +26,8 @@ namespace MyPolarBear.GameScreens
 
         Boss forestBoss;
 
+        
+
         const int maxEnemies = 50;
         private int lovedEnemies = 0;
 
@@ -58,12 +60,13 @@ namespace MyPolarBear.GameScreens
             reticule = new Entity(Vector2.Zero);
             //reticule.LoadContent(Game1.GetTextureAt(9), 0.5f);
             reticule.LoadContent(ContentManager.GetTexture("Reticule"), 0.5f);
+            DrawKeeper.getInstance().addEntity(reticule);
 
-            Enemy ene;
+            Enemy ene;            
 
             for (int i = 0; i < maxEnemies; i++)
             {
-                ene = new Enemy(new Vector2(MathHelper.Lerp(-WORLDWIDTH/2, WORLDWIDTH/2, (float)random.NextDouble()), MathHelper.Lerp(-WORLDHEIGHT, WORLDHEIGHT, (float)random.NextDouble())));
+                ene = new Enemy(new Vector2(MathHelper.Lerp(-WORLDWIDTH / 2, WORLDWIDTH / 2, (float)random.NextDouble()), MathHelper.Lerp(-WORLDHEIGHT, WORLDHEIGHT, (float)random.NextDouble())));
                 ene.Velocity = new Vector2(random.Next(1, 10), random.Next(1, 10));
                 ene.LoadContent();
                 UpdateKeeper.getInstance().addEntity(ene);
@@ -72,7 +75,7 @@ namespace MyPolarBear.GameScreens
             
             ScreenManager.camera.FocusEntity = polarBear;
 
-            LoadLevel();
+            LoadLevel("levelforest");
         }
 
 
@@ -95,8 +98,7 @@ namespace MyPolarBear.GameScreens
                        
             if (Math.Abs(forestBoss.Position.Y - polarBear.Position.Y) < 500)
             {
-                forestBoss.ChaseEntity(polarBear);
-                forestBoss.HitEntity(polarBear);
+                forestBoss.ChaseEntity(polarBear);                
             }
 
             reticule.Position = InputManager.Mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
@@ -113,78 +115,20 @@ namespace MyPolarBear.GameScreens
                 }
             }           
 
-            foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
-            {
-                if (polarBear.CollisionBox.Intersects(element.CollisionRect))
-                {
-                    //check collisions here                    
-                    polarBear.IsColliding = true;                    
-                }
-                else
-                    polarBear.IsColliding = false;
-                
-            }
-
             UpdateKeeper.getInstance().updateAll(gameTime);
         }       
 
         public override void DrawGame(SpriteBatch spriteBatch)
         {          
-            //spriteBatch.Draw(ContentManager.GetTexture("BasicTerrain"), new Rectangle(0, 0, WORLDWIDTH, WORLDHEIGHT), Color.White);
-            //spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-2042, -2042, 2042, 2042), Color.White);
-            //spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, -2042, 2042, 2042), Color.White);
-            //spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, 0, 2042, 2042), Color.White);
-            //spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-2042, 0, 2042, 2042), Color.White);
             spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-WORLDWIDTH / 2, -WORLDHEIGHT / 2, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);
             spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, -WORLDHEIGHT / 2, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);
             spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, 0, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);
-            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-WORLDWIDTH / 2, 0, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);
-            
+            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-WORLDWIDTH / 2, 0, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);                    
 
-            forestBoss.Draw(spriteBatch);
-
-            DrawKeeper.getInstance().drawAll(spriteBatch);
-
-            //spriteBatch.DrawString(ContentManager.GetFont("Calibri"), lovedEnemies.ToString() + "/" + maxEnemies.ToString(),
-              //                     ScreenManager.camera.TopLeft, Color.Yellow);
-
-            reticule.Draw(spriteBatch);
+            DrawKeeper.getInstance().drawAll(spriteBatch);            
 
             base.DrawGame(spriteBatch);
-        }
-
-        private void LoadLevel()
-        {
-            if (!File.Exists("../../../../levelforest.txt"))
-            {
-                return;
-            }
-
-            StreamReader fileReader = new StreamReader("../../../../levelforest.txt");
-            string fileLine = fileReader.ReadLine();
-            LevelElement ele;
-            int x;
-            int y;
-            string type;
-            Texture2D tex = null;
-
-            while (fileLine != null)
-            {
-                type = fileLine;
-                fileLine = fileReader.ReadLine();
-                x = Convert.ToInt32(fileLine);
-                fileLine = fileReader.ReadLine();
-                y = Convert.ToInt32(fileLine);
-                tex = ContentManager.GetTexture(type);
-
-                ele = new LevelElement(new Vector2(x, y), type, tex);
-
-                UpdateKeeper.getInstance().addLevelElement(ele);
-                DrawKeeper.getInstance().addLevelElement(ele);
-
-                fileLine = fileReader.ReadLine();
-            }
-        }
+        }        
     }
 }
 

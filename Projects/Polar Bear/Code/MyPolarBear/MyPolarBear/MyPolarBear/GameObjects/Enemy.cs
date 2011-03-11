@@ -9,38 +9,25 @@ namespace MyPolarBear.GameObjects
 {
     class Enemy : Entity
     {
-        public int aniFrame;
-        public bool moveRight;
-        public bool moveDown;
-        public bool alive;
+        public bool IsAlive;
         Random random = new Random();
-        public Vector2 followVelocity;
-        public Vector2 swarmPos;
 
-        //private Animator mAnimator;
         private PolarBear followBear;
         public bool bFollowBear;
         private Vector2 mScale;
 
         public Enemy(Vector2 position)
             : base(position)
-        {
-            moveRight = true;
-            alive = true;
-            moveDown = true;
-            followVelocity = new Vector2(0, 0);
-            swarmPos = new Vector2(0, 0);
+        {            
+            IsAlive = true;            
             followBear = null;
             bFollowBear = false;
             Scale = 2;
-            mScale = new Vector2(Scale, Scale);
-            //mAnimator = new Animator();
+            mScale = new Vector2(Scale, Scale);            
         }
 
         public override void LoadContent()
         {
-            //Texture = ContentManager.GetTexture("FireWalkRight");
-
             Animation ani = new Animation(ContentManager.GetTexture("FireWalkingRight"), 4, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("walkRight", ani);
 
@@ -71,8 +58,7 @@ namespace MyPolarBear.GameObjects
             }
 
             if (followBear != null && bFollowBear)
-            {
-                //followVelocity = (followBear.Position - Position) * 10;
+            {                
                 Vector2 dist = followBear.Position - Position;
                 if (Math.Abs(dist.X) > 10 || Math.Abs(dist.Y) > 10)
                 {
@@ -83,13 +69,11 @@ namespace MyPolarBear.GameObjects
                 {
                     Velocity = Vector2.Zero;
                 }
-
-                //Velocity = new Vector2(5, 0);
+                
             }
 
             if ((Position.X > GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X > 0) || (Position.X < -GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X < 0))
-            {
-                //Velocity = new Vector2(0, Velocity.Y);
+            {                
                 Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
             }
 
@@ -114,7 +98,6 @@ namespace MyPolarBear.GameObjects
             {
                 mAnimator.PlayAnimation("walkBack", false);
             }
-
 
             Position += Velocity;
 

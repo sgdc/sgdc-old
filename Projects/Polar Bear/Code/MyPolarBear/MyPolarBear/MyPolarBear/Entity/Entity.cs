@@ -79,8 +79,7 @@ namespace MyPolarBear
         }
 
         public Vector2 delta;
-        public Vector2 bounciness;
-        //public int aniFrame;
+        public Vector2 bounciness;        
         protected Animator mAnimator;
 
         public Entity(Vector2 position)
@@ -98,8 +97,7 @@ namespace MyPolarBear
             Scale = scale;
             Origin = new Vector2((float)Texture.Width / 2, (float)Texture.Height / 2);
             CollisionBox = EntityHelper.CollisionBoxFromTexture(Position, Texture, Origin, Scale);
-            Color = Color.White;
-            //aniFrame = 0;
+            Color = Color.White;            
         }
 
         public virtual void LoadContent()
@@ -131,13 +129,6 @@ namespace MyPolarBear
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects.None, 0f);
-            //int rectWidth = Texture.Width;
-            //int rectHeight = Texture.Height / 4;
-            //Rectangle sourceRect = new Rectangle(0, rectHeight * (aniFrame / 4), rectWidth, rectHeight);
-            //Rectangle destRect = new Rectangle((int)Position.X - rectWidth / 2, (int)Position.Y - rectHeight / 2, rectWidth, rectHeight);
-            //spriteBatch.Draw(Texture, destRect, sourceRect, Color.White);
-            //aniFrame++;
-            //aniFrame %= 16;
         }              
     }
 }

@@ -12,20 +12,10 @@ namespace MyPolarBear.GameScreens
     {
         public TitleScreen(ScreenType screenType) : base(screenType)
         {
-            AddEntry(new Text("POLAR BEAR", new Vector2(-100.0f, -150.0f)));            
-            AddEntry(new Text("Play game", new Vector2(-300.0f, 0.0f)));
-            AddEntry(new Text("Quit game", new Vector2(-300.0f, 0.0f)));
+            AddEntry(new Text("POLAR BEAR", new Vector2(ScreenManager.SCREENWIDTH / 2 - 110.0f, 100.0f)));            
+            AddEntry(new Text("Play game", new Vector2(100.0f, 100.0f)));
+            AddEntry(new Text("Quit game", new Vector2(100.0f, 0.0f)));
             FormatEntries();
-            #region Help Items
-            /*helpEntries = new List<Text>();
-            helpEntries.Add(new Text("HELP", new Vector2(350, 80)));
-            helpEntries.Add(new Text("Left Arrow - Move Left", new Vector2(30, 5.0f)));
-            helpEntries.Add(new Text("Right Arrow - Move Right", new Vector2(30, 5.0f)));
-            helpEntries.Add(new Text("Left Thumbstick - Move Paddle", new Vector2(30, 5.0f)));
-            helpEntries.Add(new Text("Space Bar or B Button - Reset Ball", new Vector2(30, 5.0f)));
-            helpEntries.Add(new Text("Escape or Back Button - Quit game", new Vector2(30, 5.0f)));
-            helpEntries.Add(new Text("< Go back to the Main Menu", new Vector2(30, 5.0f)));*/
-            #endregion
         }
 
         public override void SelectEntry()

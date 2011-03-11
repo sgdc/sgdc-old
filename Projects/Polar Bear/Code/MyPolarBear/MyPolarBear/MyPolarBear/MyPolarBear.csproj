@@ -127,6 +127,7 @@
     <Compile Include="DrawKeeper.cs" />
     <Compile Include="Entity\Entity.cs" />
     <Compile Include="Entity\EntityHelper.cs" />
+    <Compile Include="GameObjects\Animal.cs" />
     <Compile Include="GameObjects\Boss.cs" />
     <Compile Include="GameObjects\Enemy.cs" />
     <Compile Include="GameObjects\PolarBear.cs" />

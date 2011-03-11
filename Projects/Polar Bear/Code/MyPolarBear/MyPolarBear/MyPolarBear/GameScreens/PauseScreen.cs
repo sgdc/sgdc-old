@@ -11,10 +11,10 @@ namespace MyPolarBear.GameScreens
     {
         public PauseScreen(ScreenType screenType) : base(screenType)
         {
-            AddEntry(new Text("PAUSE MENU", new Vector2(-100.0f, -150.0f)));
-            AddEntry(new Text("Return to game", new Vector2(-300, 0.0f)));
-            AddEntry(new Text("Return to title screen", new Vector2(-300, 0.0f)));
-            AddEntry(new Text("Quit game", new Vector2(-300, 0.0f)));
+            AddEntry(new Text("PAUSE MENU", new Vector2(ScreenManager.SCREENWIDTH / 2 - 110.0f, 100.0f)));
+            AddEntry(new Text("Return to game", new Vector2(100, 100.0f)));
+            AddEntry(new Text("Return to title screen", new Vector2(100, 0.0f)));
+            AddEntry(new Text("Quit game", new Vector2(100, 0.0f)));
             FormatEntries();
         }
 

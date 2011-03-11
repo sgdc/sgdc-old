@@ -28,10 +28,10 @@ namespace MyPolarBear.GameScreens
         public static bool isExiting = false;
         public static bool isPaused = false;
 
-        TitleScreen titleScreen;
-        PauseScreen pauseScreen;
-        GameScreen gameScreen;
-        HUDScreen HUDScreen;
+        private TitleScreen titleScreen;
+        private PauseScreen pauseScreen;
+        private GameScreen gameScreen;
+        private HUDScreen HUDScreen;
         
         SpriteBatch spriteBatch;
 
@@ -78,20 +78,30 @@ namespace MyPolarBear.GameScreens
         }
         public override void Draw(GameTime gameTime)
         {
-
+            #region Draw Game Worlds
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, camera.TransformMatrix);
+            switch (screenType)
+            {
+                case ScreenType.GameScreen:
+                    gameScreen.DrawGame(spriteBatch);                    
+                    break;
+            }
+            spriteBatch.End();
+            #endregion
+
+            #region Draw Menus 
+            spriteBatch.Begin();
             switch (screenType)
             {
                 case ScreenType.TitleScreen: titleScreen.DrawEntries(spriteBatch);
                     break;
                 case ScreenType.PauseScreen: pauseScreen.DrawEntries(spriteBatch);
                     break;
-                case ScreenType.GameScreen: 
-                    gameScreen.DrawGame(spriteBatch);
-                    HUDScreen.DrawDisplay(spriteBatch);
+                case ScreenType.GameScreen:  HUDScreen.DrawDisplay(spriteBatch);
                     break;
             }
             spriteBatch.End();
+            #endregion
 
             base.Draw(gameTime);
         }

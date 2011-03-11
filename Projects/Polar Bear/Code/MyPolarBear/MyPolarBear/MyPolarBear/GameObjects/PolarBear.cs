@@ -21,17 +21,14 @@ namespace MyPolarBear.GameObjects
         }
 
         public static Power power;
-        public static int MaxHealth;
-        public static int CurHealth;
+        public static int MaxWorldHealth;
+        public static int CurWorldHealth;
         public static int MaxHitPoints;
-        public static int CurHitPoints;
-
-
-        public bool IsColliding = false;
-        public bool bHasSeed = false;
+        public static int CurHitPoints;        
+        public static int NumSeeds = 0;
+        public static int NumWater = 0;
 
         public bool bMoving;
-
 
         private int timeProjectileFired;
 
@@ -41,12 +38,11 @@ namespace MyPolarBear.GameObjects
         public PolarBear(Vector2 position)
             : base(position)
         {
-            power = Power.Ice;
-            //mAnimator = new Animator();
+            power = Power.Ice;            
             Scale = 1;
             mScale = new Vector2(Scale, Scale);
-            MaxHealth = 100;
-            CurHealth = 75;
+            MaxWorldHealth = 100;
+            CurWorldHealth = 0;
             MaxHitPoints = 5;
             CurHitPoints = 3;
         }
@@ -55,7 +51,13 @@ namespace MyPolarBear.GameObjects
         {
             //Texture = ContentManager.GetTexture("IceWalkingRight");
 
-            Animation ani = new Animation(ContentManager.GetTexture("IceWalkingRight"), 5, 8, 0, true, SpriteEffects.None);
+            Animation ani = new Animation(ContentManager.GetTexture("WalkRight"), 2, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("NormalWalkRight", ani);
+
+            ani = new Animation(ContentManager.GetTexture("WalkRight"), 2, 8, 0, true, SpriteEffects.FlipHorizontally);
+            mAnimator.Animations.Add("NormalWalkLeft", ani);
+
+            ani = new Animation(ContentManager.GetTexture("IceWalkingRight"), 5, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("IceWalkRight", ani);
 
             ani = new Animation(ContentManager.GetTexture("IceWalkingRight"), 5, 8, 0, true, SpriteEffects.FlipHorizontally);
@@ -93,20 +95,13 @@ namespace MyPolarBear.GameObjects
             
             if (InputManager.Keyboard.IsKeyPressed(Keys.A) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickLeft))
             {
-
-                //Velocity = new Vector2(-5.0f, 0.0f);
-                //if (!IsColliding)
-                   // Translate(new Vector2(-5.0f, 0.0f));
-
-                //Translate(new Vector2(-5.0f, 0.0f));
-                Velocity = new Vector2(-5, 0);
+                Velocity = new Vector2(-3, 0);
                 bMoving = true;
-
 
                 switch (power)
                 {
                     case Power.Normal:
-                        break;
+                        mAnimator.PlayAnimation("NormalWalkLeft", false); break;
                     case Power.Ice:
                         mAnimator.PlayAnimation("IceWalkLeft", false); break;
                     case Power.Fire:
@@ -117,19 +112,13 @@ namespace MyPolarBear.GameObjects
             }
             if (InputManager.Keyboard.IsKeyPressed(Keys.D) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickRight))
             {
-
-                //Velocity = new Vector2(5.0f, 0.0f);
-                //if (!IsColliding)
-                   // Translate(new Vector2(5.0f, 0.0f));
-                //Translate(new Vector2(5.0f, 0.0f));
-                Velocity = new Vector2(5, 0);
+                Velocity = new Vector2(3, 0);
                 bMoving = true;
-
 
                 switch (power)
                 {
                     case Power.Normal:
-                        break;
+                        mAnimator.PlayAnimation("NormalWalkRight", false); break;
                     case Power.Ice:
                         mAnimator.PlayAnimation("IceWalkRight", false); break;
                     case Power.Fire:
@@ -140,15 +129,8 @@ namespace MyPolarBear.GameObjects
             }
             if (InputManager.Keyboard.IsKeyPressed(Keys.W) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickUp))
             {
-
-                //Velocity = new Vector2(0.0f, -5.0f);
-               // if (!IsColliding)
-                 //   Translate(new Vector2(0.0f, -5.0f));
-
-                //Translate(new Vector2(0.0f, -5.0f));
-                Velocity = new Vector2(0, -5);
+                Velocity = new Vector2(0, -3);
                 bMoving = true;
-
 
                 switch (power)
                 {
@@ -164,15 +146,8 @@ namespace MyPolarBear.GameObjects
             }
             if (InputManager.Keyboard.IsKeyPressed(Keys.S) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickDown))
             {
-
-                //Velocity = new Vector2(0.0f, 5.0f);
-                //if (!IsColliding)
-                  //  Translate(new Vector2(0.0f, 5.0f));
-
-                //Translate(new Vector2(0.0f, 5.0f));
-                Velocity = new Vector2(0, 5);
+                Velocity = new Vector2(0, 3);
                 bMoving = true;
-
 
                 switch (power)
                 {
@@ -200,10 +175,7 @@ namespace MyPolarBear.GameObjects
                 power = Power.Fire;            
 
             if (InputManager.Keyboard.IsKeyReleased(Keys.Space))
-                SwitchPowers();
-
-            //if (InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Left) != Vector2.Zero)
-              //  Translate(InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Left) * 5);
+                SwitchPowers();           
 
             if (InputManager.GamePad.IsButtonReleased(Buttons.RightShoulder))
                 SwitchPowers();
@@ -212,7 +184,7 @@ namespace MyPolarBear.GameObjects
             {
                 Projectile projectile = ShootProjectile(InputManager.Mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter);                
                 projectile.LoadContent();
-                projectile.IsAlive = true;
+                projectile.IsAlive = true;                
                 UpdateKeeper.getInstance().addEntity(projectile);
                 DrawKeeper.getInstance().addEntity(projectile);
             }
@@ -239,61 +211,34 @@ namespace MyPolarBear.GameObjects
             Rectangle travelRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
 
             foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-            {
-                //if (CollisionBox.Intersects(ele.CollisionRect))
+            {                
                 if (travelRect.Intersects(ele.CollisionRect))
                 {
-                    //if (Velocity.X > 0 && ele.CollisionRect.Left + 6 > CollisionBox.Right)
-                    //{
-                    //    Velocity = Vector2.Zero;
-                    //    Position += new Vector2(CollisionBox.Right - (ele.CollisionRect.Left + 5), 0);
-                    //}
+                    Velocity = Vector2.Zero;                    
 
-                    //if (Velocity.X < 0 && ele.CollisionRect.Right - 6 < CollisionBox.Left)
-                    //{
-                    //    Velocity = Vector2.Zero;
-                    //    Position += new Vector2(5, 0);
-                    //}
-
-                    //if (Velocity.Y > 0 && ele.CollisionRect.Top + 6 > CollisionBox.Bottom)
-                    //{
-                    //    Velocity = Vector2.Zero;
-                    //    Position += new Vector2(0, -5);
-                    //}
-
-                    //if (Velocity.Y < 0 && ele.CollisionRect.Bottom - 6 < CollisionBox.Top)
-                    //{
-                    //    Velocity = Vector2.Zero;
-                    //    Position += new Vector2(0, 5);
-                    //}
-
-                    //if (Velocity.X > 0 && CollisionBox.Right + Velocity.X > ele.CollisionRect.Left)
-                    //{
-                        Velocity = Vector2.Zero;
-                    //}
-
-                        if (ele.Type.Equals("Tree") || ele.Type.Equals("Tree2"))
+                    if (ele.Type.Equals("Tree2"))
+                    {
+                        if (InputManager.Keyboard.IsKeyReleased(Keys.T) || InputManager.GamePad.IsButtonReleased(Buttons.A))
                         {
-                            if (InputManager.Keyboard.IsKeyPressed(Keys.T) || InputManager.GamePad.IsButtonPressed(Buttons.A))
-                            {
-                                bHasSeed = true;
-                            }
+                            NumSeeds++;
                         }
+                    }
 
-                        if (ele.Type.Equals("SoftGround") && bHasSeed)
-                        {
-                            if (InputManager.Keyboard.IsKeyPressed(Keys.T) || InputManager.GamePad.IsButtonPressed(Buttons.A))
-                            {
-                                ele.Type = "Tree";
-                                ele.Tex = ContentManager.GetTexture("Tree");
-                            }
+                    if (ele.Type.Equals("SoftGround") && NumSeeds > 0)
+                    {
+                        if (InputManager.Keyboard.IsKeyReleased(Keys.T) || InputManager.GamePad.IsButtonReleased(Buttons.A))
+                        {            
+                            ele.Type = "Tree";
+                            ele.Tex = ContentManager.GetTexture("Tree");
+                            NumSeeds--;
+                            CurWorldHealth++;   
                         }
-
+                    }
                 }
             }
 
             CurHitPoints = (int)MathHelper.Clamp((float)PolarBear.CurHitPoints, 0, 5);
-            CurHealth = (int)MathHelper.Clamp((float)PolarBear.CurHealth, 0, 100);
+            CurWorldHealth = (int)MathHelper.Clamp((float)PolarBear.CurWorldHealth, 0, 100);
 
             Position += Velocity;
 
@@ -347,6 +292,7 @@ namespace MyPolarBear.GameObjects
             //        aniFrame = 0;
             //    }
             ////}
+            
             mScale.X = Scale;
             mScale.Y = Scale;
 

@@ -93,8 +93,8 @@ namespace MyPolarBear
 
             // Normal SpriteSheets
             ContentManager.AddTexture("ShootHeartRight", Content.Load<Texture2D>("SpriteSheets/Normal/shootheartRight"));
-            ContentManager.AddTexture("WalkLeft", Content.Load<Texture2D>("SpriteSheets/Normal/walkLeft3"));
-            ContentManager.AddTexture("WalkRight", Content.Load<Texture2D>("SpriteSheets/Normal/walkRight2"));
+            ContentManager.AddTexture("WalkLeft", Content.Load<Texture2D>("SpriteSheets/Normal/walkingLeft"));
+            ContentManager.AddTexture("WalkRight", Content.Load<Texture2D>("SpriteSheets/Normal/walkingRight"));
 
             // Pyrus SpriteSheets
             ContentManager.AddTexture("FireBallBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballBack"));

@@ -156,13 +156,13 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="SpriteSheets\Normal\walkLeft3.png">
-      <Name>walkLeft3</Name>
+    <Compile Include="SpriteSheets\Normal\walkingLeft.png">
+      <Name>walkingLeft</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="SpriteSheets\Normal\walkRight2.png">
-      <Name>walkRight2</Name>
+    <Compile Include="SpriteSheets\Normal\walkingRight.png">
+      <Name>walkingRight</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
