@@ -120,6 +120,14 @@ namespace MyPolarBear
             ContentManager.AddTexture("WaterSandTop", Content.Load<Texture2D>("LevelElements/WaterSandTop"));
             ContentManager.AddTexture("WaterSandTopLeft", Content.Load<Texture2D>("LevelElements/WaterSandTopLeft"));
             ContentManager.AddTexture("WaterSandTopRight", Content.Load<Texture2D>("LevelElements/WaterSandTopRight"));
+            ContentManager.AddTexture("Sand", Content.Load<Texture2D>("LevelElements/sand"));
+            ContentManager.AddTexture("Water2", Content.Load<Texture2D>("LevelElements/water2"));
+            ContentManager.AddTexture("Grass", Content.Load<Texture2D>("LevelElements/grass"));
+            ContentManager.AddTexture("Flowers", Content.Load<Texture2D>("LevelElements/flowers"));
+            ContentManager.AddTexture("Bush", Content.Load<Texture2D>("LevelElements/bush"));
+            ContentManager.AddTexture("Stump", Content.Load<Texture2D>("LevelElements/stump"));
+            ContentManager.AddTexture("GrassBig", Content.Load<Texture2D>("LevelElements/grassBig"));
+            ContentManager.AddTexture("Tree3", Content.Load<Texture2D>("LevelElements/tree3"));
 
             // Fonts
             ContentManager.AddFont("Calibri", Content.Load<SpriteFont>("Fonts/Calibri"));
