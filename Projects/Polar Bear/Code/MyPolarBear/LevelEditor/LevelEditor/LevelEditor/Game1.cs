@@ -20,31 +20,12 @@ namespace LevelEditor
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Rectangle menuRect;
-        Rectangle levelRect;
-
-        //Element tree;
-        //Element water;
-        //Element waterSandRight;
-        //Element waterSandLeft;
-        //Element waterSandTop;
-        //Element waterSandBottom;
-        //Element waterSandTopRight;
-        //Element waterSandTopLeft;
-        //Element waterSandBottomRight;
-        //Element waterSandBottomLeft;
-        //Element tree2;
-        //Element lake;
-        //Element boulder;
-        //Element softGround;
-        //Element hardRock;
-
-        //Rectangle lakeRect;
+        //Rectangle levelRect;
 
         List<Element> menuElements;
         List<Element> addedElements;
 
         Element currElement;
-        //bool bCurrNew;
         Texture2D cursor;
         Texture2D menuPane;
         Texture2D backGround;
@@ -60,6 +41,13 @@ namespace LevelEditor
 
         Vector2 selectionOffset;
         Vector2 cameraPos;
+
+        Element selectedElement;
+        Texture2D selectTex;
+        //Rectangle selectEleRect;
+
+        MouseState currMouseState;
+        MouseState prevMouseState;
 
         //ContentManager mContentManager;
 
@@ -115,8 +103,9 @@ namespace LevelEditor
             save = Content.Load<Texture2D>("save");
             saving = Content.Load<Texture2D>("saving");
             currSave = save;
-
             saveRect = new Rectangle(menuRect.X + 50, menuRect.Height - 80, save.Width, save.Height);
+
+            selectTex = Content.Load<Texture2D>("selectionBox");
 
             ContentManager.AddTexture("Tree", Content.Load<Texture2D>("tree"));
             ContentManager.AddTexture("Tree2", Content.Load<Texture2D>("tree2"));
@@ -162,40 +151,6 @@ namespace LevelEditor
                 }
             }
 
-            //tree = new Element(new Vector2(40, 40), "Tree", Content.Load<Texture2D>("tree"));
-            //water = new Element(new Vector2(110, 40), "Water", Content.Load<Texture2D>("water"));
-            //waterSandRight = new Element(new Vector2(40, 110), "WaterSandRight", Content.Load<Texture2D>("waterSandRight"));
-            //waterSandLeft = new Element(new Vector2(110, 110), "WaterSandLeft", Content.Load<Texture2D>("waterSandLeft"));
-            //waterSandTop = new Element(new Vector2(40, 180), "WaterSandTop", Content.Load<Texture2D>("waterSandTop"));
-            //waterSandBottom = new Element(new Vector2(110, 180), "WaterSandBottom", Content.Load<Texture2D>("waterSandBottom"));
-            //waterSandTopRight = new Element(new Vector2(40, 250), "WaterSandTopRight", Content.Load<Texture2D>("waterSandTopRight"));
-            //waterSandTopLeft = new Element(new Vector2(110, 250), "WaterSandTopLeft", Content.Load<Texture2D>("waterSandTopLeft"));
-            //waterSandBottomRight = new Element(new Vector2(40, 320), "WaterSandBottomRight", Content.Load<Texture2D>("waterSandBottomRight"));
-            //waterSandBottomLeft = new Element(new Vector2(110, 320), "WaterSandBottomLeft", Content.Load<Texture2D>("waterSandBottomLeft"));
-            //tree2 = new Element(new Vector2(40, 390), "Tree2", Content.Load<Texture2D>("tree2"));
-            //boulder = new Element(new Vector2(110, 390), "Boulder", Content.Load<Texture2D>("boulder"));
-            //softGround = new Element(new Vector2(40, 460), "SoftGround", Content.Load<Texture2D>("softGround"));
-            //lake = new Element(new Vector2(110, 460), "Lake", Content.Load<Texture2D>("lake"));
-            //hardRock = new Element(new Vector2(40, 530), "HardRock", Content.Load<Texture2D>("hardRock"));
-
-            //lakeRect = new Rectangle((int)lake.Position.X, (int)lake.Position.Y, 50, 50);
-
-            //menuElements.Add(tree);
-            //menuElements.Add(water);
-            //menuElements.Add(waterSandRight);
-            //menuElements.Add(waterSandLeft);
-            //menuElements.Add(waterSandTop);
-            //menuElements.Add(waterSandBottom);
-            //menuElements.Add(waterSandTopRight);
-            //menuElements.Add(waterSandTopLeft);
-            //menuElements.Add(waterSandBottomRight);
-            //menuElements.Add(waterSandBottomLeft);
-            //menuElements.Add(tree2);
-            //menuElements.Add(boulder);
-            //menuElements.Add(softGround);
-            //menuElements.Add(lake);
-            //menuElements.Add(hardRock);
-
             LoadLevel();
         }
 
@@ -219,7 +174,10 @@ namespace LevelEditor
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            prevMouseState = currMouseState;
+            currMouseState = Mouse.GetState();
+
+            // check menu element press
             if (currElement == null)
             {
                 foreach (Element ele in menuElements)
@@ -249,16 +207,12 @@ namespace LevelEditor
                 }
             }
 
+            // drag/drop
             if (currElement != null)
             {
                 if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 {
-                    //currElement.Position = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-                    //currElement.CollisionRect.X = Mouse.GetState().X;
-                    //currElement.CollisionRect.Y = Mouse.GetState().Y;
-
                     currElement.Position = new Vector2(Mouse.GetState().X + cameraPos.X - selectionOffset.X, Mouse.GetState().Y + cameraPos.Y - selectionOffset.Y);
-                    //currElement.Position = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
                     currElement.CollisionRect.X = (int)currElement.Position.X;
                     currElement.CollisionRect.Y = (int)currElement.Position.Y;
                 }
@@ -270,6 +224,31 @@ namespace LevelEditor
                     }
           
                     currElement = null;
+                }
+            }
+
+            // select menu element for easy placing
+            if (currMouseState != null && currMouseState.RightButton == ButtonState.Pressed 
+                && prevMouseState != null && prevMouseState.RightButton == ButtonState.Released)
+            {
+                if (menuRect.Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                {
+                    foreach (Element ele in menuElements)
+                    {
+                        if (ele.CollisionRect.Contains(Mouse.GetState().X, Mouse.GetState().Y))
+                        {
+                            selectedElement = ele;
+                        }
+                    }
+                }
+                else
+                {
+                    if (selectedElement != null)
+                    {
+                        Vector2 pos = new Vector2(Mouse.GetState().X - selectedElement.Tex.Width / 2, Mouse.GetState().Y - selectedElement.Tex.Height / 2);
+                        pos += cameraPos;
+                        addedElements.Add(new Element(pos, selectedElement.Type, selectedElement.Tex));
+                    }
                 }
             }
 
@@ -300,8 +279,6 @@ namespace LevelEditor
             if (Mouse.GetState().LeftButton == ButtonState.Pressed && saveRect.Contains(Mouse.GetState().X, Mouse.GetState().Y))
             {
                 currSave = saving;
-                //Save();
-                //currSave = save;
                 bSaving = true;
             }
 
@@ -359,58 +336,6 @@ namespace LevelEditor
                 x = Convert.ToInt32(fileLine);
                 fileLine = fileReader.ReadLine();
                 y = Convert.ToInt32(fileLine);
-
-                //switch (type)
-                //{
-                //    case "Tree":
-                //        tex = tree.Tex;
-                //        break;
-                //    case "Water":
-                //        tex = water.Tex;
-                //        break;
-                //    case "WaterSandBottom":
-                //        tex = waterSandBottom.Tex;
-                //        break;
-                //    case "WaterSandBottomLeft":
-                //        tex = waterSandBottomLeft.Tex;
-                //        break;
-                //    case "WaterSandBottomRight":
-                //        tex = waterSandBottomRight.Tex;
-                //        break;
-                //    case "WaterSandLeft":
-                //        tex = waterSandLeft.Tex;
-                //        break;
-                //    case "WaterSandRight":
-                //        tex = waterSandRight.Tex;
-                //        break;
-                //    case "WaterSandTop":
-                //        tex = waterSandTop.Tex;
-                //        break;
-                //    case "WaterSandTopLeft":
-                //        tex = waterSandTopLeft.Tex;
-                //        break;
-                //    case "WaterSandTopRight":
-                //        tex = waterSandTopRight.Tex;
-                //        break;
-                //    case "Tree2":
-                //        tex = tree2.Tex;
-                //        break;
-                //    case "Boulder":
-                //        tex = boulder.Tex;
-                //        break;
-                //    case "SoftGround":
-                //        tex = softGround.Tex;
-                //        break;
-                //    case "Lake":
-                //        tex = lake.Tex;
-                //        break;
-                //    case "HardRock":
-                //        tex = hardRock.Tex;
-                //        break;
-                //    default:
-                //        break;
-                //}
-
                 tex = ContentManager.GetTexture(type);
 
                 ele = new Element(new Vector2(x, y), type, tex);
@@ -430,11 +355,6 @@ namespace LevelEditor
 
             spriteBatch.Begin();
 
-            // draw background
-            //spriteBatch.Draw(backGround, new Vector2(-2042, 0) - cameraPos, Color.White);
-            //spriteBatch.Draw(backGround, new Vector2(-2042, -2042) - cameraPos, Color.White);
-            //spriteBatch.Draw(backGround, new Vector2(0, -2042) - cameraPos, Color.White);
-            //spriteBatch.Draw(backGround, new Vector2(0, 0) - cameraPos, Color.White);
             spriteBatch.Draw(backGround, new Rectangle(-2048 - (int)cameraPos.X, 0 - (int)cameraPos.Y, 2048, 2048), Color.White);
             spriteBatch.Draw(backGround, new Rectangle(-2048 - (int)cameraPos.X, -2048 - (int)cameraPos.Y, 2048, 2048), Color.White);
             spriteBatch.Draw(backGround, new Rectangle(0 - (int)cameraPos.X, -2048 - (int)cameraPos.Y, 2048, 2048), Color.White);
@@ -451,15 +371,13 @@ namespace LevelEditor
 
             foreach (Element ele in menuElements)
             {
-                //if (ele.Type.Equals("Lake"))
-                //{
-                //    spriteBatch.Draw(ele.Tex, lakeRect, Color.White);
-                //}
-                //else
-                //{
-                //    spriteBatch.Draw(ele.Tex, ele.Position, Color.White);
-                //}
                 spriteBatch.Draw(ele.Tex, ele.CollisionRect, Color.White);
+            }
+
+            // draw selection box
+            if (selectedElement != null)
+            {
+                spriteBatch.Draw(selectTex, selectedElement.CollisionRect, Color.White);
             }
 
             // draw save button
