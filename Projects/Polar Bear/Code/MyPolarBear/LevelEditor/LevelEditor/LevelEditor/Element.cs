@@ -28,11 +28,11 @@ namespace LevelEditor
 
             CollisionRect = new Rectangle((int)position.X, (int)position.Y, tex.Width, tex.Height);
 
-            if (type.Equals("Lake"))
-            {
-                CollisionRect.Width = 50;
-                CollisionRect.Height = 50;
-            }
+            //if (type.Equals("Lake"))
+            //{
+            //    CollisionRect.Width = 50;
+            //    CollisionRect.Height = 50;
+            //}
         }
     }
 }
