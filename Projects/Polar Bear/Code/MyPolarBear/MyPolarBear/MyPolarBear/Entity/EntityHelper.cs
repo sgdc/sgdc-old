@@ -76,6 +76,12 @@ namespace MyPolarBear
             return (float)Math.Atan2(x, y);
         }
 
+        public static float DistanceBetween(Vector2 firstVector, Vector2 secondVector)
+        {
+            Vector2 result = firstVector - secondVector;
+            return result.Length();
+        }
+
         public static Vector2 MoveBackOnScreen(Rectangle EntityCollisionBox, Rectangle ScreenCollisionBox)
         {
             Vector2 delta = Vector2.Zero;

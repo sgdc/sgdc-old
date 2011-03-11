@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using MyPolarBear.GameScreens;
+
 namespace MyPolarBear
 {
     public class Camera
@@ -13,6 +15,11 @@ namespace MyPolarBear
         {
             get { return _position; }
             set { _position = value; }
+        }
+
+        public Vector2 GetPosition()
+        {
+            return _position;
         }
 
         private float _rotation;
@@ -104,8 +111,14 @@ namespace MyPolarBear
 
         public void FollowEntity()
         {
-            if (IsFocused)
+            if (IsFocused)            
                 Position = FocusEntity.Position;
+
+            float horizontalBoundary = MathHelper.Clamp(Position.X, -GameScreen.WORLDWIDTH / 2 + ScreenManager.SCREENWIDTH / 2, GameScreen.WORLDWIDTH / 2 - ScreenManager.SCREENWIDTH / 2);
+            float verticalBoundary = MathHelper.Clamp(Position.Y, -GameScreen.WORLDHEIGHT / 2 + ScreenManager.SCREENHEIGHT / 2, GameScreen.WORLDHEIGHT / 2 - ScreenManager.SCREENHEIGHT / 2);
+
+            Position = new Vector2(horizontalBoundary, verticalBoundary);
+                
         }
 
         public void ShowMenu()

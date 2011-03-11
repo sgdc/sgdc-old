@@ -71,13 +71,6 @@ namespace MyPolarBear.GameObjects
                 return;
             }
 
-            //if (IsAlive)
-            //{      
-            //    Position += Direction * Velocity;
-
-            //    base.Update(gameTime);
-            //}
-
             Position += Direction * Velocity;
 
             if (InputManager.Mouse.IsButtonReleased(MouseComponent.MouseButton.Right))

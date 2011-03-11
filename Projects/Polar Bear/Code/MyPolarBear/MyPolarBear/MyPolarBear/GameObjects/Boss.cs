@@ -55,7 +55,11 @@ namespace MyPolarBear.GameObjects
                 }
 
                 if (Health == 0)
-                    IsAlive = false;
+                {
+                    IsAlive = false; 
+                    UpdateKeeper.getInstance().removeEntity(this);
+                    DrawKeeper.getInstance().removeEntity(this);
+                }
 
                 Health = (int)MathHelper.Clamp((float)Health, 0.0f, 100.0f);
             }

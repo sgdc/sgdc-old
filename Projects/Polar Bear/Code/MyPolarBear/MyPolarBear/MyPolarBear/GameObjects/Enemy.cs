@@ -87,13 +87,13 @@ namespace MyPolarBear.GameObjects
                 //Velocity = new Vector2(5, 0);
             }
 
-            if ((Position.X > GameScreens.GameScreen.WORLDWIDTH - 400 && Velocity.X > 0) || (Position.X < 400 && Velocity.X < 0))
+            if ((Position.X > GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X > 0) || (Position.X < -GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X < 0))
             {
                 //Velocity = new Vector2(0, Velocity.Y);
                 Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
             }
 
-            if ((Position.Y > GameScreens.GameScreen.WORLDHEIGHT - 400 && Velocity.Y > 0) || (Position.Y < 400 && Velocity.Y < 0))
+            if ((Position.Y > GameScreens.GameScreen.WORLDHEIGHT / 2 && Velocity.Y > 0) || (Position.Y < -GameScreens.GameScreen.WORLDHEIGHT / 2 && Velocity.Y < 0))
             {
                 Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
             }

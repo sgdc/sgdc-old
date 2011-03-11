@@ -296,7 +296,11 @@ namespace MyPolarBear.GameObjects
             CurHealth = (int)MathHelper.Clamp((float)PolarBear.CurHealth, 0, 100);
 
             Position += Velocity;
-            //CollisionBox = new Rectangle((int)Position.X, (int)Position.Y, , CollisionBox.Height);
+
+            float horizontalBoundary = MathHelper.Clamp(Position.X, -GameScreen.WORLDWIDTH / 2, GameScreen.WORLDWIDTH / 2);
+            float verticalBoundary = MathHelper.Clamp(Position.Y, -GameScreen.WORLDHEIGHT / 2, GameScreen.WORLDHEIGHT / 2);
+
+            Position = new Vector2(horizontalBoundary, verticalBoundary);
 
 
             base.Update(gameTime);

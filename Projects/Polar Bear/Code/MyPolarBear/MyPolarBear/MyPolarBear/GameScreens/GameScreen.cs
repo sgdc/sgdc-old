@@ -16,7 +16,7 @@ namespace MyPolarBear.GameScreens
     class GameScreen : Screen
     {
         public const int WORLDWIDTH = 4096;
-        public const int WORLDHEIGHT = 2600;
+        public const int WORLDHEIGHT = 4096;
         
         //AudioEngine audioEngine;
         //WaveBank waveBank;
@@ -30,7 +30,7 @@ namespace MyPolarBear.GameScreens
         private int lovedEnemies = 0;
 
         Entity reticule;
-        Random random = new Random();
+        Random random = new Random();        
 
         public GameScreen(ScreenType screenType) : base(screenType)
         {
@@ -63,8 +63,8 @@ namespace MyPolarBear.GameScreens
 
             for (int i = 0; i < maxEnemies; i++)
             {
-                ene = new Enemy(new Vector2(MathHelper.Lerp(0.0f, 800.0f, (float)random.NextDouble()), MathHelper.Lerp(0.0f, 800.0f, (float)random.NextDouble())));
-                ene.Velocity = new Vector2(random.Next(1, 20), random.Next(1, 20));
+                ene = new Enemy(new Vector2(MathHelper.Lerp(-WORLDWIDTH/2, WORLDWIDTH/2, (float)random.NextDouble()), MathHelper.Lerp(-WORLDHEIGHT, WORLDHEIGHT, (float)random.NextDouble())));
+                ene.Velocity = new Vector2(random.Next(1, 10), random.Next(1, 10));
                 ene.LoadContent();
                 UpdateKeeper.getInstance().addEntity(ene);
                 DrawKeeper.getInstance().addEntity(ene);
@@ -93,7 +93,7 @@ namespace MyPolarBear.GameScreens
             if (InputManager.GamePad.GetTriggerState(GamePadComponent.Trigger.Right) != 0)
                 ScreenManager.camera.Zoom(0.01f);
                        
-            if (Math.Abs(forestBoss.Position.Y - polarBear.Position.Y) < 300)
+            if (Math.Abs(forestBoss.Position.Y - polarBear.Position.Y) < 500)
             {
                 forestBoss.ChaseEntity(polarBear);
                 forestBoss.HitEntity(polarBear);
@@ -111,7 +111,7 @@ namespace MyPolarBear.GameScreens
                         lovedEnemies++;
                     }
                 }
-            }
+            }           
 
             foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
             {
@@ -131,10 +131,14 @@ namespace MyPolarBear.GameScreens
         public override void DrawGame(SpriteBatch spriteBatch)
         {          
             //spriteBatch.Draw(ContentManager.GetTexture("BasicTerrain"), new Rectangle(0, 0, WORLDWIDTH, WORLDHEIGHT), Color.White);
-            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-2042, -2042, 2042, 2042), Color.White);
-            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, -2042, 2042, 2042), Color.White);
-            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, 0, 2042, 2042), Color.White);
-            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-2042, 0, 2042, 2042), Color.White);
+            //spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-2042, -2042, 2042, 2042), Color.White);
+            //spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, -2042, 2042, 2042), Color.White);
+            //spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, 0, 2042, 2042), Color.White);
+            //spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-2042, 0, 2042, 2042), Color.White);
+            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-WORLDWIDTH / 2, -WORLDHEIGHT / 2, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);
+            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, -WORLDHEIGHT / 2, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);
+            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, 0, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);
+            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-WORLDWIDTH / 2, 0, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);
             
 
             forestBoss.Draw(spriteBatch);
