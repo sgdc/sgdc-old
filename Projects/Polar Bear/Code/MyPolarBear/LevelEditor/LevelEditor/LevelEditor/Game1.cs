@@ -138,6 +138,9 @@ namespace LevelEditor
             ContentManager.AddTexture("Grass", Content.Load<Texture2D>("grass"));
             ContentManager.AddTexture("Flowers", Content.Load<Texture2D>("flowers"));
             ContentManager.AddTexture("Bush", Content.Load<Texture2D>("bush"));
+            ContentManager.AddTexture("Stump", Content.Load<Texture2D>("stump"));
+            ContentManager.AddTexture("GrassBig", Content.Load<Texture2D>("grassBig"));
+            ContentManager.AddTexture("Tree3", Content.Load<Texture2D>("tree3"));
 
             Element menuEle;
             int x = 40;
