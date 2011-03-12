@@ -38,7 +38,7 @@ namespace MyPolarBear.GameObjects
         public PolarBear(Vector2 position)
             : base(position)
         {
-            power = Power.Ice;            
+            power = Power.Normal;            
             Scale = 1;
             mScale = new Vector2(Scale, Scale);
             MaxWorldHealth = 100;
@@ -82,7 +82,7 @@ namespace MyPolarBear.GameObjects
             mAnimator.Animations.Add("FireWalkBack", ani);
 
             bMoving = false;
-            mAnimator.PlayAnimation("IceWalkFront", false);
+            mAnimator.PlayAnimation("NormalWalkRight", false);
 
             base.LoadContent();
 
@@ -210,13 +210,13 @@ namespace MyPolarBear.GameObjects
             // collide with level elements
             Rectangle travelRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
 
-            foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
+            foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
             {                
-                if (travelRect.Intersects(ele.CollisionRect))
+                if (travelRect.Intersects(element.CollisionRect) && !(element.Type.Equals("Grass") || element.Type.Equals("GrassBig")))
                 {
                     Velocity = Vector2.Zero;                    
 
-                    if (ele.Type.Equals("Tree2"))
+                    if (element.Type.Equals("Bush"))
                     {
                         if (InputManager.Keyboard.IsKeyReleased(Keys.T) || InputManager.GamePad.IsButtonReleased(Buttons.A))
                         {
@@ -224,16 +224,21 @@ namespace MyPolarBear.GameObjects
                         }
                     }
 
-                    if (ele.Type.Equals("SoftGround") && NumSeeds > 0)
+                    if (element.Type.Equals("SoftGround") && NumSeeds > 0)
                     {
                         if (InputManager.Keyboard.IsKeyReleased(Keys.T) || InputManager.GamePad.IsButtonReleased(Buttons.A))
                         {            
-                            ele.Type = "Tree";
-                            ele.Tex = ContentManager.GetTexture("Tree");
+                            element.Type = "Tree";
+                            element.Tex = ContentManager.GetTexture("Tree");
                             NumSeeds--;
                             CurWorldHealth++;   
                         }
                     }
+                }
+                if (CurWorldHealth == MaxWorldHealth && element.Type.Equals("Boulder"))
+                {
+                    UpdateKeeper.getInstance().removeLevelElement(element);
+                    DrawKeeper.getInstance().removeLevelElement(element);
                 }
             }
 

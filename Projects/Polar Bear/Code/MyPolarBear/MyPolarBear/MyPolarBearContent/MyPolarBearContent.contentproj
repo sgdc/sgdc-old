@@ -319,8 +319,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\background.png">
-      <Name>background</Name>
+    <Compile Include="Images\Background.png">
+      <Name>Background</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -387,6 +387,13 @@
     </Compile>
     <Compile Include="LevelElements\water2.png">
       <Name>water2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\BackgroundDirt.png">
+      <Name>BackgroundDirt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

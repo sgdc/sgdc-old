@@ -85,6 +85,11 @@ namespace MyPolarBear.GameObjects
             {
                 if (CollisionBox.Intersects(element.CollisionRect))
                 {
+                    if (element.Type.Equals("Stump") && Type == PolarBear.Power.Fire)
+                    {
+                        UpdateKeeper.getInstance().removeLevelElement(element);
+                        DrawKeeper.getInstance().removeLevelElement(element);
+                    }
                     IsAlive = false;
                 }
             }
@@ -101,9 +106,11 @@ namespace MyPolarBear.GameObjects
         {
             if (entity is Enemy)
             {
-                if (PolarBear.power == PolarBear.Power.Normal)
+                if (Type == PolarBear.Power.Normal)
+                {
                     ((Enemy)entity).bFollowBear = true;
-                IsAlive = false;
+                    IsAlive = false;
+                }
             }
             else if (entity is Boss)
             {                

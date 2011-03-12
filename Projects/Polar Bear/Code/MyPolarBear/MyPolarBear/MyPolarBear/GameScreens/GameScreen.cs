@@ -46,10 +46,10 @@ namespace MyPolarBear.GameScreens
             //soundBank = new SoundBank(audioEngine, @"Content\Sound\Sound Bank.xsb");
             //soundBank.PlayCue("Music");
             
-            polarBear = new PolarBear(new Vector2(400, 400));
+            polarBear = new PolarBear(new Vector2(-1950, 1800));
             //polarBear.LoadContent(Game1.GetTextureAt(0), 1.0f);
 
-            forestBoss = new Boss(new Vector2(0, -1800));
+            forestBoss = new Boss(new Vector2(0, -1500));
             forestBoss.LoadContent();
             polarBear.LoadContent();
             UpdateKeeper.getInstance().addEntity(polarBear);
