@@ -40,6 +40,10 @@
       <Source>introandwin.png</Source>
     </SpriteSheet>
 
+    <SpriteSheet ID="9">
+      <Source>superjump.png</Source>
+    </SpriteSheet>
+
   </SpriteSheets>
   
 </SGDE>

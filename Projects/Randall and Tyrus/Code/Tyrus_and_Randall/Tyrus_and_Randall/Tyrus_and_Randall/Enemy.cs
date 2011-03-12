@@ -75,7 +75,7 @@ namespace Tyrus_and_Randall
             {
                 foreach (CollisionUnit other in GetCollisionUnit().GetCollisions())
                 {
-                    if (other.IsSolid() && ((Entity)other.GetParent()).GetID() != 1 && ((Entity)other.GetParent()).GetID() != 3 && ((Entity)(other.GetParent())).GetID() != 4)
+                    if (other.IsSolid() && ((Entity)other.GetParent()).GetID() != 1 && ((Entity)other.GetParent()).GetID() != 3 && ((Entity)(other.GetParent())).GetID() != 4 && ((Entity)(other.GetParent())).GetID() != 8)
                     {
                         Vector2 intersect = GetIntersectionRectangle(this.GetCollisionUnit(), other);
 

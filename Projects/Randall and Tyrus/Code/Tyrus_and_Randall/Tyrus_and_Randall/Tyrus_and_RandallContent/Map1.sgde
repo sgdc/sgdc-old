@@ -584,6 +584,10 @@
         <Layout>Explicit<Node><Vector2 ID="Translation" X="4416" Y="288" /></Node><Physics Enabled="false" Collision="true" Static="false"></Physics></Layout>
       </Entity>
 
+      <Entity ID="9">
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="4100" Y="416" /></Node><Physics Enabled="false" Collision="true" Static="true"></Physics></Layout>
+      </Entity>
+
 
       
 
@@ -707,7 +711,7 @@
       <Entity ID="3">
         <Entity>
           <Sprite SID="3" Region="-1">
-            <Animation ID="2">
+            <Animation ID="1">
               Local
               <AnimationSet AssetID="EnemyWalkLeft" Default="true">
                 <Frame FrameCount="1" Frame="0,0,32,32" />
@@ -770,7 +774,7 @@
       <Entity ID="8">
         <Entity>
           <Sprite SID="8">
-            <Animation ID="3">
+            <Animation ID="1">
               Local
               <AnimationSet AssetID="BEGIN" Default="true">
                 <Frame FrameCount="1" Frame="0,0,278,100" />
@@ -784,6 +788,25 @@
             <Vector2 ID="Translation" X="100" Y="100" />
           </Node>
           <CustomEntity Base="SGDE.Entity, SGDe">Tyrus_and_Randall.InstructionDisplay, Tyrus_and_Randall</CustomEntity>
+        </Entity>
+      </Entity>
+
+
+
+      <Entity ID="9">
+        <Entity>
+          <Sprite SID="9">
+            <Animation ID="1">
+              Local
+              <AnimationSet Default="true" FPS="4">
+                <Frame FrameCount="1" Frame="0,0,22,32" />
+                <Frame FrameCount="1" Frame="22,0,22,32" />
+                <Frame FrameCount="1" Frame="44,0,22,32" />
+                <Frame FrameCount="1" Frame="66,0,22,32" />
+              </AnimationSet>
+            </Animation>
+          </Sprite>
+          <CustomEntity Base="Tyrus_and_Randall.Powerup, Tyrus_and_Randall">Tyrus_and_Randall.SuperJump, Tyrus_and_Randall</CustomEntity>
         </Entity>
       </Entity>
       
