@@ -37,6 +37,19 @@ namespace Tyrus_and_Randall
 			id = 3;
         }
 
+        public override void CollisionChange()
+        {
+            foreach (CollisionUnit other in GetCollisionUnit().GetCollisions())
+            {
+                if (((Entity)(other.GetParent())).GetID() != 1 && ((Entity)(other.GetParent())).GetID() != 3)
+                {
+                    SetVelocity(Vector2.Zero);
+                    this.EnablePhysics(false, true);
+                    break;
+                }
+            }
+        }
+
         public void Disable()
         {
             this.SpriteImage.Visible = false;
