@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MyPolarBear.Content;
+using MyPolarBear.GameScreens;
 
 namespace MyPolarBear.GameObjects
 {
@@ -29,40 +30,58 @@ namespace MyPolarBear.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-            if (IsAlive)
-            {                
-                foreach (Entity entity in UpdateKeeper.getInstance().getEntities())
-                {
-                    if (entity is Projectile)
-                    {
-                        if (CollisionBox.Intersects(entity.CollisionBox))
-                        {
-                            if (PolarBear.power == PolarBear.Power.Fire)
-                            {
-                                Scale -= 0.01f;
-                                Health -= 1;                                
-                            }
-                            else if (PolarBear.power == PolarBear.Power.Normal)
-                            {
-                                if (PolarBear.CurHitPoints < PolarBear.MaxHitPoints)
-                                    PolarBear.CurHitPoints += 1;
+            if (!IsAlive)
+            {
+                UpdateKeeper.getInstance().removeEntity(this);
+                DrawKeeper.getInstance().removeEntity(this);
+                return;
+            }
 
-                            }
-                            else
-                            {
-                                Scale += 0.01f;
-                                Health += 1;
-                            }
+            foreach (Entity entity in UpdateKeeper.getInstance().getEntities())
+            {
+                if (entity is Projectile)
+                {
+                    if (CollisionBox.Intersects(entity.CollisionBox))
+                    {
+                        if (PolarBear.power == PolarBear.Power.Fire)
+                        {
+                            Scale -= 0.01f;
+                            Health -= 1;                                
+                        }
+                        else if (PolarBear.power == PolarBear.Power.Normal)
+                        {
+                            if (PolarBear.CurHitPoints < PolarBear.MaxHitPoints)
+                                PolarBear.CurHitPoints += 1;
+
+                        }
+                        else
+                        {
+                            Scale += 0.01f;
+                            Health += 1;
                         }
                     }
-                }                
-
-                if (Health == 0)
-                {
-                    IsAlive = false; 
-                    UpdateKeeper.getInstance().removeEntity(this);
-                    DrawKeeper.getInstance().removeEntity(this);
                 }
+
+                foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
+                {                    
+                    if (CollisionBox.Intersects(element.CollisionRect))
+                    {
+                        if (element.Type.Equals("Tree2") || element.Type.Equals("Tree"))
+                        {
+                            element.Type.Equals("Stump");
+                            element.Tex = ContentManager.GetTexture("Stump");
+                            GameScreen.CurWorldHealth--;
+                        }
+                        else if (!(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Water")))
+                        {
+                            UpdateKeeper.getInstance().removeLevelElement(element);
+                            DrawKeeper.getInstance().removeLevelElement(element);                            
+                        }
+                    }
+                }
+
+                if (Health == 0)                
+                    IsAlive = false;                                    
 
                 Health = (int)MathHelper.Clamp((float)Health, 0.0f, 100.0f);                
             }
@@ -88,9 +107,9 @@ namespace MyPolarBear.GameObjects
                 Position += direction * 2;
 
                 if (CollisionBox.Intersects(entity.CollisionBox))
-                {
-                    PolarBear.CurWorldHealth -= 10;
+                {                    
                     PolarBear.CurHitPoints -= 1;
+                    entity.Position += direction * 5;
                 }
             }
         }

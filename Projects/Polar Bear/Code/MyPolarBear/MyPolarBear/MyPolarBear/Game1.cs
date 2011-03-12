@@ -59,7 +59,7 @@ namespace MyPolarBear
         /// all of your content.
         /// </summary>
         protected override void LoadContent()
-        {
+        {         
             // Images
             //ContentManager.AddTexture("PolarBear", Content.Load<Texture2D>("Images/PolarBear"));
             //ContentManager.AddTexture("IcePowerPolarBear", Content.Load<Texture2D>("Images/IcePowerPolarBear"));
@@ -122,6 +122,7 @@ namespace MyPolarBear
             ContentManager.AddTexture("WaterSandTopRight", Content.Load<Texture2D>("LevelElements/WaterSandTopRight"));
             ContentManager.AddTexture("Sand", Content.Load<Texture2D>("LevelElements/sand"));
             ContentManager.AddTexture("Water2", Content.Load<Texture2D>("LevelElements/water2"));
+            ContentManager.AddTexture("Ice", Content.Load<Texture2D>("LevelElements/ice"));
             ContentManager.AddTexture("Grass", Content.Load<Texture2D>("LevelElements/grass"));
             ContentManager.AddTexture("Flowers", Content.Load<Texture2D>("LevelElements/flowers"));
             ContentManager.AddTexture("Bush", Content.Load<Texture2D>("LevelElements/bush"));
@@ -130,12 +131,12 @@ namespace MyPolarBear
             ContentManager.AddTexture("Tree3", Content.Load<Texture2D>("LevelElements/tree3"));
 
             // Fonts
-            ContentManager.AddFont("Calibri", Content.Load<SpriteFont>("Fonts/Calibri"));
-            
-            base.LoadContent();
+            ContentManager.AddFont("Calibri", Content.Load<SpriteFont>("Fonts/Calibri"));                       
 
             Components.Add(screenManager);
             screenManager.Initialize();
+
+            base.LoadContent();
         }
 
         /// <summary>

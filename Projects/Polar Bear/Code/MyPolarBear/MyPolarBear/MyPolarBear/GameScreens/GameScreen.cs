@@ -17,6 +17,9 @@ namespace MyPolarBear.GameScreens
     {
         public const int WORLDWIDTH = 4096;
         public const int WORLDHEIGHT = 4096;
+
+        public static int MaxWorldHealth;
+        public static int CurWorldHealth;
         
         //AudioEngine audioEngine;
         //WaveBank waveBank;
@@ -30,13 +33,13 @@ namespace MyPolarBear.GameScreens
 
         const int maxEnemies = 50;
         private int lovedEnemies = 0;
-
-        Entity reticule;
+        
         Random random = new Random();        
 
         public GameScreen(ScreenType screenType) : base(screenType)
         {
-            
+            MaxWorldHealth = 100;
+            CurWorldHealth = 0;
         }             
 
         public void LoadContent()
@@ -47,8 +50,7 @@ namespace MyPolarBear.GameScreens
             //soundBank.PlayCue("Music");
             
             polarBear = new PolarBear(new Vector2(-1950, 1800));
-            //polarBear.LoadContent(Game1.GetTextureAt(0), 1.0f);
-
+            ScreenManager.camera.FocusEntity = polarBear;
             forestBoss = new Boss(new Vector2(0, -1500));
             forestBoss.LoadContent();
             polarBear.LoadContent();
@@ -56,11 +58,6 @@ namespace MyPolarBear.GameScreens
             DrawKeeper.getInstance().addEntity(polarBear);
             UpdateKeeper.getInstance().addEntity(forestBoss);
             DrawKeeper.getInstance().addEntity(forestBoss);
-
-            reticule = new Entity(Vector2.Zero);
-            //reticule.LoadContent(Game1.GetTextureAt(9), 0.5f);
-            reticule.LoadContent(ContentManager.GetTexture("Reticule"), 0.5f);
-            DrawKeeper.getInstance().addEntity(reticule);
 
             Enemy ene;            
 
@@ -71,9 +68,7 @@ namespace MyPolarBear.GameScreens
                 ene.LoadContent();
                 UpdateKeeper.getInstance().addEntity(ene);
                 DrawKeeper.getInstance().addEntity(ene);
-            }
-            
-            ScreenManager.camera.FocusEntity = polarBear;
+            }                                    
 
             LoadLevel("levelforest");
         }
@@ -97,11 +92,8 @@ namespace MyPolarBear.GameScreens
                 ScreenManager.camera.Zoom(0.01f);
                        
             if (Math.Abs(forestBoss.Position.Y - polarBear.Position.Y) < 500)
-            {
                 forestBoss.ChaseEntity(polarBear);                
-            }
-
-            reticule.Position = InputManager.Mouse.GetCurrentMousePosition() + ScreenManager.camera.TopLeft;
+                      
 
             lovedEnemies = 0;
             foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
@@ -113,7 +105,7 @@ namespace MyPolarBear.GameScreens
                         lovedEnemies++;
                     }
                 }
-            }           
+            }          
 
             UpdateKeeper.getInstance().updateAll(gameTime);
         }       

@@ -24,7 +24,7 @@ namespace MyPolarBear.GameScreens
             //Draw empty bar
             spriteBatch.Draw(meter, new Vector2(0.0f, 50), new Rectangle(0, 0, meter.Width, meter.Height), Color.LightGreen);
             //Draw filled bar
-            spriteBatch.Draw(meter, new Vector2(0.0f, 50), new Rectangle(0, 0, (int)(meter.Width * ((double)PolarBear.CurWorldHealth / 100)), meter.Height), Color.Green);                         
+            spriteBatch.Draw(meter, new Vector2(0.0f, 50), new Rectangle(0, 0, (int)(meter.Width * ((double)GameScreen.CurWorldHealth / 100)), meter.Height), Color.Green);                         
 
         }
 
@@ -65,15 +65,24 @@ namespace MyPolarBear.GameScreens
 
         public void DrawNumberOfSeeds(SpriteBatch spriteBatch)
         {            
-            spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "Seeds: " + PolarBear.NumSeeds.ToString(), new Vector2(ScreenManager.SCREENWIDTH - 300.0f, ScreenManager.SCREENHEIGHT - 100.0f), Color.Yellow); 
+            spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "Seeds: " + PolarBear.NumSeeds.ToString(), new Vector2(ScreenManager.SCREENWIDTH - 150.0f, ScreenManager.SCREENHEIGHT - 100.0f), Color.White); 
+        }
+
+        public void DrawReticule(SpriteBatch spriteBatch)
+        {
+            Texture2D reticule = ContentManager.GetTexture("Reticule");
+
+            spriteBatch.Draw(reticule, InputManager.Mouse.GetCurrentMousePosition(), null, Color.White, 0.0f, EntityHelper.OriginFromTexture(reticule), 0.5f, SpriteEffects.None, 0.0f);
         }
 
         public void DrawDisplay(SpriteBatch spriteBatch)
         {
+            DrawReticule(spriteBatch);
             DrawMeter(spriteBatch);
             DrawHealth(spriteBatch);
             DrawPowerSelector(spriteBatch);
             DrawNumberOfSeeds(spriteBatch);
+
         }
 
     }

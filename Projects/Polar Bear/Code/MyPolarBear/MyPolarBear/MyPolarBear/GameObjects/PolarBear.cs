@@ -20,9 +20,7 @@ namespace MyPolarBear.GameObjects
             Lighting
         }
 
-        public static Power power;
-        public static int MaxWorldHealth;
-        public static int CurWorldHealth;
+        public static Power power;        
         public static int MaxHitPoints;
         public static int CurHitPoints;        
         public static int NumSeeds = 0;
@@ -41,8 +39,6 @@ namespace MyPolarBear.GameObjects
             power = Power.Normal;            
             Scale = 1;
             mScale = new Vector2(Scale, Scale);
-            MaxWorldHealth = 100;
-            CurWorldHealth = 0;
             MaxHitPoints = 5;
             CurHitPoints = 3;
         }
@@ -182,7 +178,7 @@ namespace MyPolarBear.GameObjects
 
             if (InputManager.Mouse.IsButtonReleased(MouseComponent.MouseButton.Left))
             {
-                Projectile projectile = ShootProjectile(InputManager.Mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter);                
+                Projectile projectile = ShootProjectile(InputManager.Mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter);               
                 projectile.LoadContent();
                 projectile.IsAlive = true;                
                 UpdateKeeper.getInstance().addEntity(projectile);
@@ -212,7 +208,7 @@ namespace MyPolarBear.GameObjects
 
             foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
             {                
-                if (travelRect.Intersects(element.CollisionRect) && !(element.Type.Equals("Grass") || element.Type.Equals("GrassBig")))
+                if (travelRect.Intersects(element.CollisionRect) && !(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Ice")))
                 {
                     Velocity = Vector2.Zero;                    
 
@@ -231,19 +227,19 @@ namespace MyPolarBear.GameObjects
                             element.Type = "Tree";
                             element.Tex = ContentManager.GetTexture("Tree");
                             NumSeeds--;
-                            CurWorldHealth++;   
+                            GameScreen.CurWorldHealth++;   
                         }
                     }
                 }
-                if (CurWorldHealth == MaxWorldHealth && element.Type.Equals("Boulder"))
+                if (GameScreen.CurWorldHealth == GameScreen.MaxWorldHealth && element.Type.Equals("Boulder"))
                 {
                     UpdateKeeper.getInstance().removeLevelElement(element);
                     DrawKeeper.getInstance().removeLevelElement(element);
                 }
             }
 
-            CurHitPoints = (int)MathHelper.Clamp((float)PolarBear.CurHitPoints, 0, 5);
-            CurWorldHealth = (int)MathHelper.Clamp((float)PolarBear.CurWorldHealth, 0, 100);
+            CurHitPoints = (int)MathHelper.Clamp((float)CurHitPoints, 0, 5);
+            GameScreen.CurWorldHealth = (int)MathHelper.Clamp((float)GameScreen.CurWorldHealth, 0, 100);
 
             Position += Velocity;
 

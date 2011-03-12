@@ -111,7 +111,7 @@ namespace MyPolarBear
         }
 
         public virtual void Update(GameTime gameTime)
-        {
+        {            
             CollisionBox = EntityHelper.UpdateCollisionBox(CollisionBox, Position, Origin, Scale);
         }
 
