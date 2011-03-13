@@ -127,7 +127,11 @@ namespace MyPolarBear.GameScreens
 
                 ele = new LevelElement(new Vector2(x, y), type, tex);
 
-                UpdateKeeper.getInstance().addLevelElement(ele);
+                if (!ele.Type.Equals("Grass") && !ele.Type.Equals("GrassBig") && !ele.Type.Equals("Sand")
+                    && !ele.Type.Equals("Flowers"))
+                {
+                    UpdateKeeper.getInstance().addLevelElement(ele);
+                }
                 DrawKeeper.getInstance().addLevelElement(ele);
 
                 fileLine = fileReader.ReadLine();

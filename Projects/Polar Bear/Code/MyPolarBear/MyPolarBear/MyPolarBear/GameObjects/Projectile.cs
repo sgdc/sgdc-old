@@ -118,7 +118,7 @@ namespace MyPolarBear.GameObjects
             {
                 if (Type == PolarBear.Power.Normal)
                 {
-                    ((Enemy)entity).bFollowBear = true;
+                    ((Enemy)entity).CurrentState = Enemy.State.Following;
                     IsAlive = false;
                 }
             }

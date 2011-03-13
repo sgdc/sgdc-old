@@ -17,6 +17,8 @@ namespace MyPolarBear
         private List<LevelElement> levElesToAdd;
         private List<LevelElement> levElesToRemove;
 
+        //private List<LevelElement> Bushes;
+
         private UpdateKeeper()
         {
             Entities = new List<Entity>();
@@ -26,6 +28,8 @@ namespace MyPolarBear
             LevelElements = new List<LevelElement>();
             levElesToAdd = new List<LevelElement>();
             levElesToRemove = new List<LevelElement>();
+
+            //Bushes = new List<LevelElement>();
         }
 
         public static UpdateKeeper getInstance()
@@ -68,6 +72,11 @@ namespace MyPolarBear
             return LevelElements;
         }
 
+        //public List<LevelElement> getBushes()
+        //{
+        //    return Bushes;
+        //}
+
         public void updateAll(GameTime gameTime)
         {
             // add entities
@@ -80,7 +89,14 @@ namespace MyPolarBear
             // add level elements
             foreach (LevelElement ele in levElesToAdd)
             {
-                LevelElements.Add(ele);
+                //if (ele.Type.Equals("Bush"))
+                //{
+                //    Bushes.Add(ele);
+                //}
+                //else
+                //{
+                    LevelElements.Add(ele);
+                //}
             }
             levElesToAdd.Clear();
 
@@ -94,7 +110,14 @@ namespace MyPolarBear
             // remove level elements
             foreach (LevelElement ele in levElesToRemove)
             {
-                LevelElements.Remove(ele);
+                //if (ele.Type.Equals("Bush"))
+                //{
+                //    Bushes.Remove(ele);
+                //}
+                //else
+                //{
+                    LevelElements.Remove(ele);
+                //}
             }
             levElesToRemove.Clear();
 

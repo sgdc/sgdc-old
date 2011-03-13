@@ -10,6 +10,7 @@ using MyPolarBear.Content;
 using MyPolarBear.GameObjects;
 using MyPolarBear.GameScreens;
 using System.IO;
+using MyPolarBear.Pathfinding;
 
 namespace MyPolarBear.GameScreens
 {
@@ -31,7 +32,7 @@ namespace MyPolarBear.GameScreens
 
         
 
-        const int maxEnemies = 50;
+        const int maxEnemies = 25;
         private int lovedEnemies = 0;
         
         Random random = new Random();        
@@ -48,6 +49,11 @@ namespace MyPolarBear.GameScreens
             //waveBank = new WaveBank(audioEngine, @"Content\Sound\Wave Bank.xwb");
             //soundBank = new SoundBank(audioEngine, @"Content\Sound\Sound Bank.xsb");
             //soundBank.PlayCue("Music");
+
+            LoadLevel("levelforest");
+
+            UpdateKeeper.getInstance().updateAll(new GameTime());
+            AGrid.GetInstance().setLevel(UpdateKeeper.getInstance().getLevelElements());
             
             polarBear = new PolarBear(new Vector2(-1950, 1800));
             ScreenManager.camera.FocusEntity = polarBear;
@@ -63,14 +69,18 @@ namespace MyPolarBear.GameScreens
 
             for (int i = 0; i < maxEnemies; i++)
             {
-                ene = new Enemy(new Vector2(MathHelper.Lerp(-WORLDWIDTH / 2, WORLDWIDTH / 2, (float)random.NextDouble()), MathHelper.Lerp(-WORLDHEIGHT, WORLDHEIGHT, (float)random.NextDouble())));
+                //ene = new Enemy(new Vector2(MathHelper.Lerp(-WORLDWIDTH / 2, WORLDWIDTH / 2, (float)random.NextDouble()), MathHelper.Lerp(-WORLDHEIGHT, WORLDHEIGHT, (float)random.NextDouble())));
+                ene = new Enemy(new Vector2(random.Next(350, 400), random.Next(350, 400)));
                 ene.Velocity = new Vector2(random.Next(1, 10), random.Next(1, 10));
                 ene.LoadContent();
                 UpdateKeeper.getInstance().addEntity(ene);
                 DrawKeeper.getInstance().addEntity(ene);
             }                                    
 
-            LoadLevel("levelforest");
+            //LoadLevel("levelforest");
+
+            //UpdateKeeper.getInstance().updateAll(new GameTime());
+            //AGrid.GetInstance().setLevel(UpdateKeeper.getInstance().getLevelElements());
         }
 
 
@@ -100,7 +110,7 @@ namespace MyPolarBear.GameScreens
             {
                 if (ent is Enemy)
                 {
-                    if (((Enemy)ent).bFollowBear)
+                    if (((Enemy)ent).CurrentState == Enemy.State.Following)
                     {
                         lovedEnemies++;
                     }

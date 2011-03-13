@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using MyPolarBear.GameScreens;
 using MyPolarBear.Input;
 using MyPolarBear.Content;
+using MyPolarBear.Pathfinding;
 
 namespace MyPolarBear.GameObjects
 {
@@ -27,6 +28,10 @@ namespace MyPolarBear.GameObjects
         public static int NumWater = 0;
 
         public bool bMoving;
+
+        List<Vector2> path;
+        public bool bPathfinding = false;
+        int pathPos;
 
         private int timeProjectileFired;
 
@@ -217,6 +222,15 @@ namespace MyPolarBear.GameObjects
                         if (InputManager.Keyboard.IsKeyReleased(Keys.T) || InputManager.GamePad.IsButtonReleased(Buttons.A))
                         {
                             NumSeeds++;
+
+                            // teach follower
+                            foreach (Entity ene in UpdateKeeper.getInstance().getEntities())
+                            {
+                                if (ene is Enemy && ((Enemy)ene).CurrentState == Enemy.State.Following)
+                                {
+                                    ((Enemy)ene).bHasSeenSeedGather = true;
+                                }
+                            }
                         }
                     }
 
@@ -228,6 +242,16 @@ namespace MyPolarBear.GameObjects
                             element.Tex = ContentManager.GetTexture("Tree");
                             NumSeeds--;
                             GameScreen.CurWorldHealth++;   
+
+                            // teach follower
+                            foreach (Entity ene in UpdateKeeper.getInstance().getEntities())
+                            {
+                                if (ene is Enemy && ((Enemy)ene).CurrentState == Enemy.State.Following && ((Enemy)ene).bHasSeenSeedGather)
+                                {
+                                    ((Enemy)ene).bHasSeenPlanting = true;
+                                    ((Enemy)ene).CurrentState = Enemy.State.Planting;
+                                }
+                            }
                         }
                     }
                 }
@@ -237,6 +261,46 @@ namespace MyPolarBear.GameObjects
                     DrawKeeper.getInstance().removeLevelElement(element);
                 }
             }
+
+
+            // go to position test
+            if (InputManager.Keyboard.IsKeyPressed(Keys.X) && path == null)
+            {
+                //path = AGrid.GetInstance().getPath(Position, new Vector2(500, 500));
+                path = AGrid.GetInstance().getPath(Position, ANode.SEED_SOURCE);
+                bPathfinding = true;
+                pathPos = 0;
+            }
+            if (bPathfinding)
+            {
+                if (path != null && path.Count > 0)
+                {
+                    if ((int)Position.X < (int)path[pathPos].X + 10 && (int)Position.X > (int)path[pathPos].X - 10
+                        && (int)Position.Y < (int)path[pathPos].Y + 10 && (int)Position.Y > (int)path[pathPos].Y - 10)
+                    {
+                        //path.RemoveAt(0);
+                        pathPos++;
+                    }
+
+                    if (path.Count > pathPos)
+                    {
+                        Vector2 dir = path[pathPos] - Position;
+                        dir.Normalize();
+                        Velocity = dir * 10;
+                    }
+                    else
+                    {
+                        path = null;
+                        pathPos = 0;
+                        bPathfinding = false;
+                    }
+                }
+                else
+                {
+                    bPathfinding = false;
+                }
+            }
+
 
             CurHitPoints = (int)MathHelper.Clamp((float)CurHitPoints, 0, 5);
             GameScreen.CurWorldHealth = (int)MathHelper.Clamp((float)GameScreen.CurWorldHealth, 0, 100);
