@@ -96,11 +96,11 @@ namespace MyPolarBear.GameObjects
             {
                 if (followBear != null && State == States.Following)
                 {
-                    Vector2 dist = followBear.Position - Position;
-                    if (Math.Abs(dist.Length()) > 20)
+                    Vector2 direction = followBear.Position - Position;
+                    if (Math.Abs(direction.Length()) > 50)
                     {
-                        dist.Normalize();
-                        Velocity = dist * 2.0f;
+                        direction.Normalize();
+                        Velocity = direction * 3.0f;
                     }
                     else
                         Velocity = Vector2.Zero;

@@ -27,6 +27,8 @@ namespace MyPolarBear.GameObjects
         public static int NumSeeds = 0;
         public static int NumWater = 0;
 
+        public bool IsAlive;
+
         public bool bMoving;
 
         List<Vector2> path;
@@ -43,9 +45,10 @@ namespace MyPolarBear.GameObjects
         {
             power = Power.Normal;            
             Scale = 1;
+            IsAlive = true;
             mScale = new Vector2(Scale, Scale);
             MaxHitPoints = 5;
-            CurHitPoints = 3;
+            CurHitPoints = 5;
         }
 
         public override void LoadContent()
@@ -91,8 +94,11 @@ namespace MyPolarBear.GameObjects
         }
 
         public override void Update(GameTime gameTime)
-        {
-            bMoving = false;            
+        {            
+            if (!IsAlive)
+                return;
+
+            bMoving = false;
             
             if (InputManager.Keyboard.IsKeyPressed(Keys.A) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickLeft))
             {
@@ -265,6 +271,10 @@ namespace MyPolarBear.GameObjects
                     UpdateKeeper.getInstance().removeLevelElement(element);
                     DrawKeeper.getInstance().removeLevelElement(element);
                 }
+                if (CurHitPoints == 0)
+                {
+                    IsAlive = false;
+                }
             }
 
 
@@ -362,12 +372,18 @@ namespace MyPolarBear.GameObjects
             //        aniFrame = 0;
             //    }
             ////}
-            
-            mScale.X = Scale;
-            mScale.Y = Scale;
 
-            //spriteBatch.Draw(ContentManager.GetTexture("HardRock"), CollisionBox, Color.White);
-            mAnimator.Draw(spriteBatch, Position, mScale, Color.White, Rotation, Origin, 0);
+            if (IsAlive)
+            {
+
+                mScale.X = Scale;
+                mScale.Y = Scale;
+
+                //spriteBatch.Draw(ContentManager.GetTexture("HardRock"), CollisionBox, Color.White);
+                mAnimator.Draw(spriteBatch, Position, mScale, Color.White, Rotation, Origin, 0);
+            }
+            else
+                spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "GAME OVER!!!", Position, Color.Black);
         }
     }
 }

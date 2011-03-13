@@ -29,9 +29,7 @@ namespace MyPolarBear.GameScreens
         PolarBear polarBear;
 
         Boss forestBoss;
-
-        
-
+       
         const int maxEnemies = 25;
         private int lovedEnemies = 0;
         
@@ -40,7 +38,7 @@ namespace MyPolarBear.GameScreens
         public GameScreen(ScreenType screenType) : base(screenType)
         {
             MaxWorldHealth = 100;
-            CurWorldHealth = 99;
+            CurWorldHealth = 0;
         }             
 
         public void LoadContent()
@@ -49,7 +47,7 @@ namespace MyPolarBear.GameScreens
             //waveBank = new WaveBank(audioEngine, @"Content\Sound\Wave Bank.xwb");
             //soundBank = new SoundBank(audioEngine, @"Content\Sound\Sound Bank.xsb");
             //soundBank.PlayCue("Music");
-
+            
             LoadLevel("levelforest");
 
             UpdateKeeper.getInstance().updateAll(new GameTime());
@@ -130,10 +128,13 @@ namespace MyPolarBear.GameScreens
                 ScreenManager.camera.Zoom(-0.01f);
             if (InputManager.GamePad.GetTriggerState(GamePadComponent.Trigger.Right) != 0)
                 ScreenManager.camera.Zoom(0.01f);
-                       
-            if (Math.Abs(forestBoss.Position.Y - polarBear.Position.Y) < 500)
-                forestBoss.ChaseEntity(polarBear);                
-                      
+
+            Vector2 distance = forestBoss.Position - polarBear.Position;
+            if (Math.Abs(distance.Length()) < ScreenManager.SCREENWIDTH / 2 && polarBear.IsAlive)
+            {
+                forestBoss.ChaseEntity(polarBear);
+                polarBear.Scale = 2;
+            }
 
             lovedEnemies = 0;
             foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
@@ -145,7 +146,14 @@ namespace MyPolarBear.GameScreens
                         lovedEnemies++;
                     }
                 }
-            }          
+            }
+
+            if (!polarBear.IsAlive && (InputManager.GamePad.IsButtonReleased(Buttons.A) || InputManager.Keyboard.IsKeyReleased(Keys.Enter)))
+            {
+                polarBear.IsAlive = true;
+                PolarBear.CurHitPoints = PolarBear.MaxHitPoints;
+                polarBear.Position = new Vector2(-1950, 1800);
+            }
 
             UpdateKeeper.getInstance().updateAll(gameTime);
         }       

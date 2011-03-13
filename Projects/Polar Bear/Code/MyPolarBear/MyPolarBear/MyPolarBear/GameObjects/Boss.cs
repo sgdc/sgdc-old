@@ -45,7 +45,7 @@ namespace MyPolarBear.GameObjects
                     {
                         if (PolarBear.power == PolarBear.Power.Fire)
                         {
-                            Scale -= 0.01f;
+                            //Scale -= 0.01f;
                             Health -= 1;                                
                         }
                         else if (PolarBear.power == PolarBear.Power.Normal)
@@ -54,10 +54,9 @@ namespace MyPolarBear.GameObjects
                                 PolarBear.CurHitPoints += 1;
 
                         }
-                        else
+                        else if (PolarBear.power == PolarBear.Power.Ice)
                         {
-                            Scale += 0.01f;
-                            Health += 1;
+                            //
                         }
                     }
                 }
