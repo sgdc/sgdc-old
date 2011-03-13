@@ -58,6 +58,9 @@
         <Layout>Explicit<Node><Vector2 ID="Translation" X="0" Y="32" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
       <Entity ID="1">
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="0" Y="0" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
+      </Entity>
+      <Entity ID="1">
         <Layout>Explicit<Node><Vector2 ID="Translation" X="32" Y="448" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
       <Entity ID="1">
@@ -457,27 +460,20 @@
         <Layout>Explicit<Node><Vector2 ID="Translation" X="4448" Y="224" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
       <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="4448" Y="192" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="4480" Y="224" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
       <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="4448" Y="160" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="4512" Y="224" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
       <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="4448" Y="128" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="4544" Y="224" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
       <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="4448" Y="96" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="4576" Y="224" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
       <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="4448" Y="64" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="4608" Y="224" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="4448" Y="32" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-      <Entity ID="1">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="4448" Y="0" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
-      </Entity>
-
       <Entity ID="1">
         <Layout>Explicit<Node><Vector2 ID="Translation" X="416" Y="352" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
@@ -641,7 +637,7 @@
     <Physics>
       <Pharaoh>
         <Cell Width="32" Height="32" />
-        <World Width="4480" Height="480" />
+        <World Width="4640" Height="480" />
         <Gravity X="0" Y="20" />
       </Pharaoh>
     </Physics>
