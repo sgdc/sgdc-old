@@ -75,7 +75,17 @@ namespace MyPolarBear.GameScreens
                 ene.LoadContent();
                 UpdateKeeper.getInstance().addEntity(ene);
                 DrawKeeper.getInstance().addEntity(ene);
-            }                                    
+            }
+
+            Animal animal = new Animal(new Vector2(-1750, 1300), Animal.Species.Tiger);
+            animal.LoadContent();
+            UpdateKeeper.getInstance().addEntity(animal);
+            DrawKeeper.getInstance().addEntity(animal);
+
+            animal = new Animal(new Vector2(1700, 300), Animal.Species.Tiger);
+            animal.LoadContent();
+            UpdateKeeper.getInstance().addEntity(animal);
+            DrawKeeper.getInstance().addEntity(animal);
 
             //LoadLevel("levelforest");
 

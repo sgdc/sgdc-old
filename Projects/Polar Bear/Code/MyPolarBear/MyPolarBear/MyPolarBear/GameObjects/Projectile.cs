@@ -121,14 +121,14 @@ namespace MyPolarBear.GameObjects
         {
             if (entity is Enemy)
             {
-                if (Type == PolarBear.Power.Normal)
+                if (Type == PolarBear.Power.Normal && ((Enemy)entity).CurrentState != Enemy.State.Following)
                 {
                     ((Enemy)entity).CurrentState = Enemy.State.Following;
                     IsAlive = false;
                 }
             }
-            else if (entity is Boss)
-            {                
+            else if (entity is Boss || entity is Animal)
+            {                     
                 IsAlive = false;
             }            
         }

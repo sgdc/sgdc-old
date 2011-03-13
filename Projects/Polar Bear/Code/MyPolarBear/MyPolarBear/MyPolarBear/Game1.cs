@@ -104,6 +104,10 @@ namespace MyPolarBear
             ContentManager.AddTexture("FireWalkingBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkingBack"));
             ContentManager.AddTexture("FireWalkingRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkRight"));
 
+            //Animal SpriteSheets
+            ContentManager.AddTexture("TigerIdle", Content.Load<Texture2D>("SpriteSheets/Animals/tigerIdle"));
+            ContentManager.AddTexture("LionIdle", Content.Load<Texture2D>("SpriteSheets/Animals/lionIdle"));
+
             // Level elements
             ContentManager.AddTexture("Boulder", Content.Load<Texture2D>("LevelElements/boulder"));
             ContentManager.AddTexture("HardRock", Content.Load<Texture2D>("LevelElements/hardRock"));
