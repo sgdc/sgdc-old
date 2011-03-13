@@ -127,7 +127,7 @@ namespace MyPolarBear.GameObjects
                     IsAlive = false;
                 }
             }
-            else if (entity is Boss || entity is Animal)
+            else if (entity is Boss)
             {                     
                 IsAlive = false;
             }            

@@ -77,15 +77,35 @@ namespace MyPolarBear.GameScreens
                 DrawKeeper.getInstance().addEntity(ene);
             }
 
-            Animal animal = new Animal(new Vector2(-1750, 1300), Animal.Species.Tiger);
-            animal.LoadContent();
-            UpdateKeeper.getInstance().addEntity(animal);
-            DrawKeeper.getInstance().addEntity(animal);
+            Animal tiger = new Animal(new Vector2(-1750, 1300), Animal.Species.Tiger);
+            tiger.LoadContent();
+            UpdateKeeper.getInstance().addEntity(tiger);
+            DrawKeeper.getInstance().addEntity(tiger);
 
-            animal = new Animal(new Vector2(1700, 300), Animal.Species.Tiger);
-            animal.LoadContent();
-            UpdateKeeper.getInstance().addEntity(animal);
-            DrawKeeper.getInstance().addEntity(animal);
+            tiger = new Animal(new Vector2(1700, 300), Animal.Species.Tiger);
+            tiger.LoadContent();
+            UpdateKeeper.getInstance().addEntity(tiger);
+            DrawKeeper.getInstance().addEntity(tiger);
+
+            Animal lion = new Animal(new Vector2(1900, 1900), Animal.Species.Lion);
+            lion.LoadContent();
+            UpdateKeeper.getInstance().addEntity(lion);
+            DrawKeeper.getInstance().addEntity(lion);
+
+            lion = new Animal(new Vector2(-1300, -1650), Animal.Species.Lion);
+            lion.LoadContent();
+            UpdateKeeper.getInstance().addEntity(lion);
+            DrawKeeper.getInstance().addEntity(lion);
+
+            Animal panther = new Animal(new Vector2(-550, 1350), Animal.Species.Panther);
+            panther.LoadContent();
+            UpdateKeeper.getInstance().addEntity(panther);
+            DrawKeeper.getInstance().addEntity(panther);
+
+            panther = new Animal(new Vector2(1900, -1900), Animal.Species.Panther);
+            panther.LoadContent();
+            UpdateKeeper.getInstance().addEntity(panther);
+            DrawKeeper.getInstance().addEntity(panther);
 
             //LoadLevel("levelforest");
 

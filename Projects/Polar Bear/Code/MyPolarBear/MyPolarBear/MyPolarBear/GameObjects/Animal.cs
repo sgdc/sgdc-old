@@ -10,13 +10,16 @@ namespace MyPolarBear.GameObjects
     class Animal : Entity
     {
         private PolarBear followBear;
+
+        public Random random = new Random();
         
         private Vector2 mScale;              
 
         public enum Species
         {
             Tiger, 
-            Lion
+            Lion,
+            Panther
         }
 
         public enum CurrentState
@@ -45,15 +48,20 @@ namespace MyPolarBear.GameObjects
             //Add animal textures or spritesheets
             Animation ani = new Animation(ContentManager.GetTexture("TigerIdle"), 2, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("TigerIdle", ani);
-            
+
             ani = new Animation(ContentManager.GetTexture("LionIdle"), 2, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("LionIdle", ani);
+
+            ani = new Animation(ContentManager.GetTexture("PantherIdle"), 2, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("PantherIdle", ani);
 
             switch (Type)
             {
                 case Species.Tiger: mAnimator.PlayAnimation("TigerIdle", false);
                     break;
                 case Species.Lion: mAnimator.PlayAnimation("LionIdle", false);
+                    break;
+                case Species.Panther: mAnimator.PlayAnimation("PantherIdle", false);
                     break;
             }
             
@@ -81,7 +89,7 @@ namespace MyPolarBear.GameObjects
                 if (followBear != null && State == CurrentState.Following)
                 {
                     Vector2 dist = followBear.Position - Position;
-                    if (Math.Abs(dist.Length()) > 15)
+                    if (Math.Abs(dist.Length()) > 20)
                     {
                         dist.Normalize();
                         Velocity = dist * 2.0f;
@@ -102,17 +110,26 @@ namespace MyPolarBear.GameObjects
                     if (entity.CollisionBox.Intersects(CollisionBox))
                     {
                         if (PolarBear.power == PolarBear.Power.Normal && State == CurrentState.Idle)
+                        {
                             State = CurrentState.Following;
+                            ((Projectile)entity).IsAlive = false;
+                        }
                     }
                 }
                 
                 if (entity is Animal && ((Animal)entity).Type == Type)
                 {
                     if (entity.CollisionBox.Intersects(CollisionBox))
-                    {
+                    {                        
                         //State = CurrentState.Paired;
                     }
                 }
+            }
+
+            if (Input.InputManager.GamePad.IsButtonReleased(Microsoft.Xna.Framework.Input.Buttons.B))
+            {
+                State = CurrentState.Idle;
+                Velocity = Vector2.Zero;
             }
 
 
@@ -122,7 +139,8 @@ namespace MyPolarBear.GameObjects
             {
                 if (travelRect.Intersects(element.CollisionRect))
                 {
-                    Velocity *= -1;
+                    if (!(element.Type.Equals("BabyPlant") || element.Type.Equals("SoftGround") || element.Type.Equals("Ice")))
+                        Velocity *= -1;
                 }
             }           
 

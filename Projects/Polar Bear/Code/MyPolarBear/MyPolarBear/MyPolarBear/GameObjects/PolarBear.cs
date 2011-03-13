@@ -306,7 +306,7 @@ namespace MyPolarBear.GameObjects
                 }
             }
 
-
+            NumSeeds = (int)MathHelper.Clamp((float)NumSeeds, 0, 10);
             CurHitPoints = (int)MathHelper.Clamp((float)CurHitPoints, 0, 5);
             GameScreen.CurWorldHealth = (int)MathHelper.Clamp((float)GameScreen.CurWorldHealth, 0, 100);
 
