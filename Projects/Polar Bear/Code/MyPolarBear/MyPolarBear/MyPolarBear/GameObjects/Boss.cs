@@ -68,14 +68,25 @@ namespace MyPolarBear.GameObjects
                     {
                         if (element.Type.Equals("Tree2") || element.Type.Equals("Tree"))
                         {
-                            element.Type.Equals("Stump");
+                            element.Type = "Stump";
                             element.Tex = ContentManager.GetTexture("Stump");
                             GameScreen.CurWorldHealth--;
                         }
-                        else if (!(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Water")))
+                        else if (element.Type.Equals("BabyPlant"))
+                        {
+                            element.Type = "SoftGround";
+                            element.Tex = ContentManager.GetTexture("SoftGround");
+                        }
+                        else if (element.Type.Equals("Ice"))
+                        {
+                            element.Type = "Water";
+                            element.Tex = ContentManager.GetTexture("Water");
+                        }
+                        else if (!(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Water") 
+                            || element.Type.Equals("Water2") || element.Type.Equals("Stump") || element.Type.Equals("SoftGround")))
                         {
                             UpdateKeeper.getInstance().removeLevelElement(element);
-                            DrawKeeper.getInstance().removeLevelElement(element);                            
+                            DrawKeeper.getInstance().removeLevelElement(element);
                         }
                     }
                 }
