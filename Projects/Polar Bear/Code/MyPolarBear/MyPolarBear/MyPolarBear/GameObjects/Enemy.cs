@@ -163,7 +163,7 @@ namespace MyPolarBear.GameObjects
 
             foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
             {
-                if (travelRect.Intersects(element.CollisionRect))
+                if (travelRect.Intersects(element.CollisionRect) && !element.Type.Equals("Ice"))
                 {
                     stuckCounter++;
                     Velocity = ((Position - element.Position) / 20);
@@ -372,17 +372,17 @@ namespace MyPolarBear.GameObjects
                     }
                 }
 
-                foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-                {
-                    if (!ele.Type.Equals("Bush") && !ele.Type.Equals("SoftGround") && CollisionBox.Intersects(ele.CollisionRect))
-                    {
-                        //int adjustmentX = ele.CollisionRect.Width - (CollisionBox.Center.X - ele.CollisionRect.Center.X);
-                        //int adjustmentY = ele.CollisionRect.Height - (CollisionBox.Center.Y - ele.CollisionRect.Center.Y);
+                //foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
+                //{
+                //    if (!ele.Type.Equals("Bush") && !ele.Type.Equals("SoftGround") && CollisionBox.Intersects(ele.CollisionRect))
+                //    {
+                //        //int adjustmentX = ele.CollisionRect.Width - (CollisionBox.Center.X - ele.CollisionRect.Center.X);
+                //        //int adjustmentY = ele.CollisionRect.Height - (CollisionBox.Center.Y - ele.CollisionRect.Center.Y);
 
-                        //Position += new Vector2(adjustmentX, adjustmentY);
-                        //Position += new Vector2(10, 10);
-                    }
-                }
+                //        //Position += new Vector2(adjustmentX, adjustmentY);
+                //        //Position += new Vector2(10, 10);
+                //    }
+                //}
             }
             else
             {
@@ -464,7 +464,7 @@ namespace MyPolarBear.GameObjects
 
             foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
             {
-                if (travelRect.Intersects(element.CollisionRect))
+                if (travelRect.Intersects(element.CollisionRect) && !element.Type.Equals("Ice"))
                 {
                     Velocity *= -1;
                 }
