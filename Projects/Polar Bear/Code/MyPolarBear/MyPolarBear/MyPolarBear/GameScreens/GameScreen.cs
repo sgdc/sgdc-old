@@ -40,7 +40,7 @@ namespace MyPolarBear.GameScreens
         public GameScreen(ScreenType screenType) : base(screenType)
         {
             MaxWorldHealth = 100;
-            CurWorldHealth = 0;
+            CurWorldHealth = 99;
         }             
 
         public void LoadContent()
@@ -77,32 +77,32 @@ namespace MyPolarBear.GameScreens
                 DrawKeeper.getInstance().addEntity(ene);
             }
 
-            Animal tiger = new Animal(new Vector2(-1750, 1300), Animal.Species.Tiger);
+            Animal tiger = new Animal(new Vector2(-1750, 1300), Animal.Types.Tiger, Animal.Genders.Male);
             tiger.LoadContent();
             UpdateKeeper.getInstance().addEntity(tiger);
             DrawKeeper.getInstance().addEntity(tiger);
 
-            tiger = new Animal(new Vector2(1700, 300), Animal.Species.Tiger);
+            tiger = new Animal(new Vector2(1700, 300), Animal.Types.Tiger, Animal.Genders.Female);
             tiger.LoadContent();
             UpdateKeeper.getInstance().addEntity(tiger);
             DrawKeeper.getInstance().addEntity(tiger);
 
-            Animal lion = new Animal(new Vector2(1900, 1900), Animal.Species.Lion);
+            Animal lion = new Animal(new Vector2(1900, 1900), Animal.Types.Lion, Animal.Genders.Male);
             lion.LoadContent();
             UpdateKeeper.getInstance().addEntity(lion);
             DrawKeeper.getInstance().addEntity(lion);
 
-            lion = new Animal(new Vector2(-1300, -1650), Animal.Species.Lion);
+            lion = new Animal(new Vector2(-1300, -1650), Animal.Types.Lion, Animal.Genders.Female);
             lion.LoadContent();
             UpdateKeeper.getInstance().addEntity(lion);
             DrawKeeper.getInstance().addEntity(lion);
 
-            Animal panther = new Animal(new Vector2(-550, 1350), Animal.Species.Panther);
+            Animal panther = new Animal(new Vector2(-550, 1350), Animal.Types.Panther, Animal.Genders.Male);
             panther.LoadContent();
             UpdateKeeper.getInstance().addEntity(panther);
             DrawKeeper.getInstance().addEntity(panther);
 
-            panther = new Animal(new Vector2(1900, -1900), Animal.Species.Panther);
+            panther = new Animal(new Vector2(1900, -1900), Animal.Types.Panther, Animal.Genders.Female);
             panther.LoadContent();
             UpdateKeeper.getInstance().addEntity(panther);
             DrawKeeper.getInstance().addEntity(panther);

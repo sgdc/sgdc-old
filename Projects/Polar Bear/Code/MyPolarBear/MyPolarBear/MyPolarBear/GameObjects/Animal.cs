@@ -15,29 +15,37 @@ namespace MyPolarBear.GameObjects
         
         private Vector2 mScale;              
 
-        public enum Species
+        public enum Types
         {
             Tiger, 
             Lion,
             Panther
         }
 
-        public enum CurrentState
+        public enum States
         {
             Following,
             Paired,
             Idle
         }
 
-        public Species Type;
-        public CurrentState State;
+        public enum Genders
+        {
+            Male,
+            Female
+        }
 
-        public Animal(Vector2 position, Species type)
+        public Types Type;
+        public States State;
+        public Genders Gender;
+
+        public Animal(Vector2 position, Types type, Genders gender)
             : base(position)
         {                        
             followBear = null;            
             Type = type;
-            State = CurrentState.Idle;
+            Gender = gender;
+            State = States.Idle;
             Scale = 1;
             mScale = new Vector2(Scale, Scale);            
         }
@@ -57,11 +65,11 @@ namespace MyPolarBear.GameObjects
 
             switch (Type)
             {
-                case Species.Tiger: mAnimator.PlayAnimation("TigerIdle", false);
+                case Types.Tiger: mAnimator.PlayAnimation("TigerIdle", false);
                     break;
-                case Species.Lion: mAnimator.PlayAnimation("LionIdle", false);
+                case Types.Lion: mAnimator.PlayAnimation("LionIdle", false);
                     break;
-                case Species.Panther: mAnimator.PlayAnimation("PantherIdle", false);
+                case Types.Panther: mAnimator.PlayAnimation("PantherIdle", false);
                     break;
             }
             
@@ -84,9 +92,9 @@ namespace MyPolarBear.GameObjects
                 }
             }
 
-            if (State != CurrentState.Paired)
+            if (State != States.Paired)
             {
-                if (followBear != null && State == CurrentState.Following)
+                if (followBear != null && State == States.Following)
                 {
                     Vector2 dist = followBear.Position - Position;
                     if (Math.Abs(dist.Length()) > 20)
@@ -109,26 +117,29 @@ namespace MyPolarBear.GameObjects
                 {
                     if (entity.CollisionBox.Intersects(CollisionBox))
                     {
-                        if (PolarBear.power == PolarBear.Power.Normal && State == CurrentState.Idle)
+                        if (PolarBear.power == PolarBear.Power.Normal && State == States.Idle)
                         {
-                            State = CurrentState.Following;
+                            State = States.Following;
                             ((Projectile)entity).IsAlive = false;
                         }
                     }
                 }
                 
-                if (entity is Animal && ((Animal)entity).Type == Type)
+                if (entity is Animal && State == States.Following)
                 {
-                    if (entity.CollisionBox.Intersects(CollisionBox))
-                    {                        
-                        //State = CurrentState.Paired;
+                    if ( ((Animal)entity).Type == Type && ((Animal)entity).Gender != Gender)
+                    {
+                        if (entity.CollisionBox.Intersects(CollisionBox))
+                        {
+                            State = States.Paired;
+                        }
                     }
                 }
             }
 
             if (Input.InputManager.GamePad.IsButtonReleased(Microsoft.Xna.Framework.Input.Buttons.B))
             {
-                State = CurrentState.Idle;
+                State = States.Idle;
                 Velocity = Vector2.Zero;
             }
 
