@@ -11,6 +11,7 @@ using MyPolarBear.GameObjects;
 using MyPolarBear.GameScreens;
 using System.IO;
 using MyPolarBear.Pathfinding;
+using MyPolarBear.Audio;
 
 namespace MyPolarBear.GameScreens
 {
@@ -20,11 +21,7 @@ namespace MyPolarBear.GameScreens
         public const int WORLDHEIGHT = 4096;
 
         public static int MaxWorldHealth;
-        public static int CurWorldHealth;
-        
-        //AudioEngine audioEngine;
-        //WaveBank waveBank;
-        //SoundBank soundBank;
+        public static int CurWorldHealth;       
         
         PolarBear polarBear;
 
@@ -42,12 +39,7 @@ namespace MyPolarBear.GameScreens
         }             
 
         public void LoadContent()
-        {           
-            //audioEngine = new AudioEngine(@"Content\Sound\GameSounds.xgs");
-            //waveBank = new WaveBank(audioEngine, @"Content\Sound\Wave Bank.xwb");
-            //soundBank = new SoundBank(audioEngine, @"Content\Sound\Sound Bank.xsb");
-            //soundBank.PlayCue("Music");
-            
+        {                       
             LoadLevel("levelforest");
 
             UpdateKeeper.getInstance().updateAll(new GameTime());
@@ -105,6 +97,8 @@ namespace MyPolarBear.GameScreens
             UpdateKeeper.getInstance().addEntity(panther);
             DrawKeeper.getInstance().addEntity(panther);
 
+            SoundManager.PlayCue("Music");
+
             //LoadLevel("levelforest");
 
             //UpdateKeeper.getInstance().updateAll(new GameTime());
@@ -113,7 +107,8 @@ namespace MyPolarBear.GameScreens
 
 
         public void Update(GameTime gameTime)
-        {
+        {           
+
             if (InputManager.GamePad.IsButtonReleased(Buttons.Start))           
                 ScreenManager.screenType = ScreenType.PauseScreen;                
             if (InputManager.GamePad.IsButtonReleased(Buttons.Back))
@@ -131,10 +126,7 @@ namespace MyPolarBear.GameScreens
 
             Vector2 distance = forestBoss.Position - polarBear.Position;
             if (Math.Abs(distance.Length()) < ScreenManager.SCREENWIDTH / 2 && polarBear.IsAlive)
-            {
                 forestBoss.ChaseEntity(polarBear);
-                polarBear.Scale = 2;
-            }
 
             lovedEnemies = 0;
             foreach (Entity ent in UpdateKeeper.getInstance().getEntities())

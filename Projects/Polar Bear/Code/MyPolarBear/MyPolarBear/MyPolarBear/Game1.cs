@@ -12,6 +12,7 @@ using MyPolarBear.Input;
 using MyPolarBear.GameObjects;
 using MyPolarBear.GameScreens;
 using MyPolarBear.Content;
+using MyPolarBear.Audio;
 
 namespace MyPolarBear
 {
@@ -26,6 +27,7 @@ namespace MyPolarBear
         ScreenManager screenManager;
         InputManager inputManager;
         ContentManager contentManager;
+        SoundManager audioManager;
 
         public Game1()
         {
@@ -38,6 +40,7 @@ namespace MyPolarBear
             screenManager = new ScreenManager(this);
             inputManager = new InputManager();
             contentManager = new ContentManager();
+            audioManager = new SoundManager();
         }
 
         /// <summary>
