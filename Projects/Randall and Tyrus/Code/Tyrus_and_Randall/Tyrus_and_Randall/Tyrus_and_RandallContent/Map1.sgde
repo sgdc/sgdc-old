@@ -585,7 +585,7 @@
       </Entity>
 
       <Entity ID="9">
-        <Layout>Explicit<Node><Vector2 ID="Translation" X="4100" Y="416" /></Node><Physics Enabled="false" Collision="true" Static="true"></Physics></Layout>
+        <Layout>Explicit<Node><Vector2 ID="Translation" X="4100" Y="416" /></Node><Physics Enabled="true" Collision="true" Static="true"></Physics></Layout>
       </Entity>
 
 
@@ -766,6 +766,7 @@
           <Physics Enabled="true" Collision="true">
             <Velocity X="0" Y="0" />
           </Physics>
+          <CustomEntity Base="SGDE.Entity, SGDe">Tyrus_and_Randall.Ground, Tyrus_and_Randall</CustomEntity>
         </Entity>
       </Entity>
 
@@ -791,7 +792,7 @@
         </Entity>
       </Entity>
 
-
+      
 
       <Entity ID="9">
         <Entity>

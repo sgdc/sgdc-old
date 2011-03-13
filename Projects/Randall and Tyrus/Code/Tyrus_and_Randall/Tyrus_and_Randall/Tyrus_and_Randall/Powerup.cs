@@ -12,7 +12,7 @@ using SGDE.Physics.Collision;
 
 namespace Tyrus_and_Randall
 {
-    class Powerup : Entity
+    abstract class Powerup : Entity
     {
         public Powerup()
             : this(0.0f, 0.0f)
@@ -22,7 +22,7 @@ namespace Tyrus_and_Randall
             : this(pos.X, pos.Y)
         { }
 
-        public Powerup(float x, float y)
+        public Powerup(float x, float y) :base(x,y)
         {
 			id = 8;
         }
@@ -32,5 +32,7 @@ namespace Tyrus_and_Randall
             base.Update(gameTime);
             if (this.GetCollisionUnit().IsSolid()) this.GetCollisionUnit().SetSolid(false);
         }
+
+        public abstract void Activate(Player e);
     }
 }

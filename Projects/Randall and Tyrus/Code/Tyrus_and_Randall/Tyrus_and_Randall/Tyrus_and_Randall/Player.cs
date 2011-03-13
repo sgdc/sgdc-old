@@ -25,6 +25,7 @@ namespace Tyrus_and_Randall
         private const double knockBackMax = 3000;
         private const uint levelOneFood = 20;
         private ArrayList collectedFood;
+        public float jumpMultiplier;
 
         public Player() : this(0, 0) { }
 
@@ -39,6 +40,7 @@ namespace Tyrus_and_Randall
             knockBack = false;
             staggered = false;
             collectedFood = new ArrayList();
+            jumpMultiplier = 1.0f;
         }
 
         public override void Initialize()
@@ -153,7 +155,7 @@ namespace Tyrus_and_Randall
                 {
                     if (onGround && this.GetCollisionUnit().HasCollisions())
                     {
-                        this.SetVelocity(this.GetVelocity().X, -10.0f);
+                        this.SetVelocity(this.GetVelocity().X, -10.0f*jumpMultiplier);
                         onGround = false;
                     }
                 }
@@ -199,88 +201,83 @@ namespace Tyrus_and_Randall
                         switch (((Entity)other.GetParent()).GetID())
                         {
                             case 3:
+                                if (((Food)other.GetParent()).IsEnabled())
                                 {
-                                    if (((Food)other.GetParent()).IsEnabled())
-                                    {
-                                        ((Food)(other.GetParent())).Disable();
-                                        collectedFood.Add(((Food)(other.GetParent())));
-                                        Game1.foodText = "Food: " + collectedFood.Count + " / " + levelOneFood;
-                                    }
-
-                                    break;
+                                    ((Food)(other.GetParent())).Disable();
+                                    collectedFood.Add(((Food)(other.GetParent())));
+                                    Game1.foodText = "Food: " + collectedFood.Count + " / " + levelOneFood;
                                 }
+
+                                break;
                             case 4:
+                                if(!knockBack)
                                 {
-                                    if(!knockBack)
+                                    knockBack = true;
+                                    staggered = true;
+                                    for (int i = collectedFood.Count-1, j = 0; i >= 0 && j < 3; i--, j++)
                                     {
-                                        knockBack = true;
-                                        staggered = true;
-                                        for (int i = collectedFood.Count-1, j = 0; i >= 0 && j < 3; i--, j++)
+                                        ((Food)collectedFood[i]).Enable();
+                                        //((Food)collectedFood[i]).SetTranslation(new Vector2(this.GetTranslation().X - 33*(i+0.5f), this.GetTranslation().Y - 33*(i+0.5f)));
+                                        ((Food)collectedFood[i]).EnablePhysics(true, true);
+                                        if (((Food)collectedFood[i]).GetPhysicsBaby().GetForces().Y > 20)
+                                            ((Food)collectedFood[i]).GetPhysicsBaby().AddForce(new Vector2(0, -20));
+                                        switch (dir)
                                         {
-                                            ((Food)collectedFood[i]).Enable();
-                                            //((Food)collectedFood[i]).SetTranslation(new Vector2(this.GetTranslation().X - 33*(i+0.5f), this.GetTranslation().Y - 33*(i+0.5f)));
-                                            ((Food)collectedFood[i]).EnablePhysics(true, true);
-                                            if (((Food)collectedFood[i]).GetPhysicsBaby().GetForces().Y > 20)
-                                                ((Food)collectedFood[i]).GetPhysicsBaby().AddForce(new Vector2(0, -20));
-                                            switch (dir)
-                                            {
-                                                case PlayerDirection.StandingLeft:
-                                                case PlayerDirection.Left:
-                                                    SpriteImage.SetAnimation("KnockBackLeft");
-                                                    ((Food)collectedFood[i]).SetVelocity(2*(j + 1), -3f * (j+1));
-                                                    ((Food)collectedFood[i]).SetTranslation(new Vector2(this.GetTranslation().X + 33, this.GetTranslation().Y - 33 ));
-                                                    break;
-                                                case PlayerDirection.StandingRight:
-                                                case PlayerDirection.Right:
-                                                    SpriteImage.SetAnimation("KnockBackRight");
-                                                    ((Food)collectedFood[i]).SetVelocity(-2*(j + 1), -3f * (j+1));
-                                                    ((Food)collectedFood[i]).SetTranslation(new Vector2(this.GetTranslation().X - 33, this.GetTranslation().Y - 33));
-                                                    break;
-                                            }
-                                            //((Food)collectedFood[i]).SetVelocity((float)-0.5*(i+1), (float)-0.5*i);
-                                            collectedFood.RemoveAt(i);
+                                            case PlayerDirection.StandingLeft:
+                                            case PlayerDirection.Left:
+                                                SpriteImage.SetAnimation("KnockBackLeft");
+                                                ((Food)collectedFood[i]).SetVelocity(2*(j + 1), -3f * (j+1));
+                                                ((Food)collectedFood[i]).SetTranslation(new Vector2(this.GetTranslation().X + 33, this.GetTranslation().Y - 33 ));
+                                                break;
+                                            case PlayerDirection.StandingRight:
+                                            case PlayerDirection.Right:
+                                                SpriteImage.SetAnimation("KnockBackRight");
+                                                ((Food)collectedFood[i]).SetVelocity(-2*(j + 1), -3f * (j+1));
+                                                ((Food)collectedFood[i]).SetTranslation(new Vector2(this.GetTranslation().X - 33, this.GetTranslation().Y - 33));
+                                                break;
                                         }
-                                        Game1.foodText = "Food: " + collectedFood.Count + " / " + levelOneFood;
+                                        //((Food)collectedFood[i]).SetVelocity((float)-0.5*(i+1), (float)-0.5*i);
+                                        collectedFood.RemoveAt(i);
                                     }
-                                    break;
+                                    Game1.foodText = "Food: " + collectedFood.Count + " / " + levelOneFood;
                                 }
+                                break;
                             default:
+                                if (Math.Abs(intersect.X) > Math.Abs(intersect.Y) && !intersect.Equals(Vector2.Zero))
                                 {
-                                    if (Math.Abs(intersect.X) > Math.Abs(intersect.Y) && !intersect.Equals(Vector2.Zero))
+                                    if (intersect.Y <= 0)
                                     {
-                                        if (intersect.Y <= 0)
-                                        {
-                                            this.SetVelocity(this.GetVelocity().X, Math.Min(this.GetVelocity().Y, 0));
-                                            this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y - 0.01f));
-                                            onGround = true;
-                                        }
-                                        else
-                                        {
-                                            this.SetVelocity(this.GetVelocity().X, Math.Max(this.GetVelocity().Y, 0));
-                                            this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y + 0.01f));
-                                        }
+                                        this.SetVelocity(this.GetVelocity().X, Math.Min(this.GetVelocity().Y, 0));
+                                        this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y - 0.01f));
+                                        onGround = true;
                                     }
-                                    else if (!intersect.Equals(Vector2.Zero))
+                                    else
                                     {
-                                        this.SetVelocity(0.0f, this.GetVelocity().Y);
-                                        if (intersect.X <= 0)
-                                        {
-                                            this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X - 0.01f, this.GetTranslation().Y));
-                                        }
-                                        else
-                                        {
-                                            this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X + 0.01f, this.GetTranslation().Y));
-                                        }
+                                        this.SetVelocity(this.GetVelocity().X, Math.Max(this.GetVelocity().Y, 0));
+                                        this.SetTranslation(new Vector2(this.GetTranslation().X, this.GetTranslation().Y + intersect.Y + 0.01f));
                                     }
-
-                                    break;
                                 }
+                                else if (!intersect.Equals(Vector2.Zero))
+                                {
+                                    this.SetVelocity(0.0f, this.GetVelocity().Y);
+                                    if (intersect.X <= 0)
+                                    {
+                                        this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X - 0.01f, this.GetTranslation().Y));
+                                    }
+                                    else
+                                    {
+                                        this.SetTranslation(new Vector2(this.GetTranslation().X + intersect.X + 0.01f, this.GetTranslation().Y));
+                                    }
+                                }
+
+                                break;
                         }
                     }
-                    //else
-                    //{
-
-                    //}
+                    else
+                    {
+                        if(((Entity)(other.GetParent())).GetID() == 8)
+                            ((Powerup)(other.GetParent())).Activate(this);
+                    }
                 }
 
             }

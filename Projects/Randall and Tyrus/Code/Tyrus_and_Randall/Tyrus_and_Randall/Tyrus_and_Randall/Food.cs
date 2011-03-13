@@ -25,7 +25,7 @@ namespace Tyrus_and_Randall
             : this(pos.X, pos.Y)
         { }
 
-        public Food(float x, float y)
+        public Food(float x, float y) :base(x,y)
         {
             Random randy = new Random();
             food = (byte)randy.Next(0);

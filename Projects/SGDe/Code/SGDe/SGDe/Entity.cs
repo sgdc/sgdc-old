@@ -251,11 +251,6 @@ namespace SGDE
             return id;
         }
 
-        internal void SetID(uint id)
-        {
-            this.id = id;
-        }
-
         public bool CompareID(Entity e)
         {
             return (e.id == id);
