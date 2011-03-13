@@ -50,85 +50,181 @@ namespace MyPolarBear.Pathfinding
 
             foreach (LevelElement ele in level)
             {
-                if (ele.Type.Equals("Bush"))
-                {
-                    type = ANode.SEED_SOURCE;
-                }
-                else if (ele.Type.Equals("SoftGround"))
-                {
-                    type = ANode.PLANT_AREA;
-                }
-                else
-                {
-                    type = ANode.NOT_SPECIAL;
-                }
+                addResource(ele);
+                //if (ele.Type.Equals("Bush"))
+                //{
+                //    type = ANode.SEED_SOURCE;
+                //}
+                //else if (ele.Type.Equals("SoftGround"))
+                //{
+                //    type = ANode.PLANT_AREA;
+                //}
+                //else
+                //{
+                //    type = ANode.NOT_SPECIAL;
+                //}
 
-                i = (int)((ele.CollisionRect.Left + 2048) / 50);
-                if (i > 81)
-                {
-                    i = 81;
-                }
-                if (i < 0)
-                {
-                    i = 0;
-                }
+                //i = (int)((ele.CollisionRect.Left + 2048) / 50);
+                //if (i > 81)
+                //{
+                //    i = 81;
+                //}
+                //if (i < 0)
+                //{
+                //    i = 0;
+                //}
 
-                j = (int)((ele.CollisionRect.Top + 2048) / 50);
-                if (j > 81)
-                {
-                    j = 81;
-                }
-                if (j < 0)
-                {
-                    j = 0;
-                }
+                //j = (int)((ele.CollisionRect.Top + 2048) / 50);
+                //if (j > 81)
+                //{
+                //    j = 81;
+                //}
+                //if (j < 0)
+                //{
+                //    j = 0;
+                //}
 
-                // top left
-                mGrid[i, j].bWalkable = false;
-                mGrid[i, j].Type = type;
+                //// top left
+                //mGrid[i, j].bWalkable = false;
+                //mGrid[i, j].Type = type;
 
-                i = (int)((ele.CollisionRect.Right + 2028) / 50);
-                if (i > 81)
-                {
-                    i = 81;
-                }
-                if (i < 0)
-                {
-                    i = 0;
-                }
+                //i = (int)((ele.CollisionRect.Right + 2028) / 50);
+                //if (i > 81)
+                //{
+                //    i = 81;
+                //}
+                //if (i < 0)
+                //{
+                //    i = 0;
+                //}
 
-                // top right
-                mGrid[i, j].bWalkable = false;
-                mGrid[i, j].Type = type;
+                //// top right
+                //mGrid[i, j].bWalkable = false;
+                //mGrid[i, j].Type = type;
 
-                j = (int)((ele.CollisionRect.Bottom + 2048) / 50);
-                if (j > 81)
-                {
-                    j = 81;
-                }
-                if (j < 0)
-                {
-                    j = 0;
-                }
+                //j = (int)((ele.CollisionRect.Bottom + 2048) / 50);
+                //if (j > 81)
+                //{
+                //    j = 81;
+                //}
+                //if (j < 0)
+                //{
+                //    j = 0;
+                //}
 
-                // bottom right
-                mGrid[i, j].bWalkable = false;
-                mGrid[i, j].Type = type;
+                //// bottom right
+                //mGrid[i, j].bWalkable = false;
+                //mGrid[i, j].Type = type;
 
-                i = (int)(ele.CollisionRect.Left);
-                if (i > 81)
-                {
-                    i = 81;
-                }
-                if (i < 0)
-                {
-                    i = 0;
-                }
+                //i = (int)(ele.CollisionRect.Left);
+                //if (i > 81)
+                //{
+                //    i = 81;
+                //}
+                //if (i < 0)
+                //{
+                //    i = 0;
+                //}
 
-                // bottom left
-                mGrid[i, j].bWalkable = false;
-                mGrid[i, j].Type = type;
+                //// bottom left
+                //mGrid[i, j].bWalkable = false;
+                //mGrid[i, j].Type = type;
             }
+        }
+
+        public void addResource(LevelElement ele)
+        {
+            int i;
+            int j;
+            int type;
+            bool walkable;
+
+            if (ele.Type.Equals("Bush"))
+            {
+                type = ANode.SEED_SOURCE;
+                walkable = false;
+            }
+            else if (ele.Type.Equals("SoftGround"))
+            {
+                type = ANode.PLANT_AREA;
+                walkable = true;
+            }
+            else if (ele.Type.Equals("BabyPlant"))
+            {
+                type = ANode.NOT_SPECIAL;
+                walkable = true;
+            }
+            else
+            {
+                type = ANode.NOT_SPECIAL;
+                walkable = false;
+            }
+
+            i = (int)((ele.CollisionRect.Left + 2048) / 50);
+            if (i > 81)
+            {
+                i = 81;
+            }
+            if (i < 0)
+            {
+                i = 0;
+            }
+
+            j = (int)((ele.CollisionRect.Top + 2048) / 50);
+            if (j > 81)
+            {
+                j = 81;
+            }
+            if (j < 0)
+            {
+                j = 0;
+            }
+
+            // top left
+            mGrid[i, j].bWalkable = walkable;
+            mGrid[i, j].Type = type;
+
+            i = (int)((ele.CollisionRect.Right + 2028) / 50);
+            if (i > 81)
+            {
+                i = 81;
+            }
+            if (i < 0)
+            {
+                i = 0;
+            }
+
+            // top right
+            mGrid[i, j].bWalkable = walkable;
+            mGrid[i, j].Type = type;
+
+            j = (int)((ele.CollisionRect.Bottom + 2048) / 50);
+            if (j > 81)
+            {
+                j = 81;
+            }
+            if (j < 0)
+            {
+                j = 0;
+            }
+
+            // bottom right
+            mGrid[i, j].bWalkable = walkable;
+            mGrid[i, j].Type = type;
+
+            i = (int)(ele.CollisionRect.Left);
+            if (i > 81)
+            {
+                i = 81;
+            }
+            if (i < 0)
+            {
+                i = 0;
+            }
+
+            // bottom left
+            mGrid[i, j].bWalkable = walkable;
+            mGrid[i, j].Type = type;
         }
 
         // Perform A* to get shortest path from start to end

@@ -163,7 +163,8 @@ namespace MyPolarBear.GameObjects
 
             foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
             {
-                if (travelRect.Intersects(element.CollisionRect) && !element.Type.Equals("Ice"))
+                if (travelRect.Intersects(element.CollisionRect) && !(element.Type.Equals("Ice")
+                    || element.Type.Equals("SoftGround") || element.Type.Equals("BabyPlant")))
                 {
                     stuckCounter++;
                     Velocity = ((Position - element.Position) / 20);
@@ -219,8 +220,9 @@ namespace MyPolarBear.GameObjects
                     if (ele.Type.Equals("SoftGround") && (moveRect.Intersects(ele.CollisionRect)
                         || CollisionBox.Intersects(ele.CollisionRect)))
                     {
-                        ele.Type = "Tree";
-                        ele.Tex = ContentManager.GetTexture("Tree");
+                        ele.Type = "BabyPlant";
+                        ele.Tex = ContentManager.GetTexture("BabyPlant");
+                        GameScreen.CurWorldHealth++;
 
                         bHasSeed = false;
                         bHasPath = false;
@@ -335,8 +337,8 @@ namespace MyPolarBear.GameObjects
                             if (ele.Type.Equals("SoftGround") && (ele.CollisionRect.Intersects(CollisionBox)
                                 || biggerRect.Intersects(ele.CollisionRect)))
                             {
-                                ele.Type = "Tree";
-                                ele.Tex = ContentManager.GetTexture("Tree");
+                                ele.Type = "BabyPlant";
+                                ele.Tex = ContentManager.GetTexture("BabyPlant");
                                 //AGrid.GetInstance().mGrid[(int)((ele.Position.X + 2048) / 50), (int)((ele.Position.Y + 2048) / 50)].Type = ANode.NOT_SPECIAL;
                                 GameScreen.CurWorldHealth++;
                                 bHasSeed = false;
@@ -412,11 +414,13 @@ namespace MyPolarBear.GameObjects
                     {
                         ele.Type = "Tree";
                         ele.Tex = ContentManager.GetTexture("Tree");
+                        GameScreen.CurWorldHealth++;
 
                         bHasSeed = false;
                         bHasPath = false;
                         path = null;
-                        Velocity *= -1;
+                        //Velocity *= -1;
+                        Velocity = ((Position - ele.Position) / 20);
 
                         return;
                     }
@@ -434,10 +438,27 @@ namespace MyPolarBear.GameObjects
                         bHasSeed = true;
                         bHasPath = false;
                         path = null;
-                        Velocity *= -1;
+                        //Velocity *= -1;
+                        Velocity = ((Position - ele.Position) / 20);
 
                         return;
                     }
+                }
+            }
+
+            Rectangle moverRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
+            foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
+            {
+                if (moverRect.Intersects(ele.CollisionRect) && !(ele.Type.Equals("Ice")
+                    || ele.Type.Equals("SoftGround") || ele.Type.Equals("BabyPlant")))
+                {
+                    bHasPath = false;
+                    path = null;
+                    //Velocity *= -1;
+                    Velocity = ((Position - ele.Position) / 20);
+                    CurrentState = State.Aimless;
+
+                    return;
                 }
             }
         }
@@ -464,7 +485,8 @@ namespace MyPolarBear.GameObjects
 
             foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
             {
-                if (travelRect.Intersects(element.CollisionRect) && !element.Type.Equals("Ice"))
+                if (travelRect.Intersects(element.CollisionRect) && !(element.Type.Equals("Ice")
+                    || element.Type.Equals("SoftGround") || element.Type.Equals("BabyPlant")))
                 {
                     Velocity *= -1;
                 }

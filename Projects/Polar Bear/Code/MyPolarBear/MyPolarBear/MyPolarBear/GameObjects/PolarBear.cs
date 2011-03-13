@@ -213,9 +213,13 @@ namespace MyPolarBear.GameObjects
 
             foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
             {                
-                if (travelRect.Intersects(element.CollisionRect) && !(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Ice")))
+                if (travelRect.Intersects(element.CollisionRect))
                 {
-                    Velocity = Vector2.Zero;                    
+                    if (!(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Ice")
+                    || element.Type.Equals("SoftGround") || element.Type.Equals("BabyPlant")))
+                    {
+                        Velocity = Vector2.Zero;
+                    }
 
                     if (element.Type.Equals("Bush"))
                     {
@@ -238,9 +242,10 @@ namespace MyPolarBear.GameObjects
                     {
                         if (InputManager.Keyboard.IsKeyReleased(Keys.T) || InputManager.GamePad.IsButtonReleased(Buttons.A))
                         {            
-                            element.Type = "Tree";
-                            element.Tex = ContentManager.GetTexture("Tree");
+                            element.Type = "BabyPlant";
+                            element.Tex = ContentManager.GetTexture("BabyPlant");
                             NumSeeds--;
+                            AGrid.GetInstance().addResource(element);
                             GameScreen.CurWorldHealth++;   
 
                             // teach follower

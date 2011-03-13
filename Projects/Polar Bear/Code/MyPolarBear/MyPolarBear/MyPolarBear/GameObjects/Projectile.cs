@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using MyPolarBear.GameScreens;
 using MyPolarBear.Input;
 using MyPolarBear.Content;
+using MyPolarBear.Pathfinding;
 
 namespace MyPolarBear.GameObjects
 {
@@ -87,12 +88,16 @@ namespace MyPolarBear.GameObjects
             {                
                 if (CollisionBox.Intersects(element.CollisionRect))
                 {
-                    if (!(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Ice")))
+                    if (!(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Ice")
+                        || element.Type.Equals("SoftGround")))
                     {
-                        if (element.Type.Equals("Stump") && Type == PolarBear.Power.Fire)
+                        if (Type == PolarBear.Power.Fire && (element.Type.Equals("Stump") || element.Type.Equals("BabyPlant")))
                         {
-                            UpdateKeeper.getInstance().removeLevelElement(element);
-                            DrawKeeper.getInstance().removeLevelElement(element);
+                            //UpdateKeeper.getInstance().removeLevelElement(element);
+                            //DrawKeeper.getInstance().removeLevelElement(element);
+                            element.Type = "SoftGround";
+                            element.Tex = ContentManager.GetTexture("SoftGround");
+                            AGrid.GetInstance().addResource(element);
                         }
                         if (element.Type.Equals("Water") && Type == PolarBear.Power.Ice)
                         {
