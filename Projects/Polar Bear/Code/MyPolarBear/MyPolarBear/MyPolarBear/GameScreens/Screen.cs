@@ -103,13 +103,11 @@ namespace MyPolarBear.GameScreens
 
         public void LoadLevel(string level)
         {
-            //if (!File.Exists("../../../../" + level + ".txt"))
             if (!File.Exists("Content/Levels/" + level + ".txt"))
             {
                 return;
             }
 
-            //StreamReader fileReader = new StreamReader("../../../../" + level + ".txt");
             StreamReader fileReader = new StreamReader("Content/Levels/" + level + ".txt");
             string fileLine = fileReader.ReadLine();
             LevelElement ele;

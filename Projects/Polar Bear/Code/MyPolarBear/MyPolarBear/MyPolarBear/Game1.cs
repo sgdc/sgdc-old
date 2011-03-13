@@ -109,6 +109,14 @@ namespace MyPolarBear
             ContentManager.AddTexture("LionIdle", Content.Load<Texture2D>("SpriteSheets/Animals/lionIdle"));
             ContentManager.AddTexture("PantherIdle", Content.Load<Texture2D>("SpriteSheets/Animals/pantherIdle"));
 
+            // Other Bear SpriteSheets
+            ContentManager.AddTexture("BrownBearWalkBack", Content.Load<Texture2D>("SpriteSheets/Bears/brownbearwalkback"));
+            ContentManager.AddTexture("BrownBearWalkFront", Content.Load<Texture2D>("SpriteSheets/Bears/brownbearwalkfront"));
+            ContentManager.AddTexture("BrownBearWalkRight", Content.Load<Texture2D>("SpriteSheets/Bears/brownbearwalkright"));
+            ContentManager.AddTexture("WoodBearWalkBack", Content.Load<Texture2D>("SpriteSheets/Bears/woodbearwalkback"));
+            ContentManager.AddTexture("WoodBearWalkFront", Content.Load<Texture2D>("SpriteSheets/Bears/woodbearwalkfront"));
+            ContentManager.AddTexture("WoodBearWalkRight", Content.Load<Texture2D>("SpriteSheets/Bears/woodbearwalkright"));
+
             // Level elements
             ContentManager.AddTexture("Boulder", Content.Load<Texture2D>("LevelElements/boulder"));
             ContentManager.AddTexture("HardRock", Content.Load<Texture2D>("LevelElements/hardRock"));

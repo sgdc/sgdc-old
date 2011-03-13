@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPolarBear", "MyPolarBear\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPolarBearContent", "MyPolarBear\MyPolarBearContent\MyPolarBearContent.contentproj", "{AED7A8F5-D51F-4820-90F0-6D8BA9889136}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Windows Phone Copy (2) of MyPolarBear", "MyPolarBear\MyPolarBear\Windows Phone Copy (2) of MyPolarBear.csproj", "{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -33,6 +35,20 @@ Global
 		{AED7A8F5-D51F-4820-90F0-6D8BA9889136}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{AED7A8F5-D51F-4820-90F0-6D8BA9889136}.Release|Windows Phone.ActiveCfg = Release|x86
 		{AED7A8F5-D51F-4820-90F0-6D8BA9889136}.Release|x86.ActiveCfg = Release|x86
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Debug|Mixed Platforms.ActiveCfg = Debug|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Debug|Mixed Platforms.Build.0 = Debug|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Debug|Mixed Platforms.Deploy.0 = Debug|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Debug|Windows Phone.Deploy.0 = Debug|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Debug|x86.ActiveCfg = Debug|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Release|Mixed Platforms.ActiveCfg = Release|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Release|Mixed Platforms.Build.0 = Release|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Release|Mixed Platforms.Deploy.0 = Release|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Release|Windows Phone.Build.0 = Release|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Release|Windows Phone.Deploy.0 = Release|Windows Phone
+		{17FEF7A3-C0AC-4CDB-A615-9E88BC05E3E0}.Release|x86.ActiveCfg = Release|Windows Phone
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

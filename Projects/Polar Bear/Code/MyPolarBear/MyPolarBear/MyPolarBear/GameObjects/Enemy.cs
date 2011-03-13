@@ -54,16 +54,16 @@ namespace MyPolarBear.GameObjects
 
         public override void LoadContent()
         {
-            Animation ani = new Animation(ContentManager.GetTexture("FireWalkingRight"), 4, 8, 0, true, SpriteEffects.None);
+            Animation ani = new Animation(ContentManager.GetTexture("BrownBearWalkRight"), 4, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("walkRight", ani);
 
-            ani = new Animation(ContentManager.GetTexture("FireWalkingRight"), 4, 8, 0, true, SpriteEffects.FlipHorizontally);
+            ani = new Animation(ContentManager.GetTexture("BrownBearWalkRight"), 4, 8, 0, true, SpriteEffects.FlipHorizontally);
             mAnimator.Animations.Add("walkLeft", ani);
 
-            ani = new Animation(ContentManager.GetTexture("FireWalkingFront"), 5, 8, 0, true, SpriteEffects.None);
+            ani = new Animation(ContentManager.GetTexture("BrownBearWalkFront"), 4, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("walkFront", ani);
 
-            ani = new Animation(ContentManager.GetTexture("FireWalkingBack"), 5, 8, 0, true, SpriteEffects.None);
+            ani = new Animation(ContentManager.GetTexture("BrownBearWalkBack"), 5, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("walkBack", ani);
 
             base.LoadContent();
