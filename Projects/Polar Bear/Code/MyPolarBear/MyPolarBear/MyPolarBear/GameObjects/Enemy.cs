@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MyPolarBear.Content;
 using MyPolarBear.Pathfinding;
 using MyPolarBear.GameScreens;
+using MyPolarBear.Audio;
 
 namespace MyPolarBear.GameObjects
 {
@@ -175,13 +176,13 @@ namespace MyPolarBear.GameObjects
         {
             if (bHasSeenPlanting)
             {
-                retryTimer += gameTime.ElapsedGameTime.Milliseconds;
+                retryTimer += gameTime.ElapsedGameTime.Milliseconds;                
                 if (retryTimer / 1000 > 5)
                 {
-                    CurrentState = State.Planting;
+                    CurrentState = State.Planting;                    
                     retryTimer = 0;
                     return;
-                }
+                }                
             }
 
             stuckTimer += gameTime.ElapsedGameTime.Milliseconds;
@@ -228,6 +229,7 @@ namespace MyPolarBear.GameObjects
                 Velocity.Normalize();
                 //Velocity *= -4;
                 Velocity = new Vector2(random.Next(-4, 4), random.Next(-4, 4));
+                SoundManager.PlaySound("OnFire");
             }
 
             fearTimer += gameTime.ElapsedGameTime.Milliseconds;
@@ -243,8 +245,7 @@ namespace MyPolarBear.GameObjects
             if (fearTimer % 10 == 0)
             {
                 Velocity = new Vector2(random.Next(-4, 4), random.Next(-4, 4));
-            }
-
+            }            
             dealWithCollisions();
         }
 
@@ -295,7 +296,7 @@ namespace MyPolarBear.GameObjects
                         ele.Tex = ContentManager.GetTexture("BabyPlant");
                         AGrid.GetInstance().addResource(ele);
                         GameScreen.CurWorldHealth++;
-
+                        SoundManager.PlaySound("PlantSeed");
                         bHasSeed = false;
                         bHasPath = false;
                         path = null;
@@ -318,7 +319,7 @@ namespace MyPolarBear.GameObjects
                         bHasPath = false;
                         path = null;
                         Velocity *= -1;
-
+                        SoundManager.PlaySound("PickSeed");
                         return;
                     }
                 }
@@ -415,6 +416,7 @@ namespace MyPolarBear.GameObjects
                                 //AGrid.GetInstance().mGrid[(int)((ele.Position.X + 2048) / 50), (int)((ele.Position.Y + 2048) / 50)].Type = ANode.NOT_SPECIAL;
                                 GameScreen.CurWorldHealth++;
                                 bHasSeed = false;
+                                SoundManager.PlaySound("PlantSeed");
                                 break;
                             }
                         }
@@ -434,6 +436,7 @@ namespace MyPolarBear.GameObjects
                                 || biggerRect.Intersects(ele.CollisionRect)))
                             {
                                 bHasSeed = true;
+                                SoundManager.PlaySound("PickSeed");
                                 break;
                             }
                         }
@@ -489,7 +492,7 @@ namespace MyPolarBear.GameObjects
                         ele.Tex = ContentManager.GetTexture("BabyPlant");
                         GameScreen.CurWorldHealth++;
                         AGrid.GetInstance().addResource(ele);
-
+                        SoundManager.PlaySound("PlantSeed");
                         bHasSeed = false;
                         bHasPath = false;
                         path = null;
@@ -512,6 +515,7 @@ namespace MyPolarBear.GameObjects
                         bHasSeed = true;
                         bHasPath = false;
                         path = null;
+                        SoundManager.PlaySound("PlantSeed");
                         //Velocity *= -1;
                         Velocity = ((Position - ele.Position) / 20);
 
@@ -581,8 +585,12 @@ namespace MyPolarBear.GameObjects
 
             if (moveRect.Intersects(targetBear.CollisionBox))
             {
-                PolarBear.CurHitPoints -= 1;
-                Velocity = Vector2.Zero;
+                if (targetBear.IsAlive)
+                {
+                    PolarBear.CurHitPoints -= 1;
+                    SoundManager.PlaySound("Ow");
+                    Velocity = Vector2.Zero;
+                }
             }
 
             foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
@@ -591,6 +599,7 @@ namespace MyPolarBear.GameObjects
                     && ((Enemy)ent).CurrentState != State.Afraid)
                 {
                     ((Enemy)ent).CurrentState = State.Evil;
+                    SoundManager.PlaySound("Roar");
                 }
             }
 
@@ -628,6 +637,7 @@ namespace MyPolarBear.GameObjects
                     ele.Type = "Stump";
                     ele.Tex = ContentManager.GetTexture("Stump");
                     GameScreen.CurWorldHealth--;
+                    SoundManager.PlaySound("Thump");
                 }
                 else if (ele.Type.Equals("Stump") || ele.Type.Equals("BabyPlant"))
                 {
@@ -638,6 +648,7 @@ namespace MyPolarBear.GameObjects
                     ele.Type = "SoftGround";
                     ele.Tex = ContentManager.GetTexture("SoftGround");
                     AGrid.GetInstance().addResource(ele);
+                    SoundManager.PlaySound("Thump");
                 }
 
                 attackCounter = 0;

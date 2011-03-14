@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using MyPolarBear.Content;
+using MyPolarBear.Audio;
 
 namespace MyPolarBear.GameObjects
 {
@@ -120,6 +121,7 @@ namespace MyPolarBear.GameObjects
                         {
                             State = States.Following;
                             ((Projectile)entity).IsAlive = false;
+                            SoundManager.PlaySound("Growl");
                         }
                     }
                 }
@@ -131,6 +133,7 @@ namespace MyPolarBear.GameObjects
                         if (entity.CollisionBox.Intersects(CollisionBox))
                         {
                             State = States.Paired;
+                            SoundManager.PlaySound("Growl");
                             GameScreens.GameScreen.NumAnimals++;
                         }
                     }

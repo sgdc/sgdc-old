@@ -82,7 +82,7 @@ namespace MyPolarBear
             ContentManager.AddTexture("FireSelected", Content.Load<Texture2D>("Images/FireSelected"));
             ContentManager.AddTexture("Background", Content.Load<Texture2D>("Images/BackgroundDirt"));
             ContentManager.AddTexture("ForestBoss", Content.Load<Texture2D>("Images/ForestBoss"));
-            ContentManager.AddTexture("Fire", Content.Load<Texture2D>("Images/fire"));
+            ContentManager.AddTexture("Fire", Content.Load<Texture2D>("Images/Fire"));
 
             // Arctic SpriteSheets
             ContentManager.AddTexture("IceWaveBack", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveBack"));

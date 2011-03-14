@@ -21,7 +21,7 @@ namespace MyPolarBear.GameScreens
         public const int WORLDHEIGHT = 4096;
 
         public static int MaxWorldHealth = 100;
-        public static int CurWorldHealth = 99;
+        public static int CurWorldHealth = 0;
 
         public static int MaxAnimals = 6;
         public static int NumAnimals = 0;
@@ -61,8 +61,7 @@ namespace MyPolarBear.GameScreens
             Enemy ene;            
 
             for (int i = 0; i < maxEnemies; i++)
-            {
-                //ene = new Enemy(new Vector2(MathHelper.Lerp(-WORLDWIDTH / 2, WORLDWIDTH / 2, (float)random.NextDouble()), MathHelper.Lerp(-WORLDHEIGHT, WORLDHEIGHT, (float)random.NextDouble())));
+            {                
                 ene = new Enemy(new Vector2(random.Next(350, 400), random.Next(350, 400)));
                 ene.Velocity = new Vector2(random.Next(1, 10), random.Next(1, 10));
                 ene.CurrentState = Enemy.State.Evil;
@@ -111,7 +110,7 @@ namespace MyPolarBear.GameScreens
             UpdateKeeper.getInstance().addEntity(panther);
             DrawKeeper.getInstance().addEntity(panther);
 
-            //SoundManager.PlaySound("Music");
+            SoundManager.PlaySound("Music");
         }
 
 
@@ -156,8 +155,11 @@ namespace MyPolarBear.GameScreens
                 polarBear.Position = new Vector2(-1950, 1800);
             }
 
-            if (CurWorldHealth == MaxWorldHealth && NumEnemies == 0 && NumAnimals == MaxAnimals)            
-                isGameWon = true;            
+            if (CurWorldHealth == MaxWorldHealth && NumEnemies == 0 && NumAnimals == MaxAnimals && !isGameWon)
+            {
+                isGameWon = true;
+                SoundManager.PlaySound("Victory");
+            }
 
             if (!isGameWon)
                 UpdateKeeper.getInstance().updateAll(gameTime);

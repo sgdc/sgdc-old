@@ -8,6 +8,7 @@ using MyPolarBear.GameScreens;
 using MyPolarBear.Input;
 using MyPolarBear.Content;
 using MyPolarBear.Pathfinding;
+using MyPolarBear.Audio;
 
 namespace MyPolarBear.GameObjects
 {
@@ -25,9 +26,7 @@ namespace MyPolarBear.GameObjects
         {
             get { return _isAlive; }
             set { _isAlive = value; }
-        }
-
-        private int timeWaterFrozen = 0;
+        }        
 
         public Projectile(Vector2 position, float speed, Vector2 direction, PolarBear.Power type) 
             : base(position)
@@ -41,6 +40,8 @@ namespace MyPolarBear.GameObjects
 
         public override void LoadContent()
         {
+            Scale = 0.1f;
+
             switch (Type)
             {
                 case PolarBear.Power.Normal:
@@ -50,14 +51,13 @@ namespace MyPolarBear.GameObjects
                     Texture = ContentManager.GetTexture("IcePowerHeart");
                     break;
                 case PolarBear.Power.Fire:
-                    Texture = ContentManager.GetTexture("FirePowerHeart");
+                    Texture = ContentManager.GetTexture("Fire");
+                    Scale = 1.0f;
                     break;
                 case PolarBear.Power.Lighting:
                     Texture = ContentManager.GetTexture("LightningPowerHeart");
                     break;
-            }
-
-            Scale = 0.1f;
+            }            
 
             base.LoadContent();
         }
@@ -87,7 +87,8 @@ namespace MyPolarBear.GameObjects
             foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
             {                
                 if (CollisionBox.Intersects(element.CollisionRect))
-                {
+                {                    
+
                     if (!(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Ice")
                         || element.Type.Equals("SoftGround")))
                     {
@@ -108,6 +109,7 @@ namespace MyPolarBear.GameObjects
                             element.Type = "Ice";
                             element.Tex = ContentManager.GetTexture("Ice");
                         }
+                        SoundManager.PlaySound("Thump");
                         IsAlive = false;
                     }
                 }
@@ -128,13 +130,11 @@ namespace MyPolarBear.GameObjects
                 if (Type == PolarBear.Power.Normal && ((Enemy)entity).CurrentState != Enemy.State.Following
                     && ((Enemy)entity).CurrentState != Enemy.State.Evil && ((Enemy)entity).CurrentState != Enemy.State.Afraid)
                 {
-                    //if (((Enemy)entity).CurrentState != Enemy.State.Following)
-                    //{
-                        ((Enemy)entity).CurrentState = Enemy.State.Following;
-                        IsAlive = false;
-                    //}
+                    ((Enemy)entity).CurrentState = Enemy.State.Following;
+                    SoundManager.PlaySound("Yay");
+                    IsAlive = false;
                 }
-                else if (Type == PolarBear.Power.Fire)// && (((Enemy)entity).CurrentState == Enemy.State.Evil)
+                else if (Type == PolarBear.Power.Fire && ((Enemy)entity).CurrentState == Enemy.State.Evil)// && (((Enemy)entity).CurrentState == Enemy.State.Evil)
                 {
                     ((Enemy)entity).CurrentState = Enemy.State.Afraid;
                     IsAlive = false;

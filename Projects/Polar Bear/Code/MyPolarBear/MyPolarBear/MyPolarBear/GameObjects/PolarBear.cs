@@ -8,6 +8,7 @@ using MyPolarBear.GameScreens;
 using MyPolarBear.Input;
 using MyPolarBear.Content;
 using MyPolarBear.Pathfinding;
+using MyPolarBear.Audio;
 
 namespace MyPolarBear.GameObjects
 {
@@ -193,7 +194,8 @@ namespace MyPolarBear.GameObjects
                 projectile.LoadContent();
                 projectile.IsAlive = true;                
                 UpdateKeeper.getInstance().addEntity(projectile);
-                DrawKeeper.getInstance().addEntity(projectile);                
+                DrawKeeper.getInstance().addEntity(projectile);
+                SoundManager.PlaySound("Shoot");
             }
 
             if (InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Right).Length() >= .5)
@@ -207,6 +209,7 @@ namespace MyPolarBear.GameObjects
                     DrawKeeper.getInstance().addEntity(projectile);
                     projectile.IsAlive = true;
                     timeProjectileFired = (int)gameTime.TotalGameTime.TotalMilliseconds;
+                    SoundManager.PlaySound("Shoot");
                 }
             }
             else
@@ -224,7 +227,7 @@ namespace MyPolarBear.GameObjects
                     if (!(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Ice")
                     || element.Type.Equals("SoftGround") || element.Type.Equals("BabyPlant")))
                     {
-                        Velocity = Vector2.Zero;
+                        Velocity = Vector2.Zero;                        
                     }
 
                     if (element.Type.Equals("Bush"))
@@ -232,6 +235,8 @@ namespace MyPolarBear.GameObjects
                         if (InputManager.Keyboard.IsKeyReleased(Keys.T) || InputManager.GamePad.IsButtonReleased(Buttons.A))
                         {
                             NumSeeds++;
+                            if (NumSeeds <= 10) 
+                                SoundManager.PlaySound("PickSeed");
 
                             // teach follower
                             foreach (Entity ene in UpdateKeeper.getInstance().getEntities())
@@ -252,7 +257,8 @@ namespace MyPolarBear.GameObjects
                             element.Tex = ContentManager.GetTexture("BabyPlant");
                             NumSeeds--;
                             AGrid.GetInstance().addResource(element);
-                            GameScreen.CurWorldHealth++;   
+                            GameScreen.CurWorldHealth++;
+                            SoundManager.PlaySound("PlantSeed");
 
                             // teach follower
                             foreach (Entity ene in UpdateKeeper.getInstance().getEntities())
@@ -261,6 +267,7 @@ namespace MyPolarBear.GameObjects
                                 {
                                     ((Enemy)ene).bHasSeenPlanting = true;
                                     ((Enemy)ene).CurrentState = Enemy.State.Planting;
+                                    SoundManager.PlaySound("OK");
                                 }
                             }
                         }
@@ -274,6 +281,7 @@ namespace MyPolarBear.GameObjects
                 if (CurHitPoints == 0)
                 {
                     IsAlive = false;
+                    InputManager.GamePad.StopVibration();
                 }
             }
 
