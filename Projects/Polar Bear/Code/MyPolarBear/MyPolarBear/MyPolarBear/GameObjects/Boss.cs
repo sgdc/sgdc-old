@@ -60,40 +60,44 @@ namespace MyPolarBear.GameObjects
                         }
                     }
                 }
-
-                foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
-                {                    
-                    if (CollisionBox.Intersects(element.CollisionRect))
-                    {
-                        if (element.Type.Equals("Tree2") || element.Type.Equals("Tree"))
-                        {
-                            element.Type = "Stump";
-                            element.Tex = ContentManager.GetTexture("Stump");
-                            GameScreen.CurWorldHealth--;
-                        }
-                        else if (element.Type.Equals("BabyPlant"))
-                        {
-                            element.Type = "SoftGround";
-                            element.Tex = ContentManager.GetTexture("SoftGround");
-                        }
-                        else if (element.Type.Equals("Ice"))
-                        {
-                            element.Type = "Water";
-                            element.Tex = ContentManager.GetTexture("Water");
-                        }
-                        else if (!(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Water") 
-                            || element.Type.Equals("Water2") || element.Type.Equals("Stump") || element.Type.Equals("SoftGround")))
-                        {
-                            UpdateKeeper.getInstance().removeLevelElement(element);
-                            DrawKeeper.getInstance().removeLevelElement(element);
-                        }
-                    }
+                else if (entity is Enemy && CollisionBox.Intersects(entity.CollisionBox))
+                {
+                    ((Enemy)entity).CurrentState = Enemy.State.Evil;
                 }
 
                 if (Health == 0)                
                     IsAlive = false;                                    
 
                 Health = (int)MathHelper.Clamp((float)Health, 0.0f, 100.0f);                
+            }
+
+            foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
+            {
+                if (CollisionBox.Intersects(element.CollisionRect))
+                {
+                    if (element.Type.Equals("Tree2") || element.Type.Equals("Tree"))
+                    {
+                        element.Type = "Stump";
+                        element.Tex = ContentManager.GetTexture("Stump");
+                        GameScreen.CurWorldHealth--;
+                    }
+                    else if (element.Type.Equals("BabyPlant"))
+                    {
+                        element.Type = "SoftGround";
+                        element.Tex = ContentManager.GetTexture("SoftGround");
+                    }
+                    else if (element.Type.Equals("Ice"))
+                    {
+                        element.Type = "Water";
+                        element.Tex = ContentManager.GetTexture("Water");
+                    }
+                    else if (!(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Water")
+                        || element.Type.Equals("Water2") || element.Type.Equals("Stump") || element.Type.Equals("SoftGround")))
+                    {
+                        UpdateKeeper.getInstance().removeLevelElement(element);
+                        DrawKeeper.getInstance().removeLevelElement(element);
+                    }
+                }
             }
             
             base.Update(gameTime);

@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using MyPolarBear.Input;
 using System.IO;
 using MyPolarBear.Content;
+using System.IO.IsolatedStorage;
 
 namespace MyPolarBear.GameScreens
 {  
@@ -103,13 +104,15 @@ namespace MyPolarBear.GameScreens
 
         public void LoadLevel(string level)
         {
-            if (!File.Exists("Content/Levels/" + level + ".txt"))
+            if (!System.IO.File.Exists("Content/Levels/" + level + ".txt"))
             {
                 return;
             }
 
-            StreamReader fileReader = new StreamReader("Content/Levels/" + level + ".txt");
+            System.IO.StreamReader fileReader = new System.IO.StreamReader("Content/Levels/" + level + ".txt");
+
             string fileLine = fileReader.ReadLine();
+            
             LevelElement ele;
             int x;
             int y;

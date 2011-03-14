@@ -62,6 +62,7 @@ namespace MyPolarBear.GameScreens
                 //ene = new Enemy(new Vector2(MathHelper.Lerp(-WORLDWIDTH / 2, WORLDWIDTH / 2, (float)random.NextDouble()), MathHelper.Lerp(-WORLDHEIGHT, WORLDHEIGHT, (float)random.NextDouble())));
                 ene = new Enemy(new Vector2(random.Next(350, 400), random.Next(350, 400)));
                 ene.Velocity = new Vector2(random.Next(1, 10), random.Next(1, 10));
+                ene.CurrentState = Enemy.State.Evil;
                 ene.LoadContent();
                 UpdateKeeper.getInstance().addEntity(ene);
                 DrawKeeper.getInstance().addEntity(ene);

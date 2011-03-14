@@ -121,13 +121,19 @@ namespace MyPolarBear.GameObjects
         {
             if (entity is Enemy)
             {
-                if (Type == PolarBear.Power.Normal && ((Enemy)entity).CurrentState != Enemy.State.Following)
+                if (Type == PolarBear.Power.Normal && ((Enemy)entity).CurrentState != Enemy.State.Following
+                    && ((Enemy)entity).CurrentState != Enemy.State.Evil)
                 {
                     //if (((Enemy)entity).CurrentState != Enemy.State.Following)
                     //{
                         ((Enemy)entity).CurrentState = Enemy.State.Following;
                         IsAlive = false;
                     //}
+                }
+                else if (Type == PolarBear.Power.Fire && ((Enemy)entity).CurrentState == Enemy.State.Evil)
+                {
+                    ((Enemy)entity).CurrentState = Enemy.State.Aimless;
+                    IsAlive = false;
                 }
             }
             else if (entity is Boss)

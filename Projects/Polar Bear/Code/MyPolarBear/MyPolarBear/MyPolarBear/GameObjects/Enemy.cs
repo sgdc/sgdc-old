@@ -26,6 +26,7 @@ namespace MyPolarBear.GameObjects
         Random random = new Random();
 
         private PolarBear followBear;
+        private PolarBear targetBear;
         //public bool bFollowBear;
         private Vector2 mScale;
 
@@ -41,11 +42,15 @@ namespace MyPolarBear.GameObjects
         private bool bHasPath;
         private int pathPos;
 
+        private int attackCounter;
+        private int attackTimer;
+
         public Enemy(Vector2 position)
             : base(position)
         {            
             IsAlive = true;            
             followBear = null;
+            targetBear = null;
             //bFollowBear = false;
             Scale = 1;
             mScale = new Vector2(Scale, Scale);
@@ -54,6 +59,7 @@ namespace MyPolarBear.GameObjects
 
         public override void LoadContent()
         {
+            // good bears
             Animation ani = new Animation(ContentManager.GetTexture("BrownBearWalkRight"), 4, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("walkRight", ani);
 
@@ -65,6 +71,19 @@ namespace MyPolarBear.GameObjects
 
             ani = new Animation(ContentManager.GetTexture("BrownBearWalkBack"), 5, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("walkBack", ani);
+
+            // evil bears
+            ani = new Animation(ContentManager.GetTexture("WoodBearWalkRight"), 5, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("evilwalkRight", ani);
+
+            ani = new Animation(ContentManager.GetTexture("WoodBearWalkRight"), 5, 8, 0, true, SpriteEffects.FlipHorizontally);
+            mAnimator.Animations.Add("evilwalkLeft", ani);
+
+            ani = new Animation(ContentManager.GetTexture("WoodBearWalkFront"), 5, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("evilwalkFront", ani);
+
+            ani = new Animation(ContentManager.GetTexture("WoodBearWalkBack"), 5, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("evilwalkBack", ani);
 
             base.LoadContent();
 
@@ -100,19 +119,47 @@ namespace MyPolarBear.GameObjects
 
             if (Velocity.X > 0 && Velocity.X > Velocity.Y && Velocity.X > Velocity.Y * -1)
             {
-                mAnimator.PlayAnimation("walkRight", false);
+                if (CurrentState == State.Evil)
+                {
+                    mAnimator.PlayAnimation("evilwalkRight", false);
+                }
+                else
+                {
+                    mAnimator.PlayAnimation("walkRight", false);
+                }
             }
             else if (Velocity.X < 0 && Velocity.X * -1 > Velocity.Y && Velocity.X * -1 > Velocity.Y * -1)
             {
-                mAnimator.PlayAnimation("walkLeft", false);
+                if (CurrentState == State.Evil)
+                {
+                    mAnimator.PlayAnimation("evilwalkLeft", false);
+                }
+                else
+                {
+                    mAnimator.PlayAnimation("walkLeft", false);
+                }
             }
             else if (Velocity.Y > 0)
             {
-                mAnimator.PlayAnimation("walkFront", false);
+                if (CurrentState == State.Evil)
+                {
+                    mAnimator.PlayAnimation("evilwalkFront", false);
+                }
+                else
+                {
+                    mAnimator.PlayAnimation("walkFront", false);
+                }
             }
             else
             {
-                mAnimator.PlayAnimation("walkBack", false);
+                if (CurrentState == State.Evil)
+                {
+                    mAnimator.PlayAnimation("evilwalkBack", false);
+                }
+                else
+                {
+                    mAnimator.PlayAnimation("walkBack", false);
+                }
             }
 
             //dealWithCollisions();
@@ -465,7 +512,103 @@ namespace MyPolarBear.GameObjects
 
         private void beEvil(GameTime gameTime)
         {
+            if (targetBear == null)
+            {
+                foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
+                {
+                    if (ent is PolarBear)
+                    {
+                        targetBear = (PolarBear)ent;
+                        break;
+                    }
+                }
+                path = null;
+                pathPos = 0;
+            }
 
+            // polar bear not found for some reason
+            if (targetBear == null)
+            {
+                dealWithCollisions();
+                return;
+            }
+
+            // try straight line attack
+            Vector2 direction = targetBear.Position - Position;
+            if (direction.Length() <= 500)
+            {
+                direction.Normalize();
+                Velocity = direction * 3.0f;
+            }
+
+            Rectangle moveRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, 
+                CollisionBox.Width, CollisionBox.Height);
+
+            foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
+            {
+                if (moveRect.Intersects(ele.CollisionRect) && !(ele.Type.Equals("Ice") || ele.Type.Equals("SoftGround")))
+                {
+                    attackLevelElement(ele, gameTime);
+                }
+            }
+
+            if (moveRect.Intersects(targetBear.CollisionBox))
+            {
+                PolarBear.CurHitPoints -= 1;
+                Velocity = Vector2.Zero;
+            }
+
+            foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
+            {
+                if (moveRect.Intersects(ent.CollisionBox) && ent is Enemy && ((Enemy)ent).CurrentState != State.Evil)
+                {
+                    ((Enemy)ent).CurrentState = State.Evil;
+                }
+            }
+
+            if (attackCounter == 0)
+            {
+                dealWithCollisions();
+            }
+            else
+            {
+                if ((Position.X > GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X > 0) || (Position.X < -GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X < 0))
+                {
+                    Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+                }
+
+                if ((Position.Y > GameScreens.GameScreen.WORLDHEIGHT / 2 && Velocity.Y > 0) || (Position.Y < -GameScreens.GameScreen.WORLDHEIGHT / 2 && Velocity.Y < 0))
+                {
+                    Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
+                }
+            }
+        }
+
+        private void attackLevelElement(LevelElement ele, GameTime gameTime)
+        {
+            attackTimer += gameTime.ElapsedGameTime.Milliseconds;
+
+            if (attackTimer > 500)
+            {
+                attackCounter++;
+            }
+
+            if (attackCounter >= 3)
+            {
+                if (ele.Type.Equals("Tree") || ele.Type.Equals("Tree2"))
+                {
+                    ele.Type = "Stump";
+                    ele.Tex = ContentManager.GetTexture("Stump");
+                }
+                else if (ele.Type.Equals("Stump") || ele.Type.Equals("BabyPlant"))
+                {
+                    ele.Type = "SoftGround";
+                    ele.Tex = ContentManager.GetTexture("SoftGround");
+                }
+
+                attackCounter = 0;
+                attackTimer = 0;
+            }
         }
 
         private void dealWithCollisions()
@@ -488,7 +631,8 @@ namespace MyPolarBear.GameObjects
                 if (travelRect.Intersects(element.CollisionRect) && !(element.Type.Equals("Ice")
                     || element.Type.Equals("SoftGround") || element.Type.Equals("BabyPlant")))
                 {
-                    Velocity *= -1;
+                    //Velocity *= -1;
+                    Velocity = ((Position - element.Position) / 20);
                 }
             }
         }
