@@ -143,6 +143,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="RockBlock.cs" />
     <Compile Include="SuperJump.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -44,6 +44,10 @@
       <Source>superjump.png</Source>
     </SpriteSheet>
 
+    <SpriteSheet ID="10">
+      <Source>rockblock.png</Source>
+    </SpriteSheet>
+
   </SpriteSheets>
   
 </SGDE>

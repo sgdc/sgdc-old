@@ -11,27 +11,34 @@ using SGDE.Physics.Collision;
 
 namespace Tyrus_and_Randall
 {
-    abstract class Powerup : Entity
+    class RockBlock : Entity
     {
-        public Powerup()
+        private static bool down;
+
+        public RockBlock()
             : this(0.0f, 0.0f)
         { }
 
-        public Powerup(Vector2 pos)
+        public RockBlock(Vector2 pos)
             : this(pos.X, pos.Y)
         { }
 
-        public Powerup(float x, float y) :base(x,y)
+        public RockBlock(float x, float y) :base(x,y)
         {
-			id = 8;
+			id = 9;
+            down = false;
         }
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            if (this.GetCollisionUnit().IsSolid()) this.GetCollisionUnit().SetSolid(false);
+            if (down && this.GetTranslation().X == 4416)
+                this.SetTranslation(new Vector2(4304f, 416f));
         }
 
-        public abstract void Activate(Player e);
+        public static void Fall()
+        {
+            down = true;
+        }
     }
 }

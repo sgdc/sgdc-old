@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using SGDE.Physics.Collision;
 
-
 namespace Tyrus_and_Randall
 {
     class SuperJump : Powerup
