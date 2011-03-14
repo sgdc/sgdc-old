@@ -25,7 +25,7 @@ namespace Tyrus_and_Randall
             base.Initialize();
             this.CameraControl.HorizontalBounds = new Vector2(float.PositiveInfinity, 0);
             this.CameraControl.VerticalBounds = new Vector2(this.Window.ClientBounds.Height, 0);
-            foodText = "Food: 0";
+            foodText = "Food: 0 / 20";
             levelonecomplete = false;
         }
 

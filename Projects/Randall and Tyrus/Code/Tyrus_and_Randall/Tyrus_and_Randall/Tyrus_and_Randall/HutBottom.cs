@@ -43,6 +43,8 @@ namespace Tyrus_and_Randall
                         if (((Player)other.GetParent()).TotalFood >= 20)
                         {
                             Game1.CompleteLevelOne();
+                            ((Player)other.GetParent()).currentLevel = 2;
+                            ((Player)other.GetParent()).DumpFood();
                             RockBlock.Fall();
                         }
                     }

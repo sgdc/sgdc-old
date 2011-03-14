@@ -15,6 +15,7 @@ namespace Tyrus_and_Randall
 {
     class Player : Entity, InputHandler
     {
+        public uint currentLevel;
         private Boolean onGround;
         public enum PlayerDirection { Right, Left, StandingRight, StandingLeft };
         private PlayerDirection dir;
@@ -23,7 +24,7 @@ namespace Tyrus_and_Randall
         private const double knockBackStagger = 500;
         private Boolean staggered;
         private const double knockBackMax = 3000;
-        private const uint levelOneFood = 20;
+        private static readonly uint[] levelFood = new uint[] {0, 20, 30};
         private ArrayList collectedFood;
         public float jumpMultiplier;
 
@@ -41,6 +42,7 @@ namespace Tyrus_and_Randall
             staggered = false;
             collectedFood = new ArrayList();
             jumpMultiplier = 1.0f;
+            currentLevel = 1;
         }
 
         public override void Initialize()
@@ -64,8 +66,9 @@ namespace Tyrus_and_Randall
                     if (collectedFood.Count > 0)
                         collectedFood.RemoveAt(collectedFood.Count - 1);
                 }
-                Game1.foodText = "Food: " + collectedFood.Count + " / " + levelOneFood;
             }
+            
+            Game1.foodText = "Food: " + collectedFood.Count + " / " + levelFood[currentLevel];
 
             SGDE.Game.CurrentGame.CameraControl.Position = this.GetTranslation();
 
@@ -205,7 +208,6 @@ namespace Tyrus_and_Randall
                                 {
                                     ((Food)(other.GetParent())).Disable();
                                     collectedFood.Add(((Food)(other.GetParent())));
-                                    Game1.foodText = "Food: " + collectedFood.Count + " / " + levelOneFood;
                                 }
 
                                 break;
@@ -239,7 +241,6 @@ namespace Tyrus_and_Randall
                                         //((Food)collectedFood[i]).SetVelocity((float)-0.5*(i+1), (float)-0.5*i);
                                         collectedFood.RemoveAt(i);
                                     }
-                                    Game1.foodText = "Food: " + collectedFood.Count + " / " + levelOneFood;
                                 }
                                 break;
                             default:
@@ -328,6 +329,11 @@ namespace Tyrus_and_Randall
             {
                 return collectedFood.Count;
             }
+        }
+
+        public void DumpFood()
+        {
+            collectedFood.Clear();
         }
 
     }
