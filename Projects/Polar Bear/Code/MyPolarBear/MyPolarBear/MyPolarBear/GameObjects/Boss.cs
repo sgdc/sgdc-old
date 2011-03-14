@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 using MyPolarBear.Content;
 using MyPolarBear.GameScreens;
+using MyPolarBear.Pathfinding;
 
 namespace MyPolarBear.GameObjects
 {
@@ -85,6 +86,7 @@ namespace MyPolarBear.GameObjects
                     {
                         element.Type = "SoftGround";
                         element.Tex = ContentManager.GetTexture("SoftGround");
+                        AGrid.GetInstance().addResource(element);
                     }
                     else if (element.Type.Equals("Ice"))
                     {
@@ -92,7 +94,8 @@ namespace MyPolarBear.GameObjects
                         element.Tex = ContentManager.GetTexture("Water");
                     }
                     else if (!(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Water")
-                        || element.Type.Equals("Water2") || element.Type.Equals("Stump") || element.Type.Equals("SoftGround")))
+                        || element.Type.Equals("Water2") || element.Type.Equals("Stump") || element.Type.Equals("SoftGround")
+                        || element.Type.Equals("Bush")))
                     {
                         UpdateKeeper.getInstance().removeLevelElement(element);
                         DrawKeeper.getInstance().removeLevelElement(element);

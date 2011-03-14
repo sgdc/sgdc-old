@@ -269,6 +269,7 @@ namespace MyPolarBear.GameObjects
                     {
                         ele.Type = "BabyPlant";
                         ele.Tex = ContentManager.GetTexture("BabyPlant");
+                        AGrid.GetInstance().addResource(ele);
                         GameScreen.CurWorldHealth++;
 
                         bHasSeed = false;
@@ -386,6 +387,7 @@ namespace MyPolarBear.GameObjects
                             {
                                 ele.Type = "BabyPlant";
                                 ele.Tex = ContentManager.GetTexture("BabyPlant");
+                                AGrid.GetInstance().addResource(ele);
                                 //AGrid.GetInstance().mGrid[(int)((ele.Position.X + 2048) / 50), (int)((ele.Position.Y + 2048) / 50)].Type = ANode.NOT_SPECIAL;
                                 GameScreen.CurWorldHealth++;
                                 bHasSeed = false;
@@ -459,9 +461,10 @@ namespace MyPolarBear.GameObjects
                     if (ele.Type.Equals("SoftGround") && (moveRect.Intersects(ele.CollisionRect)
                         || CollisionBox.Intersects(ele.CollisionRect)))
                     {
-                        ele.Type = "Tree";
-                        ele.Tex = ContentManager.GetTexture("Tree");
+                        ele.Type = "BabyPlant";
+                        ele.Tex = ContentManager.GetTexture("BabyPlant");
                         GameScreen.CurWorldHealth++;
+                        AGrid.GetInstance().addResource(ele);
 
                         bHasSeed = false;
                         bHasPath = false;
@@ -599,11 +602,17 @@ namespace MyPolarBear.GameObjects
                 {
                     ele.Type = "Stump";
                     ele.Tex = ContentManager.GetTexture("Stump");
+                    GameScreen.CurWorldHealth--;
                 }
                 else if (ele.Type.Equals("Stump") || ele.Type.Equals("BabyPlant"))
                 {
+                    if (ele.Type.Equals("BabyPlant"))
+                    {
+                        GameScreen.CurWorldHealth--;
+                    }
                     ele.Type = "SoftGround";
                     ele.Tex = ContentManager.GetTexture("SoftGround");
+                    AGrid.GetInstance().addResource(ele);
                 }
 
                 attackCounter = 0;

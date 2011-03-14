@@ -29,6 +29,7 @@ namespace MyPolarBear.GameScreens
        
         const int maxEnemies = 25;
         private int lovedEnemies = 0;
+        const int bossMinions = 10;
         
         Random random = new Random();        
 
@@ -62,6 +63,16 @@ namespace MyPolarBear.GameScreens
                 //ene = new Enemy(new Vector2(MathHelper.Lerp(-WORLDWIDTH / 2, WORLDWIDTH / 2, (float)random.NextDouble()), MathHelper.Lerp(-WORLDHEIGHT, WORLDHEIGHT, (float)random.NextDouble())));
                 ene = new Enemy(new Vector2(random.Next(350, 400), random.Next(350, 400)));
                 ene.Velocity = new Vector2(random.Next(1, 10), random.Next(1, 10));
+                ene.CurrentState = Enemy.State.Evil;
+                ene.LoadContent();
+                UpdateKeeper.getInstance().addEntity(ene);
+                DrawKeeper.getInstance().addEntity(ene);
+            }
+
+            for (int i = 0; i < bossMinions; i++)
+            {
+                ene = new Enemy(new Vector2(random.Next(-200, 200), random.Next(-1500, -1000)));
+                ene.Velocity = new Vector2(0, 0);
                 ene.CurrentState = Enemy.State.Evil;
                 ene.LoadContent();
                 UpdateKeeper.getInstance().addEntity(ene);

@@ -95,6 +95,10 @@ namespace MyPolarBear.GameObjects
                         {
                             //UpdateKeeper.getInstance().removeLevelElement(element);
                             //DrawKeeper.getInstance().removeLevelElement(element);
+                            if (element.Type.Equals("BabyPlant"))
+                            {
+                                GameScreen.CurWorldHealth--;
+                            }
                             element.Type = "SoftGround";
                             element.Tex = ContentManager.GetTexture("SoftGround");
                             AGrid.GetInstance().addResource(element);
