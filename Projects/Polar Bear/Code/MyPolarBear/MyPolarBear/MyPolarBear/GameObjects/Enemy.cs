@@ -45,6 +45,8 @@ namespace MyPolarBear.GameObjects
         private int attackCounter;
         private int attackTimer;
 
+        private int fearTimer;
+
         public Enemy(Vector2 position)
             : base(position)
         {            
@@ -221,7 +223,29 @@ namespace MyPolarBear.GameObjects
 
         private void beAfraid(GameTime gameTime)
         {
+            if (fearTimer <= 0)
+            {
+                Velocity.Normalize();
+                //Velocity *= -4;
+                Velocity = new Vector2(random.Next(-4, 4), random.Next(-4, 4));
+            }
 
+            fearTimer += gameTime.ElapsedGameTime.Milliseconds;
+
+            if (fearTimer > 2000)
+            {
+                fearTimer = 0;
+                CurrentState = State.Aimless;
+                dealWithCollisions();
+                return;
+            }
+
+            if (fearTimer % 10 == 0)
+            {
+                Velocity = new Vector2(random.Next(-4, 4), random.Next(-4, 4));
+            }
+
+            dealWithCollisions();
         }
 
         // follow player around and learn from his behavior
@@ -563,7 +587,8 @@ namespace MyPolarBear.GameObjects
 
             foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
             {
-                if (moveRect.Intersects(ent.CollisionBox) && ent is Enemy && ((Enemy)ent).CurrentState != State.Evil)
+                if (moveRect.Intersects(ent.CollisionBox) && ent is Enemy && ((Enemy)ent).CurrentState != State.Evil
+                    && ((Enemy)ent).CurrentState != State.Afraid)
                 {
                     ((Enemy)ent).CurrentState = State.Evil;
                 }
@@ -689,7 +714,15 @@ namespace MyPolarBear.GameObjects
             mScale.Y = Scale;
 
             //spriteBatch.Draw(ContentManager.GetTexture("HardRock"), CollisionBox, Color.White);
+
+            
+
             mAnimator.Draw(spriteBatch, Position, mScale, Color.White, Rotation, Origin, 0);
+
+            if (CurrentState == State.Afraid)
+            {
+                spriteBatch.Draw(ContentManager.GetTexture("Fire"), Position, Color.White);
+            }
         }
     }
 }

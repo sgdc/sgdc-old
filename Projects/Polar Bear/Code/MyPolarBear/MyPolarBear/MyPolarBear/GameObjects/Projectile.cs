@@ -126,7 +126,7 @@ namespace MyPolarBear.GameObjects
             if (entity is Enemy)
             {
                 if (Type == PolarBear.Power.Normal && ((Enemy)entity).CurrentState != Enemy.State.Following
-                    && ((Enemy)entity).CurrentState != Enemy.State.Evil)
+                    && ((Enemy)entity).CurrentState != Enemy.State.Evil && ((Enemy)entity).CurrentState != Enemy.State.Afraid)
                 {
                     //if (((Enemy)entity).CurrentState != Enemy.State.Following)
                     //{
@@ -134,9 +134,9 @@ namespace MyPolarBear.GameObjects
                         IsAlive = false;
                     //}
                 }
-                else if (Type == PolarBear.Power.Fire && ((Enemy)entity).CurrentState == Enemy.State.Evil)
+                else if (Type == PolarBear.Power.Fire)// && (((Enemy)entity).CurrentState == Enemy.State.Evil)
                 {
-                    ((Enemy)entity).CurrentState = Enemy.State.Aimless;
+                    ((Enemy)entity).CurrentState = Enemy.State.Afraid;
                     IsAlive = false;
                 }
             }
