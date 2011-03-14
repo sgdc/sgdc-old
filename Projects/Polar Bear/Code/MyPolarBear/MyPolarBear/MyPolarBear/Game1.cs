@@ -148,7 +148,7 @@ namespace MyPolarBear
             ContentManager.AddTexture("BabyPlant", Content.Load<Texture2D>("LevelElements/babyplant"));
 
             // Fonts
-            ContentManager.AddFont("Calibri", Content.Load<SpriteFont>("Fonts/Calibri"));                       
+            ContentManager.AddFont("Calibri", Content.Load<SpriteFont>("Fonts/Calibri"));
 
             Components.Add(screenManager);
             screenManager.Initialize();

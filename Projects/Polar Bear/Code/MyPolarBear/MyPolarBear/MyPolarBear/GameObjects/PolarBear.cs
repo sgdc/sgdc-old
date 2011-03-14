@@ -193,7 +193,7 @@ namespace MyPolarBear.GameObjects
                 projectile.LoadContent();
                 projectile.IsAlive = true;                
                 UpdateKeeper.getInstance().addEntity(projectile);
-                DrawKeeper.getInstance().addEntity(projectile);
+                DrawKeeper.getInstance().addEntity(projectile);                
             }
 
             if (InputManager.GamePad.GetThumbStickState(GamePadComponent.Thumbstick.Right).Length() >= .5)
@@ -383,7 +383,7 @@ namespace MyPolarBear.GameObjects
                 mAnimator.Draw(spriteBatch, Position, mScale, Color.White, Rotation, Origin, 0);
             }
             else
-                spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "GAME OVER!!!", Position, Color.Black);
+                spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "GAME OVER!!!", new Vector2(Position.X - 100.0f, Position.Y), Color.Black);
         }
     }
 }

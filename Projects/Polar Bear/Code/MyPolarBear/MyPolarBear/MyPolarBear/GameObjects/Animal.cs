@@ -10,9 +10,7 @@ namespace MyPolarBear.GameObjects
     class Animal : Entity
     {
         private PolarBear followBear;
-
-        public Random random = new Random();
-        
+        public Random random = new Random();                
         private Vector2 mScale;              
 
         public enum Types
@@ -47,7 +45,7 @@ namespace MyPolarBear.GameObjects
             Gender = gender;
             State = States.Idle;
             Scale = 1;
-            mScale = new Vector2(Scale, Scale);            
+            mScale = new Vector2(Scale, Scale);                
         }
 
 
@@ -97,7 +95,7 @@ namespace MyPolarBear.GameObjects
                 if (followBear != null && State == States.Following)
                 {
                     Vector2 direction = followBear.Position - Position;
-                    if (Math.Abs(direction.Length()) > 50)
+                    if (Math.Abs(direction.Length()) > 40)
                     {
                         direction.Normalize();
                         Velocity = direction * 3.0f;
@@ -109,6 +107,7 @@ namespace MyPolarBear.GameObjects
             else
             {
                 Velocity = Vector2.Zero;
+                return;
             }
 
             foreach (Entity entity in UpdateKeeper.getInstance().getEntities())
@@ -132,12 +131,13 @@ namespace MyPolarBear.GameObjects
                         if (entity.CollisionBox.Intersects(CollisionBox))
                         {
                             State = States.Paired;
+                            GameScreens.GameScreen.NumAnimals++;
                         }
                     }
                 }
             }
 
-            if (Input.InputManager.GamePad.IsButtonReleased(Microsoft.Xna.Framework.Input.Buttons.B))
+            if (!followBear.IsAlive)
             {
                 State = States.Idle;
                 Velocity = Vector2.Zero;

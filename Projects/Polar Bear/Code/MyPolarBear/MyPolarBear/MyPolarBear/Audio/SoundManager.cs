@@ -16,14 +16,12 @@ namespace MyPolarBear.Audio
         {
             audioEngine = new AudioEngine(@"Content/Sounds/GameSounds.xgs");
             waveBank = new WaveBank(audioEngine, @"Content/Sounds/Wave Bank.xwb");
-            soundBank = new SoundBank(audioEngine, @"Content/Sounds/Sound Bank.xsb");
-
-            audioEngine.Update();
+            soundBank = new SoundBank(audioEngine, @"Content/Sounds/Sound Bank.xsb");            
         }
 
-        public static void PlayCue(string name)
+        public static void PlaySound(string name)
         {
-            soundBank.PlayCue(name);
-        }       
+            soundBank.GetCue(name).Play();          
+        }
     }
 }

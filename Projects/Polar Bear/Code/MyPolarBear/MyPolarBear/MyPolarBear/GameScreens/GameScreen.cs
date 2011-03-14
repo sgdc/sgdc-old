@@ -20,23 +20,25 @@ namespace MyPolarBear.GameScreens
         public const int WORLDWIDTH = 4096;
         public const int WORLDHEIGHT = 4096;
 
-        public static int MaxWorldHealth;
-        public static int CurWorldHealth;       
+        public static int MaxWorldHealth = 100;
+        public static int CurWorldHealth = 99;
+
+        public static int MaxAnimals = 6;
+        public static int NumAnimals = 0;
         
         PolarBear polarBear;
-
         Boss forestBoss;
        
         const int maxEnemies = 25;
-        private int lovedEnemies = 0;
+        public static int NumEnemies = 0;
         const int bossMinions = 10;
         
-        Random random = new Random();        
+        Random random = new Random();
+
+        bool isGameWon = false;
 
         public GameScreen(ScreenType screenType) : base(screenType)
         {
-            MaxWorldHealth = 100;
-            CurWorldHealth = 0;
         }             
 
         public void LoadContent()
@@ -109,17 +111,12 @@ namespace MyPolarBear.GameScreens
             UpdateKeeper.getInstance().addEntity(panther);
             DrawKeeper.getInstance().addEntity(panther);
 
-            SoundManager.PlayCue("Music");
-
-            //LoadLevel("levelforest");
-
-            //UpdateKeeper.getInstance().updateAll(new GameTime());
-            //AGrid.GetInstance().setLevel(UpdateKeeper.getInstance().getLevelElements());
+            //SoundManager.PlaySound("Music");
         }
 
 
         public void Update(GameTime gameTime)
-        {           
+        {          
 
             if (InputManager.GamePad.IsButtonReleased(Buttons.Start))           
                 ScreenManager.screenType = ScreenType.PauseScreen;                
@@ -140,17 +137,17 @@ namespace MyPolarBear.GameScreens
             if (Math.Abs(distance.Length()) < ScreenManager.SCREENWIDTH / 2 && polarBear.IsAlive)
                 forestBoss.ChaseEntity(polarBear);
 
-            lovedEnemies = 0;
+            NumEnemies = 0;
             foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
             {
                 if (ent is Enemy)
                 {
-                    if (((Enemy)ent).CurrentState == Enemy.State.Following)
+                    if (((Enemy)ent).CurrentState == Enemy.State.Evil)
                     {
-                        lovedEnemies++;
+                        NumEnemies++;
                     }
                 }
-            }
+            }               
 
             if (!polarBear.IsAlive && (InputManager.GamePad.IsButtonReleased(Buttons.A) || InputManager.Keyboard.IsKeyReleased(Keys.Enter)))
             {
@@ -159,7 +156,11 @@ namespace MyPolarBear.GameScreens
                 polarBear.Position = new Vector2(-1950, 1800);
             }
 
-            UpdateKeeper.getInstance().updateAll(gameTime);
+            if (CurWorldHealth == MaxWorldHealth && NumEnemies == 0 && NumAnimals == MaxAnimals)            
+                isGameWon = true;            
+
+            if (!isGameWon)
+                UpdateKeeper.getInstance().updateAll(gameTime);
         }       
 
         public override void DrawGame(SpriteBatch spriteBatch)
@@ -167,9 +168,12 @@ namespace MyPolarBear.GameScreens
             spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-WORLDWIDTH / 2, -WORLDHEIGHT / 2, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);
             spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, -WORLDHEIGHT / 2, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);
             spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(0, 0, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);
-            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-WORLDWIDTH / 2, 0, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);                    
+            spriteBatch.Draw(ContentManager.GetTexture("Background"), new Rectangle(-WORLDWIDTH / 2, 0, WORLDWIDTH / 2, WORLDHEIGHT / 2), Color.White);                                            
+            
+            DrawKeeper.getInstance().drawAll(spriteBatch);
 
-            DrawKeeper.getInstance().drawAll(spriteBatch);            
+            if (isGameWon)
+                spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "CONGRATULATIONS! YOU WON!", new Vector2(polarBear.Position.X - 250, polarBear.Position.Y), Color.Black);
 
             base.DrawGame(spriteBatch);
         }        
