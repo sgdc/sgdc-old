@@ -56,11 +56,17 @@ namespace MyPolarBear.GameObjects
         {
             //Texture = ContentManager.GetTexture("IceWalkingRight");
 
-            Animation ani = new Animation(ContentManager.GetTexture("WalkRight"), 2, 8, 0, true, SpriteEffects.None);
+            Animation ani = new Animation(ContentManager.GetTexture("UrsoWalkingRight"), 2, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("NormalWalkRight", ani);
 
-            ani = new Animation(ContentManager.GetTexture("WalkRight"), 2, 8, 0, true, SpriteEffects.FlipHorizontally);
+            ani = new Animation(ContentManager.GetTexture("UrsoWalkingRight"), 2, 8, 0, true, SpriteEffects.FlipHorizontally);
             mAnimator.Animations.Add("NormalWalkLeft", ani);
+
+            ani = new Animation(ContentManager.GetTexture("UrsoWalkingFront"), 5, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("NormalWalkFront", ani);
+
+            ani = new Animation(ContentManager.GetTexture("UrsoWalkingBack"), 5, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("NormalWalkBack", ani);
 
             ani = new Animation(ContentManager.GetTexture("IceWalkingRight"), 5, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("IceWalkRight", ani);
@@ -143,7 +149,7 @@ namespace MyPolarBear.GameObjects
                 switch (power)
                 {
                     case Power.Normal:
-                        break;
+                        mAnimator.PlayAnimation("NormalWalkBack", false); break;
                     case Power.Ice:
                         mAnimator.PlayAnimation("IceWalkBack", false); break;
                     case Power.Fire:
@@ -160,7 +166,7 @@ namespace MyPolarBear.GameObjects
                 switch (power)
                 {
                     case Power.Normal:
-                        break;
+                        mAnimator.PlayAnimation("NormalWalkFront", false); break;
                     case Power.Ice:
                         mAnimator.PlayAnimation("IceWalkFront", false); break;
                     case Power.Fire:

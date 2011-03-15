@@ -13,21 +13,32 @@ namespace MyPolarBear.GameObjects
     class Boss : Entity
     {
 
-        public static int Health = 100;
-        public bool IsAlive = true;
-        private int onFireTimer = 0;
+        public static int Health;
+        public bool IsAlive;
+        private int onFireTimer;
         private Random random = new Random();
+        public Vector2 mScale;
 
         public Boss(Vector2 position)
             : base(position)
         {
-
+            Health = 100;
+            IsAlive = true;
+            onFireTimer = 0;
+            Scale = 2;
+            mScale = new Vector2(Scale, Scale);
         }
 
         public override void LoadContent()
         {
-            Texture = ContentManager.GetTexture("ForestBoss");
-            Scale = 2;
+            Texture = ContentManager.GetTexture("ForestBossIdle");
+
+            Animation ani = new Animation(ContentManager.GetTexture("ForestBossAttack"), 2, 24, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("ForestBossAttack", ani); 
+            ani = new Animation(ContentManager.GetTexture("ForestBossIdle"), 1, 24, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("ForestBossIdle", ani);
+
+            mAnimator.PlayAnimation("ForestBossIdle", false);
 
             base.LoadContent();
         }
@@ -36,12 +47,13 @@ namespace MyPolarBear.GameObjects
         {
             if (!IsAlive)
             {
-                UpdateKeeper.getInstance().removeEntity(this);
-                DrawKeeper.getInstance().removeEntity(this);
+                //UpdateKeeper.getInstance().removeEntity(this);
+                //DrawKeeper.getInstance().removeEntity(this);
                 return;
             }
 
             onFireTimer += gameTime.ElapsedGameTime.Milliseconds;
+            
 
             foreach (Entity entity in UpdateKeeper.getInstance().getEntities())
             {             
@@ -72,15 +84,30 @@ namespace MyPolarBear.GameObjects
                         SoundManager.PlaySound("Roar");
                     }
                 }
-
-                if (Health == 0)
+                else if (entity is PolarBear)
                 {
-                    IsAlive = false;
-                    SoundManager.PlaySound("BossDying");
-                }
-
-                Health = (int)MathHelper.Clamp((float)Health, 0.0f, 100.0f);                
+                    Vector2 distance = Position - entity.Position;
+                    if (Math.Abs(distance.Length()) < ScreenManager.SCREENWIDTH / 2 && ((PolarBear)entity).IsAlive)
+                    {
+                        Velocity = new Vector2(2, 2);
+                        mAnimator.PlayAnimation("ForestBossAttack", false);
+                        ChaseEntity(entity);
+                    }
+                    else
+                    {
+                        Velocity = Vector2.Zero;
+                        mAnimator.PlayAnimation("ForestBossIdle", false);
+                    }
+                }                              
             }
+
+            if (Health == 0)
+            {
+                IsAlive = false;
+                SoundManager.PlaySound("BossDying");
+            }
+
+            Health = (int)MathHelper.Clamp((float)Health, 0.0f, 100.0f);  
 
             foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
             {
@@ -109,6 +136,19 @@ namespace MyPolarBear.GameObjects
                         SoundManager.PlaySound("Thump");
                     }
                 }
+                if (Health == 0)
+                {
+                    if (element.Type.Equals("Sand"))
+                    {
+                        element.Type = "Water";
+                        element.Tex = ContentManager.GetTexture("Water");
+                    }
+                    if (element.Type.Equals("Blocks"))
+                    {
+                        UpdateKeeper.getInstance().removeLevelElement(element);
+                        DrawKeeper.getInstance().removeLevelElement(element);
+                    }
+                }
             }
             
             base.Update(gameTime);
@@ -118,24 +158,29 @@ namespace MyPolarBear.GameObjects
         {
             if (IsAlive)
             {
-                spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "HP: " + Boss.Health.ToString(), new Vector2(Position.X - 100.0f, Position.Y - 125.0f), Color.Yellow);                
-                base.Draw(spriteBatch);
+                spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "HP: " + Boss.Health.ToString(), new Vector2(Position.X - 50.0f, Position.Y - 175.0f), Color.Red);                
+                //base.Draw(spriteBatch);
+                mScale.X = Scale;
+                mScale.Y = Scale;
+                
+                mAnimator.Draw(spriteBatch, Position, mScale, Color.White, Rotation, Origin, 0);
+
                 if (onFireTimer < 2000)
                 {
-                    spriteBatch.Draw(ContentManager.GetTexture("Fire"), new Vector2(Position.X + random.Next(-200, 150), Position.Y + random.Next(-75, 75)), Color.White);
-                    spriteBatch.Draw(ContentManager.GetTexture("Fire"), new Vector2(Position.X + random.Next(-200, 150), Position.Y + random.Next(-75, 75)), Color.White);
+                    spriteBatch.Draw(ContentManager.GetTexture("FireAttack"), new Vector2(Position.X + random.Next(-200, 150), Position.Y + random.Next(-75, 75)), Color.White);
+                    spriteBatch.Draw(ContentManager.GetTexture("FireAttack"), new Vector2(Position.X + random.Next(-200, 150), Position.Y + random.Next(-75, 75)), Color.White);
                 }
             }
         }
 
-        public void ChaseEntity(Entity entity)
+        private void ChaseEntity(Entity entity)
         {
             if (IsAlive)
-            {
+            {                
                 Vector2 direction = entity.Position - Position;
                 direction.Normalize();
-                Position += direction * 2;
-
+                Position += direction * Velocity;                
+               
                 if (CollisionBox.Intersects(entity.CollisionBox))
                 {                    
                     PolarBear.CurHitPoints -= 1;

@@ -102,7 +102,7 @@ namespace MyPolarBear.GameScreens
             ScreenManager.camera.FollowEntity();
         }
 
-        public void LoadLevel(string level)
+        public static void LoadLevel(string level)
         {
             if (!System.IO.File.Exists("Content/Levels/" + level + ".txt"))
             {
@@ -130,7 +130,7 @@ namespace MyPolarBear.GameScreens
 
                 ele = new LevelElement(new Vector2(x, y), type, tex);
 
-                if (!ele.Type.Equals("Grass") && !ele.Type.Equals("GrassBig") && !ele.Type.Equals("Sand")
+                if (!ele.Type.Equals("Grass") && !ele.Type.Equals("GrassBig")
                     && !ele.Type.Equals("Flowers"))
                 {
                     UpdateKeeper.getInstance().addLevelElement(ele);

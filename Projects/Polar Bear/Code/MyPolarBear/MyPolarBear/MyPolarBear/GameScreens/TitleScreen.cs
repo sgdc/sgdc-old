@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MyPolarBear.Input;
+using MyPolarBear.Audio;
 
 namespace MyPolarBear.GameScreens
 {
@@ -12,7 +13,7 @@ namespace MyPolarBear.GameScreens
     {
         public TitleScreen(ScreenType screenType) : base(screenType)
         {
-            AddEntry(new Text("POLAR BEAR", new Vector2(ScreenManager.SCREENWIDTH / 2 - 110.0f, 100.0f)));            
+            AddEntry(new Text("URSO'S ADVENTURES", new Vector2(ScreenManager.SCREENWIDTH / 2 - 160.0f, 100.0f)));            
             AddEntry(new Text("Play game", new Vector2(100.0f, 100.0f)));
             AddEntry(new Text("Quit game", new Vector2(100.0f, 0.0f)));
             FormatEntries();

@@ -39,23 +39,23 @@ namespace MyPolarBear.GameObjects
         }
 
         public override void LoadContent()
-        {
-            Scale = 0.1f;
-
+        {           
             switch (Type)
             {
                 case PolarBear.Power.Normal:
                     Texture = ContentManager.GetTexture("Heart");
+                    Scale = 0.1f;
                     break;
                 case PolarBear.Power.Ice:
-                    Texture = ContentManager.GetTexture("IcePowerHeart");
+                    Texture = ContentManager.GetTexture("IceAttack");
+                    Scale = 1.0f;
                     break;
                 case PolarBear.Power.Fire:
-                    Texture = ContentManager.GetTexture("Fire");
+                    Texture = ContentManager.GetTexture("FireAttack");
                     Scale = 1.0f;
                     break;
                 case PolarBear.Power.Lighting:
-                    Texture = ContentManager.GetTexture("LightningPowerHeart");
+                    //Texture = ContentManager.GetTexture("LightningPowerHeart");
                     break;
             }            
 

@@ -119,6 +119,7 @@ namespace LevelEditor
             ContentManager.AddTexture("WaterSandBottomRight", Content.Load<Texture2D>("waterSandBottomRight"));
             ContentManager.AddTexture("WaterSandBottomLeft", Content.Load<Texture2D>("waterSandBottomLeft"));
             ContentManager.AddTexture("Boulder", Content.Load<Texture2D>("boulder"));
+            ContentManager.AddTexture("Blocks", Content.Load<Texture2D>("blocks"));
             ContentManager.AddTexture("SoftGround", Content.Load<Texture2D>("softGround"));
             ContentManager.AddTexture("Lake", Content.Load<Texture2D>("lake"));
             ContentManager.AddTexture("HardRock", Content.Load<Texture2D>("hardRock"));

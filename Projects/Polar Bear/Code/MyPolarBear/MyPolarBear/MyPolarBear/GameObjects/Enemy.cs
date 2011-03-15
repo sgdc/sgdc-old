@@ -732,7 +732,7 @@ namespace MyPolarBear.GameObjects
 
             if (CurrentState == State.Afraid)
             {
-                spriteBatch.Draw(ContentManager.GetTexture("Fire"), Position, Color.White);
+                spriteBatch.Draw(ContentManager.GetTexture("FireAttack"), Position, Color.White);
             }
         }
     }

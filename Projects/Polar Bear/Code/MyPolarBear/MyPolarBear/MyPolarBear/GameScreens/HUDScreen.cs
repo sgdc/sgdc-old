@@ -65,17 +65,17 @@ namespace MyPolarBear.GameScreens
 
         public void DrawNumberOfSeeds(SpriteBatch spriteBatch)
         {            
-            spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "Seeds: " + PolarBear.NumSeeds.ToString(), new Vector2(ScreenManager.SCREENWIDTH - 160.0f, ScreenManager.SCREENHEIGHT - 150.0f), Color.White); 
+            spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "Seeds: " + PolarBear.NumSeeds.ToString(), new Vector2(ScreenManager.SCREENWIDTH - 160.0f, ScreenManager.SCREENHEIGHT - 150.0f), Color.Black); 
         }
 
         public void DrawNumberOfEnemies(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "Enemies: " + GameScreen.NumEnemies.ToString(), new Vector2(ScreenManager.SCREENWIDTH - 200.0f, ScreenManager.SCREENHEIGHT - 100.0f), Color.White);
+            spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "Enemies: " + GameScreen.NumEnemies.ToString(), new Vector2(ScreenManager.SCREENWIDTH - 200.0f, ScreenManager.SCREENHEIGHT - 100.0f), Color.Black);
         }
         
         public void DrawNumberOfAnimals(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "Animals: " + GameScreen.NumAnimals.ToString(), new Vector2(ScreenManager.SCREENWIDTH - 194.0f, ScreenManager.SCREENHEIGHT - 50.0f), Color.White);
+            spriteBatch.DrawString(ContentManager.GetFont("Calibri"), "Animals: " + GameScreen.NumAnimals.ToString(), new Vector2(ScreenManager.SCREENWIDTH - 194.0f, ScreenManager.SCREENHEIGHT - 50.0f), Color.Black);
         }
 
         public void DrawReticule(SpriteBatch spriteBatch)

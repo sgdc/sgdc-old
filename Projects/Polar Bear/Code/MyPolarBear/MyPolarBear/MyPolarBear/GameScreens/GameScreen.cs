@@ -33,9 +33,9 @@ namespace MyPolarBear.GameScreens
         public static int NumEnemies = 0;
         const int bossMinions = 10;
         
-        Random random = new Random();
+        static Random random = new Random();
 
-        bool isGameWon = false;
+        static bool isGameWon = false;
 
         public GameScreen(ScreenType screenType) : base(screenType)
         {
@@ -110,7 +110,77 @@ namespace MyPolarBear.GameScreens
             UpdateKeeper.getInstance().addEntity(panther);
             DrawKeeper.getInstance().addEntity(panther);
 
-            SoundManager.PlaySound("Music");
+            SoundManager.PlaySound("Techno");
+        }
+
+        public static void Reset()
+        {           
+
+            foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
+            {
+                UpdateKeeper.getInstance().removeLevelElement(element);
+                DrawKeeper.getInstance().removeLevelElement(element);
+            }
+
+            LoadLevel("levelforest");
+
+            foreach (Entity entity in UpdateKeeper.getInstance().getEntities())
+            {
+                if (entity is PolarBear)
+                {
+                    entity.Position = new Vector2(-1950, 1800);
+                    PolarBear.CurHitPoints = 5;
+                    PolarBear.NumSeeds = 0;
+                    PolarBear.power = PolarBear.Power.Normal;
+                    ((PolarBear)entity).IsAlive = true;
+                }
+
+                if (entity is Boss)
+                {
+                    entity.Position = new Vector2(0, -1500);
+                    Boss.Health = 100;
+                    ((Boss)entity).IsAlive = true;
+                }
+
+                if (entity is Animal)
+                {
+                    Animal.Types type = ((Animal)entity).Type;
+                    Animal.Genders gender = ((Animal)entity).Gender;
+                    switch (type)
+                    {
+                        case (Animal.Types.Tiger):
+                            if (gender == Animal.Genders.Male)
+                                entity.Position = new Vector2(-1750, 1300);
+                            else
+                                entity.Position = new Vector2(1700, 300);
+                            break;
+                        case (Animal.Types.Lion):
+                            if (gender == Animal.Genders.Male)
+                                entity.Position = new Vector2(1900, 1900);
+                            else
+                                entity.Position = new Vector2(-1300, -1650);
+                            break;  
+                        case (Animal.Types.Panther):
+                            if (gender == Animal.Genders.Male)
+                                entity.Position = new Vector2(-550, 1350);
+                            else
+                                entity.Position = new Vector2(1900, -1900);
+                            break;
+                    }
+                    ((Animal)entity).State = Animal.States.Idle;
+                }
+
+                if (entity is Enemy)
+                {
+                    entity.Position = new Vector2(random.Next(350, 400), random.Next(350, 400));
+                    entity.Velocity = new Vector2(random.Next(1, 10), random.Next(1, 10));
+                    ((Enemy)entity).CurrentState = Enemy.State.Evil;
+                    ((Enemy)entity).IsAlive = true;
+                }
+            }
+            CurWorldHealth = 0;
+            NumAnimals = 0;
+            isGameWon = false;
         }
 
 
@@ -132,10 +202,6 @@ namespace MyPolarBear.GameScreens
             if (InputManager.GamePad.GetTriggerState(GamePadComponent.Trigger.Right) != 0)
                 ScreenManager.camera.Zoom(0.01f);
 
-            Vector2 distance = forestBoss.Position - polarBear.Position;
-            if (Math.Abs(distance.Length()) < ScreenManager.SCREENWIDTH / 2 && polarBear.IsAlive)
-                forestBoss.ChaseEntity(polarBear);
-
             NumEnemies = 0;
             foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
             {
@@ -152,7 +218,9 @@ namespace MyPolarBear.GameScreens
             {
                 polarBear.IsAlive = true;
                 PolarBear.CurHitPoints = PolarBear.MaxHitPoints;
+                PolarBear.NumSeeds = 0;
                 polarBear.Position = new Vector2(-1950, 1800);
+                SoundManager.PlaySound("HereWeGo");
             }
 
             if (CurWorldHealth == MaxWorldHealth && NumEnemies == 0 && NumAnimals == MaxAnimals && !isGameWon)

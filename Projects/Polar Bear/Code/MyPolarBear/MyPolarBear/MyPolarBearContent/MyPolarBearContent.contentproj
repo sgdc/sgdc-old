@@ -42,50 +42,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\FieryHeart.png">
-      <Name>FieryHeart</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\FirePowerPolarBear.png">
-      <Name>FirePowerPolarBear</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\GrassPowerPolarBear.png">
-      <Name>GrassPowerPolarBear</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\GrassyHeart.png">
-      <Name>GrassyHeart</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="Images\Heart.png">
       <Name>Heart</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\IcePowerPolarBear.png">
-      <Name>IcePowerPolarBear</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\IcyHeart.png">
-      <Name>IcyHeart</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\PolarBear.png">
-      <Name>PolarBear</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\WorldMap.jpg">
-      <Name>WorldMap</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -105,28 +63,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\PolarIceSprite.png">
-      <Name>PolarIceSprite</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="SpriteSheets\Arctic\icewaveBack.png">
-      <Name>icewaveBack</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\Arctic\icewaveFront.png">
-      <Name>icewaveFront</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\Arctic\icewaveRight.png">
-      <Name>icewaveRight</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="SpriteSheets\Arctic\walkingBack.png">
       <Name>walkingBack</Name>
       <Importer>TextureImporter</Importer>
@@ -151,38 +87,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteSheets\Normal\shootheartRight.png">
-      <Name>shootheartRight</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\Normal\walkingLeft.png">
-      <Name>walkingLeft</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\Normal\walkingRight.png">
-      <Name>walkingRight</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="SpriteSheets\Pyrus\fireballBack.png">
-      <Name>fireballBack</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\Pyrus\fireballFront.png">
-      <Name>fireballFront</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="SpriteSheets\Pyrus\fireballRight.png">
-      <Name>fireballRight</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="SpriteSheets\Pyrus\walkFront.png">
       <Name>walkFront</Name>
       <Importer>TextureImporter</Importer>
@@ -195,13 +99,6 @@
     </Compile>
     <Compile Include="SpriteSheets\Pyrus\walkRight.png">
       <Name>walkRight</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\BasicTerrain.png">
-      <Name>BasicTerrain</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -230,13 +127,6 @@
   <ItemGroup>
     <Compile Include="Images\PowerSelector.png">
       <Name>PowerSelector</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\LightningHeart.png">
-      <Name>LightningHeart</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -500,22 +390,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SpriteSheets\Animals\tigerwalkright.png">
-      <Name>tigerwalkright</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="SpriteSheets\Animals\tigerwalkback.png">
       <Name>tigerwalkback</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\Fire.png">
-      <Name>Fire</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -586,6 +462,120 @@
   <ItemGroup>
     <Compile Include="Sounds\Victory.wav">
       <Name>Victory</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Animals\lionWalkRight.png">
+      <Name>lionWalkRight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SpriteSheets\Animals\pantherWalkRight.png">
+      <Name>pantherWalkRight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SpriteSheets\Animals\tigerWalkRight.png">
+      <Name>tigerWalkRight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Animals\lionWalkBack.png">
+      <Name>lionWalkBack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SpriteSheets\Animals\pantherWalkBack.png">
+      <Name>pantherWalkBack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Animals\tigerWalkFront.png">
+      <Name>tigerWalkFront</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Animals\lionWalkFront.png">
+      <Name>lionWalkFront</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SpriteSheets\Animals\pantherWalkFront.png">
+      <Name>pantherWalkFront</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Urso\ursoWalkingBack.png">
+      <Name>ursoWalkingBack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SpriteSheets\Urso\ursoWalkingFront.png">
+      <Name>ursoWalkingFront</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="SpriteSheets\Urso\ursoWalkingRight.png">
+      <Name>ursoWalkingRight</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Bosses\forestBossAttack.png">
+      <Name>forestBossAttack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SpriteSheets\Bosses\forestBossIdle.png">
+      <Name>forestBossIdle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sounds\HereWeGo.wav">
+      <Name>HereWeGo</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LevelElements\blocks.png">
+      <Name>blocks</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\IceAttack.png">
+      <Name>IceAttack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\FireAttack.png">
+      <Name>FireAttack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sounds\Techno.wav">
+      <Name>Techno</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

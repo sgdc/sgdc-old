@@ -25,7 +25,7 @@ namespace MyPolarBear.GameScreens
                 switch (Selection)
                 {
                     case 1: ScreenManager.screenType = ScreenType.GameScreen; break;
-                    case 2: ScreenManager.screenType = ScreenType.TitleScreen; break;  
+                    case 2: ScreenManager.screenType = ScreenType.TitleScreen; GameScreen.Reset(); break;  
                     case 3: ScreenManager.isExiting = true; break;
                 }
             }

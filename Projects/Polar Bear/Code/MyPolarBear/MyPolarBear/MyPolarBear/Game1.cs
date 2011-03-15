@@ -64,16 +64,8 @@ namespace MyPolarBear
         protected override void LoadContent()
         {         
             // Images
-            //ContentManager.AddTexture("PolarBear", Content.Load<Texture2D>("Images/PolarBear"));
-            //ContentManager.AddTexture("IcePowerPolarBear", Content.Load<Texture2D>("Images/IcePowerPolarBear"));
-            //ContentManager.AddTexture("FirePowerPolarBear", Content.Load<Texture2D>("Images/FirePowerPolarBear"));
-            //ContentManager.AddTexture("LightningPowerPolarBear", Content.Load<Texture2D>("Images/LightningPowerPolarBear"));
             ContentManager.AddTexture("Heart", Content.Load<Texture2D>("Images/Heart"));
-            ContentManager.AddTexture("IcePowerHeart", Content.Load<Texture2D>("Images/IcyHeart"));
-            ContentManager.AddTexture("FirePowerHeart", Content.Load<Texture2D>("Images/FieryHeart"));
-            ContentManager.AddTexture("LightningPowerHeart", Content.Load<Texture2D>("Images/LightningHeart"));
-            ContentManager.AddTexture("Reticule", Content.Load<Texture2D>("Images/Reticule"));
-            ContentManager.AddTexture("BasicTerrain", Content.Load<Texture2D>("Images/BasicTerrain"));
+            ContentManager.AddTexture("Reticule", Content.Load<Texture2D>("Images/Reticule"));            
             ContentManager.AddTexture("Meter", Content.Load<Texture2D>("Images/Meter"));
             ContentManager.AddTexture("FullHeart", Content.Load<Texture2D>("Images/FullHeart"));
             ContentManager.AddTexture("EmptyHeart", Content.Load<Texture2D>("Images/EmptyHeart"));
@@ -82,36 +74,44 @@ namespace MyPolarBear
             ContentManager.AddTexture("FireSelected", Content.Load<Texture2D>("Images/FireSelected"));
             ContentManager.AddTexture("Background", Content.Load<Texture2D>("Images/BackgroundDirt"));
             ContentManager.AddTexture("ForestBoss", Content.Load<Texture2D>("Images/ForestBoss"));
-            ContentManager.AddTexture("Fire", Content.Load<Texture2D>("Images/Fire"));
+            ContentManager.AddTexture("FireAttack", Content.Load<Texture2D>("Images/FireAttack"));
+            ContentManager.AddTexture("IceAttack", Content.Load<Texture2D>("Images/IceAttack"));
 
-            // Arctic SpriteSheets
-            ContentManager.AddTexture("IceWaveBack", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveBack"));
-            ContentManager.AddTexture("IceWaveFront", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveFront"));
-            ContentManager.AddTexture("IceWaveRight", Content.Load<Texture2D>("SpriteSheets/Arctic/icewaveRight"));
+            // Arctic SpriteSheets           
             ContentManager.AddTexture("IceWalkingBack", Content.Load<Texture2D>("SpriteSheets/Arctic/walkingBack"));
             ContentManager.AddTexture("IceWalkingFront", Content.Load<Texture2D>("SpriteSheets/Arctic/walkingFront"));
             ContentManager.AddTexture("IceWalkingRight", Content.Load<Texture2D>("SpriteSheets/Arctic/walkingRight"));
 
             // Nimbus SpriteSheets
-            ContentManager.AddTexture("NimbusAttackRight", Content.Load<Texture2D>("SpriteSheets/Nimbus/nimbusAttackRightt"));           
+            //ContentManager.AddTexture("NimbusAttackRight", Content.Load<Texture2D>("SpriteSheets/Nimbus/nimbusAttackRightt"));           
 
-            // Normal SpriteSheets
-            ContentManager.AddTexture("ShootHeartRight", Content.Load<Texture2D>("SpriteSheets/Normal/shootheartRight"));
-            ContentManager.AddTexture("WalkLeft", Content.Load<Texture2D>("SpriteSheets/Normal/walkingLeft"));
-            ContentManager.AddTexture("WalkRight", Content.Load<Texture2D>("SpriteSheets/Normal/walkingRight"));
+            // Normal SpriteSheets            
+            ContentManager.AddTexture("UrsoWalkingFront", Content.Load<Texture2D>("SpriteSheets/Urso/ursoWalkingFront"));
+            ContentManager.AddTexture("UrsoWalkingBack", Content.Load<Texture2D>("SpriteSheets/Urso/ursoWalkingBack"));
+            ContentManager.AddTexture("UrsoWalkingRight", Content.Load<Texture2D>("SpriteSheets/Urso/ursoWalkingRight"));
 
             // Pyrus SpriteSheets
-            ContentManager.AddTexture("FireBallBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballBack"));
-            ContentManager.AddTexture("FireBallFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballFront"));
-            ContentManager.AddTexture("FireBallRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/fireballRight"));
             ContentManager.AddTexture("FireWalkingFront", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkFront"));
             ContentManager.AddTexture("FireWalkingBack", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkingBack"));
             ContentManager.AddTexture("FireWalkingRight", Content.Load<Texture2D>("SpriteSheets/Pyrus/walkRight"));
 
             //Animal SpriteSheets
             ContentManager.AddTexture("TigerIdle", Content.Load<Texture2D>("SpriteSheets/Animals/tigerIdle"));
+            ContentManager.AddTexture("TigerWalkRight", Content.Load<Texture2D>("SpriteSheets/Animals/tigerWalkRight"));
+            ContentManager.AddTexture("TigerWalkBack", Content.Load<Texture2D>("SpriteSheets/Animals/tigerWalkBack"));
+            ContentManager.AddTexture("TigerWalkFront", Content.Load<Texture2D>("SpriteSheets/Animals/tigerWalkFront"));
             ContentManager.AddTexture("LionIdle", Content.Load<Texture2D>("SpriteSheets/Animals/lionIdle"));
-            ContentManager.AddTexture("PantherIdle", Content.Load<Texture2D>("SpriteSheets/Animals/pantherIdle"));
+            ContentManager.AddTexture("LionWalkRight", Content.Load<Texture2D>("SpriteSheets/Animals/lionWalkRight"));
+            ContentManager.AddTexture("LionWalkBack", Content.Load<Texture2D>("SpriteSheets/Animals/lionWalkBack"));
+            ContentManager.AddTexture("LionWalkFront", Content.Load<Texture2D>("SpriteSheets/Animals/lionWalkFront"));
+            ContentManager.AddTexture("PantherIdle", Content.Load<Texture2D>("SpriteSheets/Animals/pantherIdle"));            
+            ContentManager.AddTexture("PantherWalkRight", Content.Load<Texture2D>("SpriteSheets/Animals/pantherWalkRight"));                        
+            ContentManager.AddTexture("PantherWalkBack", Content.Load<Texture2D>("SpriteSheets/Animals/pantherWalkBack"));                        
+            ContentManager.AddTexture("PantherWalkFront", Content.Load<Texture2D>("SpriteSheets/Animals/pantherWalkFront"));
+
+            //Boss SpriteSheets
+            ContentManager.AddTexture("ForestBossIdle", Content.Load<Texture2D>("SpriteSheets/Bosses/forestBossIdle"));
+            ContentManager.AddTexture("ForestBossAttack", Content.Load<Texture2D>("SpriteSheets/Bosses/forestBossAttack"));
 
             // Other Bear SpriteSheets
             ContentManager.AddTexture("BrownBearWalkBack", Content.Load<Texture2D>("SpriteSheets/Bears/brownbearwalkback"));
@@ -123,6 +123,7 @@ namespace MyPolarBear
 
             // Level elements
             ContentManager.AddTexture("Boulder", Content.Load<Texture2D>("LevelElements/boulder"));
+            ContentManager.AddTexture("Blocks", Content.Load<Texture2D>("LevelElements/blocks"));
             ContentManager.AddTexture("HardRock", Content.Load<Texture2D>("LevelElements/hardRock"));
             ContentManager.AddTexture("Lake", Content.Load<Texture2D>("LevelElements/lake"));
             ContentManager.AddTexture("SoftGround", Content.Load<Texture2D>("LevelElements/softGround"));

@@ -55,12 +55,36 @@ namespace MyPolarBear.GameObjects
             //Add animal textures or spritesheets
             Animation ani = new Animation(ContentManager.GetTexture("TigerIdle"), 2, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("TigerIdle", ani);
+            ani = new Animation(ContentManager.GetTexture("TigerWalkRight"), 2, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("TigerWalkRight", ani);
+            ani = new Animation(ContentManager.GetTexture("TigerWalkRight"), 2, 8, 0, true, SpriteEffects.FlipHorizontally);
+            mAnimator.Animations.Add("TigerWalkLeft", ani);
+            ani = new Animation(ContentManager.GetTexture("TigerWalkBack"), 4, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("TigerWalkBack", ani);
+            ani = new Animation(ContentManager.GetTexture("TigerWalkFront"), 2, 16, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("TigerWalkFront", ani);
 
             ani = new Animation(ContentManager.GetTexture("LionIdle"), 2, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("LionIdle", ani);
+            ani = new Animation(ContentManager.GetTexture("LionWalkRight"), 2, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("LionWalkRight", ani);
+            ani = new Animation(ContentManager.GetTexture("LionWalkRight"), 2, 8, 0, true, SpriteEffects.FlipHorizontally);
+            mAnimator.Animations.Add("LionWalkLeft", ani);
+            ani = new Animation(ContentManager.GetTexture("LionWalkBack"), 4, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("LionWalkBack", ani);
+            ani = new Animation(ContentManager.GetTexture("LionWalkFront"), 2, 16, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("LionWalkFront", ani);
 
             ani = new Animation(ContentManager.GetTexture("PantherIdle"), 2, 8, 0, true, SpriteEffects.None);
             mAnimator.Animations.Add("PantherIdle", ani);
+            ani = new Animation(ContentManager.GetTexture("PantherWalkRight"), 2, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("PantherWalkRight", ani);
+            ani = new Animation(ContentManager.GetTexture("PantherWalkRight"), 2, 8, 0, true, SpriteEffects.FlipHorizontally);
+            mAnimator.Animations.Add("PantherWalkLeft", ani);
+            ani = new Animation(ContentManager.GetTexture("PantherWalkBack"), 4, 8, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("PantherWalkBack", ani);
+            ani = new Animation(ContentManager.GetTexture("PantherWalkFront"), 2, 16, 0, true, SpriteEffects.None);
+            mAnimator.Animations.Add("PantherWalkFront", ani);
 
             switch (Type)
             {
@@ -75,6 +99,70 @@ namespace MyPolarBear.GameObjects
             CollisionBox = new Rectangle(CollisionBox.X, CollisionBox.Y, 25, 25);
 
             base.LoadContent();
+        }
+
+        private void SelectAnimation()
+        {
+            if (Velocity.X > 0 && Velocity.X > Velocity.Y && Velocity.X > Velocity.Y * -1)
+            {
+                switch (Type)
+                {
+                    case Types.Tiger: mAnimator.PlayAnimation("TigerWalkRight", false);
+                        break;
+                    case Types.Lion: mAnimator.PlayAnimation("LionWalkRight", false);
+                        break;
+                    case Types.Panther: mAnimator.PlayAnimation("PantherWalkRight", false);
+                        break;
+                }
+            }
+            else if (Velocity.X < 0 && Velocity.X * -1 > Velocity.Y && Velocity.X * -1 > Velocity.Y * -1)
+            {
+                switch (Type)
+                {
+                    case Types.Tiger: mAnimator.PlayAnimation("TigerWalkLeft", false);
+                        break;
+                    case Types.Lion: mAnimator.PlayAnimation("LionWalkLeft", false);
+                        break;
+                    case Types.Panther: mAnimator.PlayAnimation("PantherWalkLeft", false);
+                        break;
+                }
+            }
+            else if (Velocity.Y > 0)
+            {
+                switch (Type)
+                {
+                    case Types.Tiger: mAnimator.PlayAnimation("TigerWalkFront", false);
+                        break;
+                    case Types.Lion: mAnimator.PlayAnimation("LionWalkFront", false);
+                        break;
+                    case Types.Panther: mAnimator.PlayAnimation("PantherWalkFront", false);
+                        break;
+                }
+            }
+            else if (Velocity.Y < 0)
+            {
+                switch (Type)
+                {
+                    case Types.Tiger: mAnimator.PlayAnimation("TigerWalkBack", false);
+                        break;
+                    case Types.Lion: mAnimator.PlayAnimation("LionWalkBack", false);
+                        break;
+                    case Types.Panther: mAnimator.PlayAnimation("PantherWalkBack", false);
+                        break;
+                }
+            }
+            else
+            {
+                switch (Type)
+                {
+                    case Types.Tiger: mAnimator.PlayAnimation("TigerIdle", false);
+                        break;
+                    case Types.Lion: mAnimator.PlayAnimation("LionIdle", false);
+                        break;
+                    case Types.Panther: mAnimator.PlayAnimation("PantherIdle", false);
+                        break;
+                }
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -108,8 +196,11 @@ namespace MyPolarBear.GameObjects
             else
             {
                 Velocity = Vector2.Zero;
+                SelectAnimation();
                 return;
             }
+
+            SelectAnimation();
 
             foreach (Entity entity in UpdateKeeper.getInstance().getEntities())
             {
