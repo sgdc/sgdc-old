@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 using MyPolarBear.Input;
+using MyPolarBear.Audio;
 
 namespace MyPolarBear.GameScreens
 {
@@ -25,7 +26,7 @@ namespace MyPolarBear.GameScreens
                 switch (Selection)
                 {
                     case 1: ScreenManager.screenType = ScreenType.GameScreen; break;
-                    case 2: ScreenManager.screenType = ScreenType.TitleScreen; GameScreen.Reset(); break;  
+                    case 2: ScreenManager.screenType = ScreenType.TitleScreen; GameScreen.Reset(); SoundManager.StopAllMusic();  break;  
                     case 3: ScreenManager.isExiting = true; break;
                 }
             }

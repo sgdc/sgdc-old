@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using MyPolarBear.Input;
+using MyPolarBear.Audio;
 
 namespace MyPolarBear.GameScreens
 {
@@ -47,8 +48,8 @@ namespace MyPolarBear.GameScreens
             titleScreen = new TitleScreen(ScreenType.TitleScreen);
             pauseScreen = new PauseScreen(ScreenType.PauseScreen);
             gameScreen = new GameScreen(ScreenType.GameScreen);
-            gameScreen.LoadContent();
-            HUDScreen = new HUDScreen(ScreenType.HeadsUpDisplay);
+            gameScreen.LoadContent();            
+            HUDScreen = new HUDScreen(ScreenType.HeadsUpDisplay);            
         }
 
         public override void Update(GameTime gameTime)
@@ -63,9 +64,9 @@ namespace MyPolarBear.GameScreens
             {
                 case ScreenType.TitleScreen: titleScreen.UpdateEntries();
                     break;
-                case ScreenType.PauseScreen: pauseScreen.UpdateEntries();
+                case ScreenType.PauseScreen: pauseScreen.UpdateEntries(); SoundManager.PauseAllMusic();
                     break;
-                case ScreenType.GameScreen: gameScreen.Update(gameTime);
+                case ScreenType.GameScreen: gameScreen.Update(gameTime); SoundManager.PlayMusic("Techno");
                     break;
             }
 

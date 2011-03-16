@@ -108,9 +108,7 @@ namespace MyPolarBear.GameScreens
             panther = new Animal(new Vector2(1900, -1900), Animal.Types.Panther, Animal.Genders.Female);
             panther.LoadContent();
             UpdateKeeper.getInstance().addEntity(panther);
-            DrawKeeper.getInstance().addEntity(panther);
-
-            SoundManager.PlaySound("Techno");
+            DrawKeeper.getInstance().addEntity(panther);            
         }
 
         public static void Reset()

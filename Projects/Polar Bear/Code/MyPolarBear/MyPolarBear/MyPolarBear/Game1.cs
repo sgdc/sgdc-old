@@ -152,6 +152,10 @@ namespace MyPolarBear
             // Fonts
             ContentManager.AddFont("Calibri", Content.Load<SpriteFont>("Fonts/Calibri"));
 
+            // Sounds
+            SoundManager.AddMusic("Techno", Content.Load<SoundEffect>("Sounds/Techno"), true);
+            SoundManager.AddMusic("Music", Content.Load<SoundEffect>("Sounds/Music"), false);
+
             Components.Add(screenManager);
             screenManager.Initialize();
 
