@@ -26,7 +26,6 @@ namespace Tyrus_and_Randall
         private const double knockBackMax = 3000;
         private static readonly uint[] levelFood = new uint[] {0, 20, 30};
         private ArrayList collectedFood;
-        public float jumpMultiplier;
 
         public Player() : this(0, 0) { }
 
@@ -41,7 +40,6 @@ namespace Tyrus_and_Randall
             knockBack = false;
             staggered = false;
             collectedFood = new ArrayList();
-            jumpMultiplier = 1.0f;
             currentLevel = 1;
         }
 
@@ -53,6 +51,9 @@ namespace Tyrus_and_Randall
         public override void  Update(GameTime gameTime)
         {
  	        base.Update(gameTime);
+
+            if (GetTranslation().X > 5540)
+                Game1.finished = true;
 
             if (GetTranslation().Y > 480)
             {
@@ -158,7 +159,16 @@ namespace Tyrus_and_Randall
                 {
                     if (onGround && this.GetCollisionUnit().HasCollisions())
                     {
-                        this.SetVelocity(this.GetVelocity().X, -10.0f*jumpMultiplier);
+                        this.SetVelocity(this.GetVelocity().X, -10.0f);
+                        onGround = false;
+                    }
+                }
+
+                if (keyboard.IsKeyPressed(Keys.Z) && Game1.superJumpActive)
+                {
+                    if (onGround && this.GetCollisionUnit().HasCollisions())
+                    {
+                        this.SetVelocity(this.GetVelocity().X, -13.0f);
                         onGround = false;
                     }
                 }

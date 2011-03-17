@@ -29,7 +29,7 @@ namespace Tyrus_and_Randall
 
         public override void Activate(Player e)
         {
-            e.jumpMultiplier = 1.3f;
+            Game1.superJumpActive = true;
         }
     }
 }
