@@ -43,7 +43,6 @@ namespace SGDE.Content.DataTypes
             //Copy over attributes
             BaseEntity.CopyTo(ref ent);
             SGDE.Content.Readers.EntityReader.ProcessPhysics(ref ent, this.physics, false);
-            //TODO: Add support for Sprite-specific settings
             if (mod != null)
             {
                 //Apply modifications
@@ -61,7 +60,11 @@ namespace SGDE.Content.DataTypes
                 }
                 SGDE.Content.Readers.EntityReader.ProcessPhysics(ref ent, physics, this.physics != null && physics != null);
                 ent.Enabled = mod.Enabled;
-                //TODO: Add support for Sprite-specific settings
+                if (mod.SpriteImage != null)
+                {
+                    SGDE.Graphics.Sprite sp = ent.SpriteImage;
+                    mod.SpriteImage.CopySpriteToIn(ref sp, false);
+                }
             }
             return ent;
         }

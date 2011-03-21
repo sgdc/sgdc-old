@@ -13,6 +13,7 @@ namespace SGDeContent.DataTypes
         public List<int> TextureIDs;
         public List<object> Textures;
         public List<List<AnimationSet>> AnimationSets;
+        public Dictionary<string, Microsoft.Xna.Framework.Content.Pipeline.Processors.SpriteFontContent> Fonts;
 
         public SpriteSheet()
         {
@@ -20,6 +21,7 @@ namespace SGDeContent.DataTypes
             TextureIDs = new List<int>();
             Textures = new List<object>();
             AnimationSets = new List<List<AnimationSet>>();
+            Fonts = new Dictionary<string, Microsoft.Xna.Framework.Content.Pipeline.Processors.SpriteFontContent>();
         }
     }
 }

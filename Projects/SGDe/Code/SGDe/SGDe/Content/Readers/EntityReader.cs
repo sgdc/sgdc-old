@@ -92,10 +92,22 @@ namespace SGDE.Content.Readers
             ProcessPhysics(ref entity, input);
             //Read in SceneNode information
             entity.Enabled = input.ReadBoolean();
+            entity.UpdateOrder = input.ReadInt32();
             if (input.ReadBoolean())
             {
                 input.ReadRawObject<SceneNode>(entity);
                 ContentUtil.TempDeveloperID(input, (SceneNode)entity);
+            }
+            if (entity.SpriteImage != null)
+            {
+                SceneNode sNode = entity.SpriteImage;
+                ((SceneNode)entity).CopyTo(ref sNode);
+            }
+            //-Read sprite-offset
+            Vector2 offset = input.ReadVector2();
+            if (entity.SpriteImage != null)
+            {
+                entity.SpriteImage.Translate(offset);
             }
             return entity;
         }
@@ -107,7 +119,7 @@ namespace SGDE.Content.Readers
         {
             get
             {
-                return 1;
+                return 2;
             }
         }
 
@@ -132,20 +144,22 @@ namespace SGDE.Content.Readers
             {
                 bool initializePostCreate = false;
                 bool dontCallEnableIfNotEnabled = false;
-                if (physics.ContainsKey("PostSetup"))
+                if (physics.ContainsKey("PS"))
                 {
-                    initializePostCreate = (bool)physics["PostSetup"];
+                    //PostSetup
+                    initializePostCreate = (bool)physics["PS"];
                 }
-                if (physics.ContainsKey("EnableOnEnable"))
+                if (physics.ContainsKey("EE"))
                 {
-                    dontCallEnableIfNotEnabled = (bool)physics["EnableOnEnable"];
+                    //EnableOnEnable
+                    dontCallEnableIfNotEnabled = (bool)physics["EE"];
                 }
                 SGDE.Physics.Collision.CollisionUnit unit;
                 if (!initializePostCreate)
                 {
                     if (!modification)
                     {
-                        entity.Initialize();
+                        entity.InSetUpCollision();
                     }
                     unit = entity.GetCollisionUnit();
                 }
@@ -157,13 +171,15 @@ namespace SGDE.Content.Readers
                     //Count call "entity.EnablePhysics(false, collision);" but until the remove collision unit portion is finished, it's safer to simply do this:
                     SGDE.Physics.PhysicsPharaoh.GetInstance().RemovePhysicsBaby(baby);
                 }
-                if (physics.ContainsKey("Static"))
+                if (physics.ContainsKey("S"))
                 {
-                    baby.SetStatic((bool)physics["Static"]);
+                    //Static
+                    baby.SetStatic((bool)physics["S"]);
                 }
-                if (physics.ContainsKey("Forces"))
+                if (physics.ContainsKey("F"))
                 {
-                    List<object> forces = (List<object>)physics["Forces"];
+                    //Forces
+                    List<object> forces = (List<object>)physics["F"];
                     foreach (object force in forces)
                     {
                         if (force is Vector2)
@@ -184,9 +200,10 @@ namespace SGDE.Content.Readers
                         }
                     }
                 }
-                if (physics.ContainsKey("Velocity"))
+                if (physics.ContainsKey("V"))
                 {
-                    object[] velocityValue = (object[])physics["Velocity"];
+                    //Velocity
+                    object[] velocityValue = (object[])physics["V"];
                     switch (velocityValue.Length)
                     {
                         case 1:
@@ -203,13 +220,15 @@ namespace SGDE.Content.Readers
 
                 //EnablePhysics
                 bool enable = false, collision = false;
-                if (physics.ContainsKey("Enabled"))
+                if (physics.ContainsKey("E"))
                 {
-                    enable = (bool)physics["Enabled"];
+                    //Enabled
+                    enable = (bool)physics["E"];
                 }
-                if (physics.ContainsKey("Collision"))
+                if (physics.ContainsKey("C"))
                 {
-                    collision = (bool)physics["Collision"];
+                    //Collision
+                    collision = (bool)physics["C"];
                 }
                 if (!(dontCallEnableIfNotEnabled && !enable))
                 {
@@ -220,7 +239,7 @@ namespace SGDE.Content.Readers
                 {
                     if (!modification)
                     {
-                        entity.Initialize();
+                        entity.InSetUpCollision();
                     }
                     unit = entity.GetCollisionUnit();
                 }

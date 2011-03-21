@@ -11,11 +11,6 @@ namespace SGDeContent.Processors
 {
     public class CodeProcessor
     {
-        public static SGDeContent.DataTypes.Code.Code Process(XmlElement input, double version, ContentProcessorContext context)
-        {
-            return Process((XmlNode)input, version, context);
-        }
-
         public static SGDeContent.DataTypes.Code.Code Process(XmlNode input, double version, ContentProcessorContext context)
         {
             SGDeContent.DataTypes.Code.Code code = new SGDeContent.DataTypes.Code.Code();
@@ -83,10 +78,10 @@ namespace SGDeContent.Processors
                 {
                     CodeProcessor processor = new CodeProcessor();
                     //Need to actually process the code
-                    if (input.ChildNodes.Count > 0 && input.ChildNodes[0].Name.Equals("Code"))
+                    if (input.ChildNodes.Count > 0 && ContentTagManager.TagMatches("CODE_NONCONST_CODE", input.ChildNodes[0].Name, version))
                     {
                         //Full code system
-                        processor.Compile((XmlElement)input, version, ref code, context);
+                        processor.Compile(input, version, ref code, context);
                     }
                     else
                     {
@@ -114,7 +109,7 @@ namespace SGDeContent.Processors
         }
 
         //This is for complex, multi line/class code systems
-        private void Compile(XmlElement sourceCodeGroup, double version, ref SGDeContent.DataTypes.Code.Code code, ContentProcessorContext context)
+        private void Compile(XmlNode sourceCodeGroup, double version, ref SGDeContent.DataTypes.Code.Code code, ContentProcessorContext context)
         {
             //TODO
         }

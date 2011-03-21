@@ -1,0 +1,6 @@
+SGDe is laied out so that subsystems are in their own namespaces. Code is self-documenting, so function names, fields, 
+properties, and classes are named for what they do (with the exception of Physics which is partially named for inside jokes).
+Public functions are documented and use basic language to make it easy to understand. All code is flexible and able to run
+with or without the built-in content system, meaning that it can be used as a standard XNA game or as a SGDe game that uses
+the content system to make game creation easier. No functions or classes should be half-baked and only have some of their
+code implemented. Everything is functional and useable.

@@ -29,7 +29,7 @@ namespace SGDE.Graphics
                 }
                 else
                 {
-                    float trot = MathHelper.ToRadians(base.GetRotation());
+                    float trot = base.GetRotation();
                     if (OverrideAnimation(SpriteAttributes.RotationRel, null))
                     {
                         rotation = rotationAn.Value + trot;
@@ -42,7 +42,7 @@ namespace SGDE.Graphics
             }
             else
             {
-                rotation = MathHelper.ToRadians(base.GetRotation());
+                rotation = base.GetRotation();
             }
             //Get origin
             Vector2? origin = animation.Origin(frame);
@@ -145,7 +145,7 @@ namespace SGDE.Graphics
             return base.GetAsType<T>();
         }
 
-        protected override void CopySpriteTo(ref Sprite sp)
+        protected override void CopySpriteTo(ref Sprite sp, bool full)
         {
             ((BitmapSprite)sp).baseTexture = this.baseTexture;
         }

@@ -12,12 +12,18 @@ namespace SGDE.Content.Code.Library
     {
         internal bool value;
 
-        #if WINDOWS
+        internal Boolean(bool b)
+        {
+            this.value = b;
+        }
+
+#if WINDOWS
         /// <summary>
         /// Creates a Boolean object with the specified value.
         /// </summary>
         /// <param name="expression">Any expression.</param>
         public Boolean(Object expression = null)
+            : this(false)
 #else
         /// <summary>
         /// Creates a Boolean object with the value of false.
@@ -32,9 +38,9 @@ namespace SGDE.Content.Code.Library
         /// </summary>
         /// <param name="expression">Any expression.</param>
         public Boolean(Object expression)
+            : this(false)
 #endif
         {
-            this.value = false;
             if (expression != null)
             {
                 if (expression is Number)
@@ -75,9 +81,7 @@ namespace SGDE.Content.Code.Library
         /// <returns>The created Boolean.</returns>
         public static implicit operator Boolean(bool b)
         {
-            Boolean bl = new Boolean();
-            bl.value = b;
-            return bl;
+            return new Boolean(b);
         }
 
         /// <summary>

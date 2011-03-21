@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Content.Pipeline;
 
 namespace SGDeContent.DataTypes
 {
-    public class Map : DeveloperIDContent
+    public class Map : DeveloperIDContent, IComparer<int[]>
     {
         //Resources
         public List<int> EntityID;
@@ -16,6 +16,8 @@ namespace SGDeContent.DataTypes
 
         //Map
         public List<object[]> MapComponents;
+        public List<int> SortUpdate;
+        public List<int> SortDraw;
 
         //Physics
         public bool Physics;
@@ -27,6 +29,8 @@ namespace SGDeContent.DataTypes
             EntityID = new List<int>();
             Entities = new List<object>();
             MapComponents = new List<object[]>();
+            SortUpdate = new List<int>();
+            SortDraw = new List<int>();
             Physics = true;
         }
 
@@ -119,8 +123,8 @@ namespace SGDeContent.DataTypes
                         if (EntityID[EntityID.Count - 1] == removeID)
                         {
                             //Simple, just remove the entity
-                            EntityID.RemoveAt(EntityID.Count - 1);
                             Entities.RemoveAt(EntityID.Count - 1);
+                            EntityID.RemoveAt(EntityID.Count - 1);
                         }
                         else
                         {
@@ -195,6 +199,128 @@ namespace SGDeContent.DataTypes
                     Physics_World_Width.ConstantValue = 0;
                 }
             }
+
+            //Sort the components
+            List<int[]> items = new List<int[]>();
+
+            for (int i = 0; i < MapComponents.Count; i++)
+            {
+                object[] component = MapComponents[i];
+                switch (component.Length)
+                {
+                    case 1:
+                        //Operation component
+                        items.Add(new int[] { i, 0 });
+                        break;
+                    case 2:
+                        //Entity position
+                        items.Add(new int[] { i, GetUpdateOrder(i, (int)component[0]) });
+                        break;
+                }
+            }
+            items.Sort(this);
+            for (int i = 0; i < MapComponents.Count; i++)
+            {
+                this.SortUpdate.Add(items[i][0]);
+            }
+
+            items.Clear();
+
+            for (int i = 0; i < MapComponents.Count; i++)
+            {
+                object[] component = MapComponents[i];
+                switch (component.Length)
+                {
+                    case 1:
+                        //Operation component
+                        items.Add(new int[] { i, 0 });
+                        break;
+                    case 2:
+                        //Entity position
+                        items.Add(new int[] { i, GetDrawOrder(i, (int)component[0]) });
+                        break;
+                }
+            }
+            items.Sort(this);
+            for (int i = 0; i < MapComponents.Count; i++)
+            {
+                this.SortDraw.Add(items[i][0]);
+            }
+        }
+
+        private int GetUpdateOrder(int index, int id)
+        {
+            int order = 0;
+            bool gotOrder = false;
+            //First try map component
+            object[] component = this.MapComponents[index];
+            switch (component.Length)
+            {
+                case 2:
+                    if (component[1] != null)
+                    {
+                        if (component[1] is Entity)
+                        {
+                            order = ((Entity)component[1]).UpdateOrder;
+                            gotOrder = true;
+                        }
+                    }
+                    break;
+            }
+            if (!gotOrder)
+            {
+                //Next try getting it from the original component
+                if (this.Entities[id] is Entity)
+                {
+                    order = ((Entity)this.Entities[id]).UpdateOrder;
+                    gotOrder = true;
+                }
+            }
+            return order;
+        }
+
+        private int GetDrawOrder(int index, int id)
+        {
+            int order = 0;
+            bool gotOrder = false;
+            //First try map component
+            object[] component = this.MapComponents[index];
+            switch (component.Length)
+            {
+                case 2:
+                    if (component[1] != null)
+                    {
+                        if (component[1] is Entity)
+                        {
+                            Sprites.Sprite sp = ((Entity)component[1]).Sprite;
+                            if (sp != null)
+                            {
+                                order = sp.DrawOrder;
+                                gotOrder = true;
+                            }
+                        }
+                    }
+                    break;
+            }
+            if (!gotOrder)
+            {
+                //Next try getting it from the original component
+                if (this.Entities[id] is Entity)
+                {
+                    Sprites.Sprite sp = ((Entity)this.Entities[id]).Sprite;
+                    if (sp != null)
+                    {
+                        order = sp.DrawOrder;
+                        gotOrder = true;
+                    }
+                }
+            }
+            return order;
+        }
+
+        public int Compare(int[] x, int[] y)
+        {
+            return x[1] - y[1];
         }
     }
 }

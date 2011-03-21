@@ -12,7 +12,7 @@ namespace SGDeContent.DataTypes
         //Resources
         public List<int> MapIDs;
         public List<object> Maps;
-        public List<Vector2?> MapCameraStart;
+        internal List<SGDE.Content.DataTypes.MapSettings> MapSettings;
 
         //Settings
         public int FirstRun;
@@ -32,7 +32,7 @@ namespace SGDeContent.DataTypes
         {
             this.Maps = new List<object>();
             this.MapIDs = new List<int>();
-            this.MapCameraStart = new List<Vector2?>();
+            this.MapSettings = new List<SGDE.Content.DataTypes.MapSettings>();
             this.MapOrderId = new List<int>();
             this.MapOrderName = new List<string>();
 
@@ -58,20 +58,20 @@ namespace SGDeContent.DataTypes
                 //Need to sort the maps. This way it provides easy validation when loading in game.
                 List<int> ids = new List<int>();
                 List<object> tmaps = new List<object>();
-                List<Vector2?> tmapCameraStart = new List<Vector2?>();
+                List<SGDE.Content.DataTypes.MapSettings> tmapSettings = new List<SGDE.Content.DataTypes.MapSettings>();
                 for (int i = 0; i < MapIDs.Count; i++)
                 {
                     int index = MapIDs.IndexOf(i);
                     ids.Add(i);
                     tmaps.Add(Maps[index]);
-                    tmapCameraStart.Add(MapCameraStart[index]);
+                    tmapSettings.Add(MapSettings[index]);
                 }
                 MapIDs.Clear();
                 MapIDs.AddRange(ids);
                 Maps.Clear();
                 Maps.AddRange(tmaps);
-                MapCameraStart.Clear();
-                MapCameraStart.AddRange(tmapCameraStart);
+                MapSettings.Clear();
+                MapSettings.AddRange(tmapSettings);
             }
         }
     }

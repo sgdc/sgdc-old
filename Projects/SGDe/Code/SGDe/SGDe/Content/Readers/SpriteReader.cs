@@ -21,6 +21,7 @@ namespace SGDE.Content.Readers
         {
             T sprite = CreateInstance();
             sprite.Visible = input.ReadBoolean();
+            sprite.DrawOrder = input.ReadInt32();
             Color? tint = input.ReadObject<Color?>();
             if (tint.HasValue)
             {

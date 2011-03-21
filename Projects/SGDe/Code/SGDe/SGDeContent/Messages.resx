@@ -279,4 +279,16 @@
   <data name="Entity_Custom_HasSpaces" xml:space="preserve">
     <value>Specific type information for an entity cannot have spaces. Please remove or SGDe will not function properly when loading entity.</value>
   </data>
+  <data name="SpriteSheet_FontRequiresName" xml:space="preserve">
+    <value>SpriteFont must have a name to be referenced. It cannot be "empty".</value>
+  </data>
+  <data name="SpriteSheet_FontMissingFontName" xml:space="preserve">
+    <value>Missing FontName for font</value>
+  </data>
+  <data name="Entity_Sprite_DrawOrder_OutOfRange" xml:space="preserve">
+    <value>Draw order is out of range. Defaulting to 0.</value>
+  </data>
+  <data name="Entity_UpdateOrder_OutOfRange" xml:space="preserve">
+    <value>Update order is out of range. Defaulting to 0.</value>
+  </data>
 </root>

@@ -11,7 +11,7 @@ namespace SGDeContent.Processors
 {
     public class AnimationProcessor
     {
-        public static Animation Process(XmlElement input, double version, ContentProcessorContext context)
+        public static Animation Process(XmlNode input, double version, ContentProcessorContext context)
         {
             Animation animation = new Animation();
             string innerText = SGDEProcessor.GetInnerText(input).Trim();
@@ -28,13 +28,8 @@ namespace SGDeContent.Processors
 
                 animation.Sets = new List<AnimationSet>();
                 int index = 0;
-                foreach (XmlNode node in input)
+                foreach (XmlNode element in input)
                 {
-                    if (!(node is XmlElement))
-                    {
-                        continue;
-                    }
-                    XmlElement element = node as XmlElement;
                     if (ContentTagManager.TagMatches("ANIMATION_LOCAL_SET", element.Name, version))
                     {
                         #region AnimationSet
@@ -58,7 +53,7 @@ namespace SGDeContent.Processors
                         }
                         int fcount = 0;
                         //This happens twice, first gets the frame count...
-                        foreach (XmlElement frame in element)
+                        foreach (XmlNode frame in element)
                         {
                             if (ContentTagManager.TagMatches("ANIMATION_LOCAL_FRAME", frame.Name, version))
                             {
@@ -84,7 +79,7 @@ namespace SGDeContent.Processors
                         //...second actually processes them.
                         set.Frames = new List<AnimationFrame>(fcount);
                         Rectangle? region = null;
-                        foreach (XmlElement frame in element)
+                        foreach (XmlNode frame in element)
                         {
                             if (ContentTagManager.TagMatches("ANIMATION_LOCAL_FRAME", frame.Name, version))
                             {

@@ -29,7 +29,7 @@ namespace SGDeContent
             {
                 throw new InvalidContentException(Messages.NoChildNodes);
             }
-            XmlElement mainElement = (XmlElement)root.ChildNodes[0];
+            XmlNode mainElement = root.ChildNodes[0];
             if (ContentTagManager.TagMatches("IMPORT_GAME_ELEMENT", mainElement.Name, version))
             {
                 type = ContentTypes.Game;

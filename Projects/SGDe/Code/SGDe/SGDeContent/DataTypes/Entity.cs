@@ -14,6 +14,7 @@ namespace SGDeContent.DataTypes
         public Node Node;
 
         public bool Enabled;
+        public int UpdateOrder;
         public string Name;
 
         //Physics
@@ -21,6 +22,7 @@ namespace SGDeContent.DataTypes
 
         //Sprite information
         public Sprite Sprite;
+        public Vector2 SOffset;
 
         //Entity type data
         public string SpecialType;

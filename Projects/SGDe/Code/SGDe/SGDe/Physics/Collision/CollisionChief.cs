@@ -9,11 +9,11 @@ using Microsoft.Xna.Framework.Graphics;
 namespace SGDE.Physics.Collision
 {
     /// <summary>
-    /// Not sure yet...
+    /// The central class to compare collisions and determine if they actually collide or not.
     /// </summary>
     public partial class CollisionChief
     {
-        private static CollisionChief mInstance = new CollisionChief();
+        private static CollisionChief mInstance;
 
         private Vector2 mWorldSize;
         private Vector2 mCellSize;
@@ -24,14 +24,23 @@ namespace SGDE.Physics.Collision
 
         private CollisionChief() { }
 
+        /// <summary>
+        /// Update the CollisionChief.
+        /// </summary>
         public void Update()
         {
+            List<Entity> entities = null;
+            if (Game.CurrentGame.gameContent != null)
+            {
+                entities = Game.CurrentGame.gameContent.UpdateEntities;
+            }
+
             mCurrTimeStamp++;
-            UpdateCollisions();
-            NotifyEntities();
+            UpdateCollisions(entities);
+            NotifyEntities(entities);
         }
 
-        private void UpdateCollisions()
+        private void UpdateCollisions(List<Entity> entities)
         {
             if (mUnitsToUpdate == null)
             {
@@ -47,6 +56,11 @@ namespace SGDE.Physics.Collision
                 unit.ClearCollisions();
                 unit.ClearCheckedUnits();
                 unit.CollisionsChanged(false);
+
+                if (entities != null && !entities.Contains(unit.GetOwner()))
+                {
+                    continue;
+                }
 
                 if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE || unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_BOX)
                 {
@@ -70,7 +84,8 @@ namespace SGDE.Physics.Collision
                         {
                             foreach (CollisionUnit other in mCollisionGrid.Cells[i, j].collisionMembers)
                             {
-                                if (other != unit && !(other.GetLastCheckedBy() == unit && other.GetCheckTimeStamp() == mCurrTimeStamp) )// && other.GetFullCheckTimeStamp() < mCurrTimeStamp)
+                                if (other != unit && !(other.GetLastCheckedBy() == unit && other.GetCheckTimeStamp() == mCurrTimeStamp) && 
+                                    (Graphics.SpriteManager.gfx.OrderSeperation == 0 || (unit.GetOwner().SpriteImage.DrawOrder == other.GetOwner().SpriteImage.DrawOrder)))// && other.GetFullCheckTimeStamp() < mCurrTimeStamp)
                                 {
                                     other.CollisionsChanged(false);
 
@@ -105,12 +120,17 @@ namespace SGDE.Physics.Collision
         }
 
         // notify entities of collision change
-        private void NotifyEntities()
+        private void NotifyEntities(List<Entity> entities)
         {
             if (mEntitiesToNotify != null)
             {
                 foreach (Entity ent in mEntitiesToNotify)
                 {
+                    if (entities != null && !entities.Contains(ent))
+                    {
+                        continue;
+                    }
+
                     ent.CollisionChange();
                 }
 
@@ -118,11 +138,19 @@ namespace SGDE.Physics.Collision
             }
         }
 
+        /// <summary>
+        /// Add a specific CollisionUnit to a queue of units to update.
+        /// </summary>
+        /// <param name="unit">The CollisionUnit to get updated.</param>
         public void UpdateUnit(CollisionUnit unit)
         {
             mUnitsToUpdate.Add(unit);
         }
 
+        /// <summary>
+        /// Add a new CollisionUnit to the CollisionChief.
+        /// </summary>
+        /// <param name="unit">The CollisionUnit to add to the CollisionChief.</param>
         public void AddCollisionUnit(CollisionUnit unit)
         {
             Vector2 circleCenter;
@@ -131,7 +159,6 @@ namespace SGDE.Physics.Collision
             Vector2 lineEnd;
             Point topLeftCell;
             Point bottomRightCell;
-
 
             if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE)
             {
@@ -174,6 +201,10 @@ namespace SGDE.Physics.Collision
             }
         }
 
+        /// <summary>
+        /// Remove a CollisionUnit from the CollisionChief.
+        /// </summary>
+        /// <param name="unit">The CollisionUnit to remove.</param>
         public void RemoveCollisionUnit(CollisionUnit unit)
         {
             Vector2 circleCenter;
@@ -224,7 +255,12 @@ namespace SGDE.Physics.Collision
             }
         }
 
-        public void TranslateCollisionUnit(CollisionUnit unit, float x, float y)
+        /// <summary>
+        /// Translate a CollisionUnit by the given amount.
+        /// </summary>
+        /// <param name="unit">The CollisionUnit to translate.</param>
+        /// <param name="translation">The delta translation to perform on the CollisionUnit.</param>
+        public void TranslateCollisionUnit(CollisionUnit unit, Vector2 translation)
         {
             int circleRadius;
             Vector2 oldCircleCenter;
@@ -242,7 +278,7 @@ namespace SGDE.Physics.Collision
                 {
                     circleRadius = unit.GetCircleRadius();
                     oldCircleCenter = unit.GetCircleCenter();
-                    newCircleCenter = new Vector2(oldCircleCenter.X + x, oldCircleCenter.Y + y);
+                    newCircleCenter = oldCircleCenter + translation;
 
                     // calculate containing cells
                     oldTopLeftCell = CalculateCircleTopLeftCell(oldCircleCenter, circleRadius);
@@ -256,12 +292,12 @@ namespace SGDE.Physics.Collision
                     oldTopLeftCell = CalculateCellPosition(unit.GetUpperLeft());
                     oldBottomRightCell = CalculateCellPosition(unit.GetLowerRight());
 
-                    newTopLeftCell = CalculateCellPosition(new Vector2(unit.GetUpperLeft().X + x, unit.GetUpperLeft().Y + y));
-                    newBottomRightCell = CalculateCellPosition(new Vector2(unit.GetLowerRight().X + x, unit.GetLowerRight().Y + y));
+                    newTopLeftCell = CalculateCellPosition(unit.GetUpperLeft() + translation);
+                    newBottomRightCell = CalculateCellPosition(unit.GetLowerRight() + translation);
                 }
 
                 // remove from cells no longer within and add to new cells that unit is within
-                if (x > 0)
+                if (translation.X > 0)
                 {
                     // remove
                     for (int i = oldTopLeftCell.X; i < newTopLeftCell.X && i <= oldBottomRightCell.X; i++)
@@ -287,7 +323,7 @@ namespace SGDE.Physics.Collision
                         }
                     }
                 }
-                else if (x < 0)
+                else if (translation.X < 0)
                 {
                     // remove
                     int minStart = newBottomRightCell.X + 1;
@@ -314,7 +350,7 @@ namespace SGDE.Physics.Collision
                     }
                 }
 
-                if (y > 0)
+                if (translation.Y > 0)
                 {
                     // remove
                     for (int i = oldTopLeftCell.Y; i < newTopLeftCell.Y && i <= oldBottomRightCell.Y; i++)
@@ -335,7 +371,7 @@ namespace SGDE.Physics.Collision
                     for (int i = minStart; i <= newBottomRightCell.Y; i++)
                     {
                         // avoid double adds
-                        if (x > 0)
+                        if (translation.X > 0)
                         {
                             for (int j = newTopLeftCell.X; j <= oldBottomRightCell.X; j++)
                             {
@@ -351,7 +387,7 @@ namespace SGDE.Physics.Collision
                         }
                     }
                 }
-                else if (y < 0)
+                else if (translation.Y < 0)
                 {
                     // remove
                     int minStart = newBottomRightCell.Y + 1;
@@ -372,7 +408,7 @@ namespace SGDE.Physics.Collision
                     for (int i = newTopLeftCell.Y; i < oldTopLeftCell.Y && i <= newBottomRightCell.Y; i++)
                     {
                         // avoid double adds
-                        if (x > 0)
+                        if (translation.X > 0)
                         {
                             for (int j = newTopLeftCell.X; j <= oldBottomRightCell.X; j++)
                             {
@@ -400,11 +436,21 @@ namespace SGDE.Physics.Collision
             }
         }
 
+        /// <summary>
+        /// Rotate a CollisionUnit by the given amount.
+        /// </summary>
+        /// <param name="unit">The CollisionUnit to rotate.</param>
+        /// <param name="rotation">The delta rotation to perform on the CollisionUnit (in radians).</param>
         public void RotateCollisionUnit(CollisionUnit unit, float rotation)
         {
             // TODO
         }
 
+        /// <summary>
+        /// Scale a CollisionUnit by the given amount.
+        /// </summary>
+        /// <param name="unit">The CollisionUnit to scale.</param>
+        /// <param name="scale">The delta scale to perform on the CollisionUnit.</param>
         public void ScaleCollisionUnit(CollisionUnit unit, Vector2 scale)
         {
             int oldCircleRadius;
@@ -642,6 +688,11 @@ namespace SGDE.Physics.Collision
             return cellPosition;
         }
 
+        /// <summary>
+        /// Helper function for debugging. Draws the collision units in the location of a collision cell on the collision grid.
+        /// </summary>
+        /// <param name="spriteBatch">The SpriteBatch used to draw the grid.</param>
+        /// <param name="gridTexture">A texture representing one cell in the collision grid.</param>
         public void DrawCollisionGrid(SpriteBatch spriteBatch, Texture2D gridTexture)
         {
             Vector2 cellPosition = new Vector2();
@@ -674,6 +725,11 @@ namespace SGDE.Physics.Collision
             }
         }
 
+        /// <summary>
+        /// Initialize the CollisionChief.
+        /// </summary>
+        /// <param name="worldSize">The size, in pixels, of the map. This defines the size of the collision grid.</param>
+        /// <param name="cellSize">The size, in pixels, of a single cell in the collision grid.</param>
         public void Initialize(Vector2 worldSize, Vector2 cellSize)
         {
             int numXCells;
@@ -700,8 +756,16 @@ namespace SGDE.Physics.Collision
             mCurrTimeStamp = 0;
         }
 
+        /// <summary>
+        /// Get the CollisionChief singleton.
+        /// </summary>
+        /// <returns>The CollisionChief singleton.</returns>
         public static CollisionChief GetInstance()
         {
+            if (mInstance == null)
+            {
+                mInstance = new CollisionChief();
+            }
             return mInstance;
         }
     }

@@ -14,10 +14,10 @@ namespace SGDeContent.Processors
     {
         public static Entity Process(Content input, ContentProcessorContext context)
         {
-            return Process(ContentTagManager.GetXMLElem("IMPORT_ENTITIY_ELEMENT", input.Version, input.document.DocumentElement), input.Version, context);
+            return Process(ContentTagManager.GetXMLNode("IMPORT_ENTITIY_ELEMENT", input.Version, input.document.DocumentElement), input.Version, context);
         }
 
-        public static Entity Process(XmlElement input, double version, ContentProcessorContext context)
+        public static Entity Process(XmlNode input, double version, ContentProcessorContext context)
         {
             Entity entity = new Entity();
             XmlAttribute at = ContentTagManager.GetXMLAtt("ENTITY_NAME", version, input);
@@ -34,14 +34,25 @@ namespace SGDeContent.Processors
             {
                 entity.Enabled = true;
             }
-            for (int e = 0; e < input.ChildNodes.Count; e++)
+            if (MapProcessor.CurrentEntityID >= 0 && MapProcessor.map != null)
             {
-                XmlNode xmlNode = input.ChildNodes[e];
-                if (!(xmlNode is XmlElement))
+                //Inheret the Update Order
+                if (MapProcessor.map.Entities[MapProcessor.CurrentEntityID] is Entity)
                 {
-                    continue;
+                    entity.UpdateOrder = ((Entity)MapProcessor.map.Entities[MapProcessor.CurrentEntityID]).UpdateOrder;
                 }
-                XmlElement entityComponent = xmlNode as XmlElement;
+            }
+            at = ContentTagManager.GetXMLAtt("ENTITY_UPDATEORDER", version, input);
+            if (at != null)
+            {
+                if (!int.TryParse(at.Value, out entity.UpdateOrder))
+                {
+                    context.Logger.LogWarning(null, null, Messages.Entity_UpdateOrder_OutOfRange);
+                    entity.UpdateOrder = 0;
+                }
+            }
+            foreach(XmlNode entityComponent in input)
+            {
                 if (ContentTagManager.TagMatches("ENTITY_NODE", entityComponent.Name, version))
                 {
                     #region Node
@@ -56,7 +67,7 @@ namespace SGDeContent.Processors
                         entity.DevID(at, node);
                     }
                     bool gotScale = false;
-                    foreach (XmlElement nodeComponent in entityComponent)
+                    foreach (XmlNode nodeComponent in entityComponent)
                     {
                         if (ContentTagManager.TagMatches("ENTITY_NODE_VECTOR2", nodeComponent.Name, version))
                         {
@@ -222,13 +233,22 @@ namespace SGDeContent.Processors
                         {
                             throw new InvalidContentException(Messages.Entity_Sprite_PositiveID);
                         }
-                        entity.Sprite = CreateSprite(id);
+                        entity.Sprite = CreateSprite(id, context);
                     }
 
                     at = ContentTagManager.GetXMLAtt("GENERAL_DEVELOPER_ID", version, entityComponent);
                     if (at != null)
                     {
                         entity.DevID(at, entity.Sprite);
+                    }
+                    at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_DRAWORDER", version, entityComponent);
+                    if (at != null)
+                    {
+                        if (!int.TryParse(at.Value, out entity.Sprite.DrawOrder))
+                        {
+                            context.Logger.LogWarning(null, null, Messages.Entity_Sprite_DrawOrder_OutOfRange);
+                            entity.Sprite.DrawOrder = 0;
+                        }
                     }
                     at = ContentTagManager.GetXMLAtt("ENTITY_SPRITE_VISIBLE", version, entityComponent);
                     if (at != null)
@@ -355,7 +375,7 @@ namespace SGDeContent.Processors
                     }
                     int count = 0;
                     int aid = -1;
-                    foreach (XmlElement spriteComponent in entityComponent)
+                    foreach (XmlNode spriteComponent in entityComponent)
                     {
                         #region Child components
 
@@ -397,6 +417,23 @@ namespace SGDeContent.Processors
                             else
                             {
                                 aid = animation.ID;
+                            }
+
+                            #endregion
+                        }
+                        else if (ContentTagManager.TagMatches("ENTITY_SPRITE_OFFSET", spriteComponent.Name, version))
+                        {
+                            #region Sprite Offset
+
+                            at = ContentTagManager.GetXMLAtt("GENERAL_X", version, spriteComponent);
+                            if (at != null)
+                            {
+                                entity.SOffset.X = float.Parse(at.Value);
+                            }
+                            at = ContentTagManager.GetXMLAtt("GENERAL_Y", version, spriteComponent);
+                            if (at != null)
+                            {
+                                entity.SOffset.Y = float.Parse(at.Value);
                             }
 
                             #endregion
@@ -453,29 +490,34 @@ namespace SGDeContent.Processors
                     at = ContentTagManager.GetXMLAtt("ENTITY_PHYSICS_ENABLED", version, entityComponent);
                     if (at != null)
                     {
-                        entity.Physics.Add("Enabled", bool.Parse(at.Value));
+                        //Enabled
+                        entity.Physics.Add("E", bool.Parse(at.Value));
                     }
                     at = ContentTagManager.GetXMLAtt("ENTITY_PHYSICS_ENABLEDONENABLED", version, entityComponent);
                     if (at != null)
                     {
-                        entity.Physics.Add("EnableOnEnable", bool.Parse(at.Value));
+                        //EnableOnEnable
+                        entity.Physics.Add("EE", bool.Parse(at.Value));
                     }
                     at = ContentTagManager.GetXMLAtt("ENTITY_PHYSICS_COLLISION", version, entityComponent);
                     if (at != null)
                     {
-                        entity.Physics.Add("Collision", bool.Parse(at.Value));
+                        //Collision
+                        entity.Physics.Add("C", bool.Parse(at.Value));
                     }
                     at = ContentTagManager.GetXMLAtt("ENTITY_PHYSICS_STATIC", version, entityComponent);
                     if (at != null)
                     {
-                        entity.Physics.Add("Static", bool.Parse(at.Value));
+                        //Static
+                        entity.Physics.Add("S", bool.Parse(at.Value));
                     }
                     at = ContentTagManager.GetXMLAtt("ENTITY_PHYSICS_POSTSETUP", version, entityComponent);
                     if (at != null)
                     {
-                        entity.Physics.Add("PostSetup", bool.Parse(at.Value));
+                        //PostSetup
+                        entity.Physics.Add("PS", bool.Parse(at.Value));
                     }
-                    foreach (XmlElement physicsElement in entityComponent)
+                    foreach (XmlNode physicsElement in entityComponent)
                     {
                         if (ContentTagManager.TagMatches("ENTITY_PHYSICS_VELOCITY", physicsElement.Name, version))
                         {
@@ -555,7 +597,8 @@ namespace SGDeContent.Processors
                             }
                             if (vecto != null)
                             {
-                                entity.Physics.Add("Velocity", vecto);
+                                //Velocity
+                                entity.Physics.Add("V", vecto);
                             }
 
                             #endregion
@@ -565,7 +608,7 @@ namespace SGDeContent.Processors
                             #region Forces
 
                             List<object> pforce = new List<object>();
-                            foreach (XmlElement force in physicsElement)
+                            foreach (XmlNode force in physicsElement)
                             {
                                 bool add = false;
                                 string innerText = SGDEProcessor.GetInnerText(force);
@@ -652,7 +695,8 @@ namespace SGDeContent.Processors
                             }
                             if (pforce.Count != 0)
                             {
-                                entity.Physics.Add("Forces", pforce);
+                                //Forces
+                                entity.Physics.Add("F", pforce);
                             }
 
                             #endregion
@@ -702,11 +746,6 @@ namespace SGDeContent.Processors
                     }
                     foreach (XmlNode customEntityComponent in entityComponent)
                     {
-                        if (!(customEntityComponent is XmlElement))
-                        {
-                            continue;
-                        }
-
                         if (ContentTagManager.TagMatches("ENTITY_CUSTOMENTITY_CONSTRUCTOR", customEntityComponent.Name, version))
                         {
                             #region Contructor
@@ -872,8 +911,12 @@ namespace SGDeContent.Processors
             return entity;
         }
 
-        private static Sprite CreateSprite(int id)
+        private static Sprite CreateSprite(int id, ContentProcessorContext cont)
         {
+            if (SpriteSheetProcessor.SpriteSheetTypes == null)
+            {
+                SpriteSheetProcessor.SpriteSheetTypes = Utils.Deserialize<Dictionary<int, SpriteSheetProcessor.SpriteType>>(SpriteSheetProcessor.SPRITE_TYPE_FILE, cont);
+            }
             switch (SpriteSheetProcessor.SpriteSheetTypes[id])
             {
                 case SpriteSheetProcessor.SpriteType.Bitmap:
@@ -892,12 +935,13 @@ namespace SGDeContent.Processors
                 BitmapSprite dstB = new BitmapSprite();
                 dstB.SpriteID = ((BitmapSprite)src).SpriteID;
                 dstB.Visible = src.Visible;
+                dstB.DrawOrder = src.DrawOrder;
                 return dstB;
             }
             return null;
         }
 
-        private static void ProcessSprite(ref Sprite sp, XmlElement spriteComponent, double version)
+        private static void ProcessSprite(ref Sprite sp, XmlNode spriteComponent, double version)
         {
             //TODO: Extra components to a Sprite: If a vector based Sprite, get the scale of the sprite
         }

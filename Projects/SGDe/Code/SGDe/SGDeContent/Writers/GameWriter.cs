@@ -93,7 +93,7 @@ namespace SGDeContent.Writers
                     output.Write(true);
                     output.Write(name);
                 }
-                output.WriteObject(value.MapCameraStart[i]);
+                output.WriteObject(value.MapSettings[i]);
             }
             output.Write(value.FirstRun);
         }

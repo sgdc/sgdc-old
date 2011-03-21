@@ -18,6 +18,7 @@ namespace SGDeContent.Writers
         protected override void Write(ContentWriter output, T value)
         {
             output.Write(value.Visible);
+            output.Write(value.DrawOrder);
             output.WriteObject(value.Tint);
             output.Write(value.HasOverride);
             if (value.HasOverride)

@@ -65,11 +65,30 @@ namespace SGDeContent.Writers
                 }
                 value.DeveloperIDWriter(output, entities);
             }
+            //Write out sorting order
+            output.WriteObject(value.SortUpdate);
+            output.WriteObject(value.SortDraw);
         }
 
         public override string GetRuntimeReader(TargetPlatform targetPlatform)
         {
             return typeof(SGDE.Content.Readers.MapReader).AssemblyQualifiedName;
+        }
+    }
+
+    [ContentTypeWriter]
+    internal class MapSettingsWriter : ContentTypeWriter<SGDE.Content.DataTypes.MapSettings>
+    {
+        protected override void Write(ContentWriter output, SGDE.Content.DataTypes.MapSettings value)
+        {
+            output.WriteObject(value.CameraPosition);
+            output.WriteObject(value.OrderSeperation);
+            output.WriteObject(value.CentralOrder);
+        }
+
+        public override string GetRuntimeReader(TargetPlatform targetPlatform)
+        {
+            return typeof(SGDE.Content.Readers.MapSettingsReader).AssemblyQualifiedName;
         }
     }
 }

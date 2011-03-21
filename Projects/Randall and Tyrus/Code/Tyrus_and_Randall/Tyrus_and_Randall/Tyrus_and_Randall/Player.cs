@@ -43,11 +43,6 @@ namespace Tyrus_and_Randall
             currentLevel = 1;
         }
 
-        public override void Initialize()
-        {
- 	        base.Initialize();
-        }
-
         public override void  Update(GameTime gameTime)
         {
  	        base.Update(gameTime);
@@ -71,7 +66,7 @@ namespace Tyrus_and_Randall
             
             Game1.foodText = "Food: " + collectedFood.Count + " / " + levelFood[currentLevel];
 
-            SGDE.Game.CurrentGame.CameraControl.Position = this.GetTranslation();
+            SGDE.Game.CurrentGame.CameraControl.SetTranslation(this.GetTranslation());
 
             if (knockBack)
             {

@@ -19,20 +19,20 @@ namespace SGDeContent.Processors
 
             bool hasFirstRun = false;
 
-            foreach (XmlElement component in input.document.DocumentElement)
+            foreach (XmlNode component in input.document.DocumentElement)
             {
                 //Handle the Game component (resources)
                 if (ContentTagManager.TagMatches("IMPORT_GAME_ELEMENT", component.Name, input.Version))
                 {
                     #region Game
 
-                    foreach (XmlElement gameComponent in component)
+                    foreach (XmlNode gameComponent in component)
                     {
                         if (ContentTagManager.TagMatches("GAME_GAME_MAPS", gameComponent.Name, input.Version))
                         {
                             #region Maps
 
-                            foreach (XmlElement map in gameComponent)
+                            foreach (XmlNode map in gameComponent)
                             {
                                 int id = int.Parse(ContentTagManager.GetXMLAtt("GENERAL_ID", input.Version, map).Value);
                                 if (game.MapIDs.Contains(id))
@@ -44,7 +44,7 @@ namespace SGDeContent.Processors
                                 if (string.IsNullOrWhiteSpace(innerText))
                                 {
                                     //Actual map
-                                    game.Maps.Add(MapProcessor.Process((XmlElement)map.ChildNodes[0], input.Version, context));
+                                    game.Maps.Add(MapProcessor.Process(map.ChildNodes[0], input.Version, context));
                                 }
                                 else
                                 {
@@ -88,14 +88,14 @@ namespace SGDeContent.Processors
 
                     #endregion
 
-                    foreach (XmlElement settingComponent in component)
+                    foreach (XmlNode settingComponent in component)
                     {
                         if (ContentTagManager.TagMatches("GAME_SETTINGS_MAPLIST", settingComponent.Name, input.Version))
                         {
                             #region Map List
 
                             int index = 0;
-                            foreach (XmlElement map in settingComponent)
+                            foreach (XmlNode map in settingComponent)
                             {
                                 if (ContentTagManager.TagMatches("GAME_SETTINGS_MAPLIST_MAP", map.Name, input.Version))
                                 {
@@ -129,31 +129,73 @@ namespace SGDeContent.Processors
                                         game.MapOrderName.Add(null);
                                     }
                                     index++;
-                                    Microsoft.Xna.Framework.Vector2? camera = null;
-                                    foreach (XmlElement mapSet in map)
+
+                                    #region Settings
+
+                                    SGDE.Content.DataTypes.MapSettings settings = null;
+                                    foreach (XmlNode mapSet in map)
                                     {
                                         if (ContentTagManager.TagMatches("GAME_SETTINGS_MAPLIST_MAP_CAMERA", mapSet.Name, input.Version))
                                         {
+                                            #region Camera Position
+
                                             at = ContentTagManager.GetXMLAtt("GENERAL_X", input.Version, mapSet);
                                             if (at != null)
                                             {
-                                                camera = new Microsoft.Xna.Framework.Vector2(float.Parse(at.Value), 0);
+                                                if (settings == null)
+                                                {
+                                                    settings = new SGDE.Content.DataTypes.MapSettings();
+                                                }
+                                                settings.CameraPosition = new Microsoft.Xna.Framework.Vector2(float.Parse(at.Value), 0);
                                             }
                                             at = ContentTagManager.GetXMLAtt("GENERAL_Y", input.Version, mapSet);
                                             if (at != null)
                                             {
-                                                if (camera.HasValue)
+                                                if (settings == null)
                                                 {
-                                                    camera = new Microsoft.Xna.Framework.Vector2(camera.Value.X, float.Parse(at.Value));
+                                                    settings = new SGDE.Content.DataTypes.MapSettings();
+                                                }
+                                                if (settings.CameraPosition.HasValue)
+                                                {
+                                                    settings.CameraPosition = new Microsoft.Xna.Framework.Vector2(settings.CameraPosition.Value.X, float.Parse(at.Value));
                                                 }
                                                 else
                                                 {
-                                                    camera = new Microsoft.Xna.Framework.Vector2(0, float.Parse(at.Value));
+                                                    settings.CameraPosition = new Microsoft.Xna.Framework.Vector2(0, float.Parse(at.Value));
                                                 }
                                             }
+
+                                            #endregion
+                                        }
+                                        else if (ContentTagManager.TagMatches("GAME_SETTINGS_MAPLIST_MAP_ORDER", mapSet.Name, input.Version))
+                                        {
+                                            #region Order
+
+                                            at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_MAPLIST_MAP_ORDER_CENTRAL", input.Version, mapSet);
+                                            if (at != null)
+                                            {
+                                                if (settings == null)
+                                                {
+                                                    settings = new SGDE.Content.DataTypes.MapSettings();
+                                                }
+                                                settings.CentralOrder = int.Parse(at.Value);
+                                            }
+                                            at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_MAPLIST_MAP_ORDER_SEPERATION", input.Version, mapSet);
+                                            if (at != null)
+                                            {
+                                                if (settings == null)
+                                                {
+                                                    settings = new SGDE.Content.DataTypes.MapSettings();
+                                                }
+                                                settings.OrderSeperation = float.Parse(at.Value);
+                                            }
+
+                                            #endregion
                                         }
                                     }
-                                    game.MapCameraStart.Add(camera);
+                                    game.MapSettings.Add(settings);
+
+                                    #endregion
                                 }
                             }
 
@@ -163,7 +205,7 @@ namespace SGDeContent.Processors
                         {
                             #region Default Game Settings
 
-                            foreach (XmlElement gameSettingComponent in settingComponent)
+                            foreach (XmlNode gameSettingComponent in settingComponent)
                             {
                                 if (ContentTagManager.TagMatches("GAME_SETTINGS_DEFSETTINGS_SCREEN", gameSettingComponent.Name, input.Version))
                                 {
@@ -303,7 +345,7 @@ namespace SGDeContent.Processors
 
         #region Writing
 
-        public static bool Write(double version, XmlElement parent, ProcessedContent content)
+        public static bool Write(double version, XmlNode parent, ProcessedContent content)
         {
             SGDeContent.DataTypes.Game game = content as SGDeContent.DataTypes.Game;
             if (game == null)

@@ -120,6 +120,15 @@
   <data name="Code_CannotEvaluate" xml:space="preserve">
     <value>Cannot evaluate code. Arguments could be required.</value>
   </data>
+  <data name="Compiler_Error_NoEndComment" xml:space="preserve">
+    <value>ERROR: End comment marker (*/) not found.</value>
+  </data>
+  <data name="Compiler_Error_WindowsOnly" xml:space="preserve">
+    <value>ERROR: Compiler is only supported on Windows</value>
+  </data>
+  <data name="Compiler_NoError" xml:space="preserve">
+    <value>No error</value>
+  </data>
   <data name="ContentUtil_DIDExists" xml:space="preserve">
     <value>Concurrency error</value>
   </data>

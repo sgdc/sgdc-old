@@ -118,7 +118,7 @@ namespace SGDE
         }
 
         /// <summary>
-        /// Get or set it the content system should be used.
+        /// Get or set it the content system should be used. This can only be set before <see cref="Initialize"/> is called.
         /// </summary>
         protected bool UseContentSystem
         {
@@ -226,7 +226,7 @@ namespace SGDE
             {
                 lock (gameContent)
                 {
-                    foreach (Entity entity in gameContent.Entities)
+                    foreach (Entity entity in gameContent.UpdateEntities)
                     {
                         if (entity.Enabled)
                         {
@@ -259,7 +259,7 @@ namespace SGDE
             {
                 lock (gameContent)
                 {
-                    foreach (Entity entity in gameContent.Entities)
+                    foreach (Entity entity in gameContent.DrawEntities)
                     {
                         entity.Draw(gameTime);
                     }

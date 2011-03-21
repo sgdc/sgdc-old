@@ -34,18 +34,18 @@ namespace TestDemo
                     {
                         if (keyboard.IsKeyPressed(Keys.LeftShift))
                         {
-                            game.CameraControl.Position += new Vector2(5, 0);
+                            game.CameraControl.Translate(new Vector2(5, 0));
                         }
                         else
                         {
                             this.Translate(-5, 0);
                         }
                     }
-                    if (keyboard.IsKeyPressed(Keys.Right))
+                    else if (keyboard.IsKeyPressed(Keys.Right))
                     {
                         if (keyboard.IsKeyPressed(Keys.LeftShift))
                         {
-                            game.CameraControl.Position -= new Vector2(5, 0);
+                            game.CameraControl.Translate(new Vector2(-5, 0));
                         }
                         else
                         {
@@ -56,18 +56,18 @@ namespace TestDemo
                     {
                         if (keyboard.IsKeyPressed(Keys.LeftShift))
                         {
-                            game.CameraControl.Position += new Vector2(0, 5);
+                            game.CameraControl.Translate(new Vector2(0, 5));
                         }
                         else
                         {
                             this.Translate(0, -5);
                         }
                     }
-                    if (keyboard.IsKeyPressed(Keys.Down))
+                    else if (keyboard.IsKeyPressed(Keys.Down))
                     {
                         if (keyboard.IsKeyPressed(Keys.LeftShift))
                         {
-                            game.CameraControl.Position -= new Vector2(0, 5);
+                            game.CameraControl.Translate(new Vector2(0, -5));
                         }
                         else
                         {
@@ -83,10 +83,10 @@ namespace TestDemo
                         }
                         else
                         {
-                            game.CameraControl.Scale -= 0.1f;
+                            game.CameraControl.Scale(-0.1f);
                         }
                     }
-                    if (keyboard.IsKeyPressed(Keys.I))
+                    else if (keyboard.IsKeyPressed(Keys.I))
                     {
                         if (keyboard.IsKeyPressed(Keys.LeftShift))
                         {
@@ -94,16 +94,16 @@ namespace TestDemo
                         }
                         else
                         {
-                            game.CameraControl.Scale += 0.1f;
+                            game.CameraControl.Scale(0.1f);
                         }
                     }
                     if (keyboard.IsKeyPressed(Keys.R))
                     {
-                        game.CameraControl.Rotation += (float)(Math.PI / 32);
+                        game.CameraControl.Rotate((float)(Math.PI / 32));
                     }
-                    if (keyboard.IsKeyPressed(Keys.L))
+                    else if (keyboard.IsKeyPressed(Keys.L))
                     {
-                        game.CameraControl.Rotation -= (float)(Math.PI / 32);
+                        game.CameraControl.Rotate(-(float)(Math.PI / 32));
                     }
 
                     if (keyboard.IsKeyClicked(Keys.Escape))
@@ -117,10 +117,10 @@ namespace TestDemo
                     break;
                 case InputType.GamePad:
                     SGDE.Input.GamePad gamePad = (SGDE.Input.GamePad)input;
-                    Vector2 rightThumb = gamePad.GetThumbstickPosition(GamePadComponent.RightStick);
-                    if (rightThumb != Vector2.Zero)
+                    Vector2 leftStick = gamePad.GetThumbstickPosition(GamePadComponent.LeftStick);
+                    if (leftStick != Vector2.Zero)
                     {
-                        this.Translate(rightThumb.X * 5, rightThumb.Y * 5);
+                        this.Translate(leftStick.X * 5, -leftStick.Y * 5);
                     }
                     if (gamePad.IsButtonClicked(GamePadComponent.Back))
                     {

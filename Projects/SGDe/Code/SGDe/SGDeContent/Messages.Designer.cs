@@ -250,6 +250,15 @@ namespace SGDeContent {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Draw order is out of range. Defaulting to 0..
+        /// </summary>
+        internal static string Entity_Sprite_DrawOrder_OutOfRange {
+            get {
+                return ResourceManager.GetString("Entity_Sprite_DrawOrder_OutOfRange", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not valid Sprite region. Ignoring..
         /// </summary>
         internal static string Entity_Sprite_InvalidRegion {
@@ -309,6 +318,15 @@ namespace SGDeContent {
         internal static string Entity_Sprite_TooManyAnimations {
             get {
                 return ResourceManager.GetString("Entity_Sprite_TooManyAnimations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update order is out of range. Defaulting to 0..
+        /// </summary>
+        internal static string Entity_UpdateOrder_OutOfRange {
+            get {
+                return ResourceManager.GetString("Entity_UpdateOrder_OutOfRange", resourceCulture);
             }
         }
         
@@ -480,6 +498,24 @@ namespace SGDeContent {
         internal static string SpriteSheet_AnimationMustBeInternal {
             get {
                 return ResourceManager.GetString("SpriteSheet_AnimationMustBeInternal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing FontName for font.
+        /// </summary>
+        internal static string SpriteSheet_FontMissingFontName {
+            get {
+                return ResourceManager.GetString("SpriteSheet_FontMissingFontName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SpriteFont must have a name to be referenced. It cannot be &quot;empty&quot;..
+        /// </summary>
+        internal static string SpriteSheet_FontRequiresName {
+            get {
+                return ResourceManager.GetString("SpriteSheet_FontRequiresName", resourceCulture);
             }
         }
         

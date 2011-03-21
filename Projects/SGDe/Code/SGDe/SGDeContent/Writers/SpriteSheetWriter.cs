@@ -36,17 +36,18 @@ namespace SGDeContent.Writers
                     }
                     else
                     {
-                        output.Write("");
+                        output.Write(string.Empty);
                     }
                 }
             }
+            output.WriteObject(value.Fonts);
         }
 
         public override int TypeVersion
         {
             get
             {
-                return 1;
+                return 2;
             }
         }
 

@@ -25,17 +25,17 @@ namespace SGDE.Content.Code.Library
         /// </summary>
         public Object __proto__ { get; internal set; } //There is a static version of this called "prototype". That one will be handled through reflection instead of direct instatiation of class Types. If "prototype" is used on a instantiated class then __proto__ is returned.
 
-        private bool dynamic;
+        internal bool dynamic;
 
         /// <summary>
         /// Creates an Object object and stores a reference to the object's constructor method in the object's constructor property.
         /// </summary>
         public Object()
-            : this(true, true, true)
+            : this(true, true)
         {
         }
 
-        internal Object(bool getConstructor, bool getType, bool dynamic)
+        internal Object(bool getConstructor, bool getType)
         {
             if (getConstructor)
             {
@@ -44,15 +44,12 @@ namespace SGDE.Content.Code.Library
                 {
                     this.constructor = new ConstructorObject((ConstructorInfo)mbase);
                 }
-                else
-                {
-                    this.dynamic = dynamic;
-                }
             }
             if (getType)
             {
                 this.__proto__ = new PrototypeObject(GetType());
             }
+            this.dynamic = getType && this.__proto__.__proto__ == null;
         }
 
         /// <summary>
@@ -61,7 +58,7 @@ namespace SGDE.Content.Code.Library
         /// <returns>A string representation of the object.</returns>
         public virtual String toString()
         {
-            return this.ToString();
+            return new String(this.ToString());
         }
 
         /// <summary>
@@ -92,7 +89,7 @@ namespace SGDE.Content.Code.Library
             string str = name.value; //Do this so we are working with .Net String
             Type t = ((PrototypeObject)this.__proto__).prototypeType;
             //TODO: It's easier to check documentation then to try and explain it
-            return false;
+            return new Boolean(false);
         }
 
         /// <summary>
@@ -102,7 +99,7 @@ namespace SGDE.Content.Code.Library
         /// <returns>If the object is in the prototype chain of the object specified by the theClass parameter this value is true, otherwise false.</returns>
         public virtual Boolean isPrototypeOf(Object theClass)
         {
-            return ((PrototypeObject)this.__proto__).prototypeType.IsInstanceOfType(theClass);
+            return new Boolean(((PrototypeObject)this.__proto__).prototypeType.IsInstanceOfType(theClass));
         }
 
         /// <summary>
@@ -116,7 +113,7 @@ namespace SGDE.Content.Code.Library
             {
                 //TODO: See if property is enumerable
             }
-            return false;
+            return new Boolean(false);
         }
 
         #region Helper Types
@@ -126,14 +123,14 @@ namespace SGDE.Content.Code.Library
             public ConstructorInfo conInfo;
 
             public ConstructorObject(ConstructorInfo info)
-                : base(false, false, false)
+                : base(false, false)
             {
                 this.conInfo = info;
             }
 
             public override String toString()
             {
-                return conInfo.ToString();
+                return new String(conInfo.ToString());
             }
         }
 
@@ -142,7 +139,7 @@ namespace SGDE.Content.Code.Library
             public Type prototypeType;
 
             public PrototypeObject(Type type)
-                : base(false, false, false)
+                : base(false, false)
             {
                 if (!typeof(object).Equals(type.BaseType))
                 {
@@ -153,7 +150,7 @@ namespace SGDE.Content.Code.Library
 
             public override String toString()
             {
-                return prototypeType.ToString();
+                return new String(prototypeType.ToString());
             }
         }
 

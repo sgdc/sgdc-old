@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SGDE.Physics;
+using Microsoft.Xna.Framework;
 
 namespace SGDE.Content.DataTypes
 {
@@ -13,7 +14,8 @@ namespace SGDE.Content.DataTypes
     {
         internal List<EntityBuilder> builders;
 
-        internal List<Entity> entities;
+        internal List<Entity> dEntities;
+        internal List<Entity> uEntities;
 
         internal Dictionary<string, object> developerTypes;
 
@@ -23,6 +25,23 @@ namespace SGDE.Content.DataTypes
         public MapContent()
         {
             developerTypes = new Dictionary<string, object>();
+        }
+
+        internal void UpdateOrderChanged(object sender, EventArgs e)
+        {
+            GameContent.OrderChanged((Entity)sender, ref this.uEntities, GameContent.OrderComparer.Update);
+        }
+
+        internal void DrawOrderChanged(object sender, EventArgs e)
+        {
+            GameContent.OrderChanged((Entity)sender, ref this.dEntities, GameContent.OrderComparer.Draw);
+        }
+
+        internal void Sort()
+        {
+            //This shouldn't take too long since the content pipeline semi-orders the entities before they are written
+            uEntities.Sort(GameContent.OrderComparer.Update);
+            dEntities.Sort(GameContent.OrderComparer.Draw);
         }
 
         internal T GetElement<T>(string did)
@@ -42,5 +61,12 @@ namespace SGDE.Content.DataTypes
             }
             return default(T);
         }
+    }
+
+    internal class MapSettings
+    {
+        public Vector2? CameraPosition;
+        public float? OrderSeperation;
+        public int? CentralOrder;
     }
 }

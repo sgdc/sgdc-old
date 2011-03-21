@@ -26,28 +26,28 @@ namespace SGDeContent.Processors
             return Process(input.document.DocumentElement, input.Version, context);
         }
 
-        public static Map Process(XmlElement input, double version, ContentProcessorContext context)
+        public static Map Process(XmlNode input, double version, ContentProcessorContext context)
         {
             Map map = new Map();
             MapProcessor.map = map;
 
             #region Resource Processing
 
-            XmlElement element = ContentTagManager.GetXMLElem("MAP_RESOURCE", version, input);
+            XmlNode element = ContentTagManager.GetXMLNode("MAP_RESOURCE", version, input);
 
             //Process the resources
             if (element == null)
             {
                 throw new InvalidContentException(Messages.Map_MissingResourceElement);
             }
-            foreach (XmlElement resourceComponent in element)
+            foreach (XmlNode resourceComponent in element)
             {
                 if (ContentTagManager.TagMatches("MAP_RESOURCE_ENTITIES", resourceComponent.Name, version))
                 {
                     #region Entities
 
                     map.DevID(ContentTagManager.GetXMLAtt("GENERAL_DEVELOPER_ID", version, resourceComponent), map.Entities);
-                    foreach (XmlElement entity in resourceComponent)
+                    foreach (XmlNode entity in resourceComponent)
                     {
                         int id = int.Parse(ContentTagManager.GetXMLAtt("GENERAL_ID", version, entity).Value);
                         if (map.EntityID.Contains(id))
@@ -59,7 +59,7 @@ namespace SGDeContent.Processors
                         if (string.IsNullOrWhiteSpace(entityRef))
                         {
                             //Actual entity
-                            map.Entities.Add(EntityProcessor.Process((XmlElement)entity.ChildNodes[0], version, context));
+                            map.Entities.Add(EntityProcessor.Process(entity.ChildNodes[0], version, context));
                         }
                         else
                         {
@@ -81,19 +81,19 @@ namespace SGDeContent.Processors
 
             #region Map Processing
 
-            element = ContentTagManager.GetXMLElem("IMPORT_MAP_ELEMENT", version, input);
+            element = ContentTagManager.GetXMLNode("IMPORT_MAP_ELEMENT", version, input);
 
             if (element == null)
             {
                 throw new InvalidContentException(Messages.Map_MissingMapElement);
             }
-            foreach (XmlElement mapComponent in element)
+            foreach (XmlNode mapComponent in element)
             {
                 if (ContentTagManager.TagMatches("MAP_MAP_LAYOUT", mapComponent.Name, version))
                 {
                     #region Layout
 
-                    foreach (XmlElement layoutComponent in mapComponent)
+                    foreach (XmlNode layoutComponent in mapComponent)
                     {
                         object[] entityPos; //Used to uniquely identify the layout component
                         if (ContentTagManager.TagMatches("MAP_MAP_LAYOUT_POSITION", layoutComponent.Name, version))
@@ -103,20 +103,20 @@ namespace SGDeContent.Processors
                             entityPos = new object[2];
                             entityPos[0] = CurrentEntityID = int.Parse(ContentTagManager.GetXMLAtt("GENERAL_ID", version, layoutComponent).Value);
                             map.DevID(ContentTagManager.GetXMLAtt("GENERAL_DEVELOPER_ID", version, layoutComponent), entityPos);
-                            foreach (XmlElement entityComponent in layoutComponent)
+                            foreach (XmlNode entityComponent in layoutComponent)
                             {
                                 if (ContentTagManager.TagMatches("MAP_MAP_LAYOUT_POSITION_LAYOUT", entityComponent.Name, version))
                                 {
                                     #region Layout
 
-                                    string innerText = SGDEProcessor.GetInnerText(entityComponent);
+                                    string innerText = SGDEProcessor.GetInnerText(entityComponent).Trim();
                                     if (ContentTagManager.TagMatches("MAP_MAP_LAYOUT_POSITION_LAYOUT_PREDEFINED", innerText, version))
                                     {
                                         entityPos[1] = null; //All layout information is defined by Entity element itself
                                     }
                                     else if (ContentTagManager.TagMatches("MAP_MAP_LAYOUT_POSITION_LAYOUT_DEFINED", innerText, version))
                                     {
-                                        entityPos[1] = EntityProcessor.Process((XmlElement)entityComponent, version, context);
+                                        entityPos[1] = EntityProcessor.Process(entityComponent, version, context);
                                     }
 
                                     #endregion
@@ -150,13 +150,13 @@ namespace SGDeContent.Processors
                             continue;
                         }
                     }
-                    foreach (XmlElement physicsComponent in mapComponent)
+                    foreach (XmlNode physicsComponent in mapComponent)
                     {
                         if (ContentTagManager.TagMatches("MAP_MAP_PHYSICS_PHARAOH", physicsComponent.Name, version))
                         {
                             #region Physics Pharaoh
 
-                            foreach (XmlElement pharaohComponent in physicsComponent)
+                            foreach (XmlNode pharaohComponent in physicsComponent)
                             {
                                 if (ContentTagManager.TagMatches("MAP_MAP_PHYSICS_PHARAOH_CELL", pharaohComponent.Name, version))
                                 {

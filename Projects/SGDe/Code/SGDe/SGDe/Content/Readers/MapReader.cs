@@ -66,7 +66,9 @@ namespace SGDE.Content.Readers
             ContentUtil.LoadingBuilders = false;
             //Read map information
             count = input.ReadInt32();
-            content.entities = new List<Entity>(count);
+            content.dEntities = new List<Entity>(count);
+            content.uEntities = new List<Entity>(count);
+            List<Entity> entities = new List<Entity>(count);
             InputManager iman = Game.CurrentGame.imanager;
             for (int i = 0; i < count; i++)
             {
@@ -91,12 +93,31 @@ namespace SGDE.Content.Readers
                         {
                             iman.AddNewHandler((InputHandler)resultingEntity);
                         }
-                        content.entities.Add(resultingEntity);
+                        entities.Add(resultingEntity);
                         ContentUtil.FinishTempDID(ref content.developerTypes);
                         break;
                 }
-                ContentUtil.DeveloperID(ref content.developerTypes, input, content.entities[content.entities.Count - 1]);
+                ContentUtil.DeveloperID(ref content.developerTypes, input, entities[entities.Count - 1]);
             }
+            //Read map sorting order
+            List<int> sort = input.ReadObject<List<int>>();
+            EventHandler<EventArgs> eventHandler = new EventHandler<EventArgs>(content.UpdateOrderChanged);
+            for (int i = 0; i < count; i++)
+            {
+                Entity en = entities[sort[i]];
+                en.UpdateOrderChanged += eventHandler;
+                content.uEntities.Add(en);
+            }
+            sort = input.ReadObject<List<int>>();
+            eventHandler = new EventHandler<EventArgs>(content.DrawOrderChanged);
+            for (int i = 0; i < count; i++)
+            {
+                Entity en = entities[sort[i]];
+                en.SpriteImage.DrawOrderChanged += eventHandler;
+                content.dEntities.Add(en);
+            }
+            //Now do any extra sorting that didn't occur otherwise
+            content.Sort();
             return content;
         }
 
@@ -104,6 +125,24 @@ namespace SGDE.Content.Readers
         {
             //TODO: Don't forget "SGDE.Physics.PhysicsPharaoh.loadingBuilders = false;"
             //TODO: Don't forget to add entity to InputManager if it uses InputHandler
+        }
+    }
+
+    /// <summary>
+    /// Read and process a MapSettings class
+    /// </summary>
+    internal class MapSettingsReader : ContentTypeReader<MapSettings>
+    {
+        /// <summary>
+        /// Read a MapSettings.
+        /// </summary>
+        protected override MapSettings Read(ContentReader input, MapSettings existingInstance)
+        {
+            MapSettings set = new MapSettings();
+            set.CameraPosition = input.ReadObject<Vector2?>();
+            set.OrderSeperation = input.ReadObject<float?>();
+            set.CentralOrder = input.ReadObject<int?>();
+            return set;
         }
     }
 }

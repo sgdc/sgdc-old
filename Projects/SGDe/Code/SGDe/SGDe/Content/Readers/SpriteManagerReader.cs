@@ -41,6 +41,11 @@ namespace SGDE.Content.Readers
                     ContentUtil.ExtractDeveloperID(ani);
                 }
             }
+            Dictionary<string, SpriteFont> fonts = input.ReadObject<Dictionary<string, SpriteFont>>();
+            foreach (KeyValuePair<string, SpriteFont> kv in fonts)
+            {
+                manager.AddFont(kv.Value, kv.Key);
+            }
             return manager;
         }
 
@@ -48,7 +53,7 @@ namespace SGDE.Content.Readers
         {
             get
             {
-                return 1;
+                return 2;
             }
         }
     }

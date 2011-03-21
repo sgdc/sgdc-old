@@ -62,6 +62,33 @@ namespace SGDE.Graphics
 
         #endregion
 
+        #region Fonts
+
+        private Dictionary<string, SpriteFont> sFont;
+
+        public void AddFont(SpriteFont font, string name)
+        {
+            if (sFont == null)
+            {
+                sFont = new Dictionary<string, SpriteFont>();
+            }
+            sFont.Add(name, font);
+        }
+
+        public SpriteFont GetFont(string name)
+        {
+            if (sFont != null)
+            {
+                if (sFont.ContainsKey(name))
+                {
+                    return sFont[name];
+                }
+            }
+            return null;
+        }
+
+        #endregion
+
         #region Animations
 
         private List<SpriteAnimation> animations;
@@ -165,6 +192,26 @@ namespace SGDE.Graphics
                     }
                 }
             }
+        }
+
+        public static Vector2 OrderShift(int centralOrder, int order, float shift, Vector2 value)
+        {
+            float mov = (float)Math.Pow(shift, centralOrder + order);
+            if (shift > 0)
+            {
+                if (mov > 1)
+                {
+                    mov = -mov;
+                }
+            }
+            else
+            {
+                if (mov < -1)
+                {
+                    mov = -mov;
+                }
+            }
+            return new Vector2(value.X * mov, value.Y * mov);
         }
 
         public struct SpriteAnimation

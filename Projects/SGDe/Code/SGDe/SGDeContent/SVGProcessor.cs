@@ -28,7 +28,7 @@ namespace SGDeContent
             return SVGProcessor.Process(input.document.DocumentElement, input.Version, context, null);
         }
 
-        public static ProcessedContent Process(XmlElement svg, double version, ContentProcessorContext context, SVGfx parent)
+        public static ProcessedContent Process(XmlNode svg, double version, ContentProcessorContext context, SVGfx parent)
         {
             SVGType type = SVGType.Full;
             XmlAttribute at = svg.Attributes["baseProfile"];

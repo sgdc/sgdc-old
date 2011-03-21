@@ -10,12 +10,10 @@ namespace SGDE
     /// <summary>
     /// Camera control class.
     /// </summary>
-    public sealed class Camera
+    public sealed class Camera : SceneNode
     {
+        internal Vector2 _lastTrans;
         private Vector2 _position;
-        private Vector2 _rawPosition;
-        private float _rotation;
-        private float _scale;
         internal Matrix _transformMatrix;
         private Vector2 _origin;
         private Vector2 _screenCenter;
@@ -24,43 +22,27 @@ namespace SGDE
         private Vector2 _safeOrigin; //On a television the screen might extend off the actual screen. Use this to adjust the region so it will always be visible
 #endif
 
-        /// <summary>
-        /// Get or set the position of the camera, located at the center of the screen.
-        /// </summary>
-        public Vector2 Position
-        {
-            get { return _rawPosition; }
-            set
-            {
-                if (value != _rawPosition)
-                {
-                    _rawPosition = value;
-                    UpdatePosition();
-                }
-            }
-        }
-
         private void UpdatePosition()
         {
             if (this._region.X == float.PositiveInfinity && this._region.Y == float.PositiveInfinity && this._region.Z == float.NegativeInfinity && this._region.W == float.NegativeInfinity)
             {
                 //Free movement, do whatever
-                _position = _rawPosition;
+                _position = mTranslation;
             }
             else
             {
                 if (this._region.X == float.PositiveInfinity && this._region.Z == float.NegativeInfinity)
                 {
                     //Free horizontal movement
-                    _position.X = _rawPosition.X;
+                    _position.X = mTranslation.X;
                 }
                 else
                 {
                     if ((this._region.X != float.PositiveInfinity) && 
 #if XBOX
-                        (_rawPosition.X + _screenCenter.X + this._safeOrigin.X > this._region.X))
+                        (mTranslation.X + _screenCenter.X + this._safeOrigin.X > this._region.X))
 #else
-                        (_rawPosition.X + _screenCenter.X > this._region.X))
+                        (mTranslation.X + _screenCenter.X > this._region.X))
 #endif
                     {
 #if XBOX
@@ -71,7 +53,7 @@ namespace SGDE
                     }
                     else
                     {
-                        _position.X = _rawPosition.X;
+                        _position.X = mTranslation.X;
                     }
                     if ((this._region.Z != float.NegativeInfinity) && 
 #if XBOX
@@ -90,15 +72,15 @@ namespace SGDE
                 if (this._region.Y == float.PositiveInfinity && this._region.W == float.NegativeInfinity)
                 {
                     //Free vertical movement
-                    _position.Y = _rawPosition.Y;
+                    _position.Y = mTranslation.Y;
                 }
                 else
                 {
                     if ((this._region.Y != float.PositiveInfinity) && 
 #if XBOX
-                        (_rawPosition.Y + _screenCenter.Y + this._safeOrigin.Y > this._region.Y))
+                        (mTranslation.Y + _screenCenter.Y + this._safeOrigin.Y > this._region.Y))
 #else
-                        (_rawPosition.Y + _screenCenter.Y > this._region.Y))
+                        (mTranslation.Y + _screenCenter.Y > this._region.Y))
 #endif
                     {
 #if XBOX
@@ -109,7 +91,7 @@ namespace SGDE
                     }
                     else
                     {
-                        _position.Y = _rawPosition.Y;
+                        _position.Y = mTranslation.Y;
                     }
                     if ((this._region.W != float.NegativeInfinity) && 
 #if XBOX
@@ -199,21 +181,17 @@ namespace SGDE
         }
 
         /// <summary>
-        /// Get or set the rotation of the camera in radians.
+        /// Translate the camera.
         /// </summary>
-        public float Rotation
+        /// <param name="translation">The translation for the camera.</param>
+        public override void Translate(Vector2 translation)
         {
-            get { return _rotation; }
-            set { _rotation = value; }
-        }
-
-        /// <summary>
-        /// Get or set the scale of the camera.
-        /// </summary>
-        public float Scale
-        {
-            get { return _scale; }
-            set { _scale = value; }
+            this._lastTrans = translation;
+            if (translation != Vector2.Zero)
+            {
+                base.Translate(translation);
+                UpdatePosition();
+            }
         }
 
         /// <summary>
@@ -226,14 +204,12 @@ namespace SGDE
 
         internal Camera(Viewport viewport)
         {
-            _scale = 1;
-            _rotation = 0;
             _transformMatrix = Matrix.Identity;
             _screenCenter = new Vector2(viewport.Width / 2f, viewport.Height / 2f);
 #if XBOX
             _safeOrigin = new Vector2(viewport.X, viewport.Y);
 #endif
-            _rawPosition = new Vector2(_screenCenter.X, _screenCenter.Y);
+            mTranslation = new Vector2(_screenCenter.X, _screenCenter.Y);
             _region = new Vector4(float.PositiveInfinity); //X=Pos-X, Y=Pos-Y, Z=Neg-X, W=Neg-Y
             _region.Z = -_region.Z;
             _region.W = -_region.W;
@@ -242,7 +218,7 @@ namespace SGDE
 
         internal void Update(GameTime gameTime)
         {
-            _origin = _screenCenter / _scale;
+            _origin = _screenCenter / mScale;
 
             /*
             _transformMatrix = Matrix.CreateTranslation(-_position.X, -_position.Y, 0) *
@@ -250,13 +226,15 @@ namespace SGDE
                                Matrix.CreateTranslation(_origin.X, _origin.Y, 0) *
                                Matrix.CreateScale(_scale);
              */
-            float cos = (float)Math.Cos(_rotation);
-            float sin = (float)Math.Sin(_rotation);
-            _transformMatrix.M22 = _transformMatrix.M11 = cos * _scale;
-            _transformMatrix.M21 = -(_transformMatrix.M12 = sin * _scale);
-            _transformMatrix.M33 = _scale;
-            _transformMatrix.M41 = ((-_position.X * cos) + (_position.Y * sin) + _origin.X) * _scale;
-            _transformMatrix.M42 = ((-_position.X * sin) + (-_position.Y * cos) + _origin.Y) * _scale;
+            float cos = (float)Math.Cos(mRotation);
+            float sin = (float)Math.Sin(mRotation);
+            _transformMatrix.M11 = cos * mScale.X;
+            _transformMatrix.M12 = sin * mScale.Y;
+            _transformMatrix.M21 = -sin * mScale.X;
+            _transformMatrix.M22 = cos * mScale.Y;
+            _transformMatrix.M33 = 0;
+            _transformMatrix.M41 = ((-_position.X * cos) + (_position.Y * sin) + _origin.X) * mScale.X;
+            _transformMatrix.M42 = ((-_position.X * sin) + (-_position.Y * cos) + _origin.Y) * mScale.Y;
 
             /* 
              *  Set the camera's position to the player's position in order to focus on and follow him.
@@ -306,9 +284,9 @@ namespace SGDE
 
         -multiply
 
-        m11 = scale
-        m22 = scale
-        m33 = scale
+        m11 = xScale
+        m22 = yScale
+        m33 = 0
 
         --------------------------------------
         --
@@ -330,20 +308,13 @@ namespace SGDE
 
         --------------------------------------
         --
-        m11 = cos * scale
-        m12 = sin * scale
-        m21 = -sin * scale
-        m22 = cos * scale
-        m33 = scale
-        m41 = ((-px * cos) + (-py * -sin) + ox) * scale
-        m42 = ((-px * sin) + (-py * cos) + oy) * scale
-
-        --------------------------------------
-        m22 = m11 = cos * scale
-        m21 = -(m12 = sin * scale)
-        m33 = scale
-        m41 = ((-px * cos) + (-py * -sin) + ox) * scale
-        m42 = ((-px * sin) + (-py * cos) + oy) * scale
+        m11 = cos * xScale
+        m12 = sin * yScale
+        m21 = -sin * xScale
+        m22 = cos * yScale
+        m33 = 0
+        m41 = ((-px * cos) + (-py * -sin) + ox) * xScale
+        m42 = ((-px * sin) + (-py * cos) + oy) * yScale
          */
     }
 }

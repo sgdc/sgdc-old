@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
+using SGDE.Content.DataTypes;
 
 namespace SGDE.Input
 {
@@ -13,7 +14,7 @@ namespace SGDE.Input
     /// <summary>
     /// Handles all input.
     /// </summary>
-    public class InputManager
+    public class InputManager : IComparer<InputHandler>
     {
         private InputType handles;
 
@@ -79,6 +80,7 @@ namespace SGDE.Input
         /// Add a new input handler.
         /// </summary>
         /// <param name="handler">The input handler to add.</param>
+        /// <returns><code>true</code> if the handler was added, <code>false</code> if otherwise.</returns>
         public bool AddNewHandler(InputHandler handler)
         {
             if (handler != null)
@@ -94,7 +96,22 @@ namespace SGDE.Input
                 }
                 if (!handlers.Contains(handler))
                 {
-                    handlers.Add(handler);
+                    //Insert handler in an ordered fashion
+                    int index = handlers.BinarySearch(handler, this);
+                    if (index < 0)
+                    {
+                        index = ~index;
+                        while ((index < handlers.Count) && (this.Compare(handlers[index], handler) == 0))
+                        {
+                            index++;
+                        }
+                        handlers.Insert(index, handler);
+                        if (handler is Entity)
+                        {
+                            ((Entity)handler).UpdateOrderChanged += new EventHandler<EventArgs>(this.UpdateOrderChanged);
+                        }
+                    }
+                    //Check to see if the manager handles the specified input
                     if ((handler.Handles & this.handles) != handler.Handles)
                     {
                         if (components == null)
@@ -147,6 +164,23 @@ namespace SGDE.Input
             return false;
         }
 
+        private void UpdateOrderChanged(object sender, EventArgs e)
+        {
+            Entity ent = (Entity)sender;
+            InputHandler handler = (InputHandler)sender;
+            handlers.Remove(handler);
+            int index = handlers.BinarySearch(handler, this);
+            if (index < 0)
+            {
+                index = ~index;
+                while ((index < handlers.Count) && (this.Compare(handlers[index], handler) == 0))
+                {
+                    index++;
+                }
+                handlers.Insert(index, handler);
+            }
+        }
+
         /// <summary>
         /// Remove a input handler.
         /// </summary>
@@ -160,7 +194,12 @@ namespace SGDE.Input
                 {
                     if (handlers.Contains(handler))
                     {
-                        return handlers.Remove(handler);
+                        bool result = handlers.Remove(handler);
+                        if (result && handler is Entity)
+                        {
+                            ((Entity)handler).UpdateOrderChanged -= new EventHandler<EventArgs>(this.UpdateOrderChanged);
+                        }
+                        return result;
                     }
                 }
             }
@@ -366,6 +405,12 @@ namespace SGDE.Input
         {
             if (this.handles != 0)
             {
+                List<Entity> entities = null;
+                if (game.gameContent != null)
+                {
+                    entities = game.gameContent.UpdateEntities;
+                }
+
                 //Handle input
                 if ((this.handles & InputType.Touchscreen) == InputType.Touchscreen)
                 {
@@ -377,6 +422,11 @@ namespace SGDE.Input
                     {
                         if (handler.Enabled)
                         {
+                            if (entities != null && handler is Entity && !entities.Contains((Entity)handler))
+                            {
+                                //Prevent the input system from updating handlers that aren't in use
+                                continue;
+                            }
                             if ((handler.Handles & InputType.Touchscreen) == InputType.Touchscreen)
                             {
                                 handler.HandleInput(game, this.components[this.touchIndex]);
@@ -405,6 +455,11 @@ namespace SGDE.Input
                     {
                         if (handler.Enabled)
                         {
+                            if (entities != null && handler is Entity && !entities.Contains((Entity)handler))
+                            {
+                                //Prevent the input system from updating handlers that aren't in use
+                                continue;
+                            }
                             if ((handler.Handles & InputType.Mouse) == InputType.Mouse)
                             {
                                 handler.HandleInput(game, this.components[this.mouseIndex]);
@@ -429,6 +484,11 @@ namespace SGDE.Input
                     {
                         if (handler.Enabled)
                         {
+                            if (entities != null && handler is Entity && !entities.Contains((Entity)handler))
+                            {
+                                //Prevent the input system from updating handlers that aren't in use
+                                continue;
+                            }
                             if ((handler.Handles & InputType.Keyboard) == InputType.Keyboard)
                             {
                                 handler.HandleInput(game, this.components[this.keyIndex]);
@@ -453,10 +513,20 @@ namespace SGDE.Input
 
                 InputConversion(InputType.GamePad);
 
+                List<Entity> entities = null;
+                if (game.gameContent != null)
+                {
+                    entities = game.gameContent.UpdateEntities;
+                }
                 foreach (InputHandler handler in this.handlers)
                 {
                     if (handler.Enabled)
                     {
+                        if (entities != null && handler is Entity && !entities.Contains((Entity)handler))
+                        {
+                            //Prevent the input system from updating handlers that aren't in use
+                            continue;
+                        }
                         if ((handler.Handles & InputType.GamePad) == InputType.GamePad)
                         {
                             if (handler.IndexSpecific)
@@ -534,6 +604,17 @@ namespace SGDE.Input
                 }
             }
             conHand.Process();
+        }
+
+        /// <summary>
+        /// Compare two <see cref="InputHandler"/>.
+        /// </summary>
+        /// <param name="x">A <see cref="InputHandler"/>.</param>
+        /// <param name="y">A <see cref="InputHandler"/>.</param>
+        /// <returns>0 is equal, negative is <paramref name="x"/> is less then <paramref name="y"/>, positive if otherwise.</returns>
+        public int Compare(InputHandler x, InputHandler y)
+        {
+            return GameContent.OrderComparer.Update.Compare(x as Entity, y as Entity);
         }
     }
 

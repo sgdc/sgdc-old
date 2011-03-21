@@ -34,7 +34,7 @@ namespace SGDE.Graphics
             get { throw new NotImplementedException(); }
         }
 
-        protected override void CopySpriteTo(ref Sprite sp)
+        protected override void CopySpriteTo(ref Sprite sp, bool full)
         {
             throw new NotImplementedException();
         }

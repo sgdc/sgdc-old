@@ -10,14 +10,21 @@ using SGDE.Physics.Collision;
 
 namespace SGDE.Physics
 {
+    /// <summary>
+    /// General physical properties.
+    /// </summary>
     public class PhysicsBaby
     {
         private bool bStatic;
         private Vector2 mVelocity;
         private Vector2 mForces;
-        private Entity mOwner;
+        internal Entity mOwner;
         private List<CollisionUnit> mCollisionUnits;
 
+        /// <summary>
+        /// Instantiate a new PhysicsBaby for a specific Entity.
+        /// </summary>
+        /// <param name="owner">The Entity that "owns" this PhysicsBaby.</param>
         public PhysicsBaby(Entity owner)
         {
             bStatic = false;
@@ -28,51 +35,91 @@ namespace SGDE.Physics
             mCollisionUnits = new List<CollisionUnit>();
         }
 
+        /// <summary>
+        /// Set if the PhysicsBaby is static (doesn't move).
+        /// </summary>
+        /// <param name="beStatic"><code>true</code> if the PhysicsBaby is static, <code>false</code> if otherwise.</param>
         public void SetStatic(bool beStatic)
         {
             bStatic = beStatic;
         }
 
+        /// <summary>
+        /// Get if the PhysicsBaby is static (doesn't move).
+        /// </summary>
+        /// <returns><code>true</code> if the PhysicsBaby is static, <code>false</code> if otherwise.</returns>
         public bool IsStatic()
         {
             return bStatic;
         }
 
+        /// <summary>
+        /// Set the total velocity.
+        /// </summary>
+        /// <param name="velocity">The velocity for the PhysicsBaby.</param>
         public void SetVelocity(Vector2 velocity)
         {
             mVelocity = velocity;
         }
 
+        /// <summary>
+        /// Add velocity to the PhysicsBaby's velocity.
+        /// </summary>
+        /// <param name="velocity">The delta velocity to add to the current velocity.</param>
         public void AddVelocity(Vector2 velocity)
         {
             mVelocity += velocity;
         }
 
+        /// <summary>
+        /// Get the current total velocity.
+        /// </summary>
+        /// <returns>The current total velocity.</returns>
         public Vector2 GetVelocity()
         {
             return mVelocity;
         }
 
+        /// <summary>
+        /// Set the total, additional, forces.
+        /// </summary>
+        /// <param name="forces">Total additional forces.</param>
         public void SetForces(Vector2 forces)
         {
             mForces = forces;
         }
 
+        /// <summary>
+        /// Add a force.
+        /// </summary>
+        /// <param name="force">The delta force to add.</param>
         public void AddForce(Vector2 force)
         {
             mForces += force;
         }
 
+        /// <summary>
+        /// Get the total, additional, forces.
+        /// </summary>
+        /// <returns>Total additional forces.</returns>
         public Vector2 GetForces()
         {
             return mForces;
         }
 
+        /// <summary>
+        /// Add a CollisionUnit to associate with this PhysicsBaby.
+        /// </summary>
+        /// <param name="unit">The CollisionUnit to add.</param>
         public void AddCollisionUnit(CollisionUnit unit)
         {
             mCollisionUnits.Add(unit);
         }
 
+        /// <summary>
+        /// Update the position and velocity of the PhysicsBaby.
+        /// </summary>
+        /// <param name="gameTime">The current GameTime.</param>
         public void Update(GameTime gameTime)
         {
             mOwner.Translate(mVelocity.X, mVelocity.Y);
@@ -80,6 +127,11 @@ namespace SGDE.Physics
             mVelocity += mForces * (float)gameTime.ElapsedGameTime.TotalSeconds;
         }
 
+        /// <summary>
+        /// Add a bounce between two CollisionUnits based on the velocity.
+        /// </summary>
+        /// <param name="unit">The main collision unit involved in the "bounce".</param>
+        /// <param name="other">The secondary collision unit involved in the "bounce".</param>
         public void AddBounce(CollisionUnit unit, CollisionUnit other)
         {
             Vector2 unitCircleCenter;

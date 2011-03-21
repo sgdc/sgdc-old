@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using SGDE.Physics;
 using Microsoft.Xna.Framework;
+using SGDE.Graphics;
 
 namespace SGDE.Content.DataTypes
 {
@@ -12,31 +13,14 @@ namespace SGDE.Content.DataTypes
     /// </summary>
     public sealed class GameContent
     {
-        internal GameContent()
-        {
-        }
+        #region Fields
 
         private int levelIndex, cLevel;
-        /// <summary>
-        /// Get the current level of the Game.
-        /// </summary>
-        public int CurrentLevel
-        {
-            get
-            {
-                return levelIndex;
-            }
-            internal set
-            {
-                levelIndex = value;
-                cLevel = mapOrder[levelIndex];
-            }
-        }
 
         internal List<MapContent> maps;
+        internal List<MapSettings> mapSettings;
         internal List<int> mapOrder;
         internal List<string> mapName;
-        internal List<Vector2?> camPos;
 
         internal int width, height;
         internal bool fullScreen, vsync, multisample;
@@ -51,6 +35,50 @@ namespace SGDE.Content.DataTypes
         internal string title;
 #endif
 
+        private List<Entity> tDrawEntities;
+        private List<Entity> tUpdateEntities;
+
+        #endregion
+
+        internal GameContent()
+        {
+        }
+
+        #region Properties and Events
+
+        /// <summary>
+        /// Get the current level of the Game.
+        /// </summary>
+        public int CurrentLevel
+        {
+            get
+            {
+                return levelIndex;
+            }
+            internal set
+            {
+                levelIndex = value;
+                cLevel = mapOrder[levelIndex];
+                if (tUpdateEntities != null)
+                {
+                    EventHandler<EventArgs> ue = new EventHandler<EventArgs>(this.UpdateOrderChanged);
+                    EventHandler<EventArgs> de = new EventHandler<EventArgs>(this.DrawOrderChanged);
+                    Input.InputManager man = Game.CurrentGame.imanager;
+                    foreach (Entity en in tUpdateEntities)
+                    {
+                        if (en is Input.InputHandler)
+                        {
+                            man.RemoveHandler((Input.InputHandler)en);
+                        }
+                        en.UpdateOrderChanged -= ue;
+                        en.SpriteImage.DrawOrderChanged -= de;
+                    }
+                    tUpdateEntities = null;
+                    tDrawEntities = null;
+                }
+            }
+        }
+
         /// <summary>
         /// Get the number of levels.
         /// </summary>
@@ -62,14 +90,29 @@ namespace SGDE.Content.DataTypes
             }
         }
 
-        /// <summary>
-        /// Get the Entities for the specified map.
-        /// </summary>
-        internal List<Entity> Entities
+        internal List<Entity> UpdateEntities
         {
             get
             {
-                return this.maps[cLevel].entities;
+                List<Entity> ents = new List<Entity>(this.maps[cLevel].uEntities);
+                if (tUpdateEntities != null)
+                {
+                    ents.AddRange(tUpdateEntities);
+                }
+                return ents;
+            }
+        }
+
+        internal List<Entity> DrawEntities
+        {
+            get
+            {
+                List<Entity> ents = new List<Entity>(this.maps[cLevel].dEntities);
+                if (tDrawEntities != null)
+                {
+                    ents.AddRange(tDrawEntities);
+                }
+                return ents;
             }
         }
 
@@ -83,6 +126,201 @@ namespace SGDE.Content.DataTypes
                 return this.mapName[cLevel];
             }
         }
+
+        #endregion
+
+        #region Temporary Entities
+
+        /// <summary>
+        /// Adds a entity to the current level. When the level is changed, the added entities will be removed.
+        /// </summary>
+        /// <param name="ent">The entitiy to add.</param>
+        /// <returns><code>true</code> if the entitiy was added, <code>false</code> if otherwise.</returns>
+        public bool AddEntity(Entity ent)
+        {
+            if (ent != null)
+            {
+                lock (this)
+                {
+                    if (this.tUpdateEntities == null)
+                    {
+                        this.tUpdateEntities = new List<Entity>();
+                        this.tDrawEntities = new List<Entity>();
+                    }
+                    if (!this.tUpdateEntities.Contains(ent))
+                    {
+                        if (ent is Input.InputHandler)
+                        {
+                            if (!Game.CurrentGame.imanager.AddNewHandler((Input.InputHandler)ent))
+                            {
+                                return false;
+                            }
+                        }
+                        //Add to update entities
+                        AddOrderChanged(ent, ref this.tUpdateEntities, new EventHandler<EventArgs>(this.UpdateOrderChanged), false);
+                        //Add to draw entities
+                        AddOrderChanged(ent, ref this.tDrawEntities, new EventHandler<EventArgs>(this.DrawOrderChanged), true);
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Remove an entity from the current level.
+        /// </summary>
+        /// <param name="ent">The entity to remove.</param>
+        /// <returns><code>true</code> if the entitiy was removed, <code>false</code> if otherwise.</returns>
+        public bool RemoveEntity(Entity ent)
+        {
+            if (ent != null)
+            {
+                if (this.tUpdateEntities != null)
+                {
+                    lock (this)
+                    {
+                        if (this.tUpdateEntities.Contains(ent))
+                        {
+                            if (!Game.CurrentGame.imanager.RemoveHandler((Input.InputHandler)ent))
+                            {
+                                return false;
+                            }
+                            ent.UpdateOrderChanged -= new EventHandler<EventArgs>(this.UpdateOrderChanged);
+                            this.tUpdateEntities.Remove(ent);
+                            ent.SpriteImage.DrawOrderChanged -= new EventHandler<EventArgs>(this.DrawOrderChanged);
+                            this.tDrawEntities.Remove(ent);
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        private void UpdateOrderChanged(object sender, EventArgs e)
+        {
+            OrderChanged((Entity)sender, ref this.tUpdateEntities, OrderComparer.Update);
+        }
+
+        private void DrawOrderChanged(object sender, EventArgs e)
+        {
+            OrderChanged((Entity)sender, ref this.tDrawEntities, OrderComparer.Draw);
+        }
+
+        internal static void AddOrderChanged(Entity ent, ref List<Entity> entities, EventHandler<EventArgs> handle, bool sprite)
+        {
+            IComparer<Entity> comp = sprite ? OrderComparer.Draw : OrderComparer.Update;
+            int index = entities.BinarySearch(ent, comp);
+            if (index < 0)
+            {
+                index = ~index;
+                while ((index < entities.Count) && (comp.Compare(entities[index], ent) == 0))
+                {
+                    index++;
+                }
+                entities.Insert(index, ent);
+                if (sprite)
+                {
+                    ent.SpriteImage.DrawOrderChanged += handle;
+                }
+                else
+                {
+                    ent.UpdateOrderChanged += handle;
+                }
+            }
+        }
+
+        internal static void OrderChanged(Entity ent, ref List<Entity> entities, IComparer<Entity> comp)
+        {
+            entities.Remove(ent);
+            int index = entities.BinarySearch(ent, comp);
+            if (index < 0)
+            {
+                index = ~index;
+                while ((index < entities.Count) && (comp.Compare(entities[index], ent) == 0))
+                {
+                    index++;
+                }
+                entities.Insert(index, ent);
+            }
+        }
+
+        #region OrderComparer
+
+        internal sealed class OrderComparer : IComparer<Entity>
+        {
+            #region Static
+
+            private static OrderComparer up, dr;
+
+            public static OrderComparer Update
+            {
+                get
+                {
+                    if (up == null)
+                    {
+                        up = new OrderComparer(false);
+                    }
+                    return up;
+                }
+            }
+
+            public static OrderComparer Draw
+            {
+                get
+                {
+                    if (dr == null)
+                    {
+                        dr = new OrderComparer(true);
+                    }
+                    return dr;
+                }
+            }
+
+            #endregion
+
+            private bool sprite;
+
+            private OrderComparer(bool sprite)
+            {
+                this.sprite = sprite;
+            }
+
+            public int Compare(Entity x, Entity y)
+            {
+                if ((x == null) && (y == null))
+                {
+                    return 0;
+                }
+                if (x != null)
+                {
+                    if (y == null)
+                    {
+                        return -1;
+                    }
+                    object ox = sprite ? x.SpriteImage : (object)x;
+                    object oy = sprite ? y.SpriteImage : (object)y;
+                    if (ox.Equals(oy))
+                    {
+                        return 0;
+                    }
+                    int xi = sprite ? x.SpriteImage.DrawOrder : x.UpdateOrder;
+                    int yi = sprite ? y.SpriteImage.DrawOrder : y.UpdateOrder;
+                    if (xi < yi)
+                    {
+                        return -1;
+                    }
+                }
+                return 1;
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Levels
 
         /// <summary>
         /// Goto a specific level.
@@ -99,7 +337,7 @@ namespace SGDE.Content.DataTypes
             {
                 CurrentLevel = level;
             }
-            SetCameraPosition(Game.CurrentGame);
+            LevelSwitch(Game.CurrentGame);
         }
 
         /// <summary>
@@ -116,18 +354,49 @@ namespace SGDE.Content.DataTypes
             {
                 CurrentLevel++;
             }
-            SetCameraPosition(Game.CurrentGame);
+            LevelSwitch(Game.CurrentGame);
             return true;
         }
 
-        private void SetCameraPosition(Game game)
+        private void LevelSwitch(Game game)
         {
-            Vector2? cam = camPos[levelIndex];
-            if (cam.HasValue)
+            MapContent map = this.maps[cLevel];
+            MapSettings settings = this.mapSettings[levelIndex];
+
+            if (settings != null)
             {
-                game.camera.Position = cam.Value;
+                //Setup camera
+                if (settings.CameraPosition.HasValue)
+                {
+                    game.camera.SetTranslation(settings.CameraPosition.Value);
+                    game.camera._lastTrans = Vector2.Zero; //Reset movement so we don't end up with a infinite loop
+                }
+
+                //Setup graphics
+                Graphics2D gfx = game.Graphics2D;
+                if (settings.OrderSeperation.HasValue)
+                {
+                    gfx.OrderSeperation = settings.OrderSeperation.Value;
+                }
+                if (settings.CentralOrder.HasValue)
+                {
+                    gfx.CentralOrder = settings.CentralOrder.Value;
+                }
+            }
+
+            //Initialize content
+            foreach (Entity en in map.uEntities)
+            {
+                if (en is IGameComponent)
+                {
+                    ((IGameComponent)en).Initialize();
+                }
             }
         }
+
+        #endregion
+
+        #region Content setup and Assets
 
         /// <summary>
         /// Setup one-time game settings.
@@ -176,8 +445,10 @@ namespace SGDE.Content.DataTypes
         /// <param name="game">The Game to process the Code elements on.</param>
         internal void Process(Game game)
         {
-            SetCameraPosition(game);
+            LevelSwitch(game);
             //TODO
         }
+
+        #endregion
     }
 }

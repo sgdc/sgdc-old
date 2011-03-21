@@ -24,32 +24,50 @@ namespace SGDE
         /// </summary>
         public SceneNode()
         {
-            mTranslation = new Vector2(0, 0);
-            mRotation = 0;
-            mScale = new Vector2(1, 1);
-
-            mParent = null;
-            mChildren = new List<SceneNode>();
+            mTranslation = Vector2.Zero;
+            mScale = Vector2.One;
         }
 
-        /// <summary>Sets the translation of the scene node</summary>
-        /// <param name="translation">Translation vector</param>
+        /// <summary>
+        /// Sets the translation of the scene node.
+        /// </summary>
+        /// <param name="translation">Translation vector.</param>
         public void SetTranslation(Vector2 translation)
         {
-            Translate(translation.X - mTranslation.X, translation.Y - mTranslation.Y);
+            Translate(translation - mTranslation);
         }
 
-        public virtual void Translate(float x, float y)
+        /// <summary>
+        /// Translate the scene node.
+        /// </summary>
+        /// <param name="x">The delta 'x' coordinate.</param>
+        /// <param name="y">The delta 'y' coordinate.</param>
+        public void Translate(float x, float y)
         {
-            mTranslation.X += x;
-            mTranslation.Y += y;
+            Translate(new Vector2(x, y));
+        }
 
-            foreach (SceneNode node in mChildren)
+        /// <summary>
+        /// Translate the scene node.
+        /// </summary>
+        /// <param name="translation">Translation vector.</param>
+        public virtual void Translate(Vector2 translation)
+        {
+            mTranslation += translation;
+
+            if (mChildren != null)
             {
-                node.Translate(x, y);
+                foreach (SceneNode node in mChildren)
+                {
+                    node.Translate(translation);
+                }
             }
         }
 
+        /// <summary>
+        /// Get the current translation of the scene node.
+        /// </summary>
+        /// <returns>The translation of the scene node.</returns>
         public Vector2 GetTranslation()
         {
             return mTranslation;
@@ -58,7 +76,7 @@ namespace SGDE
         /// <summary>
         /// Set the rotation of this scene node.
         /// </summary>
-        /// <param name="rotation">Degree measure for rotation.</param>
+        /// <param name="rotation">Radian measure for rotation.</param>
         public void SetRotation(float rotation)
         {
             Rotate(rotation - mRotation);
@@ -67,71 +85,165 @@ namespace SGDE
         /// <summary>
         /// Change the rotation of this scene node.
         /// </summary>
-        /// <param name="rotation">The deleta degree measure for rotation.</param>
+        /// <param name="rotation">The delta radian measure for rotation.</param>
         public virtual void Rotate(float rotation)
         {
             mRotation += rotation;
 
-            foreach (SceneNode node in mChildren)
+            if (mChildren != null)
             {
-                node.Rotate(rotation);
+                foreach (SceneNode node in mChildren)
+                {
+                    node.Rotate(rotation);
+                }
             }
         }
 
         /// <summary>
         /// Get the rotation of this scene node.
         /// </summary>
-        /// <returns>The degree measure of this scene node.</returns>
+        /// <returns>The radian measure of this scene node.</returns>
         public float GetRotation()
         {
             return mRotation;
         }
 
+        /// <summary>
+        /// Set the scale of the scene node.
+        /// </summary>
+        /// <param name="scale">The scale to set the scene node to.</param>
+        public void SetScale(float scale)
+        {
+            SetScale(new Vector2(scale, scale));
+        }
+
+        /// <summary>
+        /// Set the scale of the scene node.
+        /// </summary>
+        /// <param name="scale">The scale to set the scene node to.</param>
         public void SetScale(Vector2 scale)
         {
             Scale(scale - mScale);
         }
 
+        /// <summary>
+        /// Uniformly scale the scene node.
+        /// </summary>
+        /// <param name="scale">The delta to scale the scene node by.</param>
+        public void Scale(float scale)
+        {
+            Scale(scale, scale);
+        }
+
+        /// <summary>
+        /// Scale the scene node.
+        /// </summary>
+        /// <param name="x">The delta 'x' scale.</param>
+        /// <param name="y">The delta 'y' scale.</param>
+        public void Scale(float x, float y)
+        {
+            Scale(new Vector2(x, y));
+        }
+
+        /// <summary>
+        /// Scale the scene node.
+        /// </summary>
+        /// <param name="scale">The delta scale of the scene node.</param>
         public virtual void Scale(Vector2 scale)
         {
             mScale += scale;
 
-            foreach (SceneNode node in mChildren)
+            if (mChildren != null)
             {
-                node.Scale(scale);
+                foreach (SceneNode node in mChildren)
+                {
+                    node.Scale(scale);
+                }
             }
         }
 
+        /// <summary>
+        /// Get the scale of the scene node.
+        /// </summary>
+        /// <returns>The scale of the scene node.</returns>
         public Vector2 GetScale()
         {
             return mScale;
         }
 
+        /// <summary>
+        /// Set the parent of this scene node. Only use this if absolutely necessary. It is better to use <see cref="AddChild"/> and <see cref="RemoveChild"/>, they calles SetParent themselves.
+        /// </summary>
+        /// <param name="parent">The parent to set to for this scene node.</param>
         public void SetParent(SceneNode parent)
         {
             mParent = parent;
         }
 
+        /// <summary>
+        /// Get the parent of this scene node if it exists.
+        /// </summary>
+        /// <returns>The parent of this scene node.</returns>
         public SceneNode GetParent()
         {
             return mParent;
         }
 
+        /// <summary>
+        /// Add a child to this scene node.
+        /// </summary>
+        /// <param name="child">The child to add to this scene node.</param>
         public void AddChild(SceneNode child)
         {
-            mChildren.Add(child);
-            child.SetParent(this);
+            if (child != null)
+            {
+                if (mChildren == null)
+                {
+                    mChildren = new List<SceneNode>();
+                }
+                if (child.mParent != null)
+                {
+                    child.mParent.RemoveChild(child);
+                }
+                mChildren.Add(child);
+                child.SetParent(this);
+            }
         }
 
+        /// <summary>
+        /// Remove a child from this scene node.
+        /// </summary>
+        /// <param name="child">The child to remove from this scene node.</param>
         public void RemoveChild(SceneNode child)
         {
-            mChildren.Remove(child);
-            child.SetParent(null);
+            if (child != null)
+            {
+                if (child.mParent == this)
+                {
+                    child.SetParent(null);
+                    if (mChildren != null)
+                    {
+                        mChildren.Remove(child);
+                        if (mChildren.Count == 0)
+                        {
+                            mChildren = null;
+                        }
+                    }
+                }
+            }
         }
 
-        public List<SceneNode> GetChildren()
+        /// <summary>
+        /// Get a list a children this scene node contains.
+        /// </summary>
+        /// <returns>A list of children from this scene node.</returns>
+        public SceneNode[] GetChildren()
         {
-            return mChildren;
+            if (mChildren == null)
+            {
+                return new SceneNode[0];
+            }
+            return mChildren.ToArray();
         }
 
         internal void CopyTo(ref SceneNode ent)
@@ -139,7 +251,7 @@ namespace SGDE
             ent.mTranslation = this.mTranslation;
             ent.mScale = this.mScale;
             ent.mRotation = this.mRotation;
-            //Don't copy over children
+            //Don't copy over children... or should we?
         }
 
         /// <summary>

@@ -86,7 +86,7 @@ namespace ContentDebugger
         ///               private const string ProjectToDebug = @"C:\XNA Samples\SkinnedModelExtensions\SkinningSample\Content\SkinningSampleContent.contentproj";
         /// </summary>
         private const string ProjectToDebug = @"C:\Users\Class2014\Documents\Visual Studio\C#\XNA\Stevens Game Dev Club\Projects\Demos\TestDemo\TestDemo\TestDemoContent\TestDemoContent.contentproj";
-
+        
         /// <summary>
         /// TODO: Change this to the content item you want to debug. The content pipeline will only
         ///       build this one item and no others. Leave SingleItem empty to build the entire

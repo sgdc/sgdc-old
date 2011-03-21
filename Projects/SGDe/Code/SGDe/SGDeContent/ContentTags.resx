@@ -168,6 +168,9 @@
   <data name="ANIMATION_LOCAL_SET_1_0" xml:space="preserve">
     <value>AnimationSet</value>
   </data>
+  <data name="CODE_NONCONST_CODE_1_0" xml:space="preserve">
+    <value>Code</value>
+  </data>
   <data name="ENTITY_CUSTOMENTITY_1_0" xml:space="preserve">
     <value>CustomEntity</value>
   </data>
@@ -252,8 +255,14 @@
   <data name="ENTITY_SPRITE_COLOR_1_0" xml:space="preserve">
     <value>Color</value>
   </data>
+  <data name="ENTITY_SPRITE_DRAWORDER_1_1" xml:space="preserve">
+    <value>DrawOrder</value>
+  </data>
   <data name="ENTITY_SPRITE_ID_1_0" xml:space="preserve">
     <value>SID</value>
+  </data>
+  <data name="ENTITY_SPRITE_OFFSET_1_1" xml:space="preserve">
+    <value>Offset</value>
   </data>
   <data name="ENTITY_SPRITE_OFFSET_ORIGIN_1_1" xml:space="preserve">
     <value>OffsetOrigin</value>
@@ -269,6 +278,9 @@
   </data>
   <data name="ENTITY_SPRITE_VISIBLE_1_1" xml:space="preserve">
     <value>Visible</value>
+  </data>
+  <data name="ENTITY_UPDATEORDER_1_1" xml:space="preserve">
+    <value>UpdateOrder</value>
   </data>
   <data name="GAME_GAME_MAPS_1_0" xml:space="preserve">
     <value>Maps</value>
@@ -326,6 +338,15 @@
   </data>
   <data name="GAME_SETTINGS_MAPLIST_MAP_NAME_1_0" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_ORDER_1_1" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_ORDER_CENTRAL_1_1" xml:space="preserve">
+    <value>CentralOrder</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_ORDER_SEPERATION_1_1" xml:space="preserve">
+    <value>OrderSeperation</value>
   </data>
   <data name="GAME_SETTINGS_SPRITESHEET_1_0" xml:space="preserve">
     <value>SpriteSheet</value>
@@ -419,6 +440,15 @@
   </data>
   <data name="MAP_RESOURCE_ENTITIES_1_0" xml:space="preserve">
     <value>Entities</value>
+  </data>
+  <data name="SPRITESHEET_FONTS_1_1" xml:space="preserve">
+    <value>SpriteFonts</value>
+  </data>
+  <data name="SPRITESHEET_FONT_1_1" xml:space="preserve">
+    <value>SpriteFont</value>
+  </data>
+  <data name="SPRITESHEET_FONT_NAME_1_1" xml:space="preserve">
+    <value>Name</value>
   </data>
   <data name="SPRITESHEET_MAP_1_0" xml:space="preserve">
     <value>SpriteMap</value>

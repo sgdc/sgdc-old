@@ -93,6 +93,7 @@ namespace SGDeContent
             return null;
         }
 
+        /*
         public static XmlElement GetXMLElem(string tagID, double version, XmlElement el)
         {
             return GetXMLElem(ResourceManager, tagID, version, el);
@@ -102,6 +103,7 @@ namespace SGDeContent
         {
             return (XmlElement)GetXMLNode(manager, tagID, version, el);
         }
+         */
 
         public static XmlNode GetXMLNode(string tagID, double version, XmlNode node)
         {

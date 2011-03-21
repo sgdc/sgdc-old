@@ -64,19 +64,22 @@ namespace SGDeContent.Writers
             output.WriteObject(value.Physics);
             //Write standard node values
             output.Write(value.Enabled);
+            output.Write(value.UpdateOrder);
             output.Write(value.NonDefaultNode);
             if (value.NonDefaultNode)
             {
                 output.WriteRawObject(value.Node);
                 value.DeveloperIDWriter(output, value.Node);
             }
+            //-Write out sprite-offset
+            output.Write(value.SOffset);
         }
 
         public override int TypeVersion
         {
             get
             {
-                return 1;
+                return 2;
             }
         }
 

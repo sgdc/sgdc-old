@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace SGDE.Content.Code.Library
 {
@@ -37,7 +38,12 @@ namespace SGDE.Content.Code.Library
         /// </summary>
         public static readonly Number POSITIVE_INFINITY = double.PositiveInfinity;
 
-        //TODO: Make sure that when instatiated but not set the balue is NaN. Example: "var i:Number", i would be NaN. "var i:Number = 0", "var i:Number = new Number()", "var i:Number = new Number(0)", i would be 0.
+        //TODO: Make sure that when instatiated but not set the value is NaN. Example: "var i:Number", i would be NaN. "var i:Number = 0", "var i:Number = new Number()", "var i:Number = new Number(0)", i would be 0.
+
+        internal Number(double d)
+        {
+            this.value = d;
+        }
 
 #if WINDOWS
         /// <summary>
@@ -45,6 +51,7 @@ namespace SGDE.Content.Code.Library
         /// </summary>
         /// <param name="num">The numeric value of the Number instance being created or a value to be converted to a Number.</param>
         public Number(Object num = null)
+            : this(0.0)
 #else
         /// <summary>
         /// Creates a Number object with the value of 0.
@@ -59,9 +66,9 @@ namespace SGDE.Content.Code.Library
         /// </summary>
         /// <param name="num">The numeric value of the Number instance being created or a value to be converted to a Number.</param>
         public Number(Object num)
+            : this(0.0)
 #endif
         {
-            this.value = 0;
             if (num != null)
             {
                 if (num is Global.UndefinedClass)
@@ -79,7 +86,7 @@ namespace SGDE.Content.Code.Library
                 else if (num is String)
                 {
                     string str = ((String)num).value;
-                    this.value = 0;
+                    this.value = double.NaN;
                     if (!string.IsNullOrEmpty(str))
                     {
                         double.TryParse(str, out this.value);
@@ -88,14 +95,118 @@ namespace SGDE.Content.Code.Library
             }
         }
 
-        /* TODO
-        Number.protoype.toString
-        Number.prototype.toLocaleString
-        Number.prototype.valueOf
-        Number.prototype.toFixed
-        Number.prototype.toExponential
-        Number.prototype.toPrecision
-         */
+        /// <summary>
+        /// Returns the string representation of the specified Number object (myNumber).
+        /// </summary>
+        /// <returns>The numeric representation of the Number object as a string.</returns>
+        public override String toString()
+        {
+            return toString(10);
+        }
+
+        /// <summary>
+        /// Returns the string representation of the specified Number object (myNumber).
+        /// </summary>
+        /// <param name="radix">Specifies the numeric base (from 2 to 36) to use for the number-to-string conversion. If you do not specify the radix parameter, the default value is 10.</param>
+        /// <returns>The numeric representation of the Number object as a string.</returns>
+        public String toString(Number radix)
+        {
+            return toString(radix, false);
+        }
+
+        /// <summary>
+        /// Returns the local string representation of the specified Number object (myNumber).
+        /// </summary>
+        /// <returns>The numeric representation of the Number object as a string.</returns>
+        public override String toLocaleString()
+        {
+            return toString(10, true);
+        }
+
+        private String toString(Number radix, bool local)
+        {
+            int r = (int)global::System.Math.Floor(radix.value);
+            if (r < 2 || r > 36)
+            {
+                r = 10;
+            }
+            double v = this.value;
+            if (r != 10)
+            {
+                v = global::System.Math.Truncate(v);
+            }
+            CultureInfo info = local ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
+            StringBuilder bu = new StringBuilder();
+            if (r == 10 || double.IsInfinity(v) || double.IsNaN(v))
+            {
+                bu.Append(v.ToString(info));
+            }
+            else
+            {
+                bool neg = v < 0;
+                v = global::System.Math.Abs(v);
+                while (v >= r)
+                {
+                    bu.Insert(0, forDigit((int)(v % r), r));
+                    v = global::System.Math.Truncate(v / r);
+                }
+                if (v != 0)
+                {
+                    bu.Insert(0, forDigit((int)v, r));
+                }
+                if (neg)
+                {
+                    bu.Insert(0, '-');
+                }
+            }
+            return new String(bu.ToString());
+        }
+
+        private static char forDigit(int digit, int radix)
+        {
+            if (digit < 10)
+            {
+                return (char)('0' + digit);
+            }
+            return (char)('a' + digit - 10);
+        }
+
+        /// <summary>
+        /// Returns a string representation of the number in fixed-point notation.
+        /// </summary>
+        /// <param name="fractionDigits">An integer between 0 and 20, inclusive, that represents the desired number of decimal places.</param>
+        public String toFixed(uint fractionDigits)
+        {
+            return toFormat('F', fractionDigits, 0);
+        }
+
+        /// <summary>
+        /// Returns a string representation of the number in exponential notation.
+        /// </summary>
+        /// <param name="fractionDigits">An integer between 0 and 20, inclusive, that represents the desired number of decimal places.</param>
+        public String toExponential(uint fractionDigits)
+        {
+            return toFormat('e', fractionDigits, 0);
+        }
+
+        /// <summary>
+        /// Returns a string representation of the number either in exponential notation or in fixed-point notation.
+        /// </summary>
+        /// <param name="precision">An integer between 1 and 21, inclusive, that represents the desired number of digits to represent in the resulting string.</param>
+        public String toPrecision(uint precision)
+        {
+            return toFormat('g', precision - 1, 1);
+        }
+
+        private String toFormat(char format, uint digits, uint offset)
+        {
+            if (digits > 20)
+            {
+                //TODO: Throw range exeption
+            }
+            digits += offset;
+            return new String(this.value.ToString(string.Format("{0}{1}", format, digits)));
+        }
 
         #region Primitive handlers
 
@@ -106,9 +217,7 @@ namespace SGDE.Content.Code.Library
         /// <returns>The created Number.</returns>
         public static implicit operator Number(double d)
         {
-            Number n = new Number();
-            n.value = d;
-            return n;
+            return new Number(d);
         }
 
         /// <summary>

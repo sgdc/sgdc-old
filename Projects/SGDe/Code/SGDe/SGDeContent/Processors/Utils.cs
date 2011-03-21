@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using System.IO;
 using SGDeContent.DataTypes;
+using System.Xml;
+using Microsoft.Xna.Framework.Content.Pipeline.Serialization.Intermediate;
 
 namespace SGDeContent.Processors
 {
@@ -33,6 +35,7 @@ namespace SGDeContent.Processors
 
         public static T SetContentItems<T>(string filename, T content) where T : ContentItem
         {
+            filename = Path.GetFullPath(filename);
             content.Identity = new ContentIdentity(filename);
             content.Name = Path.GetFileNameWithoutExtension(filename);
             return content;
@@ -102,6 +105,40 @@ namespace SGDeContent.Processors
                 return absPath;
             }
             throw new ArgumentException(Messages.Utils_ChangedBuild);
+        }
+
+        public static TResult Process<TImport, TResult, TProcessor>(TImport input, ContentProcessorContext context)
+        {
+            return context.Convert<TImport, TResult>(input, typeof(TProcessor).Name);
+        }
+
+        public static TResult Process<TImport, TResult, TProcessor>(TImport input, OpaqueDataDictionary processorParameters, ContentProcessorContext context)
+        {
+            return context.Convert<TImport, TResult>(input, typeof(TProcessor).Name, processorParameters);
+        }
+
+        public static void Serialize<T>(T item, string path, ContentProcessorContext context)
+        {
+            if (!Path.IsPathRooted(path))
+            {
+                path = Path.GetFullPath(Path.Combine(context.IntermediateDirectory, path));
+            }
+            using (XmlWriter wr = XmlWriter.Create(path))
+            {
+                IntermediateSerializer.Serialize(wr, item, path);
+            }
+        }
+
+        public static T Deserialize<T>(string path, ContentProcessorContext context)
+        {
+            if (!Path.IsPathRooted(path))
+            {
+                path = Path.GetFullPath(Path.Combine(context.IntermediateDirectory, path));
+            }
+            using (XmlReader re = XmlReader.Create(path))
+            {
+                return IntermediateSerializer.Deserialize<T>(re, path);
+            }
         }
     }
 }

@@ -48,6 +48,12 @@
     <DefineConstants>TRACE;WINDOWS_PHONE</DefineConstants>
     <XnaCompressContent>false</XnaCompressContent>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>SGDe.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="Background.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
@@ -63,12 +69,19 @@
     <Compile Include="Audio\SoundObject.cs" />
     <Compile Include="Audio\SoundQueue.cs" />
     <Compile Include="Content\Code\Code.cs" />
+    <Compile Include="Content\Code\Compiler\Compiler.cs" />
+    <Compile Include="Content\Code\Compiler\SourceControl.cs" />
+    <Compile Include="Content\Code\Library\Array.cs" />
     <Compile Include="Content\Code\Library\Boolean.cs" />
+    <Compile Include="Content\Code\Library\Date.cs" />
+    <Compile Include="Content\Code\Library\Error.cs" />
+    <Compile Include="Content\Code\Library\Function.cs" />
     <Compile Include="Content\Code\Library\Global.cs" />
     <Compile Include="Content\Code\Library\Math.cs" />
     <Compile Include="Content\Code\Library\Number.cs" />
     <Compile Include="Content\Code\Library\Object.cs" />
     <Compile Include="Content\Code\Library\String.cs" />
+    <Compile Include="Content\Code\Utils.cs" />
     <Compile Include="Content\ContentUtil.cs" />
     <Compile Include="Content\DataTypes\EntityBuilder.cs" />
     <Compile Include="Content\DataTypes\GameContent.cs" />
@@ -158,6 +171,9 @@
     <Reference Include="System.Xml.Linq">
       <Private>False</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SGDe.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

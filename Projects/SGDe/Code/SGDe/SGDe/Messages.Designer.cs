@@ -70,6 +70,33 @@ namespace SGDE {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ERROR: End comment marker (*/) not found..
+        /// </summary>
+        internal static string Compiler_Error_NoEndComment {
+            get {
+                return ResourceManager.GetString("Compiler_Error_NoEndComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ERROR: Compiler is only supported on Windows.
+        /// </summary>
+        internal static string Compiler_Error_WindowsOnly {
+            get {
+                return ResourceManager.GetString("Compiler_Error_WindowsOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No error.
+        /// </summary>
+        internal static string Compiler_NoError {
+            get {
+                return ResourceManager.GetString("Compiler_NoError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concurrency error.
         /// </summary>
         internal static string ContentUtil_DIDExists {

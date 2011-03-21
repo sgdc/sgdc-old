@@ -15,7 +15,7 @@ namespace SGDeContent.Processors.Code
             ConstantsAndGlobalVariables.Add("GameWidth", 0);
             ConstantsAndGlobalVariables.Add("GameHeight", 1);
             ConstantsAndGlobalVariables.Add("AddToList", 2); //When used in the creation of a global list, adds the item to the list. A global list is one that is not being created within the context of this JavaScript code.
-            ConstantsAndGlobalVariables.Add("External ", 3); //Get an external object using the specified DID
+            ConstantsAndGlobalVariables.Add("Asset", 3); //Get an external object using the specified AssetID
         }
     }
 }
