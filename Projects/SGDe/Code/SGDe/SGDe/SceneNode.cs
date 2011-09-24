@@ -151,7 +151,7 @@ namespace SGDE
         /// <param name="scale">The delta scale of the scene node.</param>
         public virtual void Scale(Vector2 scale)
         {
-            mScale += scale;
+            mScale *= scale;
 
             if (mChildren != null)
             {

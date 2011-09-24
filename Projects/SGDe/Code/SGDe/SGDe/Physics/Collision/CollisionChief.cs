@@ -462,13 +462,16 @@ namespace SGDE.Physics.Collision
             Point oldBottomRightCell;
             Point newTopLeftCell;
             Point newBottomRightCell;
+            bool scaleFromCenter = false;
 
             if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE || unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_BOX)
             {
                 if (unit.GetCollisionType() == CollisionUnit.CollisionType.COLLISION_CIRCLE)
                 {
                     oldCircleRadius = unit.GetCircleRadius();
-                    newCircleRadius = (int)(unit.GetCircleRadius() * ((scale.X + scale.Y) / 2));
+                    //newCircleRadius = (int)(unit.GetCircleRadius() * ((scale.X + scale.Y) / 2));
+                    //newCircleRadius = (int)(unit.GetCircleRadius() + unit.GetCircleRadius() * ((scale.X + scale.Y) / 2));
+                    newCircleRadius = (int)(unit.GetCircleRadius() + ((scale.X + scale.Y) / 2));
                     circleCenter = unit.GetCircleCenter();
 
                     // calculate containing cells
@@ -484,14 +487,28 @@ namespace SGDE.Physics.Collision
                     Vector2 point2 = unit.GetLowerRight();
                     int oldWidth = unit.GetWidth();
                     int oldHeight = unit.GetHeight();
-                    int xChange = (int)(((oldWidth * scale.X) - oldWidth) / 2);
-                    int yChange = (int)(((oldHeight * scale.Y) - oldHeight) / 2);
+                    //int xChange = (int)(((oldWidth * scale.X) - oldWidth) / 2);
+                    //int yChange = (int)(((oldHeight * scale.Y) - oldHeight) / 2);
+                    //int xChange = (int)(oldWidth * scale.X / 2);
+                    //int yChange = (int)(oldHeight * scale.Y / 2);
+                    int xChange = (int)scale.X;
+                    int yChange = (int)scale.Y;
 
-                    point1.X -= xChange;
-                    point1.Y -= yChange;
+                    // scale from center
+                    if (scaleFromCenter)
+                    {
+                        point1.X -= xChange;
+                        point1.Y -= yChange;
 
-                    point2.X += xChange;
-                    point2.Y += yChange;
+                        point2.X += xChange;
+                        point2.Y += yChange;
+                    }
+                    else
+                    {
+                        // scale with top left stationary
+                        point2.X += xChange * 2;
+                        point2.Y += yChange * 2;
+                    }
 
                     oldTopLeftCell = CalculateCellPosition(unit.GetUpperLeft());
                     oldBottomRightCell = CalculateCellPosition(unit.GetLowerRight());
@@ -500,9 +517,10 @@ namespace SGDE.Physics.Collision
                     newBottomRightCell = CalculateCellPosition(point2);
                 }
 
-                if (scale.X < 1)
+                //if (scale.X < 1)
+                if (scale.X < 0)
                 {
-                    for (int j = oldTopLeftCell.Y; j < oldBottomRightCell.Y; j++)
+                    for (int j = oldTopLeftCell.Y; j <= oldBottomRightCell.Y; j++)
                     {
                         // remove left
                         for (int i = oldTopLeftCell.X; i < newTopLeftCell.X; i++)
@@ -517,7 +535,8 @@ namespace SGDE.Physics.Collision
                         }
                     }
 
-                    if (scale.Y < 1)
+                    //if (scale.Y < 1)
+                    if (scale.Y < 0)
                     {
                         for (int i = newTopLeftCell.X; i <= newBottomRightCell.X; i++)
                         {
@@ -534,7 +553,8 @@ namespace SGDE.Physics.Collision
                             }
                         }
                     }
-                    else if (scale.Y > 1)
+                    //else if (scale.Y > 1)
+                    else if (scale.Y > 0)
                     {
                         for (int i = newTopLeftCell.X; i <= newBottomRightCell.X; i++)
                         {
@@ -552,7 +572,8 @@ namespace SGDE.Physics.Collision
                         }
                     }
                 }
-                else if (scale.X > 1)
+                //else if (scale.X > 1)
+                else if (scale.X > 0)
                 {
                     for (int j = newTopLeftCell.Y; j <= newBottomRightCell.Y; j++)
                     {
@@ -569,7 +590,8 @@ namespace SGDE.Physics.Collision
                         }
                     }
 
-                    if (scale.Y < 1)
+                    //if (scale.Y < 1)
+                    if (scale.Y < 0)
                     {
                         for (int i = oldTopLeftCell.X; i <= oldBottomRightCell.X; i++)
                         {
@@ -586,7 +608,8 @@ namespace SGDE.Physics.Collision
                             }
                         }
                     }
-                    else if (scale.Y > 1)
+                    //else if (scale.Y > 1)
+                    else if (scale.Y > 0)
                     {
                         for (int i = oldTopLeftCell.X; i <= oldBottomRightCell.X; i++)
                         {

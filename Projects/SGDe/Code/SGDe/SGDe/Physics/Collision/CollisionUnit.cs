@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace SGDE.Physics.Collision
 {
-    /// <summary>
-    /// Defines the collision properties and methods to check collisions for an Entity.
-    /// </summary>
+
+
+
     public class CollisionUnit : SceneNode
     {
         /// <summary>
@@ -54,6 +54,9 @@ namespace SGDE.Physics.Collision
         private int mCollisionTimeStamp;            // when last reported change in collisions
         private int mFullCheckTimeStamp;            // when last checked all surrounding units for collisions
         private bool mSolid;
+        private int mOrigWidth;                     // original width (used for scaling)
+        private int mOrigHeight;
+        private int mOrigRadius;
 
         /// <summary>
         /// Instantiate a new CollisionUnit. This constructor is for circle based collisions.
@@ -68,6 +71,7 @@ namespace SGDE.Physics.Collision
             InitializeCommonStuff(owner, collisionMask, bUsePixelCollision);
             mCircleCenter = center;
             mCircleRadius = radius;
+            mOrigRadius = radius;
             mCollisionType = CollisionType.COLLISION_CIRCLE;
         }
 
@@ -94,6 +98,8 @@ namespace SGDE.Physics.Collision
             else
             {
                 mCollisionType = CollisionType.COLLISION_BOX;
+                mOrigWidth = (int)(mPoint2.X - mPoint1.X);
+                mOrigHeight = (int)(mPoint2.Y - mPoint2.Y);
             }
         }
 
@@ -109,6 +115,7 @@ namespace SGDE.Physics.Collision
             InitializeCommonStuff(owner, collisionMask, bUsePixelCollision);
             CalculateCircle(location);
             mCollisionType = CollisionType.COLLISION_CIRCLE;
+            mOrigRadius = mCircleRadius;
         }
 
         private void InitializeCommonStuff(Entity owner, Texture2D collisionMask, bool bUsePixelCollision)
@@ -704,16 +711,16 @@ namespace SGDE.Physics.Collision
             CollisionChief chief = CollisionChief.GetInstance();
 
             // no inside out scaling
-            if (scale.X < 0)
-            {
-                scale.X *= -1;
-            }
-            if (scale.Y < 0)
-            {
-                scale.Y *= -1;
-            }
+            //if (scale.X < 0)
+            //{
+            //    scale.X *= -1;
+            //}
+            //if (scale.Y < 0)
+            //{
+            //    scale.Y *= -1;
+            //}
 
-            chief.ScaleCollisionUnit(this, scale);
+            //chief.ScaleCollisionUnit(this, scale);
 
             if (mCollisionType == CollisionType.COLLISION_NONE)
             {
@@ -722,21 +729,50 @@ namespace SGDE.Physics.Collision
             else if (mCollisionType == CollisionType.COLLISION_CIRCLE)
             {
                 // no ovals
-                mCircleRadius = (int)(mCircleRadius * ((scale.X + scale.Y) / 2));
+                //mCircleRadius = (int) (mCircleRadius * ((scale.X + scale.Y) / 2));
+                //mCircleRadius = (int) (mCircleRadius + mCircleRadius * ((scale.X + scale.Y) / 2));
+                //mCircleRadius *= (int)((GetScale().X + GetScale().Y) / 2);
+                int newCircleRadius = (int)(mOrigRadius * ((GetScale().X + GetScale().Y) / 2));
+                int radiusChange = newCircleRadius - mCircleRadius;
+
+                if (radiusChange > 0 || radiusChange < 0)
+                {
+                    // important that chief scales first
+                    chief.ScaleCollisionUnit(this, new Vector2(radiusChange, radiusChange));
+                    mCircleRadius += radiusChange;
+                }
             }
             else if (mCollisionType == CollisionType.COLLISION_BOX)
             {
-                int oldWidth = GetWidth();
-                int oldHeight = GetHeight();
+                //int oldWidth = GetWidth();
+                //int oldHeight = GetHeight();
+                int newWidth = (int)(mOrigWidth * GetScale().X);
+                int newHeight = (int)(mOrigHeight * GetScale().Y);
 
-                int xChange = (int)(((oldWidth * scale.X) - oldWidth) / 2);
-                int yChange = (int)(((oldHeight * scale.Y) - oldHeight) / 2);
+                int xChange = (newWidth - GetWidth()) / 2;
+                int yChange = (newHeight - GetHeight()) / 2;
 
-                mPoint1.X -= xChange;
-                mPoint1.Y -= yChange;
+                //int xChange = (int)(((oldWidth * scale.X) - oldWidth) / 2);
+                //int yChange = (int)(((oldHeight * scale.Y) - oldHeight) / 2);
+                //int xChange = (int) (oldWidth * scale.X / 2);
+                //int yChange = (int) (oldHeight * scale.Y / 2);
 
-                mPoint2.X += xChange;
-                mPoint2.Y += yChange;
+                if (xChange > 0 || xChange < 0 || yChange > 0 || yChange < 0)
+                {
+                    // important that chief scales first
+                    chief.ScaleCollisionUnit(this, new Vector2(xChange, yChange));
+
+                    // scale from center
+                    //mPoint1.X -= xChange;
+                    //mPoint1.Y -= yChange;
+
+                    //mPoint2.X += xChange;
+                    //mPoint2.Y += yChange;
+
+                    // scale with top left stationary
+                    mPoint2.X += xChange * 2;
+                    mPoint2.Y += yChange * 2;
+                }
             }
             else if (mCollisionType == CollisionType.COLLISION_LINE)
             {
