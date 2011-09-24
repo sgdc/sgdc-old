@@ -82,6 +82,9 @@ namespace SGDeContent.Writers
         protected override void Write(ContentWriter output, SGDE.Content.DataTypes.MapSettings value)
         {
             output.WriteObject(value.CameraPosition);
+            output.WriteObject(value.CameraRotation);
+            output.WriteObject(value.CameraScale);
+            output.WriteObject(value.CameraBounds);
             output.WriteObject(value.OrderSeperation);
             output.WriteObject(value.CentralOrder);
         }

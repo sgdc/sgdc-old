@@ -349,6 +349,15 @@ namespace SGDeContent {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Camera bounds cannot have a NaN..
+        /// </summary>
+        internal static string Game_CameraBoundsNaN {
+            get {
+                return ResourceManager.GetString("Game_CameraBoundsNaN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map ID {0} already exists..
         /// </summary>
         internal static string Game_MapIDExists {

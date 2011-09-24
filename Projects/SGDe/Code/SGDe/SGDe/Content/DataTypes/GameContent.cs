@@ -371,6 +371,21 @@ namespace SGDE.Content.DataTypes
                     game.camera.SetTranslation(settings.CameraPosition.Value);
                     game.camera._lastTrans = Vector2.Zero; //Reset movement so we don't end up with a infinite loop
                 }
+                if (settings.CameraRotation.HasValue)
+                {
+                    game.camera.SetRotation(settings.CameraRotation.Value);
+                }
+                if (settings.CameraScale.HasValue)
+                {
+                    game.camera.SetScale(settings.CameraScale.Value);
+                }
+                if (settings.CameraBounds.HasValue)
+                {
+                    //Set these manually so that position is controlled correctly
+                    Vector4 bounds = settings.CameraBounds.Value;
+                    game.camera.HorizontalBounds = new Vector2(bounds.X, bounds.Z);
+                    game.camera.VerticalBounds = new Vector2(bounds.Y, bounds.W);
+                }
 
                 //Setup graphics
                 Graphics2D gfx = game.Graphics2D;
@@ -383,6 +398,25 @@ namespace SGDE.Content.DataTypes
                     gfx.CentralOrder = settings.CentralOrder.Value;
                 }
             }
+
+            /*
+            //Physics
+            if (map.enPhysics)
+            {
+                PhysicsPharaoh pharaoh = PhysicsPharaoh.GetInstance();
+                pharaoh.Initialize(map.physicsWorldSize, map.physicsCellSize);
+                pharaoh.SetGravity(map.physicsGravity);
+
+                //Add physics entities
+                foreach (Entity ent in map.uEntities)
+                {
+                    PhysicsBaby baby = ent.GetPhysicsBaby();
+                    baby.SetForces(baby.GetForces() - map.physicsGravity);
+                    ent.EnablePhysics(ent.penabled, ent.pcollision);
+                    pharaoh.AddCollisionUnit(ent.GetCollisionUnit());
+                }
+            }
+             */
 
             //Initialize content
             foreach (Entity en in map.uEntities)

@@ -291,4 +291,7 @@
   <data name="Entity_UpdateOrder_OutOfRange" xml:space="preserve">
     <value>Update order is out of range. Defaulting to 0.</value>
   </data>
+  <data name="Game_CameraBoundsNaN" xml:space="preserve">
+    <value>Camera bounds cannot have a NaN.</value>
+  </data>
 </root>

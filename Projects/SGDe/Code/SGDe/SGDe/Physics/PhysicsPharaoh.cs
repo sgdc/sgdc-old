@@ -30,7 +30,7 @@ namespace SGDE.Physics
         /// <param name="physBaby">The PhysicsBaby to add.</param>
         public void AddPhysicsBaby(PhysicsBaby physBaby)
         {
-            if (ContentUtil.LoadingBuilders)
+            if (ContentUtil.LoadingBuilders || physBaby == null)
             {
                 return;
             }
@@ -52,7 +52,7 @@ namespace SGDE.Physics
         /// <param name="physBaby">The PhysicsBaby to free.</param>
         public void RemovePhysicsBaby(PhysicsBaby physBaby)
         {
-            if (ContentUtil.LoadingBuilders)
+            if (ContentUtil.LoadingBuilders || physBaby == null)
             {
                 return;
             }
@@ -72,7 +72,7 @@ namespace SGDE.Physics
         /// <param name="unit">The CollisionUnit to add.</param>
         public void AddCollisionUnit(CollisionUnit unit)
         {
-            if (ContentUtil.LoadingBuilders)
+            if (ContentUtil.LoadingBuilders || unit == null)
             {
                 return;
             }

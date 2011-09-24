@@ -25,11 +25,6 @@ namespace SGDE.Content.DataTypes
             return Create(null, null);
         }
 
-        internal Entity Create(Dictionary<string, object> physics)
-        {
-            return Create(null, physics);
-        }
-
         internal Entity Create(Entity mod)
         {
             return Create(mod, null);

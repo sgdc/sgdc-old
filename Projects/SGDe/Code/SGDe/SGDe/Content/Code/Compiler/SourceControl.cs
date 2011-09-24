@@ -29,7 +29,7 @@ namespace SGDE.Content.Code.Compiler
                         if (!inString)
                         {
                             count++;
-                            this.Lines.Add(new SourceLine(code.Substring(i, count), this.Lines.Count + 1));
+                            this.Lines.Add(new SourceLine(code.Substring(i, count).TrimEnd(), this.Lines.Count + 1, 0));
                             i += count;
                             count = 0;
                         }
@@ -41,7 +41,7 @@ namespace SGDE.Content.Code.Compiler
             }
             if (count > 1)
             {
-                this.Lines.Add(new SourceLine(code.Substring(i, count + 1), this.Lines.Count + 1));
+                this.Lines.Add(new SourceLine(code.Substring(i, count + 1).TrimEnd(), this.Lines.Count + 1, 0));
             }
         }
 
@@ -55,9 +55,9 @@ namespace SGDE.Content.Code.Compiler
     internal sealed class SourceLine
     {
         public string Line;
-        public int LineNumber;
+        public int LineNumber, ColNumber;
 
-        public SourceLine(string line, int num)
+        public SourceLine(string line, int num, int col)
         {
             if (line.EndsWith("\r\n"))
             {
@@ -69,6 +69,7 @@ namespace SGDE.Content.Code.Compiler
             }
             this.Line = line;
             this.LineNumber = num;
+            this.ColNumber = col;
         }
 
         public override string ToString()

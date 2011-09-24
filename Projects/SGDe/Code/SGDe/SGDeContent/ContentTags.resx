@@ -189,9 +189,6 @@
   <data name="ENTITY_CUSTOMENTITY_CONSTRUCTOR_USEDEF_1_1" xml:space="preserve">
     <value>UseDefault</value>
   </data>
-  <data name="ENTITY_CUSTOMENTITY_CONSTRUCTOR_VALUE_1_0" xml:space="preserve">
-    <value>Value</value>
-  </data>
   <data name="ENTITY_ENABLED_1_1" xml:space="preserve">
     <value>Enabled</value>
   </data>
@@ -206,9 +203,6 @@
   </data>
   <data name="ENTITY_NODE_VECTOR1_ROTATION_1_0" xml:space="preserve">
     <value>Rotation</value>
-  </data>
-  <data name="ENTITY_NODE_VECTOR1_VALUE_1_0" xml:space="preserve">
-    <value>Value</value>
   </data>
   <data name="ENTITY_NODE_VECTOR2_1_0" xml:space="preserve">
     <value>Vector2</value>
@@ -333,6 +327,27 @@
   <data name="GAME_SETTINGS_MAPLIST_MAP_CAMERA_1_1" xml:space="preserve">
     <value>Camera</value>
   </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_CAMERA_BOUNDS_1_1" xml:space="preserve">
+    <value>Bounds</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_CAMERA_BOUNDS_HN_1_1" xml:space="preserve">
+    <value>HN</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_CAMERA_BOUNDS_HP_1_1" xml:space="preserve">
+    <value>HP</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_CAMERA_BOUNDS_VN_1_1" xml:space="preserve">
+    <value>VN</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_CAMERA_BOUNDS_VP_1_1" xml:space="preserve">
+    <value>VP</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_CAMERA_ROTATION_1_1" xml:space="preserve">
+    <value>Rotation</value>
+  </data>
+  <data name="GAME_SETTINGS_MAPLIST_MAP_CAMERA_SCALE_1_1" xml:space="preserve">
+    <value>Scale</value>
+  </data>
   <data name="GAME_SETTINGS_MAPLIST_MAP_INITIALMAP_1_0" xml:space="preserve">
     <value>InitialMap</value>
   </data>
@@ -362,6 +377,9 @@
   </data>
   <data name="GENERAL_ID_1_0" xml:space="preserve">
     <value>ID</value>
+  </data>
+  <data name="GENERAL_VALUE_1_0" xml:space="preserve">
+    <value>Value</value>
   </data>
   <data name="GENERAL_WIDTH_1_0" xml:space="preserve">
     <value>Width</value>

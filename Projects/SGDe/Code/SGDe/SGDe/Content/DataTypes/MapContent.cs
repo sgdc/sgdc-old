@@ -12,6 +12,11 @@ namespace SGDE.Content.DataTypes
     /// </summary>
     internal class MapContent
     {
+        //Physics
+        internal bool enPhysics;
+        internal Vector2 physicsGravity, physicsWorldSize, physicsCellSize;
+
+        //Entities
         internal List<EntityBuilder> builders;
 
         internal List<Entity> dEntities;
@@ -66,6 +71,9 @@ namespace SGDE.Content.DataTypes
     internal class MapSettings
     {
         public Vector2? CameraPosition;
+        public float? CameraRotation;
+        public Vector2? CameraScale;
+        public Vector4? CameraBounds;
         public float? OrderSeperation;
         public int? CentralOrder;
     }

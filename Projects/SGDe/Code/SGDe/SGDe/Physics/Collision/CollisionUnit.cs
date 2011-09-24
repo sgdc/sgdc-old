@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Content;
 
 namespace SGDE.Physics.Collision
 {
-
-
-
+    /// <summary>
+    /// Defines the collision properties and methods to check collisions for an Entity.
+    /// </summary>
     public class CollisionUnit : SceneNode
     {
         /// <summary>

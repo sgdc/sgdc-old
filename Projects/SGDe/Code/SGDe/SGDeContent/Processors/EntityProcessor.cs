@@ -168,7 +168,7 @@ namespace SGDeContent.Processors
 
                             float val = 0;
 
-                            at = ContentTagManager.GetXMLAtt("ENTITY_NODE_VECTOR1_VALUE", version, nodeComponent);
+                            at = ContentTagManager.GetXMLAtt("GENERAL_VALUE", version, nodeComponent);
                             if (at != null)
                             {
                                 try
@@ -785,7 +785,7 @@ namespace SGDeContent.Processors
                                     }
                                 }
                                 type = Type.GetType(typeS);
-                                string value = ContentTagManager.GetXMLAtt("ENTITY_CUSTOMENTITY_CONSTRUCTOR_VALUE", version, customEntityComponent.ChildNodes[i]).Value.Trim();
+                                string value = ContentTagManager.GetXMLAtt("GENERAL_VALUE", version, customEntityComponent.ChildNodes[i]).Value.Trim();
                                 if (typeof(string).Equals(type))
                                 {
                                     //The type is a String so simply pass the value.

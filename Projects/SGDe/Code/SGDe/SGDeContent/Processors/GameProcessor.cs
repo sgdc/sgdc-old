@@ -137,7 +137,7 @@ namespace SGDeContent.Processors
                                     {
                                         if (ContentTagManager.TagMatches("GAME_SETTINGS_MAPLIST_MAP_CAMERA", mapSet.Name, input.Version))
                                         {
-                                            #region Camera Position
+                                            #region Camera Settings
 
                                             at = ContentTagManager.GetXMLAtt("GENERAL_X", input.Version, mapSet);
                                             if (at != null)
@@ -162,6 +162,133 @@ namespace SGDeContent.Processors
                                                 else
                                                 {
                                                     settings.CameraPosition = new Microsoft.Xna.Framework.Vector2(0, float.Parse(at.Value));
+                                                }
+                                            }
+
+                                            foreach (XmlNode cameraSet in mapSet)
+                                            {
+                                                if (ContentTagManager.TagMatches("GAME_SETTINGS_MAPLIST_MAP_CAMERA_ROTATION", cameraSet.Name, input.Version))
+                                                {
+                                                    #region Rotation
+
+                                                    at = ContentTagManager.GetXMLAtt("GENERAL_VALUE", input.Version, mapSet);
+                                                    if (at != null)
+                                                    {
+                                                        if (settings == null)
+                                                        {
+                                                            settings = new SGDE.Content.DataTypes.MapSettings();
+                                                        }
+                                                        settings.CameraRotation = float.Parse(at.Value);
+                                                    }
+
+                                                    #endregion
+                                                }
+                                                else if (ContentTagManager.TagMatches("GAME_SETTINGS_MAPLIST_MAP_CAMERA_SCALE", cameraSet.Name, input.Version))
+                                                {
+                                                    #region Scale
+
+                                                    at = ContentTagManager.GetXMLAtt("GENERAL_X", input.Version, mapSet);
+                                                    if (at != null)
+                                                    {
+                                                        if (settings == null)
+                                                        {
+                                                            settings = new SGDE.Content.DataTypes.MapSettings();
+                                                        }
+                                                        settings.CameraScale = new Microsoft.Xna.Framework.Vector2(float.Parse(at.Value), 1);
+                                                    }
+                                                    at = ContentTagManager.GetXMLAtt("GENERAL_Y", input.Version, mapSet);
+                                                    if (at != null)
+                                                    {
+                                                        if (settings == null)
+                                                        {
+                                                            settings = new SGDE.Content.DataTypes.MapSettings();
+                                                        }
+                                                        if (settings.CameraScale.HasValue)
+                                                        {
+                                                            settings.CameraScale = new Microsoft.Xna.Framework.Vector2(settings.CameraPosition.Value.X, float.Parse(at.Value));
+                                                        }
+                                                        else
+                                                        {
+                                                            settings.CameraScale = new Microsoft.Xna.Framework.Vector2(1, float.Parse(at.Value));
+                                                        }
+                                                    }
+
+                                                    #endregion
+                                                }
+                                                else if (ContentTagManager.TagMatches("GAME_SETTINGS_MAPLIST_MAP_CAMERA_BOUNDS", cameraSet.Name, input.Version))
+                                                {
+                                                    #region Bounds
+
+                                                    at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_MAPLIST_MAP_CAMERA_BOUNDS_HP", input.Version, mapSet);
+                                                    if (at != null)
+                                                    {
+                                                        if (settings == null)
+                                                        {
+                                                            settings = new SGDE.Content.DataTypes.MapSettings();
+                                                        }
+                                                        settings.CameraBounds = new Microsoft.Xna.Framework.Vector4(float.Parse(at.Value), float.PositiveInfinity, float.NegativeInfinity, float.NegativeInfinity);
+                                                    }
+                                                    at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_MAPLIST_MAP_CAMERA_BOUNDS_VP", input.Version, mapSet);
+                                                    if (at != null)
+                                                    {
+                                                        if (settings == null)
+                                                        {
+                                                            settings = new SGDE.Content.DataTypes.MapSettings();
+                                                        }
+                                                        if (settings.CameraBounds.HasValue)
+                                                        {
+                                                            settings.CameraBounds = new Microsoft.Xna.Framework.Vector4(settings.CameraBounds.Value.X, float.Parse(at.Value), float.NegativeInfinity, float.NegativeInfinity);
+                                                        }
+                                                        else
+                                                        {
+                                                            settings.CameraBounds = new Microsoft.Xna.Framework.Vector4(float.PositiveInfinity, float.Parse(at.Value), float.NegativeInfinity, float.NegativeInfinity);
+                                                        }
+                                                    }
+                                                    at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_MAPLIST_MAP_CAMERA_BOUNDS_HN", input.Version, mapSet);
+                                                    if (at != null)
+                                                    {
+                                                        if (settings == null)
+                                                        {
+                                                            settings = new SGDE.Content.DataTypes.MapSettings();
+                                                        }
+                                                        if (settings.CameraBounds.HasValue)
+                                                        {
+                                                            settings.CameraBounds = new Microsoft.Xna.Framework.Vector4(settings.CameraBounds.Value.X, settings.CameraBounds.Value.Y, float.Parse(at.Value), float.NegativeInfinity);
+                                                        }
+                                                        else
+                                                        {
+                                                            settings.CameraBounds = new Microsoft.Xna.Framework.Vector4(float.PositiveInfinity, float.PositiveInfinity, float.Parse(at.Value), float.NegativeInfinity);
+                                                        }
+                                                    }
+                                                    at = ContentTagManager.GetXMLAtt("GAME_SETTINGS_MAPLIST_MAP_CAMERA_BOUNDS_VN", input.Version, mapSet);
+                                                    if (at != null)
+                                                    {
+                                                        if (settings == null)
+                                                        {
+                                                            settings = new SGDE.Content.DataTypes.MapSettings();
+                                                        }
+                                                        if (settings.CameraBounds.HasValue)
+                                                        {
+                                                            settings.CameraBounds = new Microsoft.Xna.Framework.Vector4(settings.CameraBounds.Value.X, settings.CameraBounds.Value.Y, settings.CameraBounds.Value.Z, float.Parse(at.Value));
+                                                        }
+                                                        else
+                                                        {
+                                                            settings.CameraBounds = new Microsoft.Xna.Framework.Vector4(float.PositiveInfinity, float.PositiveInfinity, float.NegativeInfinity, float.Parse(at.Value));
+                                                        }
+                                                    }
+                                                    if (settings != null)
+                                                    {
+                                                        if (settings.CameraBounds.HasValue)
+                                                        {
+                                                            Microsoft.Xna.Framework.Vector4 four = settings.CameraBounds.Value;
+                                                            if (float.IsNaN(four.X) || float.IsNaN(four.Y) || float.IsNaN(four.Z) || float.IsNaN(four.W))
+                                                            {
+                                                                throw new ArgumentException(Messages.Game_CameraBoundsNaN);
+                                                            }
+                                                        }
+                                                    }
+
+                                                    #endregion
                                                 }
                                             }
 

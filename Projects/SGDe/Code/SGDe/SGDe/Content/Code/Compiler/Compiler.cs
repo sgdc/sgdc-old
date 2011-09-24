@@ -56,6 +56,10 @@ namespace SGDE.Content.Code.Compiler
             {
                 return false;
             }
+            if (!CleanAndExpand(ref controlFull))
+            {
+                return false;
+            }
             if (controlFull.Lines.Count == 0)
             {
                 //All comments, so code was "compiled", return true
@@ -109,12 +113,14 @@ namespace SGDE.Content.Code.Compiler
                     if (index >= 0)
                     {
                         index += 2;
-                        sc.Lines[i].Line = new string(' ', index) + line.Substring(index);
+                        sc.Lines[i].ColNumber = index;
+                        sc.Lines[i].Line = line.Substring(index);
                         comment = false;
                         i--; //Just in case
                     }
                     else
                     {
+                        sc.Lines[i].ColNumber = 0;
                         sc.Lines[i].Line = string.Empty;
                     }
                 }
@@ -123,6 +129,7 @@ namespace SGDE.Content.Code.Compiler
                     index = line.IndexOf("//");
                     if (index >= 0 && ParaCount(line, index) % 2 == 0)
                     {
+                        sc.Lines[i].ColNumber = 0;
                         sc.Lines[i].Line = line.Substring(0, index).TrimEnd();
                     }
                     else
@@ -136,15 +143,17 @@ namespace SGDE.Content.Code.Compiler
                             {
                                 //Single line comment
                                 index += 2;
+                                sc.Lines[i].ColNumber = 0;
                                 sc.Lines[i].Line = line.Substring(0, start) + new string(' ', index - start) + line.Substring(index);
                                 i--; //So the comment checks repeat on single line comments
                             }
                             else
                             {
                                 //Multiline comment
+                                sc.Lines[i].ColNumber = 0;
                                 sc.Lines[i].Line = line.Substring(0, start).TrimEnd();
                                 this.line = i;
-                                this.col = start;
+                                this.col = start + sc.Lines[i].ColNumber;
                                 comment = true;
                             }
                         }
@@ -157,17 +166,6 @@ namespace SGDE.Content.Code.Compiler
                 this.message = Messages.Compiler_Error_NoEndComment;
                 return false;
             }
-            //Remove all blank lines to speed up processing, line numbers are kept intact
-            List<SourceLine> lines = new List<SourceLine>();
-            for (int i = 0; i < sc.Lines.Count; i++)
-            {
-                SourceLine line = sc.Lines[i];
-                if (!string.IsNullOrWhiteSpace(line.Line))
-                {
-                    lines.Add(line);
-                }
-            }
-            sc.Lines = lines;
             ResetError();
             return true;
         }
@@ -190,6 +188,29 @@ namespace SGDE.Content.Code.Compiler
 
         #endregion
 
+        #region Clean and Expand
+
+        //Goes through all the lines and "expands" them so braces have their own lines and empty-lines are removed
+        private bool CleanAndExpand(ref SourceControl<object> sc)
+        {
+            //TODO
+
+            //Remove all blank lines to speed up processing, line numbers are kept intact
+            List<SourceLine> lines = new List<SourceLine>();
+            for (int i = 0; i < sc.Lines.Count; i++)
+            {
+                SourceLine line = sc.Lines[i];
+                if (!string.IsNullOrWhiteSpace(line.Line))
+                {
+                    lines.Add(line);
+                }
+            }
+            sc.Lines = lines;
+            return true;
+        }
+
+        #endregion
+
         #region Get Packages
 
         private bool GetPackages(SourceControl<object> sc, ref List<SourceControl<string>> names)
@@ -203,21 +224,51 @@ namespace SGDE.Content.Code.Compiler
                 SourceLine line = sc.Lines[i];
                 if (onPackage)
                 {
-                    //TODO: Find where package, class, or interface end
+                    if (line.Line.StartsWith("{"))
+                    {
+                        depth++;
+                    }
+                    else if (line.Line.StartsWith("}"))
+                    {
+                        depth--;
+                    }
                     if (depth == 0)
                     {
                         if (package == null)
                         {
                             package = string.Empty;
                         }
-                        names.Add(new SourceControl<string>(lines, package));
-                        lines = new List<SourceLine>();
+                        if (lines.Count > 0)
+                        {
+                            names.Add(new SourceControl<string>(lines, package));
+                            lines = new List<SourceLine>();
+                        }
                         package = null;
+                        onPackage = false;
+                    }
+                    else
+                    {
+                        lines.Add(line);
                     }
                 }
                 else
                 {
-                    //TODO: Get package, class, or interface
+                    if (package == null)
+                    {
+                        if (line.Line.StartsWith("package"))
+                        {
+                            package = line.Line.Substring(8).Trim();
+                        }
+                        //What do we do if package is not the first line? What do we do if it has a modifier (documentation seems to mention it, not sure how it works)
+                    }
+                    else
+                    {
+                        if (line.Line.StartsWith("{"))
+                        {
+                            onPackage = true;
+                            depth = 1;
+                        }
+                    }
                 }
             }
             ResetError();
@@ -263,8 +314,11 @@ namespace SGDE.Content.Code.Compiler
         }
 
         /* TODO:
+         * Write "expand" part of CleanAndExpand
+         * Figure out how GetPackages should take care of elements outside of a package definition, how to handle default package names (AKA the ones with no name)
+         * 
          * Operators: http://help.adobe.com/en_US/FlashPlatform/beta/reference/actionscript/3/operators.html
-         * AssembkyBuilder: http://msdn.microsoft.com/en-us/library/system.reflection.emit.assemblybuilder.aspx#Y3359
+         * AssemblyBuilder: http://msdn.microsoft.com/en-us/library/system.reflection.emit.assemblybuilder.aspx#Y3359
          * 
          * Have a helper function that converts a delegate into a Function.
          * Figure out how to write out classes (for actual compilation) but can also write out usable functions

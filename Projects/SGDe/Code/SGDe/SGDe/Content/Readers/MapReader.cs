@@ -22,18 +22,21 @@ namespace SGDE.Content.Readers
         {
             MapContent content = new MapContent();
             //Read physics information
-            if (input.ReadBoolean())
+            if (content.enPhysics = input.ReadBoolean())
             {
                 SGDE.Content.Code.Code code = input.ReadRawObject<SGDE.Content.Code.Code>();
                 float value = (float)code.Evaluate();
                 code = input.ReadRawObject<SGDE.Content.Code.Code>();
-                Vector2 cellSize = new Vector2(value, (float)code.Evaluate());
+                content.physicsCellSize = new Vector2(value, (float)code.Evaluate());
                 code = input.ReadRawObject<SGDE.Content.Code.Code>();
                 value = (float)code.Evaluate();
                 code = input.ReadRawObject<SGDE.Content.Code.Code>();
+                content.physicsWorldSize = new Vector2(value, (float)code.Evaluate());
+                content.physicsGravity = input.ReadVector2();
+
                 SGDE.Physics.PhysicsPharaoh pharaoh = SGDE.Physics.PhysicsPharaoh.GetInstance();
-                pharaoh.Initialize(new Vector2(value, (float)code.Evaluate()), cellSize);
-                pharaoh.SetGravity(input.ReadVector2());
+                pharaoh.Initialize(content.physicsWorldSize, content.physicsCellSize);
+                pharaoh.SetGravity(content.physicsGravity);
             }
             //Read resources
             int count = input.ReadInt32();
@@ -140,6 +143,9 @@ namespace SGDE.Content.Readers
         {
             MapSettings set = new MapSettings();
             set.CameraPosition = input.ReadObject<Vector2?>();
+            set.CameraRotation = input.ReadObject<float?>();
+            set.CameraScale = input.ReadObject<Vector2?>();
+            set.CameraBounds = input.ReadObject<Vector4?>();
             set.OrderSeperation = input.ReadObject<float?>();
             set.CentralOrder = input.ReadObject<int?>();
             return set;
