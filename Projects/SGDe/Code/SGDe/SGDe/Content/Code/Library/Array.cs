@@ -13,6 +13,27 @@ namespace SGDE.Content.Code.Library
         internal Object[] objA;
 
         /// <summary>
+        /// Specifies case-insensitive sorting for the Array class sorting methods.
+        /// </summary>
+        public const uint CASEINSENSITIVE = 1 << 0;
+        /// <summary>
+        /// Specifies descending sorting for the Array class sorting methods.
+        /// </summary>
+        public const uint DESCENDING = 1 << 1;
+        /// <summary>
+        /// Specifies the unique sorting requirement for the Array class sorting methods.
+        /// </summary>
+        public const uint UNIQUESORT = 1 << 2;
+        /// <summary>
+        /// Specifies that a sort returns an array that consists of array indices.
+        /// </summary>
+        public const uint RETURNINDEXEDARRAY = 1 << 3;
+        /// <summary>
+        /// Specifies numeric (instead of character-string) sorting for the Array class sorting methods.
+        /// </summary>
+        public const uint NUMERIC = 1 << 4;
+
+        /// <summary>
         /// Lets you create an array that contains the specified elements.
         /// </summary>
         /// <param name="values">A comma-separated list of one or more arbitrary values.</param>
@@ -292,7 +313,194 @@ namespace SGDE.Content.Code.Library
             return new Array(obj);
         }
 
-        //TODO: Array.prototype.sort
+        /// <summary>
+        /// Sorts the elements in an array. This method sorts according to Unicode values. (ASCII is a subset of Unicode.)
+        /// </summary>
+        /// <param name="args">The arguments specifying a comparison function and one or more values that determine the behavior of the sort.</param>
+        /// <returns>The return value depends on whether you pass any arguments.</returns>
+        public virtual Array sort(params Object[] args)
+        {
+            SGDESort sort = new SGDESort();
+            if (args != null)
+            {
+                if (args.Length == 1)
+                {
+                    //One object can be either a primitive or function. Figure it out.
+                    if (args[0] is Object.PrimitiveWrapper)
+                    {
+                        object prim = (args[0] as Object.PrimitiveWrapper).primitive;
+                        //We only want uint primitives. An int is usable but then we have to go through type conversions (easy enough) but it could be a float which won't produce the proper result, or some other type that could just have issues.
+                        if (prim is uint)
+                        {
+                            sort.options = (uint)prim;
+                        }
+                    }
+                    else if (args[0] is Function)
+                    {
+                        sort.fun = (Function)args[0];
+                    }
+                }
+                else if (args.Length >= 2)
+                {
+                    //Must be in the order of "compareFunction, sortOptions"
+                    if (args[0] is Function)
+                    {
+                        sort.fun = (Function)args[0];
+                    }
+                    if (args[1] is Object.PrimitiveWrapper)
+                    {
+                        object prim = (args[1] as Object.PrimitiveWrapper).primitive;
+                        if (prim is uint)
+                        {
+                            sort.options = (uint)prim;
+                        }
+                    }
+                }
+            }
+            Object[] tmpArray = (Object[])this.objA.Clone();
+            Array retArray = null;
+            try
+            {
+                global::System.Array.Sort(tmpArray, sort);
+                //Not desired to have in a try/catch (for speed reasons. We're interpreting/emulating enough as it is)
+                if ((sort.options & Array.RETURNINDEXEDARRAY) == Array.RETURNINDEXEDARRAY)
+                {
+                    //Don't modify it, return the indexes (not the fastest)
+                    retArray = new Array(tmpArray.Length);
+                    int index;
+                    for (int i = 0; i < tmpArray.Length; i++)
+                    {
+                        index = global::System.Array.IndexOf(tmpArray, this.objA[i]);
+                        if (index == -1)
+                        {
+                            //Couldn't find it. Might implement custom Equals function. Do a reference search
+                            for (int k = 0; k < tmpArray.Length; i++)
+                            {
+                                if (object.ReferenceEquals(tmpArray[k], this.objA[i]))
+                                {
+                                    index = k;
+                                    break;
+                                }
+                            }
+                        }
+                        retArray[i] = new Object.PrimitiveWrapper(index);
+                    }
+                }
+                else
+                {
+                    //Modify the array
+                    this.objA = tmpArray;
+                }
+            }
+            catch
+            {
+                if ((sort.options & Array.UNIQUESORT) == Array.UNIQUESORT)
+                {
+                    //Return an array with the value of "0"
+                    retArray = new Array(1);
+                    retArray.objA[0] = new Object.PrimitiveWrapper(0);
+                }
+            }
+            return retArray;
+        }
+
+        private sealed class SGDESort : IComparer<Object>
+        {
+            public Function fun;
+            public uint options;
+
+            public int Compare(Object x, Object y)
+            {
+                bool unique = (options & Array.UNIQUESORT) == Array.UNIQUESORT;
+                int comp;
+                if (fun != null)
+                {
+                    throw new NotImplementedException(); //This gets "comp"
+                    if (comp == 0 && unique)
+                    {
+                        throw new InvalidOperationException();
+                    }
+                }
+                else
+                {
+                    string xs = x.toString().value;
+                    string ys = y.toString().value;
+                    if ((options & Array.NUMERIC) == Array.NUMERIC)
+                    {
+                        //Only do a numeric comparision if we don't have a specific sort function
+                        int xi = 0, yi = 0;
+                        bool gotX = false, gotY = false;
+
+                        //Get X value
+                        if (x is Object.PrimitiveWrapper)
+                        {
+                            object prim = ((Object.PrimitiveWrapper)x).primitive;
+                            try
+                            {
+                                xi = Convert.ToInt32(prim);
+                                gotX = true;
+                            }
+                            catch
+                            {
+                            }
+                        }
+                        else if (x is Number && Utils.IsInt((Number)x))
+                        {
+                            gotX = true;
+                        }
+                        if (!gotX)
+                        {
+                            if (!int.TryParse(xs, out xi))
+                            {
+                                throw new InvalidCastException();
+                            }
+                        }
+
+                        //Get Y value
+                        if (y is Object.PrimitiveWrapper)
+                        {
+                            object prim = ((Object.PrimitiveWrapper)y).primitive;
+                            try
+                            {
+                                yi = Convert.ToInt32(prim);
+                                gotY = true;
+                            }
+                            catch
+                            {
+                            }
+                        }
+                        else if (y is Number && Utils.IsInt((Number)y))
+                        {
+                            gotY = true;
+                        }
+                        if (!gotY)
+                        {
+                            if (!int.TryParse(ys, out yi))
+                            {
+                                throw new InvalidCastException();
+                            }
+                        }
+
+                        //Compare
+                        comp = xi.CompareTo(yi);
+                    }
+                    else
+                    {
+#if WINDOWS
+                        comp = string.Compare(xs, ys, (options & Array.CASEINSENSITIVE) == Array.CASEINSENSITIVE);
+#else
+                        comp = string.Compare(xs, ys, ((options & Array.CASEINSENSITIVE) == Array.CASEINSENSITIVE) ? StringComparison.InvariantCultureIgnoreCase : StringComparison.InvariantCulture);
+#endif
+                    }
+                }
+                //Finally we want to reverse the sort if descending
+                if (comp != 0 && (options & Array.DESCENDING) == Array.DESCENDING)
+                {
+                    comp = -comp;
+                }
+                return comp;
+            }
+        }
 
         /// <summary>
         /// Adds elements to and removes elements from an array.

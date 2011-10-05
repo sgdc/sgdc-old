@@ -133,7 +133,7 @@ namespace SGDE.Content.Code.Library
             double v = this.value;
             if (r != 10)
             {
-                v = global::System.Math.Truncate(v);
+                v = Utils.Truncate(v);
             }
             CultureInfo info = local ? CultureInfo.CurrentCulture : CultureInfo.InvariantCulture;
             StringBuilder bu = new StringBuilder();
@@ -147,16 +147,28 @@ namespace SGDE.Content.Code.Library
                 v = global::System.Math.Abs(v);
                 while (v >= r)
                 {
+#if WINDOWS
                     bu.Insert(0, forDigit((int)(v % r), r));
-                    v = global::System.Math.Truncate(v / r);
+#else
+                    bu.Insert(0, new char[] { forDigit((int)(v % r), r) });
+#endif
+                    v = Utils.Truncate(v / r);
                 }
                 if (v != 0)
                 {
+#if WINDOWS
                     bu.Insert(0, forDigit((int)v, r));
+#else
+                    bu.Insert(0, new char[] { forDigit((int)v, r) });
+#endif
                 }
                 if (neg)
                 {
+#if WINDOWS
                     bu.Insert(0, '-');
+#else
+                    bu.Insert(0, new char[] { '-' });
+#endif
                 }
             }
             return new String(bu.ToString());

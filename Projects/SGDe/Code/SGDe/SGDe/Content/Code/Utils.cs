@@ -20,7 +20,22 @@ namespace SGDE.Content.Code
 
         public static bool IsInt(Number n)
         {
-            return global::System.Math.Truncate(n.value) == n.value;
+            return Truncate(n.value) == n.value;
+        }
+
+        internal static double Truncate(double value)
+        {
+#if WINDOWS
+            return global::System.Math.Truncate(value);
+#else
+            //Not correct
+            return global::System.Math.Ceiling(value);
+#endif
+        }
+
+        public static SGDE.Content.Code.Library.Object CreatePrimitive(object obj)
+        {
+            return new SGDE.Content.Code.Library.Object.PrimitiveWrapper(obj);
         }
     }
 }

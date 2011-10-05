@@ -60,7 +60,7 @@ namespace SGDE.Graphics
                     Vector2 tscale = base.GetScale();
                     if (OverrideAnimation(SpriteAttributes.ScaleRel, null))
                     {
-                        scale = scaleAn.Value + tscale;
+                        scale = tscale * scaleAn.Value;
                     }
                     else
                     {
@@ -73,13 +73,13 @@ namespace SGDE.Graphics
                 scale = base.GetScale();
             }
             //Draw...
-            Vector2 pos = GetTranslation() + (this.offsetOrigin && origin.HasValue ? -origin.Value : Vector2.Zero);
+            Vector2 pos = this.Center + (this.offsetOrigin && origin.HasValue ? -origin.Value : Vector2.Zero);
             SpriteManager.gfx.Draw(baseTexture,
                 pos,
                 animation.Frame(frame),
                 tint.HasValue && OverrideAnimation(SpriteAttributes.Tint, null) ? tint.Value : this.Tint,
                 rotation,
-                origin.HasValue ? origin.Value : Vector2.Zero,
+                origin.HasValue ? origin.Value : this.ImageCenter,
                 scale,
                 animation.Effect(frame), 0);
         }
@@ -88,8 +88,14 @@ namespace SGDE.Graphics
         {
             get
             {
-                Vector2 center = GetTranslation();
+                return GetTranslation() + this.ImageCenter;
+            }
+        }
 
+        private Vector2 ImageCenter
+        {
+            get
+            {
                 Rectangle? rect = animation.Frame(frame);
                 float width, height;
                 if (rect.HasValue)
@@ -102,10 +108,7 @@ namespace SGDE.Graphics
                     width = baseTexture.Width;
                     height = baseTexture.Height;
                 }
-                center.X += width / 2f;
-                center.Y += height / 2f;
-
-                return center;
+                return new Vector2(width / 2f, height / 2f);
             }
         }
 

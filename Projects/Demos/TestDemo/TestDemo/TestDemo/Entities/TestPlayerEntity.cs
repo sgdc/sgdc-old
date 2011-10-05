@@ -79,22 +79,22 @@ namespace TestDemo
                     {
                         if (keyboard.IsKeyPressed(Keys.LeftShift))
                         {
-                            this.Scale(new Vector2(-0.1f, -0.1f));
+                            this.Scale(0.9f);
                         }
                         else
                         {
-                            game.CameraControl.Scale(-0.1f);
+                            game.CameraControl.Scale(0.9f);
                         }
                     }
                     else if (keyboard.IsKeyPressed(Keys.I))
                     {
                         if (keyboard.IsKeyPressed(Keys.LeftShift))
                         {
-                            this.Scale(new Vector2(0.1f, 0.1f));
+                            this.Scale(1.1f);
                         }
                         else
                         {
-                            game.CameraControl.Scale(0.1f);
+                            game.CameraControl.Scale(1.1f);
                         }
                     }
                     if (keyboard.IsKeyPressed(Keys.R))

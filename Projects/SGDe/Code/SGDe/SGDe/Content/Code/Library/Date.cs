@@ -150,7 +150,11 @@ namespace SGDE.Content.Code.Library
                 {
                     if (yearOrTimevalue is Number)
                     {
+#if WINDOWS
                         this.dateTime = DateTime.FromBinary(-0x7760800A084A8000);
+#else
+                        this.dateTime = new DateTime(621355788000000000L);
+#endif
                         this.dateTime = this.dateTime.AddMilliseconds(((Number)yearOrTimevalue).value).ToLocalTime();
                     }
                     else if (yearOrTimevalue is String)
@@ -268,8 +272,13 @@ namespace SGDE.Content.Code.Library
                     }
                     else
                     {
+#if WINDOWS
                         bu.Insert(index, tmp);
                         bu.Insert(index, ' ');
+#else
+                        bu.Insert(index, tmp.ToString());
+                        bu.Insert(index, new char[] { ' ' });
+#endif
                     }
                     str = bu.ToString();
                 }

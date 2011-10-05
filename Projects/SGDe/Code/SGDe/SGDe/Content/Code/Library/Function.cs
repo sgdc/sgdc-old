@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Reflection;
 
 namespace SGDE.Content.Code.Library
 {
@@ -10,6 +11,8 @@ namespace SGDE.Content.Code.Library
     /// </summary>
     public sealed class Function : Object
     {
+        internal MethodInfo method;
+
         /*
         Function.prototype.toString
         Function.prototype.apply

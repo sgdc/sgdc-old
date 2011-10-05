@@ -154,6 +154,25 @@ namespace SGDE.Content.Code.Library
             }
         }
 
+        internal class PrimitiveWrapper : Object
+        {
+            public object primitive;
+
+            public PrimitiveWrapper(object primitive)
+            {
+                if (!(primitive is ValueType))
+                {
+                    throw new InvalidOperationException("Value not primitive");
+                }
+                this.primitive = primitive;
+            }
+
+            public override String toString()
+            {
+                return new String(primitive.ToString());
+            }
+        }
+
         #endregion
     }
 }
