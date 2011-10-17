@@ -196,7 +196,11 @@ namespace MyPolarBear.GameObjects
 
             if (InputManager.Mouse.IsButtonReleased(MouseComponent.MouseButton.Left))
             {
-                Projectile projectile = ShootProjectile(InputManager.Mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter);               
+                Vector2 projectileDir = InputManager.Mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter;
+                projectileDir += ScreenManager.camera.Position;
+                projectileDir -= Position;
+                //Projectile projectile = ShootProjectile(InputManager.Mouse.GetCurrentMousePosition() - ScreenManager.camera.ScreenCenter);
+                Projectile projectile = ShootProjectile(projectileDir);
                 projectile.LoadContent();
                 projectile.IsAlive = true;                
                 UpdateKeeper.getInstance().addEntity(projectile);
