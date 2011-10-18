@@ -264,21 +264,22 @@ namespace MyPolarBear.GameObjects
                 }
             }
 
-            if (followBear != null)
-            {
-                Vector2 direction = followBear.Position - Position;
-                if (Math.Abs(direction.Length()) > 30)
-                {
-                    direction.Normalize();
-                    Velocity = direction * 3.0f;
-                }
-                else
-                {
-                    Velocity = Vector2.Zero;
-                }
-            }
+            //if (followBear != null)
+            //{
+            //    Vector2 direction = followBear.Position - Position;
+            //    if (Math.Abs(direction.Length()) > 50)
+            //    {
+            //        direction.Normalize();
+            //        Velocity = direction * 3.0f;
+            //    }
+            //    else
+            //    {
+            //        Velocity = Vector2.Zero;
+            //    }
+            //}
 
-            dealWithCollisions();
+            //dealWithCollisions();
+            beBoidLike();
         }
 
         private void bePlanting(GameTime gameTime)
@@ -656,6 +657,68 @@ namespace MyPolarBear.GameObjects
             }
         }
 
+        private void beBoidLike()
+        {
+            Vector2 velocityFollow = new Vector2(0, 0);
+            Vector2 velocityMoveWith = new Vector2(0, 0);
+            Vector2 velocityAvoid = new Vector2(0, 0);
+            int followerCount = 0;
+
+            if (followBear != null)
+            {
+                velocityFollow = followBear.Position - Position;
+                if (Math.Abs(velocityFollow.Length()) > 200)
+                {
+                    velocityFollow.Normalize();
+                    //Velocity = direction * 3.0f;
+                    velocityFollow *= 200;
+                }
+                else if (Math.Abs(velocityFollow.Length()) <= 60)
+                {
+                    //Velocity = Vector2.Zero;
+                    velocityFollow = Vector2.Zero;
+                }
+            }
+
+            foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
+            {
+                if (ent is Enemy && ent != this && ((Enemy)ent).CurrentState == State.Following)
+                {
+                    velocityMoveWith += ((Enemy)ent).Velocity;
+                    followerCount++;
+
+                    if (Math.Abs((Position - ent.Position).Length()) < 10)
+                    {
+                        velocityAvoid += Position - ((Enemy)ent).Position;
+                    }
+                }
+            }
+
+            foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
+            {
+                if (CollisionBox.Intersects(element.CollisionRect) && !(element.Type.Equals("Ice")
+                    || element.Type.Equals("SoftGround") || element.Type.Equals("BabyPlant")))
+                {
+                    velocityAvoid += Position - element.Position;
+                }
+            }
+
+            if (followerCount > 1)
+            {
+                velocityMoveWith = velocityMoveWith / followerCount;
+                //velocityMoveWith *= 0.1f;
+            }
+
+            if (followBear != null && Math.Abs((Position - followBear.Position).Length()) < 30)
+            {
+                velocityAvoid += Position - followBear.Position;
+            }
+
+            Velocity = Velocity * 0.2f + velocityFollow * 0.02f + velocityMoveWith * 0.0f + velocityAvoid * 0.2f;
+            //Velocity.Normalize();
+            //Velocity *= 1.0f;
+        }
+
         private void dealWithCollisions()
         {
             if ((Position.X > GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X > 0) || (Position.X < -GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X < 0))
@@ -671,13 +734,21 @@ namespace MyPolarBear.GameObjects
             // collide with level elements
             Rectangle travelRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
 
+            foreach (Entity entity in UpdateKeeper.getInstance().getEntities())
+            {
+                if (entity != this && entity != followBear && travelRect.Intersects(entity.CollisionBox))
+                {
+                    Velocity = ((Position - entity.Position) * 0.05f);
+                }
+            }
+
             foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
             {
                 if (travelRect.Intersects(element.CollisionRect) && !(element.Type.Equals("Ice")
                     || element.Type.Equals("SoftGround") || element.Type.Equals("BabyPlant")))
                 {
                     //Velocity *= -1;
-                    Velocity = ((Position - element.Position) / 20);
+                    Velocity = ((Position - element.Position) * 0.05f);
                 }
             }
         }
