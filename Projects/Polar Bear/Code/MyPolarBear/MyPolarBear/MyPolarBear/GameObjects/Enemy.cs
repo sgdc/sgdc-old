@@ -588,8 +588,9 @@ namespace MyPolarBear.GameObjects
             {
                 if (targetBear.IsAlive)
                 {
-                    PolarBear.CurHitPoints -= 1;
-                    SoundManager.PlaySound("Ow");
+                    //PolarBear.CurHitPoints -= 1;
+                    PolarBear.TakeDamage(1, this);
+                    //SoundManager.PlaySound("Ow");
                     Velocity = Vector2.Zero;
                 }
             }
@@ -663,17 +664,20 @@ namespace MyPolarBear.GameObjects
             Vector2 velocityMoveWith = new Vector2(0, 0);
             Vector2 velocityAvoid = new Vector2(0, 0);
             int followerCount = 0;
+            float dist = 0;
 
             if (followBear != null)
             {
                 velocityFollow = followBear.Position - Position;
-                if (Math.Abs(velocityFollow.Length()) > 200)
+                dist = Math.Abs(velocityFollow.Length());
+
+                if (dist > 200)
                 {
                     velocityFollow.Normalize();
                     //Velocity = direction * 3.0f;
                     velocityFollow *= 200;
                 }
-                else if (Math.Abs(velocityFollow.Length()) <= 60)
+                else if (dist <= 60)
                 {
                     //Velocity = Vector2.Zero;
                     velocityFollow = Vector2.Zero;
@@ -684,10 +688,15 @@ namespace MyPolarBear.GameObjects
             {
                 if (ent is Enemy && ent != this && ((Enemy)ent).CurrentState == State.Following)
                 {
-                    velocityMoveWith += ((Enemy)ent).Velocity;
-                    followerCount++;
+                    dist = Math.Abs((Position - ent.Position).Length());
 
-                    if (Math.Abs((Position - ent.Position).Length()) < 10)
+                    if (dist < 30)
+                    {
+                        velocityMoveWith += ((Enemy)ent).Velocity;
+                        followerCount++;
+                    }
+
+                    if (dist < 10)
                     {
                         velocityAvoid += Position - ((Enemy)ent).Position;
                     }
@@ -709,7 +718,8 @@ namespace MyPolarBear.GameObjects
                 //velocityMoveWith *= 0.1f;
             }
 
-            if (followBear != null && Math.Abs((Position - followBear.Position).Length()) < 30)
+            dist = Math.Abs((Position - followBear.Position).Length());
+            if (followBear != null && dist < 30)
             {
                 velocityAvoid += Position - followBear.Position;
             }

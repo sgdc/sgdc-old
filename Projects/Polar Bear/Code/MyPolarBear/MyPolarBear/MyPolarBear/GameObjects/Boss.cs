@@ -71,7 +71,8 @@ namespace MyPolarBear.GameObjects
                         else if (PolarBear.power == PolarBear.Power.Normal)
                         {
                             if (PolarBear.CurHitPoints < PolarBear.MaxHitPoints)
-                                PolarBear.CurHitPoints += 1;
+                                //PolarBear.CurHitPoints += 1;
+                                PolarBear.TakeDamage(-1, this);
 
                         }
                     }
@@ -183,9 +184,10 @@ namespace MyPolarBear.GameObjects
                
                 if (CollisionBox.Intersects(entity.CollisionBox))
                 {                    
-                    PolarBear.CurHitPoints -= 1;
+                    //PolarBear.CurHitPoints -= 1;
+                    PolarBear.TakeDamage(1, this);
                     entity.Position += direction * 5;
-                    SoundManager.PlaySound("Ow");
+                    //SoundManager.PlaySound("Ow");
                 }
             }
         }

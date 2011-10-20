@@ -40,6 +40,10 @@ namespace MyPolarBear.GameObjects
 
         private Vector2 mScale;
 
+        private static float mInvincibleDelay;      // miliseconds
+        private static float mInvincibleDeltaTime;
+        private static bool bInvincible;
+
 
         public PolarBear(Vector2 position)
             : base(position)
@@ -50,6 +54,9 @@ namespace MyPolarBear.GameObjects
             mScale = new Vector2(Scale, Scale);
             MaxHitPoints = 5;
             CurHitPoints = 5;
+
+            mInvincibleDelay = 1000.0f;
+            mInvincibleDeltaTime = 0;
         }
 
         public override void LoadContent()
@@ -106,6 +113,17 @@ namespace MyPolarBear.GameObjects
                 return;
 
             bMoving = false;
+
+            if (bInvincible)
+            {
+                mInvincibleDeltaTime += gameTime.ElapsedGameTime.Milliseconds;
+
+                if (mInvincibleDeltaTime >= mInvincibleDelay)
+                {
+                    mInvincibleDeltaTime = 0;
+                    bInvincible = false;
+                }
+            }
             
             if (InputManager.Keyboard.IsKeyPressed(Keys.A) || InputManager.GamePad.IsButtonPressed(Buttons.LeftThumbstickLeft))
             {
@@ -367,6 +385,28 @@ namespace MyPolarBear.GameObjects
         public Projectile ShootProjectile(Vector2 direction)
         {
             return new Projectile(Position, 10.0f, direction, power);
+        }
+
+        //public static int GetHitPoints()
+        //{
+        //    return CurHitPoints;
+        //}
+
+        public static void TakeDamage(int amount, Entity source)
+        {
+            if (bInvincible)
+            {
+                return;
+            }
+
+            CurHitPoints -= amount;
+
+            if (amount > 0)
+            {
+                bInvincible = true;
+                mInvincibleDeltaTime = 0;
+                SoundManager.PlaySound("Ow");
+            }
         }
 
         public override void Draw(SpriteBatch spriteBatch)
