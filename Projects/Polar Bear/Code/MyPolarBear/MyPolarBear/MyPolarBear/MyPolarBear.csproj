@@ -127,6 +127,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\AfraidAI.cs" />
+    <Compile Include="AI\EvilAI.cs" />
+    <Compile Include="AI\FollowPlayerAI.cs" />
+    <Compile Include="AI\PlantingAI.cs" />
     <Compile Include="Audio\SoundManager.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Content\Animation.cs" />
@@ -200,6 +204,7 @@
     <None Include="MyPolarBear_TemporaryKey.pfx" />
     <None Include="Properties\app.manifest" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

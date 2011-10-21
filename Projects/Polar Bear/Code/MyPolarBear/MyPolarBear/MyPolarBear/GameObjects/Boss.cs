@@ -106,6 +106,7 @@ namespace MyPolarBear.GameObjects
             {
                 IsAlive = false;
                 SoundManager.PlaySound("BossDying");
+                UpdateKeeper.getInstance().removeEntity(this);
             }
 
             Health = (int)MathHelper.Clamp((float)Health, 0.0f, 100.0f);  

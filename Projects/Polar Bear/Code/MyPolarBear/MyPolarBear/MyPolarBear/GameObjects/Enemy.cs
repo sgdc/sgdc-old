@@ -7,6 +7,7 @@ using MyPolarBear.Content;
 using MyPolarBear.Pathfinding;
 using MyPolarBear.GameScreens;
 using MyPolarBear.Audio;
+using MyPolarBear.AI;
 
 namespace MyPolarBear.GameObjects
 {
@@ -21,14 +22,23 @@ namespace MyPolarBear.GameObjects
             Evil
         }
 
-        public State CurrentState;
+        private State mCurrentState;
+        public State CurrentState
+        {
+            get
+            {
+                return mCurrentState;
+            }
+            set
+            {
+                changeState(value);
+            }
+        }
 
         public bool IsAlive;
         Random random = new Random();
 
         private PolarBear followBear;
-        private PolarBear targetBear;
-        //public bool bFollowBear;
         private Vector2 mScale;
 
         public bool bHasSeenSeedGather;
@@ -37,27 +47,24 @@ namespace MyPolarBear.GameObjects
         public int stuckCounter;
         public int stuckTimer;
 
-        private List<Vector2> path;
-        //private List<Vector2> softGroundPath;
-        private bool bHasSeed;
-        private bool bHasPath;
-        private int pathPos;
-
-        private int attackCounter;
-        private int attackTimer;
-
-        private int fearTimer;
+        private FollowPlayerAI mFollowPlayerAI;
+        private AfraidAI mAfraidAI;
+        private PlantingAI mPlantingAI;
+        private EvilAI mEvilAI;
 
         public Enemy(Vector2 position)
             : base(position)
         {            
             IsAlive = true;            
             followBear = null;
-            targetBear = null;
-            //bFollowBear = false;
             Scale = 1;
             mScale = new Vector2(Scale, Scale);
             CurrentState = State.Aimless;
+
+            mFollowPlayerAI = new FollowPlayerAI(this, followBear);
+            mAfraidAI = new AfraidAI(this);
+            mPlantingAI = new PlantingAI(this);
+            mEvilAI = new EvilAI(this);
         }
 
         public override void LoadContent()
@@ -172,6 +179,38 @@ namespace MyPolarBear.GameObjects
             base.Update(gameTime);
         }
 
+        public void changeState(State newState)
+        {
+            if (mCurrentState == newState)
+            {
+                return;
+            }
+
+            mCurrentState = newState;
+
+            switch (newState)
+            {
+                case State.Aimless:
+                    stuckCounter = 0;
+                    break;
+                case State.Afraid:
+                    SoundManager.PlaySound("OnFire");
+                    break;
+                case State.Following:
+                    // nothing
+                    break;
+                case State.Planting:
+                    // nothing
+                    break;
+                case State.Evil:
+                    SoundManager.PlaySound("Roar");
+                    break;
+                default:
+                    // nothing
+                    break;
+            }
+        }
+
         private void beAimless(GameTime gameTime)
         {
             if (bHasSeenPlanting)
@@ -186,7 +225,7 @@ namespace MyPolarBear.GameObjects
             }
 
             stuckTimer += gameTime.ElapsedGameTime.Milliseconds;
-            if (stuckTimer / 1000 > 5)
+            if (stuckTimer > 5000)
             {
                 if (stuckCounter > 100)
                 {
@@ -197,536 +236,51 @@ namespace MyPolarBear.GameObjects
                 stuckTimer = 0;
             }
 
-
-            if ((Position.X > GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X > 0) || (Position.X < -GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X < 0))
-            {
-                Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
-            }
-
-            if ((Position.Y > GameScreens.GameScreen.WORLDHEIGHT / 2 && Velocity.Y > 0) || (Position.Y < -GameScreens.GameScreen.WORLDHEIGHT / 2 && Velocity.Y < 0))
-            {
-                Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
-            }
-
-            // collide with level elements
-            Rectangle travelRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
-
-            foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
-            {
-                if (travelRect.Intersects(element.CollisionRect) && !(element.Type.Equals("Ice")
-                    || element.Type.Equals("SoftGround") || element.Type.Equals("BabyPlant")))
-                {
-                    stuckCounter++;
-                    Velocity = ((Position - element.Position) / 20);
-                }
-            }
+            dealWithCollisions();
         }
 
         private void beAfraid(GameTime gameTime)
         {
-            if (fearTimer <= 0)
+            bool stillAfraid = mAfraidAI.DoAI(gameTime);
+
+            if (!stillAfraid)
             {
-                Velocity.Normalize();
-                //Velocity *= -4;
-                Velocity = new Vector2(random.Next(-4, 4), random.Next(-4, 4));
-                SoundManager.PlaySound("OnFire");
+                changeState(State.Aimless);
             }
 
-            fearTimer += gameTime.ElapsedGameTime.Milliseconds;
-
-            if (fearTimer > 2000)
-            {
-                fearTimer = 0;
-                CurrentState = State.Aimless;
-                dealWithCollisions();
-                return;
-            }
-
-            if (fearTimer % 10 == 0)
-            {
-                Velocity = new Vector2(random.Next(-4, 4), random.Next(-4, 4));
-            }            
             dealWithCollisions();
         }
 
         // follow player around and learn from his behavior
         private void beFollowing(GameTime gameTime)
         {
-            if (followBear == null)
+            bool stillFollowing = mFollowPlayerAI.DoAI(gameTime);
+            if (!stillFollowing)
             {
-                foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
-                {
-                    if (ent is PolarBear)
-                    {
-                        followBear = (PolarBear)ent;
-                        break;
-                    }
-                }
+                changeState(State.Aimless);
             }
-
-            //if (followBear != null)
-            //{
-            //    Vector2 direction = followBear.Position - Position;
-            //    if (Math.Abs(direction.Length()) > 50)
-            //    {
-            //        direction.Normalize();
-            //        Velocity = direction * 3.0f;
-            //    }
-            //    else
-            //    {
-            //        Velocity = Vector2.Zero;
-            //    }
-            //}
-
-            //dealWithCollisions();
-            beBoidLike();
+            //mFollowPlayerAI.DoAI(gameTime);
         }
 
         private void bePlanting(GameTime gameTime)
         {
-            if (bHasSeed)
+            bool stillPlanting = mPlantingAI.DoAI(gameTime);
+            if (!stillPlanting)
             {
-                Rectangle moveRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
-
-                foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-                {
-                    if (ele.Type.Equals("SoftGround") && (moveRect.Intersects(ele.CollisionRect)
-                        || CollisionBox.Intersects(ele.CollisionRect)))
-                    {
-                        ele.Type = "BabyPlant";
-                        ele.Tex = ContentManager.GetTexture("BabyPlant");
-                        AGrid.GetInstance().addResource(ele);
-                        GameScreen.CurWorldHealth++;
-                        SoundManager.PlaySound("PlantSeed");
-                        bHasSeed = false;
-                        bHasPath = false;
-                        path = null;
-                        Velocity *= -1;
-
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                Rectangle moveRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
-
-                foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-                {
-                    if (ele.Type.Equals("Bush") && (moveRect.Intersects(ele.CollisionRect)
-                        || CollisionBox.Intersects(ele.CollisionRect)))
-                    {
-                        bHasSeed = true;
-                        bHasPath = false;
-                        path = null;
-                        Velocity *= -1;
-                        SoundManager.PlaySound("PickSeed");
-                        return;
-                    }
-                }
-            }
-
-
-            if (!bHasSeed && !bHasPath)
-            {
-                path = AGrid.GetInstance().getPath(Position, ANode.SEED_SOURCE);
-                if (path == null)
-                {
-                    bHasSeed = false;
-                    bHasPath = false;
-                    pathPos = 0;
-                    CurrentState = State.Aimless;
-                    return;
-                }
-                bHasPath = true;
-                pathPos = 0;
-            }
-            else if (!bHasPath)
-            {
-                int currDistance = 0;
-                int bestDistance = 1000000;
-                LevelElement targetSoftGround = null;
-
-                // find closest soft ground spot
-                foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-                {
-                    if (ele.Type.Equals("SoftGround"))
-                    {
-                        currDistance = (int)(Math.Abs(ele.Position.X - Position.X) + Math.Abs(ele.Position.Y - Position.Y));
-                        if (currDistance < bestDistance)
-                        {
-                            bestDistance = currDistance;
-                            targetSoftGround = ele;
-                        }
-                    }
-                }
-
-                //path = AGrid.GetInstance().getPath(Position, ANode.PLANT_AREA);
-                if (targetSoftGround != null)
-                {
-                    path = AGrid.GetInstance().getPath(Position, targetSoftGround.Position);
-
-                    if (path == null)
-                    {
-                        //bHasSeed = false;
-                        bHasPath = false;
-                        pathPos = 0;
-                        CurrentState = State.Aimless;
-                        return;
-                    }
-
-                    bHasPath = true;
-                    pathPos = 0;
-                }
-            }
-
-            if (bHasPath && path != null && path.Count > 0)
-            {
-                if ((int)Position.X < (int)path[pathPos].X + 20 && (int)Position.X > (int)path[pathPos].X - 20
-                        && (int)Position.Y < (int)path[pathPos].Y + 20 && (int)Position.Y > (int)path[pathPos].Y - 20)
-                {
-                    pathPos++;
-                }
-
-                if (path.Count > pathPos)
-                {
-                    Vector2 dir = path[pathPos] - Position;
-                    dir.Normalize();
-                    Velocity = dir * 4;
-                }
-                else
-                {
-                    path = null;
-                    pathPos = 0;
-                    bHasPath = false;
-
-                    Rectangle biggerRect = new Rectangle(CollisionBox.X - CollisionBox.Width, CollisionBox.Y - CollisionBox.Height, CollisionBox.Width * 3, CollisionBox.Height * 3);
-
-                    if (bHasSeed)
-                    {
-                        //Rectangle biggerRect = new Rectangle(CollisionBox.X - CollisionBox.Width, CollisionBox.Y - CollisionBox.Height, CollisionBox.Width * 2, CollisionBox.Height * 2);
-
-                        foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-                        {
-                            if (ele.Type.Equals("SoftGround") && (ele.CollisionRect.Intersects(CollisionBox)
-                                || biggerRect.Intersects(ele.CollisionRect)))
-                            {
-                                ele.Type = "BabyPlant";
-                                ele.Tex = ContentManager.GetTexture("BabyPlant");
-                                AGrid.GetInstance().addResource(ele);
-                                //AGrid.GetInstance().mGrid[(int)((ele.Position.X + 2048) / 50), (int)((ele.Position.Y + 2048) / 50)].Type = ANode.NOT_SPECIAL;
-                                GameScreen.CurWorldHealth++;
-                                bHasSeed = false;
-                                SoundManager.PlaySound("PlantSeed");
-                                break;
-                            }
-                        }
-
-                        if (bHasSeed)
-                        {
-                            bHasPath = false;
-                            path = null;
-                            CurrentState = State.Aimless;
-                        }
-                    }
-                    else
-                    {
-                        foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-                        {
-                            if (ele.Type.Equals("Bush") && (ele.CollisionRect.Intersects(CollisionBox)
-                                || biggerRect.Intersects(ele.CollisionRect)))
-                            {
-                                bHasSeed = true;
-                                SoundManager.PlaySound("PickSeed");
-                                break;
-                            }
-                        }
-
-                        if (!bHasSeed)
-                        {
-                            bHasPath = false;
-                            path = null;
-                            CurrentState = State.Aimless;
-                        }
-                    }
-                }
-
-                //foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-                //{
-                //    if (!ele.Type.Equals("Bush") && !ele.Type.Equals("SoftGround") && CollisionBox.Intersects(ele.CollisionRect))
-                //    {
-                //        //int adjustmentX = ele.CollisionRect.Width - (CollisionBox.Center.X - ele.CollisionRect.Center.X);
-                //        //int adjustmentY = ele.CollisionRect.Height - (CollisionBox.Center.Y - ele.CollisionRect.Center.Y);
-
-                //        //Position += new Vector2(adjustmentX, adjustmentY);
-                //        //Position += new Vector2(10, 10);
-                //    }
-                //}
-            }
-            else
-            {
-                bHasPath = false;
-                //dealWithCollisions();
-            }
-
-            if ((Position.X > GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X > 0) || (Position.X < -GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X < 0))
-            {
-                Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
-            }
-
-            if ((Position.Y > GameScreens.GameScreen.WORLDHEIGHT / 2 && Velocity.Y > 0) || (Position.Y < -GameScreens.GameScreen.WORLDHEIGHT / 2 && Velocity.Y < 0))
-            {
-                Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
-            }
-
-            // collision stuff
-            if (bHasSeed)
-            {
-                Rectangle moveRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
-
-                foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-                {
-                    if (ele.Type.Equals("SoftGround") && (moveRect.Intersects(ele.CollisionRect)
-                        || CollisionBox.Intersects(ele.CollisionRect)))
-                    {
-                        ele.Type = "BabyPlant";
-                        ele.Tex = ContentManager.GetTexture("BabyPlant");
-                        GameScreen.CurWorldHealth++;
-                        AGrid.GetInstance().addResource(ele);
-                        SoundManager.PlaySound("PlantSeed");
-                        bHasSeed = false;
-                        bHasPath = false;
-                        path = null;
-                        //Velocity *= -1;
-                        Velocity = ((Position - ele.Position) / 20);
-
-                        return;
-                    }
-                }
-            }
-            else
-            {
-                Rectangle moveRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
-
-                foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-                {
-                    if (ele.Type.Equals("Bush") && (moveRect.Intersects(ele.CollisionRect)
-                        || CollisionBox.Intersects(ele.CollisionRect)))
-                    {
-                        bHasSeed = true;
-                        bHasPath = false;
-                        path = null;
-                        SoundManager.PlaySound("PlantSeed");
-                        //Velocity *= -1;
-                        Velocity = ((Position - ele.Position) / 20);
-
-                        return;
-                    }
-                }
-            }
-
-            Rectangle moverRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
-            foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-            {
-                if (moverRect.Intersects(ele.CollisionRect) && !(ele.Type.Equals("Ice")
-                    || ele.Type.Equals("SoftGround") || ele.Type.Equals("BabyPlant")))
-                {
-                    bHasPath = false;
-                    path = null;
-                    //Velocity *= -1;
-                    Velocity = ((Position - ele.Position) / 20);
-                    CurrentState = State.Aimless;
-
-                    return;
-                }
+                changeState(State.Aimless);
             }
         }
 
         private void beEvil(GameTime gameTime)
         {
-            if (targetBear == null)
+            bool stillEvil = mEvilAI.DoAI(gameTime);
+
+            if (!stillEvil)
             {
-                foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
-                {
-                    if (ent is PolarBear)
-                    {
-                        targetBear = (PolarBear)ent;
-                        break;
-                    }
-                }
-                path = null;
-                pathPos = 0;
+                changeState(State.Aimless);
             }
 
-            // polar bear not found for some reason
-            if (targetBear == null)
-            {
-                dealWithCollisions();
-                return;
-            }
-
-            // try straight line attack
-            Vector2 direction = targetBear.Position - Position;
-            if (direction.Length() <= 500)
-            {
-                direction.Normalize();
-                Velocity = direction * 3.0f;
-            }
-
-            Rectangle moveRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, 
-                CollisionBox.Width, CollisionBox.Height);
-
-            foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-            {
-                if (moveRect.Intersects(ele.CollisionRect) && !(ele.Type.Equals("Ice") || ele.Type.Equals("SoftGround")))
-                {
-                    attackLevelElement(ele, gameTime);
-                }
-            }
-
-            if (moveRect.Intersects(targetBear.CollisionBox))
-            {
-                if (targetBear.IsAlive)
-                {
-                    //PolarBear.CurHitPoints -= 1;
-                    PolarBear.TakeDamage(1, this);
-                    //SoundManager.PlaySound("Ow");
-                    Velocity = Vector2.Zero;
-                }
-            }
-
-            foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
-            {
-                if (moveRect.Intersects(ent.CollisionBox) && ent is Enemy && ((Enemy)ent).CurrentState != State.Evil
-                    && ((Enemy)ent).CurrentState != State.Afraid)
-                {
-                    ((Enemy)ent).CurrentState = State.Evil;
-                    SoundManager.PlaySound("Roar");
-                }
-            }
-
-            if (attackCounter == 0)
-            {
-                dealWithCollisions();
-            }
-            else
-            {
-                if ((Position.X > GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X > 0) || (Position.X < -GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X < 0))
-                {
-                    Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
-                }
-
-                if ((Position.Y > GameScreens.GameScreen.WORLDHEIGHT / 2 && Velocity.Y > 0) || (Position.Y < -GameScreens.GameScreen.WORLDHEIGHT / 2 && Velocity.Y < 0))
-                {
-                    Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
-                }
-            }
-        }
-
-        private void attackLevelElement(LevelElement ele, GameTime gameTime)
-        {
-            attackTimer += gameTime.ElapsedGameTime.Milliseconds;
-
-            if (attackTimer > 500)
-            {
-                attackCounter++;
-            }
-
-            if (attackCounter >= 3)
-            {
-                if (ele.Type.Equals("Tree") || ele.Type.Equals("Tree2"))
-                {
-                    ele.Type = "Stump";
-                    ele.Tex = ContentManager.GetTexture("Stump");
-                    GameScreen.CurWorldHealth--;
-                    SoundManager.PlaySound("Thump");
-                }
-                else if (ele.Type.Equals("Stump") || ele.Type.Equals("BabyPlant"))
-                {
-                    if (ele.Type.Equals("BabyPlant"))
-                    {
-                        GameScreen.CurWorldHealth--;
-                    }
-                    ele.Type = "SoftGround";
-                    ele.Tex = ContentManager.GetTexture("SoftGround");
-                    AGrid.GetInstance().addResource(ele);
-                    SoundManager.PlaySound("Thump");
-                }
-
-                attackCounter = 0;
-                attackTimer = 0;
-            }
-        }
-
-        private void beBoidLike()
-        {
-            Vector2 velocityFollow = new Vector2(0, 0);
-            Vector2 velocityMoveWith = new Vector2(0, 0);
-            Vector2 velocityAvoid = new Vector2(0, 0);
-            int followerCount = 0;
-            float dist = 0;
-
-            if (followBear != null)
-            {
-                velocityFollow = followBear.Position - Position;
-                dist = Math.Abs(velocityFollow.Length());
-
-                if (dist > 200)
-                {
-                    velocityFollow.Normalize();
-                    //Velocity = direction * 3.0f;
-                    velocityFollow *= 200;
-                }
-                else if (dist <= 60)
-                {
-                    //Velocity = Vector2.Zero;
-                    velocityFollow = Vector2.Zero;
-                }
-            }
-
-            foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
-            {
-                if (ent is Enemy && ent != this && ((Enemy)ent).CurrentState == State.Following)
-                {
-                    dist = Math.Abs((Position - ent.Position).Length());
-
-                    if (dist < 30)
-                    {
-                        velocityMoveWith += ((Enemy)ent).Velocity;
-                        followerCount++;
-                    }
-
-                    if (dist < 10)
-                    {
-                        velocityAvoid += Position - ((Enemy)ent).Position;
-                    }
-                }
-            }
-
-            foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
-            {
-                if (CollisionBox.Intersects(element.CollisionRect) && !(element.Type.Equals("Ice")
-                    || element.Type.Equals("SoftGround") || element.Type.Equals("BabyPlant")))
-                {
-                    velocityAvoid += Position - element.Position;
-                }
-            }
-
-            if (followerCount > 1)
-            {
-                velocityMoveWith = velocityMoveWith / followerCount;
-                //velocityMoveWith *= 0.1f;
-            }
-
-            dist = Math.Abs((Position - followBear.Position).Length());
-            if (followBear != null && dist < 30)
-            {
-                velocityAvoid += Position - followBear.Position;
-            }
-
-            Velocity = Velocity * 0.2f + velocityFollow * 0.02f + velocityMoveWith * 0.0f + velocityAvoid * 0.2f;
-            //Velocity.Normalize();
-            //Velocity *= 1.0f;
+            dealWithCollisions();
         }
 
         private void dealWithCollisions()
@@ -758,56 +312,16 @@ namespace MyPolarBear.GameObjects
                     || element.Type.Equals("SoftGround") || element.Type.Equals("BabyPlant")))
                 {
                     //Velocity *= -1;
+                    stuckCounter++;
                     Velocity = ((Position - element.Position) * 0.05f);
                 }
             }
         }
 
-        //private void considerLevelElements()
-        //{
-        //    // collide with level elements
-        //    Rectangle travelRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
-
-        //    foreach (LevelElement element in UpdateKeeper.getInstance().getLevelElements())
-        //    {
-        //        if (travelRect.Intersects(element.CollisionRect))
-        //        {
-        //            //Velocity = Vector2.Zero;
-        //            Velocity *= -1;
-
-        //            //if (element.Type.Equals("Bush"))
-        //            //{
-        //            //    NumSeeds++;
-        //            //}
-
-        //        }
-        //    }
-        //}
-
         public override void Draw(SpriteBatch spriteBatch)
         {
-            //spriteBatch.Draw(Texture, Position, null, Color, Rotation, Origin, Scale, SpriteEffects.None, 0f);
-            //int rectWidth = Texture.Width;
-            //int rectHeight = Texture.Height / 4;
-            //Rectangle sourceRect = new Rectangle(0, rectHeight * (aniFrame / 8), rectWidth, rectHeight);
-
-            //rectWidth *= 2;
-            //rectHeight *= 2;
-            //Rectangle destRect = new Rectangle((int)Position.X - rectWidth / 2, (int)Position.Y - rectHeight / 2, rectWidth, rectHeight);
-            //spriteBatch.Draw(Texture, destRect, sourceRect, Color.White);
-
-            //aniFrame++;
-            //if (aniFrame % 32 == 0)
-            //{
-            //    aniFrame = 0;
-            //}
-
             mScale.X = Scale;
             mScale.Y = Scale;
-
-            //spriteBatch.Draw(ContentManager.GetTexture("HardRock"), CollisionBox, Color.White);
-
-            
 
             mAnimator.Draw(spriteBatch, Position, mScale, Color.White, Rotation, Origin, 0);
 

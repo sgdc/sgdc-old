@@ -5,14 +5,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 using MyPolarBear.Content;
 using MyPolarBear.Audio;
+using MyPolarBear.AI;
 
 namespace MyPolarBear.GameObjects
 {
     class Animal : Entity
     {
-        private PolarBear followBear;
+        //private PolarBear followBear;
         public Random random = new Random();                
-        private Vector2 mScale;              
+        private Vector2 mScale;
+        private FollowPlayerAI mFollowPlayerAI;
 
         public enum Types
         {
@@ -41,12 +43,14 @@ namespace MyPolarBear.GameObjects
         public Animal(Vector2 position, Types type, Genders gender)
             : base(position)
         {                        
-            followBear = null;            
+            //followBear = null;            
             Type = type;
             Gender = gender;
             State = States.Idle;
             Scale = 1;
-            mScale = new Vector2(Scale, Scale);                
+            mScale = new Vector2(Scale, Scale);
+
+            mFollowPlayerAI = new FollowPlayerAI(this, null);
         }
 
 
@@ -167,33 +171,41 @@ namespace MyPolarBear.GameObjects
 
         public override void Update(GameTime gameTime)
         {
-            if (followBear == null)
-            {
-                foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
-                {
-                    if (ent is PolarBear)
-                    {
-                        followBear = (PolarBear)ent;
-                        break;
-                    }
-                }
-            }
+            //if (followBear == null)
+            //{
+            //    foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
+            //    {
+            //        if (ent is PolarBear)
+            //        {
+            //            followBear = (PolarBear)ent;
+            //            break;
+            //        }
+            //    }
+            //}
 
-            if (State != States.Paired)
+            //if (State != States.Paired)
+            //{
+            //    if (followBear != null && State == States.Following)
+            //    {
+            //        Vector2 direction = followBear.Position - Position;
+            //        if (Math.Abs(direction.Length()) > 40)
+            //        {
+            //            direction.Normalize();
+            //            Velocity = direction * 3.0f;
+            //        }
+            //        else
+            //            Velocity = Vector2.Zero;
+            //    }
+            //}
+            if (State == States.Following)
             {
-                if (followBear != null && State == States.Following)
+                if (!mFollowPlayerAI.DoAI(gameTime))
                 {
-                    Vector2 direction = followBear.Position - Position;
-                    if (Math.Abs(direction.Length()) > 40)
-                    {
-                        direction.Normalize();
-                        Velocity = direction * 3.0f;
-                    }
-                    else
-                        Velocity = Vector2.Zero;
+                    State = States.Idle;
+                    Velocity = Vector2.Zero;
                 }
             }
-            else
+            else if (State == States.Paired)
             {
                 Velocity = Vector2.Zero;
                 SelectAnimation();
@@ -231,11 +243,11 @@ namespace MyPolarBear.GameObjects
                 }
             }
 
-            if (!followBear.IsAlive)
-            {
-                State = States.Idle;
-                Velocity = Vector2.Zero;
-            }
+            //if (!followBear.IsAlive)
+            //{
+            //    State = States.Idle;
+            //    Velocity = Vector2.Zero;
+            //}
 
 
             Rectangle travelRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);

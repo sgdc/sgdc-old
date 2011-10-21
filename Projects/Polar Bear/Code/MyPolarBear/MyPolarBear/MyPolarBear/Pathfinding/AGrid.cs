@@ -44,9 +44,9 @@ namespace MyPolarBear.Pathfinding
                 node.Type = ANode.NOT_SPECIAL;
             }
 
-            int i;
-            int j;
-            int type;
+            //int i;
+            //int j;
+            //int type;
 
             foreach (LevelElement ele in level)
             {
@@ -415,8 +415,8 @@ namespace MyPolarBear.Pathfinding
             List<ANode> closedList = new List<ANode>();
             int startX;
             int startY;
-            int endX;
-            int endY;
+            //int endX;
+            //int endY;
             bool bFound = false;
             int start_i;
             int start_j;
