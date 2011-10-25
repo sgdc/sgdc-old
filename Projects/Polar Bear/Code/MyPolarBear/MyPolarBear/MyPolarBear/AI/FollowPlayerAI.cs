@@ -7,22 +7,24 @@ using MyPolarBear.GameObjects;
 
 namespace MyPolarBear.AI
 {
-    class FollowPlayerAI
+    class FollowPlayerAI : AIComponent
     {
         private Entity mFollower;
         private Entity mLeader;
 
         public FollowPlayerAI(Entity follower, Entity leader)
+            :base()
         {
             mFollower = follower;
             mLeader = leader;
         }
 
-        public bool DoAI(GameTime gameTime)
+        public override void DoAI(GameTime gameTime)
         {
             //beFollowing(gameTime);
 
             //return true;
+            CurrentState = State.Good;
 
             if (mLeader == null)
             {
@@ -38,12 +40,13 @@ namespace MyPolarBear.AI
 
             if (mLeader == null || !((PolarBear)mLeader).IsAlive)
             {
-                return false;
+                //return false;
+                CurrentState = State.Done;
             }
 
             beBoidLike();
 
-            return true;
+            //return true;
         }
 
         //private void beFollowing(GameTime gameTime)

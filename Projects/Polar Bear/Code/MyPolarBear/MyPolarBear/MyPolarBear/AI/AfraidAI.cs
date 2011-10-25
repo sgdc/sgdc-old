@@ -7,19 +7,22 @@ using MyPolarBear.Audio;
 
 namespace MyPolarBear.AI
 {
-    class AfraidAI
+    class AfraidAI : AIComponent
     {
         private Entity mEnt;
         private int fearTimer;
         private Random random = new Random();
 
         public AfraidAI(Entity ent)
+            :base()
         {
             mEnt = ent;
         }
 
-        public bool DoAI(GameTime gameTime)
+        public override void DoAI(GameTime gameTime)
         {
+            CurrentState = State.Good;
+
             if (fearTimer <= 0)
             {
                 mEnt.Velocity.Normalize();
@@ -31,7 +34,9 @@ namespace MyPolarBear.AI
             if (fearTimer > 2000)
             {
                 fearTimer = 0;
-                return false;
+                //return false;
+                CurrentState = State.Done;
+                return;
             }
 
             if (fearTimer % 10 == 0)
@@ -39,7 +44,8 @@ namespace MyPolarBear.AI
                 mEnt.Velocity = new Vector2(random.Next(-4, 4), random.Next(-4, 4));
             }
 
-            return true;
+            //return true;
+            //CurrentState = State.Good;
         }
 
     }

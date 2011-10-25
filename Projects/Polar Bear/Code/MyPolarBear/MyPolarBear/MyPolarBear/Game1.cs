@@ -149,6 +149,13 @@ namespace MyPolarBear
             ContentManager.AddTexture("Tree3", Content.Load<Texture2D>("LevelElements/tree3"));
             ContentManager.AddTexture("BabyPlant", Content.Load<Texture2D>("LevelElements/babyplant"));
 
+            // Commands
+            ContentManager.AddTexture("AttackCommand", Content.Load<Texture2D>("Commands/attackCommand"));
+            ContentManager.AddTexture("PlantCommand", Content.Load<Texture2D>("Commands/plantCommand"));
+            ContentManager.AddTexture("SeedCommand", Content.Load<Texture2D>("Commands/seedCommand"));
+            ContentManager.AddTexture("ListeningCommand", Content.Load<Texture2D>("Commands/listening"));
+            ContentManager.AddTexture("ProblemCommand", Content.Load<Texture2D>("Commands/problem"));
+
             // Fonts
             ContentManager.AddFont("Calibri", Content.Load<SpriteFont>("Fonts/Calibri"));
 

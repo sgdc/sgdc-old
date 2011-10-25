@@ -88,7 +88,8 @@ namespace MyPolarBear.GameObjects
                 else if (entity is PolarBear)
                 {
                     Vector2 distance = Position - entity.Position;
-                    if (Math.Abs(distance.Length()) < ScreenManager.SCREENWIDTH / 2 && ((PolarBear)entity).IsAlive)
+                    if ((Math.Abs(distance.Length()) < ScreenManager.SCREENWIDTH / 2 && ((PolarBear)entity).IsAlive)
+                        || onFireTimer < 2000)
                     {
                         Velocity = new Vector2(2, 2);
                         mAnimator.PlayAnimation("ForestBossAttack", false);
@@ -191,6 +192,11 @@ namespace MyPolarBear.GameObjects
                     //SoundManager.PlaySound("Ow");
                 }
             }
+        }
+
+        public override String GetTargetType()
+        {
+            return "Enemy";
         }
     }
 }

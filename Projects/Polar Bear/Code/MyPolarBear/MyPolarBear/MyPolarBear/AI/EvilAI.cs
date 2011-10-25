@@ -11,23 +11,24 @@ using MyPolarBear.Audio;
 
 namespace MyPolarBear.AI
 {
-    class EvilAI
+    class EvilAI : AIComponent
     {
         private Entity mEnt;
         private Entity mTargetBear;
-        //private List<Vector2> mPath;
-        //private int pathPos;
         private int attackCounter;
         private int attackTimer;
 
         public EvilAI(Entity ent)
+            :base()
         {
             mEnt = ent;
             mTargetBear = null;
         }
 
-        public bool DoAI(GameTime gameTime)
+        public override void DoAI(GameTime gameTime)
         {
+            CurrentState = State.Good;
+
             if (mTargetBear == null)
             {
                 foreach (Entity ent in UpdateKeeper.getInstance().getEntities())
@@ -46,7 +47,9 @@ namespace MyPolarBear.AI
             if (mTargetBear == null)
             {
                 //dealWithCollisions();
-                return true;
+                //return true;
+                //CurrentState = State.Good;
+                return;
             }
 
             // try straight line attack
@@ -106,7 +109,7 @@ namespace MyPolarBear.AI
                 }
             }
 
-            return true;
+            //return true;
         }
 
         private void attackLevelElement(LevelElement ele, GameTime gameTime)

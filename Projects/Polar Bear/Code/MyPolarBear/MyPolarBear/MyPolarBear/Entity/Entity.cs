@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using MyPolarBear.Content;
+using MyPolarBear.Interfaces;
 
 namespace MyPolarBear
 {
-    public class Entity
+    public class Entity : ITargetable, IDamageable
     {
         private Texture2D _texture;
         public Texture2D Texture
@@ -124,6 +125,26 @@ namespace MyPolarBear
         public void Translate(Vector2 amount)
         {
             Position += amount;
+        }
+
+        public virtual String GetTargetType()
+        {
+            return "Entity";
+        }
+
+        public Vector2 GetPosition()
+        {
+            return Position;
+        }
+
+        public Rectangle GetCollisionRect()
+        {
+            return CollisionBox;
+        }
+
+        public void TakeDamage(int amount, String damageType, Entity source)
+        {
+            // TODO:
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

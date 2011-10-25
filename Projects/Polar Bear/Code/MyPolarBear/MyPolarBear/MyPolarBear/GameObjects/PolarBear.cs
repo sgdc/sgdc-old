@@ -9,6 +9,8 @@ using MyPolarBear.Input;
 using MyPolarBear.Content;
 using MyPolarBear.Pathfinding;
 using MyPolarBear.Audio;
+using MyPolarBear.AI;
+using MyPolarBear.Interfaces;
 
 namespace MyPolarBear.GameObjects
 {
@@ -44,6 +46,8 @@ namespace MyPolarBear.GameObjects
         private static float mInvincibleDeltaTime;
         private static bool bInvincible;
 
+        private bool bGivingCommands;
+
 
         public PolarBear(Vector2 position)
             : base(position)
@@ -55,8 +59,10 @@ namespace MyPolarBear.GameObjects
             MaxHitPoints = 5;
             CurHitPoints = 5;
 
-            mInvincibleDelay = 1000.0f;
+            mInvincibleDelay = 500.0f;
             mInvincibleDeltaTime = 0;
+
+            bGivingCommands = false;
         }
 
         public override void LoadContent()
@@ -245,6 +251,33 @@ namespace MyPolarBear.GameObjects
                 InputManager.GamePad.StopVibration();
             }
 
+            if (InputManager.Keyboard.IsKeyReleased(Keys.C))
+            {
+                bGivingCommands = !bGivingCommands;
+
+                if (bGivingCommands)
+                {
+                    foreach (Entity ene in UpdateKeeper.getInstance().getEntities())
+                    {
+                        if (ene is Enemy && ((Enemy)ene).CurrentState == Enemy.State.Following)
+                        {
+                            ((Enemy)ene).ListenForCommands();
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (Entity ene in UpdateKeeper.getInstance().getEntities())
+                    {
+                        if (ene is Enemy && ((Enemy)ene).CurrentState == Enemy.State.Following)
+                        {
+                            ((Enemy)ene).StartCommands();
+                            SoundManager.PlaySound("OK");
+                        }
+                    }
+                }
+            }
+
             // collide with level elements
             Rectangle travelRect = new Rectangle(CollisionBox.X + (int)Velocity.X, CollisionBox.Y + (int)Velocity.Y, CollisionBox.Width, CollisionBox.Height);
 
@@ -271,7 +304,11 @@ namespace MyPolarBear.GameObjects
                             {
                                 if (ene is Enemy && ((Enemy)ene).CurrentState == Enemy.State.Following)
                                 {
-                                    ((Enemy)ene).bHasSeenSeedGather = true;
+                                    //((Enemy)ene).bHasSeenSeedGather = true;
+                                    if (bGivingCommands)
+                                    {
+                                        ((Enemy)ene).AddCommand(new GetSeedAI(ene, ((Enemy)ene).Pouch));
+                                    }
                                 }
                             }
                         }
@@ -291,11 +328,18 @@ namespace MyPolarBear.GameObjects
                             // teach follower
                             foreach (Entity ene in UpdateKeeper.getInstance().getEntities())
                             {
-                                if (ene is Enemy && ((Enemy)ene).CurrentState == Enemy.State.Following && ((Enemy)ene).bHasSeenSeedGather)
+                                if (ene is Enemy && ((Enemy)ene).CurrentState == Enemy.State.Following)// && ((Enemy)ene).bHasSeenSeedGather)
                                 {
-                                    ((Enemy)ene).bHasSeenPlanting = true;
-                                    ((Enemy)ene).CurrentState = Enemy.State.Planting;
-                                    SoundManager.PlaySound("OK");
+                                    //((Enemy)ene).bHasSeenPlanting = true;
+                                    //((Enemy)ene).CurrentState = Enemy.State.Planting;
+
+                                    if (bGivingCommands)
+                                    {
+                                        ((Enemy)ene).AddCommand(new PlantSeedAI(ene, ((Enemy)ene).Pouch));
+                                    }
+                                    //((Enemy)ene).CurrentState = Enemy.State.DoingCommands;
+
+                                    //SoundManager.PlaySound("OK");
                                 }
                             }
                         }
@@ -384,7 +428,7 @@ namespace MyPolarBear.GameObjects
 
         public Projectile ShootProjectile(Vector2 direction)
         {
-            return new Projectile(Position, 10.0f, direction, power);
+            return new Projectile(Position, 10.0f, direction, power, this);
         }
 
         //public static int GetHitPoints()
@@ -406,6 +450,41 @@ namespace MyPolarBear.GameObjects
                 bInvincible = true;
                 mInvincibleDeltaTime = 0;
                 SoundManager.PlaySound("Ow");
+            }
+        }
+
+        //public void HitLanded(Projectile attack, Entity hit)
+        //{
+        //    if (bGivingCommands && attack.Type == Power.Fire)
+        //    {
+        //        giveAttackCommand(hit.GetTargetType());
+        //    }
+        //}
+
+        //public void HitLanded(Projectile attack, LevelElement hit)
+        //{
+        //    if (bGivingCommands && attack.Type == Power.Fire)
+        //    {
+        //        giveAttackCommand(hit.GetTargetType());
+        //    }
+        //}
+
+        public void HitLanded(Projectile attack, ITargetable hit)
+        {
+            if (bGivingCommands && attack.Type == Power.Fire)
+            {
+                giveAttackCommand(hit.GetTargetType());
+            }
+        }
+
+        private void giveAttackCommand(String targetType)
+        {
+            foreach (Entity ene in UpdateKeeper.getInstance().getEntities())
+            {
+                if (ene is Enemy && ((Enemy)ene).CurrentState == Enemy.State.Following)
+                {
+                    ((Enemy)ene).AddCommand(new AttackAI(ene, targetType));
+                }
             }
         }
 

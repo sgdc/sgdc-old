@@ -169,6 +169,11 @@ namespace MyPolarBear.GameObjects
             }
         }
 
+        public override String GetTargetType()
+        {
+            return "Animal";
+        }
+
         public override void Update(GameTime gameTime)
         {
             //if (followBear == null)
@@ -199,7 +204,10 @@ namespace MyPolarBear.GameObjects
             //}
             if (State == States.Following)
             {
-                if (!mFollowPlayerAI.DoAI(gameTime))
+                mFollowPlayerAI.DoAI(gameTime);
+
+                //if (!mFollowPlayerAI.DoAI(gameTime))
+                if (mFollowPlayerAI.CurrentState != AIComponent.State.Good)
                 {
                     State = States.Idle;
                     Velocity = Vector2.Zero;

@@ -26,16 +26,19 @@ namespace MyPolarBear.GameObjects
         {
             get { return _isAlive; }
             set { _isAlive = value; }
-        }        
+        }
 
-        public Projectile(Vector2 position, float speed, Vector2 direction, PolarBear.Power type) 
+        public PolarBear Shooter;
+
+        public Projectile(Vector2 position, float speed, Vector2 direction, PolarBear.Power type, PolarBear shooter) 
             : base(position)
         {
             Position = position;
             Velocity = new Vector2(speed);
             Direction = Vector2.Normalize(direction);            
             Type = type;
-            IsAlive = true;            
+            IsAlive = true;
+            Shooter = shooter;
         }
 
         public override void LoadContent()
@@ -92,23 +95,35 @@ namespace MyPolarBear.GameObjects
                     if (!(element.Type.Equals("Grass") || element.Type.Equals("GrassBig") || element.Type.Equals("Ice")
                         || element.Type.Equals("SoftGround")))
                     {
-                        if (Type == PolarBear.Power.Fire && (element.Type.Equals("Stump") || element.Type.Equals("BabyPlant")))
+                        Shooter.HitLanded(this, element);
+
+                        //if (Type == PolarBear.Power.Fire && (element.Type.Equals("Stump") || element.Type.Equals("BabyPlant")))
+                        //{
+                        //    //UpdateKeeper.getInstance().removeLevelElement(element);
+                        //    //DrawKeeper.getInstance().removeLevelElement(element);
+                        //    if (element.Type.Equals("BabyPlant"))
+                        //    {
+                        //        GameScreen.CurWorldHealth--;
+                        //    }
+
+                        //    element.Type = "SoftGround";
+                        //    element.Tex = ContentManager.GetTexture("SoftGround");
+                        //    AGrid.GetInstance().addResource(element);
+                        //}
+                        //if (element.Type.Equals("Water") && Type == PolarBear.Power.Ice)
+                        //{
+                        //    element.Type = "Ice";
+                        //    element.Tex = ContentManager.GetTexture("Ice");
+                        //}
+                        if (Type == PolarBear.Power.Fire)
                         {
-                            //UpdateKeeper.getInstance().removeLevelElement(element);
-                            //DrawKeeper.getInstance().removeLevelElement(element);
-                            if (element.Type.Equals("BabyPlant"))
-                            {
-                                GameScreen.CurWorldHealth--;
-                            }
-                            element.Type = "SoftGround";
-                            element.Tex = ContentManager.GetTexture("SoftGround");
-                            AGrid.GetInstance().addResource(element);
+                            element.TakeDamage(1, "fire", this);
                         }
-                        if (element.Type.Equals("Water") && Type == PolarBear.Power.Ice)
+                        else if (Type == PolarBear.Power.Ice)
                         {
-                            element.Type = "Ice";
-                            element.Tex = ContentManager.GetTexture("Ice");
+                            element.TakeDamage(1, "ice", this);
                         }
+
                         SoundManager.PlaySound("Thump");
                         IsAlive = false;
                     }
@@ -130,19 +145,24 @@ namespace MyPolarBear.GameObjects
                 if (Type == PolarBear.Power.Normal && ((Enemy)entity).CurrentState != Enemy.State.Following
                     && ((Enemy)entity).CurrentState != Enemy.State.Evil && ((Enemy)entity).CurrentState != Enemy.State.Afraid)
                 {
+                    Shooter.HitLanded(this, entity);
                     ((Enemy)entity).CurrentState = Enemy.State.Following;
                     SoundManager.PlaySound("Yay");
                     IsAlive = false;
+                    //Shooter.HitLanded(this, entity);
                 }
                 else if (Type == PolarBear.Power.Fire && ((Enemy)entity).CurrentState == Enemy.State.Evil)// && (((Enemy)entity).CurrentState == Enemy.State.Evil)
                 {
+                    Shooter.HitLanded(this, entity);
                     ((Enemy)entity).CurrentState = Enemy.State.Afraid;
                     IsAlive = false;
+                    //Shooter.HitLanded(this, entity);
                 }
             }
             else if (entity is Boss && ((Boss)entity).IsAlive)
             {                     
                 IsAlive = false;
+                Shooter.HitLanded(this, entity);
             }            
         }
 

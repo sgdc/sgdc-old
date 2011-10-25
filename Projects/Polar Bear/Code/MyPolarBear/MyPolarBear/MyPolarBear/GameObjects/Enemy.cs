@@ -19,6 +19,7 @@ namespace MyPolarBear.GameObjects
             Afraid,
             Following,
             Planting,
+            DoingCommands,
             Evil
         }
 
@@ -41,8 +42,8 @@ namespace MyPolarBear.GameObjects
         private PolarBear followBear;
         private Vector2 mScale;
 
-        public bool bHasSeenSeedGather;
-        public bool bHasSeenPlanting;
+        //public bool bHasSeenSeedGather;
+        //public bool bHasSeenPlanting;
         public double retryTimer;
         public int stuckCounter;
         public int stuckTimer;
@@ -51,6 +52,18 @@ namespace MyPolarBear.GameObjects
         private AfraidAI mAfraidAI;
         private PlantingAI mPlantingAI;
         private EvilAI mEvilAI;
+
+        private GetSeedAI mGetSeedAI;
+        private PlantSeedAI mPlantSeedAI;
+        private bool bCurrGetSeed;
+
+        private List<AIComponent> mCommands;
+        private int mNumCommands;
+        private int mNextCommandIndex;
+        private AIComponent mCurrCommand;
+
+        public SeedPouch Pouch;
+        private bool bListening;
 
         public Enemy(Vector2 position)
             : base(position)
@@ -65,6 +78,22 @@ namespace MyPolarBear.GameObjects
             mAfraidAI = new AfraidAI(this);
             mPlantingAI = new PlantingAI(this);
             mEvilAI = new EvilAI(this);
+
+            SeedPouch pouch = new SeedPouch(1);
+            mGetSeedAI = new GetSeedAI(this, pouch);
+            mPlantSeedAI = new PlantSeedAI(this, pouch);
+            bCurrGetSeed = true;
+
+            mCommands = new List<AIComponent>();
+            mNumCommands = 0;
+            mNextCommandIndex = 0;
+            mCurrCommand = null;
+
+            AddCommand(mGetSeedAI);
+            AddCommand(mPlantSeedAI);
+
+            Pouch = new SeedPouch(2);
+            bListening = false;
         }
 
         public override void LoadContent()
@@ -118,15 +147,28 @@ namespace MyPolarBear.GameObjects
                     break;
                 case State.Planting:
                     bePlanting(gameTime);
+                    //doCommands(gameTime);
                     break;
                 case State.Evil:
                     beEvil(gameTime);
+                    break;
+                case State.DoingCommands:
+                    doCommands(gameTime);
                     break;
                 default:
                     beAimless(gameTime);
                     break;
             }
 
+            PlayAppropriateAnimation();
+
+            Position += Velocity;
+
+            base.Update(gameTime);
+        }
+
+        public void PlayAppropriateAnimation()
+        {
             if (Velocity.X > 0 && Velocity.X > Velocity.Y && Velocity.X > Velocity.Y * -1)
             {
                 if (CurrentState == State.Evil)
@@ -171,12 +213,6 @@ namespace MyPolarBear.GameObjects
                     mAnimator.PlayAnimation("walkBack", false);
                 }
             }
-
-            //dealWithCollisions();
-
-            Position += Velocity;
-
-            base.Update(gameTime);
         }
 
         public void changeState(State newState)
@@ -186,6 +222,7 @@ namespace MyPolarBear.GameObjects
                 return;
             }
 
+            bListening = false;
             mCurrentState = newState;
 
             switch (newState)
@@ -197,13 +234,17 @@ namespace MyPolarBear.GameObjects
                     SoundManager.PlaySound("OnFire");
                     break;
                 case State.Following:
-                    // nothing
+                    ClearCommands();
                     break;
                 case State.Planting:
                     // nothing
                     break;
                 case State.Evil:
                     SoundManager.PlaySound("Roar");
+                    ClearCommands();
+                    break;
+                case State.DoingCommands:
+                    // nothing
                     break;
                 default:
                     // nothing
@@ -211,39 +252,75 @@ namespace MyPolarBear.GameObjects
             }
         }
 
-        private void beAimless(GameTime gameTime)
+        private void checkStuck(GameTime gameTime)
         {
-            if (bHasSeenPlanting)
+            stuckTimer += gameTime.ElapsedGameTime.Milliseconds;
+
+            int stuckThresholdTime = 1000;
+            int stuckThresholdHits = 20;
+            if (CurrentState == State.Aimless)
             {
-                retryTimer += gameTime.ElapsedGameTime.Milliseconds;                
-                if (retryTimer / 1000 > 5)
-                {
-                    CurrentState = State.Planting;                    
-                    retryTimer = 0;
-                    return;
-                }                
+                stuckThresholdTime *= 3;
+                stuckThresholdHits *= 3;
             }
 
-            stuckTimer += gameTime.ElapsedGameTime.Milliseconds;
-            if (stuckTimer > 5000)
+            if (stuckTimer > stuckThresholdTime)
             {
-                if (stuckCounter > 100)
+                if (stuckCounter > stuckThresholdHits)
                 {
-                    Position = new Vector2(350, 350);
+                    if (CurrentState == State.Aimless)
+                    {
+                        Position = new Vector2(350, 350);
+                    }
+                    else
+                    {
+                        changeState(State.Aimless);
+                    }
                 }
 
                 stuckCounter = 0;
                 stuckTimer = 0;
             }
+        }
+
+        private void beAimless(GameTime gameTime)
+        {
+            //if (bHasSeenPlanting)
+            if (mNumCommands > 0 && !bListening)
+            {
+                retryTimer += gameTime.ElapsedGameTime.Milliseconds;                
+                if (retryTimer / 1000 > 5)
+                {
+                    //CurrentState = State.Planting;
+                    changeState(State.DoingCommands);
+                    retryTimer = 0;
+                    return;
+                }                
+            }
+
+            //stuckTimer += gameTime.ElapsedGameTime.Milliseconds;
+            //if (stuckTimer > 5000)
+            //{
+            //    if (stuckCounter > 100)
+            //    {
+            //        Position = new Vector2(350, 350);
+            //    }
+
+            //    stuckCounter = 0;
+            //    stuckTimer = 0;
+            //}
+            checkStuck(gameTime);
 
             dealWithCollisions();
         }
 
         private void beAfraid(GameTime gameTime)
         {
-            bool stillAfraid = mAfraidAI.DoAI(gameTime);
+            //bool stillAfraid = mAfraidAI.DoAI(gameTime);
+            mAfraidAI.DoAI(gameTime);
 
-            if (!stillAfraid)
+            //if (!stillAfraid)
+            if (mAfraidAI.CurrentState != AIComponent.State.Good)
             {
                 changeState(State.Aimless);
             }
@@ -254,8 +331,10 @@ namespace MyPolarBear.GameObjects
         // follow player around and learn from his behavior
         private void beFollowing(GameTime gameTime)
         {
-            bool stillFollowing = mFollowPlayerAI.DoAI(gameTime);
-            if (!stillFollowing)
+            //bool stillFollowing = mFollowPlayerAI.DoAI(gameTime);
+            mFollowPlayerAI.DoAI(gameTime);
+            //if (!stillFollowing)
+            if (mFollowPlayerAI.CurrentState != AIComponent.State.Good)
             {
                 changeState(State.Aimless);
             }
@@ -264,18 +343,50 @@ namespace MyPolarBear.GameObjects
 
         private void bePlanting(GameTime gameTime)
         {
-            bool stillPlanting = mPlantingAI.DoAI(gameTime);
-            if (!stillPlanting)
+            //mPlantingAI.DoAI(gameTime);
+
+            //if (mPlantingAI.CurrentState != AIComponent.State.Good)
+            //{
+            //    changeState(State.Aimless);
+            //}
+
+            if (bCurrGetSeed)
             {
-                changeState(State.Aimless);
+                mGetSeedAI.DoAI(gameTime);
+
+                if (mGetSeedAI.CurrentState == AIComponent.State.Done)
+                {
+                    bCurrGetSeed = false;
+                }
+                else if (mGetSeedAI.CurrentState == AIComponent.State.Problem)
+                {
+                    changeState(State.Aimless);
+                }
             }
+            else
+            {
+                mPlantSeedAI.DoAI(gameTime);
+
+                if (mPlantSeedAI.CurrentState == AIComponent.State.Done)
+                {
+                    bCurrGetSeed = true;
+                }
+                else if (mPlantSeedAI.CurrentState == AIComponent.State.Problem)
+                {
+                    changeState(State.Aimless);
+                }
+            }
+
+            dealWithCollisions();
         }
 
         private void beEvil(GameTime gameTime)
         {
-            bool stillEvil = mEvilAI.DoAI(gameTime);
+            //bool stillEvil = mEvilAI.DoAI(gameTime);
+            mEvilAI.DoAI(gameTime);
 
-            if (!stillEvil)
+            //if (!stillEvil)
+            if (mEvilAI.CurrentState != AIComponent.State.Good)
             {
                 changeState(State.Aimless);
             }
@@ -285,14 +396,18 @@ namespace MyPolarBear.GameObjects
 
         private void dealWithCollisions()
         {
+            bool wasCollision = false;
+
             if ((Position.X > GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X > 0) || (Position.X < -GameScreens.GameScreen.WORLDWIDTH / 2 && Velocity.X < 0))
             {
                 Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+                wasCollision = true;
             }
 
             if ((Position.Y > GameScreens.GameScreen.WORLDHEIGHT / 2 && Velocity.Y > 0) || (Position.Y < -GameScreens.GameScreen.WORLDHEIGHT / 2 && Velocity.Y < 0))
             {
                 Velocity = new Vector2(Velocity.X, Velocity.Y * -1);
+                wasCollision = true;
             }
 
             // collide with level elements
@@ -300,9 +415,10 @@ namespace MyPolarBear.GameObjects
 
             foreach (Entity entity in UpdateKeeper.getInstance().getEntities())
             {
-                if (entity != this && entity != followBear && travelRect.Intersects(entity.CollisionBox))
+                if (!(entity is Enemy) && entity != this && entity != followBear && travelRect.Intersects(entity.CollisionBox))
                 {
                     Velocity = ((Position - entity.Position) * 0.05f);
+                    wasCollision = true;
                 }
             }
 
@@ -314,7 +430,84 @@ namespace MyPolarBear.GameObjects
                     //Velocity *= -1;
                     stuckCounter++;
                     Velocity = ((Position - element.Position) * 0.05f);
+                    wasCollision = true;
                 }
+            }
+
+            if (wasCollision && CurrentState == State.Planting)// || CurrentState == State.DoingCommands)
+            {
+                changeState(State.Aimless);
+            }
+        }
+
+        //public void AddCommand(String command)
+        public void AddCommand(AIComponent command)
+        {
+            if (bListening)
+            {
+                mCommands.Add(command);
+                mNumCommands++;
+            }
+        }
+
+        public void ListenForCommands()
+        {
+            bListening = true;
+            ClearCommands();
+        }
+
+        public void StartCommands()
+        {
+            bListening = false;
+            changeState(State.DoingCommands);
+        }
+
+        public void ClearCommands()
+        {
+            mCommands.Clear();
+            mNumCommands = 0;
+            mNextCommandIndex = 0;
+            mCurrCommand = null;
+        }
+
+        private void doCommands(GameTime gameTime)
+        {
+            if (mNumCommands <= 0)
+            {
+                changeState(State.Aimless);
+                return;
+            }
+
+            if (mCurrCommand == null || mCurrCommand.CurrentState == AIComponent.State.Done)
+            {
+                if (mNextCommandIndex >= mNumCommands)
+                {
+                    mNextCommandIndex = 0;
+                }
+                mCurrCommand = mCommands[mNextCommandIndex];
+                mNextCommandIndex++;
+            }
+
+            mCurrCommand.DoAI(gameTime);
+
+            if (mCurrCommand.CurrentState == AIComponent.State.Problem)
+            {
+                changeState(State.Aimless);
+            }
+
+            checkStuck(gameTime);
+            dealWithCollisions();
+        }
+
+        public override String GetTargetType()
+        {
+            if (CurrentState == State.Evil)
+            {
+                return "Enemy";
+            }
+            else
+            {
+                return "Bear";
             }
         }
 
@@ -328,6 +521,33 @@ namespace MyPolarBear.GameObjects
             if (CurrentState == State.Afraid)
             {
                 spriteBatch.Draw(ContentManager.GetTexture("FireAttack"), Position, Color.White);
+            }
+
+            if (mNumCommands >= 1 && bListening)
+            {
+                //mCommands[0].Draw(spriteBatch, Position);
+                drawCommands(spriteBatch);
+            }
+
+            if (!bListening && mCurrCommand != null)
+            {
+                mCurrCommand.Draw(spriteBatch, new Vector2(Position.X, Position.Y - 20));
+            }
+        }
+
+        private void drawCommands(SpriteBatch spriteBatch)
+        {
+            Vector2 drawPos = Position;
+            int commandWidth = 20;
+            int commandHeight = 20;
+            drawPos.X -= commandWidth * (mNumCommands * 0.5f);
+            //drawPos.Y -= commandHeight * (mNumCommands * 0.5f);
+            drawPos.Y -= commandHeight;
+
+            for (int i = 0; i < mNumCommands; i++)
+            {
+                mCommands[i].Draw(spriteBatch, drawPos);
+                drawPos.X += commandWidth;
             }
         }
     }

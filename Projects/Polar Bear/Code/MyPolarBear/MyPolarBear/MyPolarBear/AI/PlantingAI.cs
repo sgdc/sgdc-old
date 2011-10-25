@@ -10,7 +10,7 @@ using MyPolarBear.Audio;
 
 namespace MyPolarBear.AI
 {
-    class PlantingAI
+    class PlantingAI : AIComponent
     {
         private Entity mPlanter;
         private List<Vector2> path;
@@ -19,12 +19,15 @@ namespace MyPolarBear.AI
         private int pathPos;
 
         public PlantingAI(Entity planter)
+            :base()
         {
             mPlanter = planter;
         }
 
-        public bool DoAI(GameTime gameTime)
+        public override void DoAI(GameTime gameTime)
         {
+            CurrentState = State.Good;
+
             if (bHasSeed)
             {
                 Rectangle moveRect = new Rectangle(mPlanter.CollisionBox.X + (int)mPlanter.Velocity.X, mPlanter.CollisionBox.Y + (int)mPlanter.Velocity.Y, mPlanter.CollisionBox.Width, mPlanter.CollisionBox.Height);
@@ -44,7 +47,8 @@ namespace MyPolarBear.AI
                         path = null;
                         mPlanter.Velocity *= -1;
 
-                        return true;
+                        //return true;
+                        return;
                     }
                 }
             }
@@ -62,7 +66,8 @@ namespace MyPolarBear.AI
                         path = null;
                         mPlanter.Velocity *= -1;
                         SoundManager.PlaySound("PickSeed");
-                        return true;
+                        //return true;
+                        return;
                     }
                 }
             }
@@ -77,7 +82,9 @@ namespace MyPolarBear.AI
                     bHasPath = false;
                     pathPos = 0;
                     //CurrentState = State.Aimless;
-                    return false;
+                    //return false;
+                    CurrentState = State.Problem;
+                    return;
                 }
                 bHasPath = true;
                 pathPos = 0;
@@ -113,7 +120,9 @@ namespace MyPolarBear.AI
                         bHasPath = false;
                         pathPos = 0;
                         //CurrentState = State.Aimless;
-                        return false;
+                        //return false;
+                        CurrentState = State.Problem;
+                        return;
                     }
 
                     bHasPath = true;
@@ -170,7 +179,9 @@ namespace MyPolarBear.AI
                             //CurrentState = State.Aimless;
 
                             //////////////
-                            return false;
+                            //return false;
+                            CurrentState = State.Problem;
+                            return;
                         }
                     }
                     else
@@ -193,27 +204,16 @@ namespace MyPolarBear.AI
                             //CurrentState = State.Aimless;
 
                             ////////////////
-                            return false;
+                            //return false;
+                            CurrentState = State.Problem;
+                            return;
                         }
                     }
                 }
-
-                //foreach (LevelElement ele in UpdateKeeper.getInstance().getLevelElements())
-                //{
-                //    if (!ele.Type.Equals("Bush") && !ele.Type.Equals("SoftGround") && CollisionBox.Intersects(ele.CollisionRect))
-                //    {
-                //        //int adjustmentX = ele.CollisionRect.Width - (CollisionBox.Center.X - ele.CollisionRect.Center.X);
-                //        //int adjustmentY = ele.CollisionRect.Height - (CollisionBox.Center.Y - ele.CollisionRect.Center.Y);
-
-                //        //Position += new Vector2(adjustmentX, adjustmentY);
-                //        //Position += new Vector2(10, 10);
-                //    }
-                //}
             }
             else
             {
                 bHasPath = false;
-                //dealWithCollisions();
             }
 
             if ((mPlanter.Position.X > GameScreens.GameScreen.WORLDWIDTH / 2 && mPlanter.Velocity.X > 0) || (mPlanter.Position.X < -GameScreens.GameScreen.WORLDWIDTH / 2 && mPlanter.Velocity.X < 0))
@@ -247,7 +247,8 @@ namespace MyPolarBear.AI
                         //Velocity *= -1;
                         mPlanter.Velocity = ((mPlanter.Position - ele.Position) / 20);
 
-                        return true;
+                        //return true;
+                        return;
                     }
                 }
             }
@@ -267,7 +268,8 @@ namespace MyPolarBear.AI
                         //Velocity *= -1;
                         mPlanter.Velocity = ((mPlanter.Position - ele.Position) / 20);
 
-                        return true;
+                        //return true;
+                        return;
                     }
                 }
             }
@@ -284,11 +286,13 @@ namespace MyPolarBear.AI
                     mPlanter.Velocity = ((mPlanter.Position - ele.Position) / 20);
                     //CurrentState = State.Aimless;
 
-                    return false;
+                    //return false;
+                    CurrentState = State.Problem;
+                    return;
                 }
             }
 
-            return true;
+            //return true;
         }
     }
 }
