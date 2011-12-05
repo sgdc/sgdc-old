@@ -450,16 +450,29 @@ namespace MyPolarBear.GameObjects
             }
         }
 
-        public void ListenForCommands()
+        public void Command()
+        {
+            if (bListening)
+            {
+                StartCommands();
+            }
+            else
+            {
+                ListenForCommands();
+            }
+        }
+
+        private void ListenForCommands()
         {
             bListening = true;
             ClearCommands();
         }
 
-        public void StartCommands()
+        private void StartCommands()
         {
             bListening = false;
             changeState(State.DoingCommands);
+            SoundManager.PlaySound("OK");
         }
 
         public void ClearCommands()
@@ -523,31 +536,43 @@ namespace MyPolarBear.GameObjects
                 spriteBatch.Draw(ContentManager.GetTexture("FireAttack"), Position, Color.White);
             }
 
-            if (mNumCommands >= 1 && bListening)
-            {
+            //if (mNumCommands >= 1 && bListening)
+            //{
                 //mCommands[0].Draw(spriteBatch, Position);
                 drawCommands(spriteBatch);
-            }
+            //}
 
-            if (!bListening && mCurrCommand != null)
-            {
-                mCurrCommand.Draw(spriteBatch, new Vector2(Position.X, Position.Y - 20));
-            }
+            //if (!bListening && mCurrCommand != null)
+            //{
+            //    mCurrCommand.Draw(spriteBatch, new Vector2(Position.X, Position.Y - 20));
+            //}
         }
 
         private void drawCommands(SpriteBatch spriteBatch)
         {
-            Vector2 drawPos = Position;
-            int commandWidth = 20;
-            int commandHeight = 20;
-            drawPos.X -= commandWidth * (mNumCommands * 0.5f);
-            //drawPos.Y -= commandHeight * (mNumCommands * 0.5f);
-            drawPos.Y -= commandHeight;
-
-            for (int i = 0; i < mNumCommands; i++)
+            if (bListening)
             {
-                mCommands[i].Draw(spriteBatch, drawPos);
-                drawPos.X += commandWidth;
+                Vector2 drawPos = Position;
+                int commandWidth = 20;
+                int commandHeight = 20;
+                drawPos.X -= commandWidth * (mNumCommands * 0.5f);
+                //drawPos.Y -= commandHeight * (mNumCommands * 0.5f);
+                drawPos.Y -= commandHeight;
+
+                for (int i = 0; i < mNumCommands; i++)
+                {
+                    mCommands[i].Draw(spriteBatch, drawPos);
+                    drawPos.X += commandWidth;
+                }
+
+                //if (bListening)
+                //{
+                    spriteBatch.Draw(ContentManager.GetTexture("ListeningCommand"), new Rectangle((int)drawPos.X, (int)drawPos.Y, 20, 20), Color.White);
+                //}
+            }
+            else if (mCurrCommand != null)
+            {
+                mCurrCommand.Draw(spriteBatch, new Vector2(Position.X, Position.Y - 20));
             }
         }
     }

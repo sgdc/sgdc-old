@@ -46,7 +46,7 @@ namespace MyPolarBear.GameObjects
         private static float mInvincibleDeltaTime;
         private static bool bInvincible;
 
-        private bool bGivingCommands;
+        //private bool bGivingCommands;
 
 
         public PolarBear(Vector2 position)
@@ -62,7 +62,7 @@ namespace MyPolarBear.GameObjects
             mInvincibleDelay = 500.0f;
             mInvincibleDeltaTime = 0;
 
-            bGivingCommands = false;
+            //bGivingCommands = false;
         }
 
         public override void LoadContent()
@@ -253,29 +253,31 @@ namespace MyPolarBear.GameObjects
 
             if (InputManager.Keyboard.IsKeyReleased(Keys.C))
             {
-                bGivingCommands = !bGivingCommands;
+                //bGivingCommands = !bGivingCommands;
 
-                if (bGivingCommands)
-                {
+                //if (bGivingCommands)
+                //{
                     foreach (Entity ene in UpdateKeeper.getInstance().getEntities())
                     {
                         if (ene is Enemy && ((Enemy)ene).CurrentState == Enemy.State.Following)
                         {
-                            ((Enemy)ene).ListenForCommands();
+                            //((Enemy)ene).ListenForCommands();
+                            ((Enemy)ene).Command();
                         }
                     }
-                }
-                else
-                {
-                    foreach (Entity ene in UpdateKeeper.getInstance().getEntities())
-                    {
-                        if (ene is Enemy && ((Enemy)ene).CurrentState == Enemy.State.Following)
-                        {
-                            ((Enemy)ene).StartCommands();
-                            SoundManager.PlaySound("OK");
-                        }
-                    }
-                }
+                //}
+                //else
+                //{
+                //    foreach (Entity ene in UpdateKeeper.getInstance().getEntities())
+                //    {
+                //        if (ene is Enemy && ((Enemy)ene).CurrentState == Enemy.State.Following)
+                //        {
+                //            //((Enemy)ene).StartCommands();
+                //            //SoundManager.PlaySound("OK");
+                //            ((Enemy)ene).Command();
+                //        }
+                //    }
+                //}
             }
 
             // collide with level elements
@@ -305,10 +307,10 @@ namespace MyPolarBear.GameObjects
                                 if (ene is Enemy && ((Enemy)ene).CurrentState == Enemy.State.Following)
                                 {
                                     //((Enemy)ene).bHasSeenSeedGather = true;
-                                    if (bGivingCommands)
-                                    {
+                                    //if (bGivingCommands)
+                                    //{
                                         ((Enemy)ene).AddCommand(new GetSeedAI(ene, ((Enemy)ene).Pouch));
-                                    }
+                                    //}
                                 }
                             }
                         }
@@ -333,10 +335,10 @@ namespace MyPolarBear.GameObjects
                                     //((Enemy)ene).bHasSeenPlanting = true;
                                     //((Enemy)ene).CurrentState = Enemy.State.Planting;
 
-                                    if (bGivingCommands)
-                                    {
+                                    //if (bGivingCommands)
+                                    //{
                                         ((Enemy)ene).AddCommand(new PlantSeedAI(ene, ((Enemy)ene).Pouch));
-                                    }
+                                    //}
                                     //((Enemy)ene).CurrentState = Enemy.State.DoingCommands;
 
                                     //SoundManager.PlaySound("OK");
@@ -471,7 +473,8 @@ namespace MyPolarBear.GameObjects
 
         public void HitLanded(Projectile attack, ITargetable hit)
         {
-            if (bGivingCommands && attack.Type == Power.Fire)
+            //if (bGivingCommands && attack.Type == Power.Fire)
+            if (attack.Type == Power.Fire)
             {
                 giveAttackCommand(hit.GetTargetType());
             }
