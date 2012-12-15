@@ -1,0 +1,174 @@
+
+# /Projects/
+/Projects/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Demos/
+/Projects/Demos/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Demos/TestDemo/
+/Projects/Demos/TestDemo/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Demos/TestDemo/TestDemo/
+/Projects/Demos/TestDemo/TestDemo/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Demos/TestDemo/TestDemo/TestDemo/
+/Projects/Demos/TestDemo/TestDemo/TestDemo/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Demos/TestDemo/TestDemo/TestDemo/Entities/
+/Projects/Demos/TestDemo/TestDemo/TestDemo/Entities/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Demos/TestDemo/TestDemo/TestDemo/Game/
+/Projects/Demos/TestDemo/TestDemo/TestDemo/Game/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Demos/TestDemo/TestDemo/TestDemo/Properties/
+/Projects/Demos/TestDemo/TestDemo/TestDemo/Properties/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Demos/TestDemo/TestDemo/TestDemo/Resources/
+/Projects/Demos/TestDemo/TestDemo/TestDemo/Resources/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Demos/TestDemo/TestDemo/TestDemoContent/
+/Projects/Demos/TestDemo/TestDemo/TestDemoContent/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Polar Bear/
+/Projects/Polar Bear/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Polar Bear/Assets/
+/Projects/Polar Bear/Assets/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Polar Bear/Code/
+/Projects/Polar Bear/Code/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Polar Bear/Concept Art/
+/Projects/Polar Bear/Concept Art/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Polar Bear/Documentation/
+/Projects/Polar Bear/Documentation/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Polar Bear/Notes/
+/Projects/Polar Bear/Notes/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Randall and Tyrus/
+/Projects/Randall and Tyrus/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Randall and Tyrus/Assets/
+/Projects/Randall and Tyrus/Assets/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Randall and Tyrus/Code/
+/Projects/Randall and Tyrus/Code/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Randall and Tyrus/Concept Art/
+/Projects/Randall and Tyrus/Concept Art/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Randall and Tyrus/Documentation/
+/Projects/Randall and Tyrus/Documentation/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Randall and Tyrus/Notes/
+/Projects/Randall and Tyrus/Notes/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/
+/Projects/SGDe/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/
+/Projects/SGDe/Code/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/
+/Projects/SGDe/Code/SGDe/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDe/
+/Projects/SGDe/Code/SGDe/SGDe/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDe/Audio/
+/Projects/SGDe/Code/SGDe/SGDe/Audio/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDe/Content/
+/Projects/SGDe/Code/SGDe/SGDe/Content/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDe/Content/Code/
+/Projects/SGDe/Code/SGDe/SGDe/Content/Code/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDe/Content/DataTypes/
+/Projects/SGDe/Code/SGDe/SGDe/Content/DataTypes/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDe/Content/Readers/
+/Projects/SGDe/Code/SGDe/SGDe/Content/Readers/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDe/Graphics/
+/Projects/SGDe/Code/SGDe/SGDe/Graphics/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDe/Input/
+/Projects/SGDe/Code/SGDe/SGDe/Input/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDe/Physics/
+/Projects/SGDe/Code/SGDe/SGDe/Physics/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDe/Physics/Collision/
+/Projects/SGDe/Code/SGDe/SGDe/Physics/Collision/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDe/Properties/
+/Projects/SGDe/Code/SGDe/SGDe/Properties/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDeContent/
+/Projects/SGDe/Code/SGDe/SGDeContent/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDeContent/DataTypes/
+/Projects/SGDe/Code/SGDe/SGDeContent/DataTypes/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDeContent/DataTypes/Code/
+/Projects/SGDe/Code/SGDe/SGDeContent/DataTypes/Code/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDeContent/Processors/
+/Projects/SGDe/Code/SGDe/SGDeContent/Processors/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDeContent/Processors/Code/
+/Projects/SGDe/Code/SGDe/SGDeContent/Processors/Code/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDeContent/Properties/
+/Projects/SGDe/Code/SGDe/SGDeContent/Properties/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/SGDe/SGDeContent/Writers/
+/Projects/SGDe/Code/SGDe/SGDeContent/Writers/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/Tools/
+/Projects/SGDe/Code/Tools/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/Tools/ContentDebugger/
+/Projects/SGDe/Code/Tools/ContentDebugger/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/Tools/ContentDebugger/Properties/
+/Projects/SGDe/Code/Tools/ContentDebugger/Properties/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/Tools/ContentDebugger/Targets/
+/Projects/SGDe/Code/Tools/ContentDebugger/Targets/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/Tools/SGDeB/
+/Projects/SGDe/Code/Tools/SGDeB/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/Tools/SGDeB/SGDeB/
+/Projects/SGDe/Code/Tools/SGDeB/SGDeB/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Code/Tools/SGDeB/SGDeB/Properties/
+/Projects/SGDe/Code/Tools/SGDeB/SGDeB/Properties/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/SGDe/Documentation/
+/Projects/SGDe/Documentation/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/UN Quests/
+/Projects/UN Quests/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/UN Quests/Assets/
+/Projects/UN Quests/Assets/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/UN Quests/Code/
+/Projects/UN Quests/Code/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/UN Quests/Concept Art/
+/Projects/UN Quests/Concept Art/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/UN Quests/Documentation/
+/Projects/UN Quests/Documentation/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/UN Quests/Notes/
+/Projects/UN Quests/Notes/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
+
+# /Projects/Unrelated (Android)/
+/Projects/Unrelated (Android)/*/[Bb]in [Bb]in */obj obj *.[Uu]ser *.suo *.xnb */_build *.pdb *.cache *.cachefile *.config *.db *.dll *.exe *.manifest
